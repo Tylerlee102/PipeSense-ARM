@@ -1,0 +1,268 @@
+function automatic logic [31:0] enc_r(
+  input logic [3:0] opcode,
+  input logic [3:0] rd,
+  input logic [3:0] rn,
+  input logic [3:0] rm
+);
+  begin
+    enc_r = {opcode, rd, rn, rm, 16'h0000};
+  end
+endfunction
+
+function automatic logic [31:0] enc_i(
+  input logic [3:0] opcode,
+  input logic [3:0] rd,
+  input logic [3:0] rn,
+  input logic [15:0] imm
+);
+  begin
+    enc_i = {opcode, rd, rn, 4'h0, imm};
+  end
+endfunction
+
+function automatic logic [31:0] enc_b(
+  input logic [3:0] cond,
+  input logic [15:0] target
+);
+  begin
+    enc_b = {OP_B, cond, 4'h0, 4'h0, target};
+  end
+endfunction
+
+function automatic logic [31:0] enc_halt();
+  begin
+    enc_halt = {OP_HALT, 28'd0};
+  end
+endfunction
+
+task automatic load_arithmetic_heavy(output int max_cycles);
+  int p;
+  begin
+    max_cycles = 600;
+    p = 0;
+    dut.load_data(1, 32'd21);
+    dut.load_data(2, 32'd9);
+    dut.load_instr(p, enc_i(OP_LDR, 4'd1, 4'd0, 16'd1));
+    p++;
+    dut.load_instr(p, enc_i(OP_LDR, 4'd2, 4'd0, 16'd2));
+    p++;
+    dut.load_instr(p, enc_r(OP_ADD, 4'd3, 4'd1, 4'd2));
+    p++;
+    dut.load_instr(p, enc_r(OP_SUB, 4'd4, 4'd3, 4'd2));
+    p++;
+    dut.load_instr(p, enc_r(OP_AND, 4'd5, 4'd3, 4'd4));
+    p++;
+    dut.load_instr(p, enc_r(OP_ORR, 4'd6, 4'd5, 4'd1));
+    p++;
+    dut.load_instr(p, enc_r(OP_EOR, 4'd7, 4'd6, 4'd2));
+    p++;
+    dut.load_instr(p, enc_r(OP_ADD, 4'd8, 4'd7, 4'd3));
+    p++;
+    dut.load_instr(p, enc_r(OP_SUB, 4'd9, 4'd8, 4'd4));
+    p++;
+    dut.load_instr(p, enc_r(OP_AND, 4'd10, 4'd9, 4'd5));
+    p++;
+    dut.load_instr(p, enc_r(OP_ORR, 4'd11, 4'd10, 4'd6));
+    p++;
+    dut.load_instr(p, enc_r(OP_EOR, 4'd12, 4'd11, 4'd7));
+    p++;
+    dut.load_instr(p, enc_r(OP_ADD, 4'd13, 4'd12, 4'd8));
+    p++;
+    dut.load_instr(p, enc_r(OP_SUB, 4'd14, 4'd13, 4'd9));
+    p++;
+    dut.load_instr(p, enc_r(OP_AND, 4'd15, 4'd14, 4'd10));
+    p++;
+    dut.load_instr(p, enc_r(OP_ORR, 4'd3, 4'd15, 4'd11));
+    p++;
+    dut.load_instr(p, enc_r(OP_EOR, 4'd4, 4'd3, 4'd12));
+    p++;
+    dut.load_instr(p, enc_r(OP_ADD, 4'd5, 4'd4, 4'd13));
+    p++;
+    dut.load_instr(p, enc_r(OP_SUB, 4'd6, 4'd5, 4'd14));
+    p++;
+    dut.load_instr(p, enc_r(OP_AND, 4'd7, 4'd6, 4'd15));
+    p++;
+    dut.load_instr(p, enc_r(OP_ORR, 4'd8, 4'd7, 4'd1));
+    p++;
+    dut.load_instr(p, enc_r(OP_EOR, 4'd9, 4'd8, 4'd2));
+    p++;
+    dut.load_instr(p, enc_halt());
+    p++;
+  end
+endtask
+
+task automatic load_branch_heavy(output int max_cycles);
+  int p;
+  begin
+    max_cycles = 900;
+    p = 0;
+    dut.load_data(20, 32'd24);
+    dut.load_data(21, 32'd1);
+    dut.load_instr(p, enc_i(OP_LDR, 4'd1, 4'd0, 16'd20));
+    p++;
+    dut.load_instr(p, enc_i(OP_LDR, 4'd2, 4'd0, 16'd21));
+    p++;
+    dut.load_instr(p, enc_r(OP_SUB, 4'd1, 4'd1, 4'd2));
+    p++;
+    dut.load_instr(p, enc_r(OP_CMP, 4'd0, 4'd1, 4'd0));
+    p++;
+    dut.load_instr(p, enc_b(COND_NE, 16'd2));
+    p++;
+    dut.load_instr(p, enc_halt());
+    p++;
+  end
+endtask
+
+task automatic load_memory_heavy(output int max_cycles);
+  int p;
+  begin
+    max_cycles = 1200;
+    p = 0;
+    dut.load_data(80, 32'd14);
+    dut.load_data(81, 32'd1);
+    dut.load_data(83, 32'd100);
+    dut.load_data(87, 32'd7);
+    dut.load_instr(p, enc_i(OP_LDR, 4'd1, 4'd0, 16'd80));
+    p++;
+    dut.load_instr(p, enc_i(OP_LDR, 4'd2, 4'd0, 16'd81));
+    p++;
+    dut.load_instr(p, enc_i(OP_LDR, 4'd3, 4'd0, 16'd83));
+    p++;
+    dut.load_instr(p, enc_i(OP_LDR, 4'd4, 4'd0, 16'd87));
+    p++;
+    dut.load_instr(p, enc_r(OP_ADD, 4'd5, 4'd3, 4'd4));
+    p++;
+    dut.load_instr(p, enc_i(OP_STR, 4'd5, 4'd0, 16'd91));
+    p++;
+    dut.load_instr(p, enc_r(OP_SUB, 4'd1, 4'd1, 4'd2));
+    p++;
+    dut.load_instr(p, enc_r(OP_CMP, 4'd0, 4'd1, 4'd0));
+    p++;
+    dut.load_instr(p, enc_b(COND_NE, 16'd2));
+    p++;
+    dut.load_instr(p, enc_halt());
+    p++;
+  end
+endtask
+
+task automatic load_load_use_heavy(output int max_cycles);
+  int p;
+  begin
+    max_cycles = 1000;
+    p = 0;
+    dut.load_data(100, 32'd18);
+    dut.load_data(101, 32'd1);
+    dut.load_data(104, 32'd11);
+    dut.load_data(105, 32'd13);
+    dut.load_instr(p, enc_i(OP_LDR, 4'd1, 4'd0, 16'd100));
+    p++;
+    dut.load_instr(p, enc_i(OP_LDR, 4'd2, 4'd0, 16'd101));
+    p++;
+    dut.load_instr(p, enc_i(OP_LDR, 4'd3, 4'd0, 16'd104));
+    p++;
+    dut.load_instr(p, enc_r(OP_ADD, 4'd4, 4'd3, 4'd2));
+    p++;
+    dut.load_instr(p, enc_i(OP_LDR, 4'd5, 4'd0, 16'd105));
+    p++;
+    dut.load_instr(p, enc_r(OP_ADD, 4'd6, 4'd5, 4'd4));
+    p++;
+    dut.load_instr(p, enc_r(OP_SUB, 4'd1, 4'd1, 4'd2));
+    p++;
+    dut.load_instr(p, enc_r(OP_CMP, 4'd0, 4'd1, 4'd0));
+    p++;
+    dut.load_instr(p, enc_b(COND_NE, 16'd2));
+    p++;
+    dut.load_instr(p, enc_halt());
+    p++;
+  end
+endtask
+
+task automatic load_mixed_control(output int max_cycles);
+  int p;
+  begin
+    max_cycles = 1100;
+    p = 0;
+    dut.load_data(120, 32'd12);
+    dut.load_data(121, 32'd1);
+    dut.load_data(122, 32'd5);
+    dut.load_data(123, 32'h000000ff);
+    dut.load_instr(p, enc_i(OP_LDR, 4'd1, 4'd0, 16'd120));
+    p++;
+    dut.load_instr(p, enc_i(OP_LDR, 4'd2, 4'd0, 16'd121));
+    p++;
+    dut.load_instr(p, enc_i(OP_LDR, 4'd3, 4'd0, 16'd122));
+    p++;
+    dut.load_instr(p, enc_i(OP_LDR, 4'd4, 4'd0, 16'd123));
+    p++;
+    dut.load_instr(p, enc_r(OP_ADD, 4'd5, 4'd5, 4'd3));
+    p++;
+    dut.load_instr(p, enc_r(OP_EOR, 4'd6, 4'd5, 4'd4));
+    p++;
+    dut.load_instr(p, enc_i(OP_STR, 4'd6, 4'd0, 16'd127));
+    p++;
+    dut.load_instr(p, enc_r(OP_SUB, 4'd1, 4'd1, 4'd2));
+    p++;
+    dut.load_instr(p, enc_r(OP_CMP, 4'd0, 4'd1, 4'd0));
+    p++;
+    dut.load_instr(p, enc_b(COND_NE, 16'd4));
+    p++;
+    dut.load_instr(p, enc_halt());
+    p++;
+  end
+endtask
+
+task automatic load_tiny_fir(output int max_cycles);
+  int p;
+  begin
+    max_cycles = 900;
+    p = 0;
+    dut.load_data(140, 32'd8);
+    dut.load_data(141, 32'd1);
+    dut.load_data(144, 32'd3);
+    dut.load_data(145, 32'd5);
+    dut.load_data(146, 32'd8);
+    dut.load_data(147, 32'd13);
+    dut.load_instr(p, enc_i(OP_LDR, 4'd1, 4'd0, 16'd140));
+    p++;
+    dut.load_instr(p, enc_i(OP_LDR, 4'd2, 4'd0, 16'd141));
+    p++;
+    dut.load_instr(p, enc_i(OP_LDR, 4'd3, 4'd0, 16'd144));
+    p++;
+    dut.load_instr(p, enc_i(OP_LDR, 4'd4, 4'd0, 16'd145));
+    p++;
+    dut.load_instr(p, enc_r(OP_ADD, 4'd7, 4'd3, 4'd4));
+    p++;
+    dut.load_instr(p, enc_i(OP_LDR, 4'd5, 4'd0, 16'd146));
+    p++;
+    dut.load_instr(p, enc_i(OP_LDR, 4'd6, 4'd0, 16'd147));
+    p++;
+    dut.load_instr(p, enc_r(OP_ADD, 4'd8, 4'd5, 4'd6));
+    p++;
+    dut.load_instr(p, enc_r(OP_ADD, 4'd9, 4'd7, 4'd8));
+    p++;
+    dut.load_instr(p, enc_i(OP_STR, 4'd9, 4'd0, 16'd151));
+    p++;
+    dut.load_instr(p, enc_r(OP_SUB, 4'd1, 4'd1, 4'd2));
+    p++;
+    dut.load_instr(p, enc_r(OP_CMP, 4'd0, 4'd1, 4'd0));
+    p++;
+    dut.load_instr(p, enc_b(COND_NE, 16'd2));
+    p++;
+    dut.load_instr(p, enc_halt());
+    p++;
+  end
+endtask
+
+task automatic load_benchmark(input int bench_id, output int max_cycles);
+  begin
+    case (bench_id)
+      0: load_arithmetic_heavy(max_cycles);
+      1: load_branch_heavy(max_cycles);
+      2: load_memory_heavy(max_cycles);
+      3: load_load_use_heavy(max_cycles);
+      4: load_mixed_control(max_cycles);
+      default: load_tiny_fir(max_cycles);
+    endcase
+  end
+endtask
+

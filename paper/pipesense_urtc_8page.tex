@@ -1,0 +1,275 @@
+\documentclass[conference]{IEEEtran}
+
+\usepackage{cite}
+\usepackage{amsmath}
+\usepackage{array}
+\usepackage{url}
+
+\newcommand{\pipesense}{PipeSense-ARM}
+
+\begin{document}
+
+\title{\pipesense: A Lightweight Hardware Observer for Safe Adaptive Pipeline Reconfiguration in Embedded ARM-Like Processors}
+
+\author{
+\IEEEauthorblockN{Author Name}
+\IEEEauthorblockA{
+Affiliation \\
+City, State, USA \\
+email@example.com}
+}
+
+\maketitle
+
+\begin{abstract}
+Embedded processors execute workloads whose bottlenecks change across short program phases: branch-heavy loops stress the front end, memory-heavy regions expose load latency, dependency-heavy code stresses bypass paths, and idle regions reward reduced activity. Static pipeline policy is simple, but it can be mismatched to these changing phases. This paper presents \pipesense, a SystemVerilog research prototype that places a lightweight hardware-resident observer and controller inside a small ARM-like educational five-stage pipeline. The observer samples narrow microarchitectural taps, classifies rolling windows into bottleneck phases, and requests one of several visible microarchitectural modes. A reconfiguration unit gates fetch and switches modes only after the pipeline reaches a safe boundary, bounding reconfiguration overhead and avoiding lost or duplicated instructions. Across six synthetic embedded-style benchmarks and six execution configurations, adaptive \pipesense{} reduces cycles by up to 13.17\% and improves IPC by up to 15.17\% relative to a static-normal baseline while maintaining zero simulation safety faults and matching a sequential ISA reference model. Oracle fixed-mode comparisons show that the current controller remains conservative and does not outperform the best fixed mode chosen with hindsight. These results position \pipesense{} as a reviewable undergraduate architecture artifact and a foundation for richer adaptive-control experiments, not as a commercial ARM-compatible processor.
+\end{abstract}
+
+\begin{IEEEkeywords}
+computer architecture, embedded processors, adaptive microarchitecture, pipeline reconfiguration, hardware performance monitoring
+\end{IEEEkeywords}
+
+\section{Introduction}
+
+Small embedded processors are attractive because they are predictable, inexpensive, and easy to integrate into low-power systems. Their simplicity, however, creates a tension: a single static pipeline policy may be acceptable on average but poorly matched to local program behavior. A branch-heavy control loop benefits from lower branch penalty, a memory-heavy loop benefits from latency mitigation, a dependency-heavy loop benefits from aggressive bypassing, and idle or low-utilization regions benefit from lower activity. General-purpose high-performance processors already contain many adaptive structures, including branch predictors, prefetchers, power-management logic, and performance counters. The question explored here is narrower and intentionally artifact-driven: can a tiny hardware observer inside a small ARM-like embedded pipeline classify pipeline phases and safely reconfigure visible microarchitectural modes at runtime?
+
+\pipesense{} addresses that question with a compact research prototype. It implements a simplified ARM/RISC-style instruction set and a five-stage IF, ID, EX, MEM, WB pipeline. The core includes pipeline valid bits, load-use hazard detection, forwarding, branch flushes, memory wait modeling, writeback, and performance counters. Around that core, \pipesense{} adds three hardware-control blocks: a pipeline observer, a hysteretic adaptive controller, and a drain-before-switch reconfiguration unit. The design is intentionally sequential, closed loop, and microarchitecture-aware. It is not a combinational optimization project, and it is not a commercial ARM implementation.
+
+The contribution is not that phase detection, branch optimization, memory buffering, or low-power gating are individually new. Prior work has studied branch prediction \cite{smith1981branch}, memory prefetch and buffering \cite{jouppi1990victim}, program phase behavior \cite{sherwood2002phase}, reconfigurable microarchitectural structures \cite{dhodapkar2002working,balasubramonian2000memory}, and architectural power modeling \cite{brooks2000wattch,mudge2001power,isci2003runtime}. Instead, the contribution is an integrated, inspectable hardware-control artifact suitable for undergraduate architecture research: a small observer classifies bottleneck phases from live pipeline taps, a controller maps phases to modes with residency constraints, and a reconfiguration unit enforces safe switching.
+
+This paper makes three claims. First, the design is complete enough to behave like a sequential microarchitectural prototype rather than a paper-only concept. Second, the evaluation shows that adaptive control can improve over a static-normal baseline on phase-biased synthetic workloads. Third, the stricter oracle fixed-mode comparison reveals remaining controller limitations, especially on workloads where memory mitigation dominates and a best fixed mode chosen with hindsight is much stronger than the current adaptive policy.
+
+\section{Background and Motivation}
+
+Computer architecture evaluation commonly separates mechanism, policy, and workload. A mechanism provides a capability, such as branch prediction, forwarding, or memory prefetching. A policy decides when and how the mechanism should be used. A workload determines whether the policy is useful. \pipesense{} uses this separation as a design principle. The prototype exposes simple mechanisms as visible modes, then asks whether a lightweight hardware policy can select among them from pipeline observations.
+
+The motivation comes from phase behavior. Sherwood et al. showed that program execution can be characterized by recurring behavioral phases \cite{sherwood2002phase}. In large processors, phase information can guide simulation, optimization, or adaptive hardware policy. In embedded settings, adaptation is often moved to software runtime systems, operating-system governors, or coarse power-management layers. That can be effective, but it may also hide short microarchitectural bottlenecks behind slower control loops. \pipesense{} explores the other extreme: a small in-core observer with direct access to pipeline events such as stalls, flushes, memory waits, and retirements.
+
+The project is also motivated by safe adaptation. Dynamically changing hardware behavior is only useful if the transition itself does not corrupt execution. Prior reconfigurable architecture work studied changing cache or hardware configurations for performance and energy \cite{dhodapkar2002working,balasubramonian2000memory}. \pipesense{} uses a conservative drain-before-switch protocol: when a mode change is requested, fetch is gated, older instructions drain, and the mode changes only when the pipeline is empty and no memory wait is active. This protocol may overpay switching cost, but it gives a clear safety story for a first prototype.
+
+\section{Related Work}
+
+\pipesense{} draws from several architecture research threads. Branch prediction is one of the oldest examples of hardware policy adapting to control-flow behavior. Smith's early study established that branch behavior can be measured and exploited by simple hardware strategies \cite{smith1981branch}. \pipesense{} does not implement a realistic dynamic predictor; its branch-optimized mode is only an early-resolution model. The connection is conceptual: the core observes control-flow pressure and changes a front-end policy knob. This keeps the prototype small while making branch-heavy phases visible in the evaluation.
+
+Memory latency mitigation is another relevant thread. Jouppi showed that small structures such as victim caches and prefetch buffers can improve direct-mapped cache behavior \cite{jouppi1990victim}. Later reconfigurable memory-hierarchy work explored changing memory structures to trade energy and performance \cite{balasubramonian2000memory}. \pipesense{} does not model a cache hierarchy, coherence, or realistic prefetch timeliness. Its memory-optimized mode suppresses a deterministic wait model to represent the effect of a tiny buffer or prefetch mechanism. That simplification is useful for a first undergraduate prototype because it separates the question "can the controller detect memory-stall phases?" from the much larger question "what exact memory hierarchy should be built?"
+
+Program phase analysis is central to the observer. Sherwood et al. showed that programs often have recurring behavioral regions that can be characterized automatically \cite{sherwood2002phase}. Dhodapkar and Smith connected phase behavior to multi-configuration hardware management \cite{dhodapkar2002working}. \pipesense{} is much smaller and more local: it classifies short rolling windows using direct pipeline events rather than instruction working sets or long traces. This makes the classifier less general, but also makes the hardware story more direct. The observer can be expressed as counters, comparators, and threshold logic.
+
+Power and energy modeling provide a third context. Wattch demonstrated architectural-level power estimation for processor studies \cite{brooks2000wattch}, while Mudge argued that power should be treated as a first-class architectural constraint \cite{mudge2001power}. Isci and Martonosi studied runtime power monitoring using empirical processor data \cite{isci2003runtime}. \pipesense{} does not claim calibrated energy results. Its activity-energy proxy is intentionally weaker: it counts relative modeled activity so that low-power mode and reconfiguration overhead can appear in the same result table as IPC and stalls. This is acceptable for a prototype as long as the paper does not confuse activity proxy with physical energy.
+
+Finally, \pipesense{} follows the research-artifact tradition of executable modeling. SimpleScalar made processor modeling accessible to architecture researchers \cite{austin2002simplescalar}, and quantitative computer architecture methodology emphasizes measurement, baselines, and careful interpretation \cite{hennessy2017quantitative}. \pipesense{} is not a general simulator. It is a narrow RTL artifact, but it is built around the same principle: the claim should be tied to code, measurements, and reproducible checks.
+
+\section{PipeSense-ARM Architecture}
+
+Fig.~\ref{fig:architecture} summarizes the architecture. The baseline core is a five-stage educational pipeline. Instructions are 32 bits wide with a 4-bit opcode, three 4-bit register fields or branch-condition field, and a 16-bit immediate or branch target. The supported operations are ADD, SUB, AND, ORR, EOR, LDR, STR, B, CMP, NOP, and a simulation-only HALT sentinel. The design includes a program counter, register file, instruction memory, data memory, pipeline registers, valid bits, stall and flush signals, forwarding, load-use detection, branch handling, memory wait modeling, and performance counters.
+
+\begin{figure}[t]
+\centering
+\fbox{\begin{minipage}{0.94\linewidth}
+\small
+\begin{verbatim}
+IF -> ID -> EX -> MEM -> WB
+ |    |     |      |     |
+ +----+-----+------+-----+
+          observer taps
+               |
+       pipeline_observer
+               |
+      adaptive_controller
+               |
+        reconfig_unit
+               |
+     current microarchitectural mode
+\end{verbatim}
+\end{minipage}}
+\caption{\pipesense{} places an observer/controller/reconfiguration loop around a small ARM-like five-stage pipeline.}
+\label{fig:architecture}
+\end{figure}
+
+The observer reads minimal taps: stage-valid bits, IF/ID/EX stall signals, branch flushes, branch-taken events, load-use hazards, memory waits, retirements, and cycle count. Over a parameterized rolling window, it classifies the observed behavior into one of six phase labels: balanced, branch-heavy, memory-stall, load-use-hazard, front-end-stall, or idle/low-utilization. The first prototype uses threshold logic rather than a learned classifier. That choice is deliberate: threshold logic is easier to inspect, easier to synthesize later, and less likely to obscure whether the basic control loop is working.
+
+The adaptive controller maps phase labels to five modes. MODE\_NORMAL uses default branch, forwarding, and memory behavior. MODE\_BRANCH\_OPT reduces the modeled branch penalty through earlier branch handling. MODE\_MEMORY\_OPT suppresses deterministic synthetic memory waits to represent a small prefetch or buffering effect. MODE\_HAZARD\_OPT enables a simplified aggressive load-result bypass path. MODE\_LOW\_POWER reduces the activity-energy proxy during low-utilization execution. The controller includes stable-phase hysteresis and a minimum mode residency counter so that phase noise does not cause mode thrashing.
+
+\section{Mode Semantics}
+
+The five modes are deliberately simple, but each mode changes a measurable path in the pipeline model. MODE\_NORMAL is the baseline. It uses normal forwarding and branch resolution, preserves deterministic memory waits, and only stalls for load-use dependencies when the modeled forwarding network cannot provide the value soon enough.
+
+MODE\_BRANCH\_OPT models a lower branch penalty. When the current mode is branch optimized, the core allows earlier handling of branch direction and reduces the number of flushed slots after taken branches. This is not meant to be a full branch predictor. It does not include a branch target buffer, saturating counters, return-address prediction, or speculative recovery machinery. Its purpose is to make front-end branch pressure visible to the controller and to measure whether branch-heavy phases can benefit from a mode selected by hardware observation.
+
+MODE\_MEMORY\_OPT models a small memory-wait mitigation effect. The memory model injects deterministic wait requests for selected addresses. In memory-optimized mode, those waits are suppressed to approximate a tiny buffer or prefetch effect. This abstraction is intentionally coarse. A physical implementation would need storage, tags, ordering rules, and a policy for when prefetches are useful. In the current prototype, this simplification lets the evaluation isolate the control problem: does the observer detect memory-stall phases quickly enough to justify entering the memory mode?
+
+MODE\_HAZARD\_OPT models a stronger bypass path. The baseline design reports load-use hazards to the observer and stalls when the standard path cannot provide a loaded value to a dependent instruction in time. Hazard-optimized mode represents additional load-result forwarding and reduces those stalls. This knob is useful because it stresses a different pipeline symptom than branches or memory waits. It also forces the correctness checks to cover same-cycle writeback-to-decode behavior and forwarded operands during stalls.
+
+MODE\_LOW\_POWER changes the activity proxy rather than cycle timing. This mode models activity gating for low-utilization regions. It is intentionally reported as an energy proxy because no clock tree, clock-gating cell, power-gating state machine, or physical synthesis flow has been implemented. The point is not to claim real energy savings, but to make low-utilization response visible in the same adaptive framework.
+
+These mode semantics keep the prototype honest. Each mode is visible, measurable, and connected to a known architecture idea, but none is overclaimed as an industrial implementation. That balance matters for a student research paper: the artifact is strong because it demonstrates a closed-loop pipeline mechanism, not because each individual knob is novel.
+
+\section{Design Alternatives}
+
+Several design alternatives were considered but intentionally avoided in the first prototype. The first was a software-managed policy in which a benchmark or runtime loop would read counters and request mode changes. That approach would be easier to implement, but it would weaken the main research question. \pipesense{} is meant to explore whether a small observer inside the processor can close the loop without software intervention. Keeping the controller in hardware makes the phase response visible at pipeline time scales and gives the reconfiguration unit a direct view of safe switching conditions.
+
+The second alternative was a learned classifier. A machine-learning policy could eventually classify phases more accurately than threshold logic, especially on noisy workloads. For this artifact, however, a learned policy would hide too much of the mechanism behind training data, features, and model representation. The threshold observer is weaker but easier to inspect. Reviewers can see which events are counted, which phase labels are produced, and why a phase maps to a mode. That transparency is useful for an undergraduate research prototype where the goal is to make the hardware-control loop understandable.
+
+The third alternative was in-place mode switching. Instead of draining the pipeline, the reconfiguration unit could switch modes while independent instructions remain in flight, possibly reducing overhead. That approach is attractive for performance, but it complicates the safety story. A branch mode change might alter flush behavior while a branch is already in the pipeline; a hazard mode change might alter forwarding assumptions for a dependent instruction; a memory mode change might affect an outstanding wait. The current design chooses a conservative drain-before-switch protocol because it makes correctness easier to monitor and explain.
+
+The fourth alternative was to model realistic mechanisms immediately: a branch predictor, a cache hierarchy, and physical clock gating. Those mechanisms would make the prototype more realistic, but they would also make it harder to isolate the adaptive-control question. The current modes are abstractions. They are not final hardware blocks; they are controlled knobs that make branch, memory, hazard, and low-power responses measurable. Once the observer/controller/reconfiguration loop is working, those abstract knobs can be replaced by richer mechanisms one at a time.
+
+\section{Safe Reconfiguration}
+
+The reconfiguration unit receives a requested mode and the current pipeline-empty and memory-wait status. If the requested mode differs from the current mode, it asserts a reconfiguration-active state and gates fetch. It then waits until IF/ID, ID/EX, EX/MEM, and MEM/WB valid bits are clear and no memory wait is active. Only at that safe boundary does it install the requested mode, pulse reconfiguration done, and update reconfiguration counters. The protocol is conservative but transparent: it trades extra cycles for a simple correctness argument.
+
+The testbench strengthens this argument with simulation-time safety evidence. Instructions are tagged as they move through the pipeline. Monitors flag illegal mode changes outside empty-pipeline boundaries, reconfiguration completion before drain, fetch not gated during active reconfiguration, and duplicate or nonmonotonic retirement tags. The reported \texttt{safety\_faults} field must be zero before any result is considered usable. A sequential ISA reference model also executes the benchmark programs and compares retired instruction counts and final architectural data-state hashes against the HDL output. This is not a formal proof, but it turns safety from a prose-only claim into an executable artifact check.
+
+The safety mechanism also clarifies the performance tradeoff. Drain-before-switch is simple because it avoids changing forwarding, branch, and memory behavior while an older instruction is still in flight. However, it can be expensive on short phases. If the observer waits too long to classify a phase, then requests a mode change, then drains the pipeline, the useful part of the phase may already be nearly over. This is why \pipesense{} reports both reconfiguration count and total reconfiguration penalty. A mode that improves local IPC can still be a net loss if the transition cost is too high.
+
+\section{Implementation}
+
+The RTL is organized into small SystemVerilog modules. \texttt{arm\_like\_core.sv} integrates the pipeline and mode behavior. \texttt{pipeline\_observer.sv} implements rolling counters and phase classification. \texttt{adaptive\_controller.sv} implements hysteresis, residency tracking, and mode requests. \texttt{reconfig\_unit.sv} implements safe switching and reconfiguration accounting. Separate hazard, forwarding, memory, counter, and definition modules keep the design inspectable.
+
+Several implementation details matter for architectural correctness. First, the baseline includes a writeback-to-decode bypass so that a dependent instruction entering decode after a load stall sees the same-cycle writeback value rather than stale register-file state. Second, condition-code visibility for CMP-to-branch sequences uses the freshest available compare result. Third, EX-stage operands are refreshed and held during memory waits so a younger operation does not lose a value that was only available through forwarding. These details are small, but they are exactly the kind of timing assumptions that distinguish a sequential pipeline prototype from an untimed instruction interpreter.
+
+The Python support scripts are part of the artifact. \texttt{run\_sim.py} compiles and runs the testbench with Icarus Verilog, parses results, validates CSVs, runs the ISA reference model, and compares HDL output to the reference. \texttt{analyze\_results.py} computes IPC, CPI, normalized event rates, adaptive improvement over static normal, and the oracle fixed-mode gap. \texttt{sweep\_params.py} runs observer-window and residency sweeps, saving per-setting outputs. \texttt{check\_artifact.py} runs no-simulator checks for repository completeness, Python syntax, SystemVerilog contracts, benchmark parity, fixture parsing, reference-model execution, and documentation guardrails. The artifact is much smaller than full architectural simulators such as SimpleScalar \cite{austin2002simplescalar}, but it follows the same principle that a research claim should be connected to an executable and inspectable model rather than prose alone.
+
+\section{Evaluation Methodology}
+
+The evaluation uses six synthetic embedded-style benchmarks: arithmetic-heavy, branch-heavy, memory-heavy, load-use-heavy, mixed-control, and tiny-FIR. These programs are intentionally small and phase-biased. They are not meant to represent full embedded applications; they are meant to expose whether the observer can recognize pipeline bottlenecks and whether the controller can select useful modes.
+
+Each benchmark is executed in six configurations: static normal, fixed branch, fixed memory, fixed hazard, fixed low-power, and adaptive \pipesense. The fixed modes provide mechanism-level baselines. Static normal asks whether adaptation improves over a simple nonadaptive design. The best fixed mode chosen with hindsight serves as an oracle baseline. That oracle is not deployable, but it is important: if adaptive mode beats static normal but is far worse than the oracle, the result should be interpreted as controller headroom rather than a final performance victory.
+
+Metrics include total cycles, retired instructions, IPC, CPI, stall cycles, flush cycles, memory wait cycles, load-use stalls, reconfiguration count, reconfiguration penalty, an activity-energy proxy, safety faults, timeout status, and final architectural data-state hash. This follows the broader quantitative architecture practice of separating mechanism-level measurements from claims about implementation cost or general workload behavior \cite{hennessy2017quantitative}. The activity-energy proxy is not physical power. It is an RTL-level activity estimate used to compare relative mode behavior before synthesis or gate-level toggle data are available. Hardware cost is also reported analytically, not as synthesis evidence.
+
+\section{Results}
+
+The current validated HDL run contains 36 benchmark/mode rows. Every run halted, no run timed out, and every run reported zero safety faults. HDL retired counts and final architectural data-state hashes match the sequential ISA reference model. Table~\ref{tab:adaptive} compares adaptive \pipesense{} against static normal mode.
+
+\begin{table*}[t]
+\centering
+\caption{Adaptive \pipesense{} versus static normal mode. Positive reductions/improvements are better.}
+\label{tab:adaptive}
+\small
+\begin{tabular}{lrrrrrrr}
+\hline
+Benchmark & Normal cycles & Adaptive cycles & Cycle red. & IPC impr. & Energy red. & Reconfigs & Penalty \\
+\hline
+arithmetic\_heavy & 30 & 30 & 0.00\% & 0.00\% & 0.00\% & 0 & 0 \\
+branch\_heavy & 128 & 114 & 10.94\% & 12.28\% & 6.64\% & 1 & 2 \\
+memory\_heavy & 231 & 201 & 12.99\% & 14.92\% & 15.68\% & 6 & 28 \\
+load\_use\_heavy & 205 & 178 & 13.17\% & 15.17\% & 7.64\% & 1 & 4 \\
+mixed\_control & 131 & 127 & 3.05\% & 3.14\% & 2.28\% & 1 & 4 \\
+tiny\_fir & 159 & 160 & -0.63\% & -0.62\% & 3.17\% & 3 & 14 \\
+\hline
+\end{tabular}
+\end{table*}
+
+Adaptive control improves over static normal mode on four of the six benchmarks. The largest cycle reduction is 13.17\% on load-use-heavy code, where the observer moves toward the hazard-optimized path and reduces load-use stalls. The branch-heavy benchmark improves by 10.94\% in cycles and 12.28\% in IPC. The memory-heavy benchmark improves by 12.99\% in cycles and also shows the largest activity-energy proxy reduction, 15.68\%, but it pays six reconfigurations and 28 reconfiguration penalty cycles. Mixed-control improves only modestly, suggesting that short phase changes leave less time to amortize switching cost. Arithmetic-heavy code is unchanged because static normal mode is already suitable. Tiny-FIR is the useful negative case: adaptive mode slightly increases cycles while reducing the activity-energy proxy, indicating that mode switching can cost more than it saves on short mixed workloads.
+
+Table~\ref{tab:oracle} compares adaptive mode with the best fixed mode for each benchmark. Negative gaps mean adaptive is worse than an oracle fixed mode chosen after seeing the workload.
+
+\begin{table*}[t]
+\centering
+\caption{Adaptive \pipesense{} versus best fixed-mode oracle. Negative gaps show distance from the oracle.}
+\label{tab:oracle}
+\small
+\begin{tabular}{llrrrrr}
+\hline
+Benchmark & Best fixed mode & Best cycles & Adaptive cycles & Cycle gap & Best energy & Energy gap \\
+\hline
+arithmetic\_heavy & fixed\_hazard & 29 & 30 & -3.45\% & 173 & -1.73\% \\
+branch\_heavy & fixed\_branch & 105 & 114 & -8.57\% & 609 & -3.94\% \\
+memory\_heavy & fixed\_memory & 147 & 201 & -36.73\% & 839 & -23.72\% \\
+load\_use\_heavy & fixed\_hazard & 169 & 178 & -5.33\% & 1017 & -2.16\% \\
+mixed\_control & fixed\_memory & 105 & 127 & -20.95\% & 617 & -18.31\% \\
+tiny\_fir & fixed\_memory & 127 & 160 & -25.98\% & 739 & -15.70\% \\
+\hline
+\end{tabular}
+\end{table*}
+
+The oracle comparison is the most important result for claim discipline. Adaptive \pipesense{} is better than static normal mode on most phase-biased tests, but it does not beat the best fixed mode. The largest gaps occur when fixed memory mode dominates. For memory-heavy code, fixed memory mode completes in 147 cycles while adaptive mode takes 201 cycles. That does not invalidate the prototype; it shows that the current threshold and residency policy does not move into memory-optimized mode early enough or remain there long enough. In a paper, this should be presented as evidence for future controller tuning rather than hidden as an unfavorable result.
+
+Table~\ref{tab:cost} reports analytical hardware-cost estimates. These estimates are first-order counts of state bits and simple arithmetic/comparison structures. They are not synthesis results.
+
+\begin{table}[t]
+\centering
+\caption{Analytical hardware-cost estimate.}
+\label{tab:cost}
+\small
+\begin{tabular}{lrrr}
+\hline
+Component & FF bits & Comp. & Adders \\
+\hline
+pipeline\_observer & 228 & 5 & 7 \\
+adaptive\_controller & 31 & 4 & 2 \\
+reconfig\_unit & 104 & 2 & 3 \\
+safety\_monitor\_sim & 193 & 4 & 1 \\
+\hline
+\end{tabular}
+\end{table}
+
+\section{Parameter Sensitivity}
+
+The repository includes a 3x3 sweep over observer window size and minimum mode residency. The tested windows are 16, 32, and 64 cycles; the tested residencies are 8, 24, and 48 cycles. In the current benchmark suite, all nine settings complete with identical aggregate adaptive behavior: 810 total adaptive cycles across the six benchmarks and 12 total adaptive reconfigurations. This stability is encouraging for artifact reproducibility because it shows that the current conclusions do not depend on a single fragile parameter setting.
+
+At the same time, this sweep also exposes a limitation of the evaluation. The handwritten benchmarks are short and phase-biased, and their bottlenecks are strong enough that the current threshold logic reaches the same high-level decisions under the tested parameters. A richer workload suite should include phase changes closer to the classification thresholds, randomized latency behavior, and longer mixed workloads where window size and residency should matter. In other words, the current sweep validates that the artifact is stable under simple parameter changes; it does not prove that the controller is robust for general embedded software.
+
+\section{Discussion}
+
+The results support a modest but meaningful claim. A small hardware-resident observer can detect phase-biased bottlenecks and guide safe adaptive mode switching in a sequential pipeline prototype. The design is not merely an instruction-level simulator: it includes hazards, forwarding, stalls, flushes, memory waits, valid bits, counters, writeback timing details, and reconfiguration safety checks. That makes it a useful undergraduate research artifact for studying hardware-native adaptive control.
+
+At the same time, the results constrain the performance claim. Adaptive \pipesense{} should not be described as outperforming all baselines. It improves over static normal mode, but the oracle comparison shows that a well-chosen fixed mode can be substantially better on these short synthetic workloads. This tension is valuable. It suggests that future versions should explore lower reconfiguration cost, richer phase classification, predictive mode switching, and mode-specific residency rules. For example, memory-heavy loops might justify a more aggressive transition into memory-optimized mode, while short mixed loops might need stronger evidence before paying a reconfiguration penalty.
+
+The safety story is also intentionally limited. Simulation-time monitors and architectural hashes are stronger than prose alone, but they are not formal verification. The repository includes a formal scaffold for the reconfiguration unit, but a paper-ready proof would need complete SystemVerilog Assertions or a model-checking harness that covers drain, fetch gating, mode update, and retirement invariants. Similarly, the activity-energy proxy and analytical cost estimate are useful early evidence, but not substitutes for synthesis, timing, and power measurements.
+
+\section{Threats to Validity}
+
+The first threat is workload representativeness. The six benchmarks are small and intentionally structured to expose specific bottlenecks. That makes them good for debugging a controller, but weak as evidence about real embedded workloads. A compiler-generated embedded benchmark suite could reveal interactions not present here: function calls, pointer-heavy data access, memory aliasing, instruction-cache behavior, and irregular control flow.
+
+The second threat is the synthetic memory model. The current memory wait behavior is deterministic and address based. That makes runs reproducible and easy to inspect, but it does not model cache tags, bus arbitration, scratchpad banking, DMA traffic, DRAM timing, or cache-miss distributions. Because fixed memory mode is the oracle winner for several workloads, this abstraction matters. The most important next evaluation step is to replace the synthetic wait model with a parameterized cache or scratchpad model and then rerun the oracle comparison.
+
+The third threat is the energy proxy. The paper reports an activity-energy proxy, not physical energy. The low-power mode can reduce that proxy without proving power savings in a synthesized implementation. Real energy evidence would require a synthesis target, switching activity, clock assumptions, and a calibrated power model. Until then, energy results should be treated as relative activity evidence only.
+
+The fourth threat is safety coverage. The simulation monitors catch important bad events, including unsafe mode changes and duplicate retirement tags, and the architectural hash comparison catches final-state mismatches. However, simulation only covers the executed tests. A complete safety argument should use formal assertions for the reconfiguration unit and bounded checks for pipeline drain, fetch gating, and retirement invariants.
+
+\section{Limitations}
+
+\pipesense{} is an ARM-like educational embedded pipeline prototype, not an ARM-compatible processor. It omits exceptions, interrupts, privilege levels, caches, realistic buses, memory ordering, and a full compiler toolchain. The benchmark suite is small and handwritten. The memory wait model is deterministic and synthetic. The branch optimization models earlier handling rather than a realistic predictor with misprediction recovery. The memory optimization represents a simple buffer/prefetch effect by suppressing synthetic waits. The hazard optimization models an extra bypass path. The low-power mode changes an activity proxy rather than clock-tree or power-gate cells.
+
+These limitations are acceptable for an undergraduate research prototype if stated clearly. They would not be sufficient for a top-tier computer architecture claim. A stronger version should add compiler-generated embedded kernels, randomized dependency stress tests, latency distributions, synthesis on a named FPGA or standard-cell flow, and formal checking of reconfiguration safety.
+
+\section{Future Work}
+
+The first extension is a richer controller. The current threshold classifier is intentionally simple. Future versions could use saturating confidence counters, phase-transition prediction, mode-specific entry thresholds, and separate exit thresholds. The oracle gaps in Table~\ref{tab:oracle} suggest that memory mode should be entered more decisively when memory waits dominate, while short mixed loops may need stronger evidence before paying a reconfiguration cost.
+
+The second extension is a more realistic memory hierarchy. A scratchpad, tiny cache, or stream buffer would make MODE\_MEMORY\_OPT more hardware-realistic. That change would also force the safety protocol to handle outstanding memory operations, ordering constraints, and possibly replay or miss-status state. It would make the project harder, but also much closer to a publishable architecture study.
+
+The third extension is synthesis and formal verification. An FPGA synthesis flow could report LUTs, flip-flops, frequency, and a rough dynamic power estimate. A formal harness could prove that the reconfiguration unit only changes modes at safe boundaries and that fetch remains gated during active reconfiguration. These additions would turn the current analytical and simulation evidence into a stronger hardware-realism story.
+
+The fourth extension is workload scale. The current benchmark set should be expanded with compiler-generated kernels, branch traces, random dependency stress programs, and longer embedded-control loops. That would make it possible to evaluate whether the observer window, residency counter, and phase thresholds generalize beyond the current demonstration suite.
+
+\section{Educational and Broader Impact}
+
+\pipesense{} is also intended as an educational artifact. Many undergraduate digital-design projects stop at combinational datapaths, simple finite-state machines, or single-cycle processors. Those projects are valuable, but they do not expose the timing and correctness issues that make computer architecture research interesting: valid bits, stalls, forwarding, memory waits, branch flushes, retirement, and safe runtime control. \pipesense{} gives students a compact artifact where those ideas are visible in code and measurable in simulation.
+
+The project also provides a bridge between classroom pipelines and research methodology. The design is small enough to inspect module by module, but the evaluation still requires baselines, metrics, correctness checks, and limitations. The oracle fixed-mode comparison is especially useful pedagogically because it prevents a misleading success story. Adaptive mode improves over static normal mode on several benchmarks, yet still trails the best fixed mode on memory-dominated tests. That tension teaches a central lesson of architecture research: a mechanism can be real and useful without being universally superior.
+
+The broader technical motivation is low-cost adaptive control for embedded systems. Robotics, drones, wearable devices, sensor platforms, and edge analytics nodes often execute changing mixtures of control code, signal processing, memory movement, and idle time. A future version of \pipesense{} with realistic memory, synthesis-backed cost, and stronger safety proofs could help study how much adaptation is useful in such small systems. The current prototype does not prove deployable energy savings, but it offers a starting point for asking that question with transparent hardware rather than opaque software-only control.
+
+Finally, the artifact emphasizes responsible claim boundaries. It labels the ISA as ARM-like and educational, reports energy as an activity proxy, calls the hardware-cost table analytical, and distinguishes simulation monitors from formal proof. That discipline is part of the broader impact: students should learn not only how to build ambitious systems, but also how to state exactly what their evidence does and does not support.
+
+\section{Artifact and Reproducibility}
+
+The repository is organized so that the paper claims can be checked directly. The RTL directory contains the core, observer, controller, reconfiguration unit, hazard logic, forwarding logic, memories, counters, and shared definitions. The testbench directory contains the benchmark programs and the simulation harness. The scripts directory contains simulation, analysis, validation, plotting, parameter sweep, reference-model, and artifact-checking scripts. The docs directory records methodology, threats to validity, reviewer critique, hardware-realism notes, reproducibility notes, and requirements traceability.
+
+The primary command is \texttt{python scripts/run\_sim.py}. With Icarus Verilog installed, it compiles the SystemVerilog testbench, runs all 36 benchmark/mode combinations, writes the raw simulation log, generates result CSVs, validates the CSV fields, runs the sequential ISA reference model, and compares the HDL output against reference retired counts and architectural hashes. This single command is the strongest evidence path for the current paper. A secondary command, \texttt{python scripts/check\_artifact.py}, runs no-simulator checks that catch missing files, Python syntax errors, benchmark mismatch between the SystemVerilog and Python models, parser fixture failures, documentation contract violations, and paper-table drift.
+
+The paper itself is also checked. \texttt{python scripts/check\_paper.py} verifies that the manuscript has no unresolved placeholder tokens, that every cited bibliography key exists in \texttt{references.bib}, that claim-discipline language is present, and that the adaptive and oracle result tables match the local generated CSVs when those CSVs are available. This is a small guardrail, but it prevents a common research-artifact failure: updating experiments while forgetting to update the paper.
+
+The artifact does not yet provide a rendered PDF in this environment because a LaTeX distribution is not installed. On a machine with \texttt{pdflatex} and \texttt{bibtex}, the manuscript can be built from \texttt{paper/pipesense\_urtc\_8page.tex}. Recent MIT URTC public guidance has used a five-page paper cap, so this 8-page source should be treated as an extended master draft unless current instructions allow eight pages. If compression is required, the safest cuts are the detailed mode-semantics section, the analytical cost table, and part of the artifact discussion; the abstract, architecture, methodology, adaptive result table, oracle comparison, limitations, and citations should remain.
+
+\section{Conclusion}
+
+\pipesense{} demonstrates a lightweight hardware-control loop for safe adaptive pipeline reconfiguration in a small ARM-like educational processor. The prototype combines a five-stage pipeline, narrow pipeline-event observation, threshold phase classification, hysteretic mode selection, and conservative drain-before-switch reconfiguration. Validated simulations show that adaptive mode improves over static normal execution on several phase-biased workloads while preserving zero safety faults and matching a sequential reference model. The stricter oracle comparison shows that the current controller remains far from the best fixed mode on memory-dominated tests, which usefully bounds the claim and motivates future work. Overall, \pipesense{} is best framed as a research artifact and evaluation scaffold for hardware-native adaptive processor control.
+
+\bibliographystyle{IEEEtran}
+\bibliography{references}
+
+\end{document}

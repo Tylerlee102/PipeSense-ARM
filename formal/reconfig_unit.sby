@@ -1,0 +1,19 @@
+[options]
+mode prove
+depth 24
+
+[engines]
+smtbmc
+
+[script]
+read_verilog -formal -sv rtl/defines.svh
+read_verilog -formal -sv rtl/reconfig_unit.sv
+read_verilog -formal -sv formal/reconfig_safety_properties.sv
+read_verilog -formal -sv formal/reconfig_unit_formal_harness.sv
+prep -top reconfig_unit_formal_harness
+
+[files]
+rtl/defines.svh
+rtl/reconfig_unit.sv
+formal/reconfig_safety_properties.sv
+formal/reconfig_unit_formal_harness.sv

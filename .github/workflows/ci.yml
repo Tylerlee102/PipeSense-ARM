@@ -1,0 +1,40 @@
+name: PipeSense Artifact Checks
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  artifact:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: No-simulator artifact checks
+        run: |
+          python scripts/check_artifact.py
+          python scripts/estimate_hardware_cost.py
+
+      - name: Install HDL simulator
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y iverilog
+
+      - name: Run HDL simulation and validate CSVs
+        run: |
+          python scripts/run_sim.py
+          python scripts/validate_results.py
+
+      - name: Upload generated results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: pipesense-results
+          path: |
+            results/*.txt
+            results/*.csv
+            results/*.png
