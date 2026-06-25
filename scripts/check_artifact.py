@@ -311,7 +311,27 @@ def check_docs_contract() -> None:
 
 
 def check_paper_draft() -> None:
-    for script_name in ("check_paper.py", "build_paper_preview.py", "verify_paper_preview.py"):
+    proc = subprocess.run(
+        [str(PYTHON), str(ROOT / "scripts" / "check_paper.py")],
+        cwd=ROOT,
+        text=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.STDOUT,
+        check=False,
+    )
+    if proc.returncode != 0:
+        fail("Paper draft check failed in check_paper.py:\n" + proc.stdout)
+
+    preview_inputs = [
+        ROOT / "results" / "adaptive_improvement.csv",
+        ROOT / "results" / "oracle_gap.csv",
+        ROOT / "results" / "hardware_cost_estimate.csv",
+    ]
+    if not all(path.exists() for path in preview_inputs):
+        print("WARN skipped paper preview build; generated result CSVs are not present yet")
+        return
+
+    for script_name in ("build_paper_preview.py", "verify_paper_preview.py"):
         proc = subprocess.run(
             [str(PYTHON), str(ROOT / "scripts" / script_name)],
             cwd=ROOT,

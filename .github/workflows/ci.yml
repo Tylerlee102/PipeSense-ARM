@@ -20,8 +20,8 @@ jobs:
 
       - name: No-simulator artifact checks
         run: |
-          python scripts/check_artifact.py
           python scripts/estimate_hardware_cost.py
+          python scripts/check_artifact.py
 
       - name: Install HDL simulator
         run: |
@@ -32,6 +32,11 @@ jobs:
         run: |
           python scripts/run_sim.py
           python scripts/validate_results.py
+
+      - name: Build paper preview from generated results
+        run: |
+          python scripts/build_paper_preview.py
+          python scripts/verify_paper_preview.py
 
       - name: Run sweep smoke test
         run: |
