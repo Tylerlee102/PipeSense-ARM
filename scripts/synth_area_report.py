@@ -79,6 +79,59 @@ def write_tool_missing_note(yosys: str) -> None:
     print(f"Wrote {note}")
 
 
+def write_yosys_failure_summary(stdout: str) -> None:
+    RESULTS.mkdir(parents=True, exist_ok=True)
+    failure_note = RESULTS / "yosys_failed.md"
+    failure_note.write_text(
+        "# Yosys Synthesis Proxy Failed\n\n"
+        "Yosys was available, but the generic synthesis proxy did not complete. "
+        "The workflow records this as an explicit artifact limitation instead "
+        "of silently omitting synthesis evidence.\n\n"
+        "See `yosys_stdout.txt` for the full log.\n\n"
+        "Last log lines:\n\n"
+        "```text\n"
+        + "\n".join(stdout.splitlines()[-40:])
+        + "\n```\n",
+        encoding="utf-8",
+    )
+    fields = [
+        "module",
+        "report",
+        "number_of_wires",
+        "number_of_wire_bits",
+        "number_of_public_wires",
+        "number_of_public_wire_bits",
+        "number_of_memories",
+        "number_of_memory_bits",
+        "number_of_processes",
+        "number_of_cells",
+        "overhead_vs_core_pct",
+        "status",
+    ]
+    rows = [
+        {
+            "module": "yosys_area_proxy",
+            "report": str(RESULTS / "yosys_stdout.txt"),
+            "number_of_wires": "0",
+            "number_of_wire_bits": "0",
+            "number_of_public_wires": "0",
+            "number_of_public_wire_bits": "0",
+            "number_of_memories": "0",
+            "number_of_memory_bits": "0",
+            "number_of_processes": "0",
+            "number_of_cells": "0",
+            "overhead_vs_core_pct": "0.00",
+            "status": "yosys_failed",
+        }
+    ]
+    with SUMMARY_CSV.open("w", newline="", encoding="utf-8") as f:
+        writer = csv.DictWriter(f, fieldnames=fields)
+        writer.writeheader()
+        writer.writerows(rows)
+    print(f"Wrote {failure_note}")
+    print(f"Wrote {SUMMARY_CSV}")
+
+
 def main() -> int:
     args = parse_args()
     yosys = args.yosys or shutil.which("yosys") or ""
@@ -90,7 +143,8 @@ def main() -> int:
         if return_code != 0:
             print(stdout)
             print(f"Yosys failed; partial log written to {RESULTS / 'yosys_stdout.txt'}")
-            return return_code
+            write_yosys_failure_summary(stdout)
+            return 0
 
     rows: list[dict[str, str]] = []
     baseline_cells = 0

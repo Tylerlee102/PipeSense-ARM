@@ -69,6 +69,7 @@ REQUIRED_FILES = [
     "verif/random_seq_gen.py",
     "verif/fuzz_runner.py",
     "synth/yosys_synth.tcl",
+    "synth/yosys_area_proxy.v",
     "synth/generic_cells.lib_or_note.md",
 ]
 
