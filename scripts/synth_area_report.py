@@ -28,6 +28,26 @@ NUMBER_RE = re.compile(r"^\s*(?P<name>Number of \S+(?: \S+)*)\s*:\s*(?P<value>[0
 CELL_RE = re.compile(r"^\s*(?P<cell>\$_?[A-Za-z0-9_]+)\s+(?P<count>[0-9]+)\s*$")
 
 
+def validate_synth_script() -> None:
+    if not TCL.exists():
+        raise RuntimeError(f"Missing Yosys script: {TCL}")
+    tcl = TCL.read_text(encoding="utf-8").replace("\\", "/")
+    if "read_verilog synth/yosys_area_proxy.v" not in tcl:
+        raise RuntimeError("Yosys script must read synth/yosys_area_proxy.v.")
+    forbidden_terms = [
+        "read_verilog rtl/",
+        "read_verilog -sv rtl/",
+        "rtl/hazard_unit.sv",
+        "rtl/arm_like_core.sv",
+    ]
+    found_forbidden = [term for term in forbidden_terms if term in tcl]
+    if found_forbidden:
+        raise RuntimeError(
+            "Yosys script must not parse full SystemVerilog RTL; found "
+            + ", ".join(found_forbidden)
+        )
+
+
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--yosys", default=os.environ.get("YOSYS", ""), help="Path to yosys executable.")
@@ -134,6 +154,7 @@ def write_yosys_failure_summary(stdout: str) -> None:
 
 def main() -> int:
     args = parse_args()
+    validate_synth_script()
     yosys = args.yosys or shutil.which("yosys") or ""
     if not args.parse_only:
         if not yosys:

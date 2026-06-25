@@ -165,6 +165,38 @@ def check_benchmark_parity() -> None:
         fail("Benchmark parity check failed:\n" + proc.stdout)
 
 
+def check_synthesis_proxy_contract() -> None:
+    tcl_path = ROOT / "synth" / "yosys_synth.tcl"
+    proxy_path = ROOT / "synth" / "yosys_area_proxy.v"
+    tcl = tcl_path.read_text(encoding="utf-8").replace("\\", "/")
+    proxy = proxy_path.read_text(encoding="utf-8")
+
+    if "read_verilog synth/yosys_area_proxy.v" not in tcl:
+        fail("Yosys synthesis script must read synth/yosys_area_proxy.v.")
+    forbidden_terms = [
+        "read_verilog rtl/",
+        "read_verilog -sv rtl/",
+        "rtl/hazard_unit.sv",
+        "rtl/arm_like_core.sv",
+    ]
+    found_forbidden = [term for term in forbidden_terms if term in tcl]
+    if found_forbidden:
+        fail(
+            "Yosys synthesis script must not parse full SystemVerilog RTL; found "
+            + ", ".join(found_forbidden)
+        )
+
+    required_modules = [
+        "module arm_like_core",
+        "module pipeline_observer",
+        "module adaptive_controller",
+        "module reconfig_unit",
+    ]
+    missing_modules = [module for module in required_modules if module not in proxy]
+    if missing_modules:
+        fail("Yosys proxy is missing expected modules: " + ", ".join(missing_modules))
+
+
 def run_analyzer_fixture() -> None:
     fixture = ROOT / "tests" / "fixtures" / "sample_sim_output.txt"
     with tempfile.TemporaryDirectory() as temp_dir:
@@ -353,6 +385,7 @@ def main() -> int:
         ("SystemVerilog contracts", check_sv_contracts),
         ("requirements audit", check_requirements_audit),
         ("benchmark parity", check_benchmark_parity),
+        ("synthesis proxy contract", check_synthesis_proxy_contract),
         ("analysis fixture", run_analyzer_fixture),
         ("ISA reference model", run_reference_model_fixture),
         ("documentation contract", check_docs_contract),
