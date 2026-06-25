@@ -126,6 +126,7 @@ Optional parameter sweep and hardware-cost estimate:
 
 ```bash
 python scripts/run_sweep.py
+python scripts/run_ablations.py
 python scripts/estimate_hardware_cost.py
 python scripts/synth_area_report.py
 ```
@@ -133,6 +134,8 @@ python scripts/synth_area_report.py
 The sweep script accepts the same `--iverilog` and `--vvp` options. It sweeps
 observer window size, threshold profile, and minimum mode residency. Each
 sweep setting is copied under `results/sweeps/<setting>/`.
+The ablation script also accepts the simulator paths through the environment
+used by `scripts/run_sim.py` and writes `results/ablation_summary.csv`.
 
 Safety regression:
 
@@ -158,9 +161,11 @@ Generic synthesis/area proxy:
 python scripts/synth_area_report.py
 ```
 
-This requires Yosys. If Yosys is unavailable, the script writes an explicit
-tool-unavailable note. Any synthesis output is a relative generic-cell area
-proxy, not calibrated ASIC area, FPGA utilization, timing, or power.
+This requires Yosys. The current local run reports 1,830 cells for the
+baseline core proxy and 3,087 standalone cells for the observer, controller,
+and reconfiguration modules combined, or 168.69% of the baseline core proxy.
+The output is a relative generic-cell area proxy, not calibrated ASIC area,
+FPGA utilization, timing, or power.
 
 Container path, on a machine with Docker:
 
@@ -207,13 +212,15 @@ Simulation and analysis create:
 - `results/pipesense_results.csv`: benchmark, mode, cycle, IPC, stall, flush, memory wait, load-use, reconfiguration, and energy proxy metrics.
 - `results/adaptive_improvement.csv`: adaptive PipeSense comparison against static normal mode.
 - `results/oracle_gap.csv`: adaptive PipeSense comparison against the best fixed mode per benchmark.
+- `results/ablation_summary.csv`: observer-disabled, controller-disabled, and zero-cost reconfiguration ablation summary.
+- `results/ablations/<variant>/pipesense_results.csv`: per-variant ablation result tables.
 - `results/sweep_runs.csv`: sweep configuration log from `scripts/run_sweep.py`.
 - `results/sweep_results.csv`: all per-run simulation rows with sweep dimensions preserved.
 - `results/sweep_adaptive_vs_fixed.csv`: adaptive versus every fixed baseline for every swept cell, including non-wins.
 - `results/sweeps/<setting>/pipesense_results.csv`: per-setting sweep tables.
 - `results/safety/fuzz_summary.csv`: constrained-random safety regression results by seed and mode.
 - `results/safety/fuzz_coverage.csv`: phase, transition, and interaction coverage counters by seed.
-- `results/synth/area_summary.csv`: Yosys generic-cell area proxy summary, if Yosys runs.
+- `results/synth/area_summary.csv`: Yosys generic-cell area proxy summary.
 - `results/hardware_cost_estimate.csv`: analytical first-order observer/controller/reconfiguration cost estimate.
 - `results/reference_model.csv`: sequential ISA golden-model outcomes for every benchmark.
 - `results/benchmark_disassembly.txt`: disassembly of the benchmark programs used by the reference model.
@@ -229,13 +236,13 @@ PipeSense-ARM demonstrates a hardware-native adaptive control loop for a small e
 - A hysteretic controller chooses runtime modes rather than relying on software policy.
 - A reconfiguration unit gates fetch and commits mode changes only at the documented safe boundary.
 - Safety monitors and fuzz regressions check retirement tags, fetch gating, safe mode commit, and bounded reconfiguration stalls.
-- Benchmarks expose arithmetic-heavy, branch-heavy, memory-heavy, load-use-heavy, mixed-control, tiny FIR-like, Dhrystone-style, and CoreMark-style behavior.
+- Benchmarks expose arithmetic-heavy, branch-heavy, memory-heavy, load-use-heavy, mixed-control, tiny FIR-like, Dhrystone-style, CoreMark-style, generated-style DSP, and generated-style embedded-control behavior.
 
 The current novelty claim should stay scoped: this is a hardware-control
 research scaffold that combines known ideas in a small, inspectable pipeline.
-A stronger paper still needs compiler-generated embedded workloads, deeper
-full-core formal proof, and calibrated timing/power evidence before claiming a
-broadly new processor technique.
+A stronger paper still needs full compiler-generated embedded benchmark ports,
+deeper full-core formal proof, and calibrated timing/power evidence before
+claiming a broadly new processor technique.
 
 ## Simplifications
 
@@ -246,8 +253,8 @@ broadly new processor technique.
 - The hazard optimization models an extra load-result bypass path.
 - The energy number is an activity proxy, not a physical power estimate.
 - The observer uses threshold logic; no machine learning is implemented.
-- The benchmark suite is mostly synthetic and phase-biased, with two recognizable toy-ISA ports inspired by Dhrystone and CoreMark.
-- The Yosys flow is a generic-cell area proxy when available, not a calibrated physical implementation.
+- The benchmark suite is mostly synthetic and phase-biased, with Dhrystone/CoreMark-style toy ports and two generated-style DSP/control kernels.
+- The Yosys flow is a generic-cell area proxy, not a calibrated physical implementation.
 - Safety monitoring uses simulation-time tags and assertions; a minimal synthesized design would remove the tags or prove equivalent properties formally.
 
 ## Files
@@ -275,5 +282,5 @@ paper/   IEEE-style extended manuscript source and bibliography
 - Compare adaptive mode to both `static_normal` and the best fixed mode in `oracle_gap.csv`.
 - Run the window, threshold, and residency sweep with `scripts/run_sweep.py`.
 - Run the constrained-random safety regression with `verif/fuzz_runner.py`.
-- Run the Yosys area proxy with `scripts/synth_area_report.py` or document why the tool is unavailable.
+- Run the Yosys area proxy with `scripts/synth_area_report.py`.
 - Keep the related-work citations current as the verification and workload story evolves.

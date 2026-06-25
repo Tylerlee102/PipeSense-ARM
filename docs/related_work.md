@@ -5,6 +5,20 @@ microarchitecture, hardware performance monitoring, and safety checking for
 runtime hardware control. The important novelty boundary is that none of
 those areas is new by itself.
 
+| Area | Representative sources | What they establish | PipeSense-ARM boundary |
+| --- | --- | --- | --- |
+| Branch policy | Smith 1981 | Control-flow behavior can be measured and exploited by hardware policy. | Uses an early-resolution toy mode, not a realistic predictor. |
+| Memory adaptation | Jouppi 1990; Balasubramonian et al. 2000 | Small buffers and configurable memory hierarchies can trade performance and energy. | Uses synthetic wait mitigation, not a cache or real prefetcher. |
+| Phase behavior | Sherwood et al. 2002; Dhodapkar and Smith 2002 | Programs have phases that can guide multi-configuration hardware. | Uses short in-core event windows, not signatures or long traces. |
+| Power/counter evidence | Wattch; Mudge; Isci and Martonosi | Activity and counters can support architecture energy/policy studies. | Reports an activity proxy, not calibrated physical energy. |
+| Safety verification | IEEE 1800; Foster et al.; Clarke et al.; Borgatti et al. | Assertions and formal methods can check runtime hardware control. | Provides simulation monitors and bounded abstract proofs, not full-core formal verification. |
+| Artifact methodology | SimpleScalar; Hennessy and Patterson | Architecture claims need executable models, baselines, and quantitative interpretation. | Provides a narrow RTL artifact, not a general-purpose simulator. |
+
+One-sentence claim: PipeSense-ARM's claim is not a new branch, memory, power,
+or verification mechanism, but the integration of a tiny in-core phase
+observer, hysteretic mode controller, drain-before-switch safety protocol, and
+reproducible oracle/ablation evaluation in a compact ARM-like RTL pipeline.
+
 ## Phase Detection and Classification
 
 Program phase behavior has been studied as a way to identify recurring

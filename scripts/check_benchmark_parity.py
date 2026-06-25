@@ -25,6 +25,8 @@ TASK_TO_BENCH = {
     "load_tiny_fir": "tiny_fir",
     "load_dhrystone_toy": "dhrystone_toy",
     "load_coremark_toy": "coremark_toy",
+    "load_dsp_fir_codegen": "dsp_fir_codegen",
+    "load_pid_control_codegen": "pid_control_codegen",
 }
 
 OPCODES = {

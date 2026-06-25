@@ -34,6 +34,7 @@ REQUIRED_FILES = [
     "scripts/check_benchmark_parity.py",
     "scripts/plot_results.py",
     "scripts/run_sweep.py",
+    "scripts/run_ablations.py",
     "scripts/sweep_params.py",
     "scripts/synth_area_report.py",
     "scripts/estimate_hardware_cost.py",
@@ -84,6 +85,7 @@ PYTHON_FILES = [
     "scripts/check_benchmark_parity.py",
     "scripts/plot_results.py",
     "scripts/run_sweep.py",
+    "scripts/run_ablations.py",
     "scripts/sweep_params.py",
     "scripts/synth_area_report.py",
     "scripts/estimate_hardware_cost.py",
@@ -302,8 +304,8 @@ def run_reference_model_fixture() -> None:
             fail("ISA reference model did not write expected outputs.")
         with csv_path.open(newline="", encoding="utf-8") as f:
             rows = list(csv.DictReader(f))
-        if len(rows) != 8:
-            fail(f"Expected 8 reference-model rows, found {len(rows)}")
+        if len(rows) != 10:
+            fail(f"Expected 10 reference-model rows, found {len(rows)}")
         if any(row["timed_out"] != "False" for row in rows):
             fail("Reference model reported a benchmark timeout.")
         if any(int(row["retired"]) <= 0 for row in rows):

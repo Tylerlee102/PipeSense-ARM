@@ -21,13 +21,14 @@ therefore attached to mode commit, not the first request edge.
 ## Workload Suite
 
 Decision: keep six synthetic kernels as mechanism-characterization tests, add
-Dhrystone-style and CoreMark-style toy-ISA ports for recognizability, and keep a
-separate constrained-random safety regression.
+Dhrystone-style and CoreMark-style toy-ISA ports for recognizability, add two
+generated-style DSP/control streams, and keep a separate constrained-random
+safety regression.
 
 Rationale: the synthetic kernels isolate mechanisms cleanly. The random
-regression increases safety stress. The two toy ports improve external
-readability, but full compiler-generated embedded workloads are still needed for
-stronger external validity.
+regression increases safety stress. The toy ports and generated-style kernels
+improve external readability, but full compiler-generated embedded benchmark
+ports are still needed for stronger external validity.
 
 ## Threshold Classifier
 

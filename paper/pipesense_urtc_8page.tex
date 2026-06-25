@@ -22,7 +22,7 @@ email@example.com}
 \maketitle
 
 \begin{abstract}
-Embedded processors execute workloads whose bottlenecks change across short program phases: branch-heavy loops stress the front end, memory-heavy regions expose load latency, dependency-heavy code stresses bypass paths, and idle regions reward reduced activity. Static pipeline policy is simple, but it can be mismatched to these changing phases. This paper presents \pipesense, a SystemVerilog research prototype that places a lightweight hardware-resident observer and controller inside a small ARM-like educational five-stage pipeline. The observer samples narrow microarchitectural taps, classifies rolling windows into bottleneck phases, and requests one of several visible microarchitectural modes. A reconfiguration unit gates fetch and switches modes only after the pipeline reaches a safe boundary, bounding reconfiguration overhead and avoiding lost or duplicated instructions. Across eight embedded-style benchmarks, including two recognizable toy ports inspired by Dhrystone and CoreMark, and six execution configurations, adaptive \pipesense{} reduces cycles by up to 13.17\% and improves IPC by up to 15.17\% relative to a static-normal baseline. Directed runs match a sequential ISA reference model and report zero safety faults, while a 500-seed constrained-random safety run reports zero assertion failures, zero safety faults, and zero timeouts. Oracle fixed-mode comparisons show that the current controller remains conservative and does not outperform the best fixed mode chosen with hindsight. These results position \pipesense{} as a reviewable undergraduate architecture artifact and a foundation for richer adaptive-control experiments, not as a commercial ARM-compatible processor.
+Embedded processors execute workloads whose bottlenecks change across short program phases: branch-heavy loops stress the front end, memory-heavy regions expose load latency, dependency-heavy code stresses bypass paths, and idle regions reward reduced activity. Static pipeline policy is simple, but it can be mismatched to these changing phases. This paper presents \pipesense, a SystemVerilog research prototype that places a lightweight hardware-resident observer and controller inside a small ARM-like educational five-stage pipeline. The observer samples narrow microarchitectural taps, classifies rolling windows into bottleneck phases, and requests one of several visible microarchitectural modes. A reconfiguration unit gates fetch and switches modes only after the pipeline reaches a safe boundary, bounding reconfiguration overhead and avoiding lost or duplicated instructions. Across ten embedded-style benchmarks, including two recognizable toy ports inspired by Dhrystone and CoreMark and two generated-style DSP/control kernels, and six execution configurations, adaptive \pipesense{} reduces cycles by up to 13.17\% and improves IPC by up to 15.17\% relative to a static-normal baseline. Directed runs match a sequential ISA reference model and report zero safety faults, while a 500-seed constrained-random safety run reports zero assertion failures, zero safety faults, and zero timeouts. Oracle fixed-mode comparisons show that the current controller remains conservative and does not outperform the best fixed mode chosen with hindsight. These results position \pipesense{} as a reviewable undergraduate architecture artifact and a foundation for richer adaptive-control experiments, not as a commercial ARM-compatible processor.
 \end{abstract}
 
 \begin{IEEEkeywords}
@@ -50,6 +50,27 @@ The project is also motivated by safe adaptation. Dynamically changing hardware 
 \section{Related Work}
 
 \pipesense{} draws from several architecture research threads. Branch prediction is one of the oldest examples of hardware policy adapting to control-flow behavior. Smith's early study established that branch behavior can be measured and exploited by simple hardware strategies \cite{smith1981branch}. \pipesense{} does not implement a realistic dynamic predictor; its branch-optimized mode is only an early-resolution model. The connection is conceptual: the core observes control-flow pressure and changes a front-end policy knob. This keeps the prototype small while making branch-heavy phases visible in the evaluation.
+
+\begin{table*}[t]
+\centering
+\caption{Related-work boundary for \pipesense{}.}
+\label{tab:related}
+\small
+\begin{tabular}{p{0.15\textwidth}p{0.23\textwidth}p{0.28\textwidth}p{0.26\textwidth}}
+\hline
+Area & Representative sources & What they establish & \pipesense{} boundary \\
+\hline
+Branch policy & Smith \cite{smith1981branch} & Control-flow behavior can be measured and exploited by hardware policy. & Uses an early-resolution toy mode, not a realistic predictor. \\
+Memory adaptation & Jouppi \cite{jouppi1990victim}; Balasubramonian et al. \cite{balasubramonian2000memory} & Small buffers and configurable memory hierarchies can trade performance and energy. & Uses synthetic wait mitigation, not a cache or real prefetcher. \\
+Phase behavior & Sherwood et al. \cite{sherwood2002phase}; Dhodapkar and Smith \cite{dhodapkar2002working} & Programs have phases that can guide multi-configuration hardware. & Uses short in-core event windows, not signatures or long traces. \\
+Power/counter evidence & Brooks et al. \cite{brooks2000wattch}; Mudge \cite{mudge2001power}; Isci and Martonosi \cite{isci2003runtime} & Activity and counters can support architecture energy and policy studies. & Reports an activity proxy, not calibrated physical energy. \\
+Safety verification & IEEE 1800 \cite{ieee1800_2023}; Foster et al. \cite{foster2004assertion}; Clarke et al. \cite{clarke1986automatic}; Borgatti et al. \cite{borgatti2007integrated} & Assertions and formal methods can check runtime hardware control. & Provides simulation monitors and bounded abstract proofs, not full-core formal verification. \\
+Artifact methodology & SimpleScalar \cite{austin2002simplescalar}; Hennessy and Patterson \cite{hennessy2017quantitative} & Architecture claims need executable models, baselines, and quantitative interpretation. & Provides a narrow RTL artifact, not a general-purpose simulator. \\
+\hline
+\end{tabular}
+\end{table*}
+
+\pipesense{}'s claim is not a new branch, memory, power, or verification mechanism, but the integration of a tiny in-core phase observer, hysteretic mode controller, drain-before-switch safety protocol, and reproducible oracle/ablation evaluation in a compact ARM-like RTL pipeline.
 
 Memory latency mitigation is another relevant thread. Jouppi showed that small structures such as victim caches and prefetch buffers can improve direct-mapped cache behavior \cite{jouppi1990victim}. Later reconfigurable memory-hierarchy work explored changing memory structures to trade energy and performance \cite{balasubramonian2000memory}. \pipesense{} does not model a cache hierarchy, coherence, or realistic prefetch timeliness. Its memory-optimized mode suppresses a deterministic wait model to represent the effect of a tiny buffer or prefetch mechanism. That simplification is useful for a first undergraduate prototype because it separates the question "can the controller detect memory-stall phases?" from the much larger question "what exact memory hierarchy should be built?"
 
@@ -130,19 +151,19 @@ The RTL is organized into small SystemVerilog modules. \texttt{arm\_like\_core.s
 
 Several implementation details matter for architectural correctness. First, the baseline includes a writeback-to-decode bypass so that a dependent instruction entering decode after a load stall sees the same-cycle writeback value rather than stale register-file state. Second, condition-code visibility for CMP-to-branch sequences uses the freshest available compare result. Third, EX-stage operands are refreshed and held during memory waits so a younger operation does not lose a value that was only available through forwarding. These details are small, but they are exactly the kind of timing assumptions that distinguish a sequential pipeline prototype from an untimed instruction interpreter.
 
-The Python support scripts are part of the artifact. \texttt{run\_sim.py} compiles and runs the testbench with Icarus Verilog, parses results, validates CSVs, runs the ISA reference model, and compares HDL output to the reference. \texttt{analyze\_results.py} computes IPC, CPI, normalized event rates, adaptive improvement over static normal, and the oracle fixed-mode gap. \texttt{sweep\_params.py} runs observer-window and residency sweeps, saving per-setting outputs. \texttt{check\_artifact.py} runs no-simulator checks for repository completeness, Python syntax, SystemVerilog contracts, benchmark parity, fixture parsing, reference-model execution, and documentation guardrails. The artifact is much smaller than full architectural simulators such as SimpleScalar \cite{austin2002simplescalar}, but it follows the same principle that a research claim should be connected to an executable and inspectable model rather than prose alone.
+The Python support scripts are part of the artifact. \texttt{run\_sim.py} compiles and runs the testbench with Icarus Verilog, parses results, validates CSVs, runs the ISA reference model, and compares HDL output to the reference. \texttt{analyze\_results.py} computes IPC, CPI, normalized event rates, adaptive improvement over static normal, and the oracle fixed-mode gap. \texttt{run\_sweep.py} runs observer-window, threshold-profile, and residency sweeps, saving per-setting outputs. \texttt{check\_artifact.py} runs no-simulator checks for repository completeness, Python syntax, SystemVerilog contracts, benchmark parity, fixture parsing, reference-model execution, and documentation guardrails. The artifact is much smaller than full architectural simulators such as SimpleScalar \cite{austin2002simplescalar}, but it follows the same principle that a research claim should be connected to an executable and inspectable model rather than prose alone.
 
 \section{Evaluation Methodology}
 
-The evaluation uses eight embedded-style benchmarks: arithmetic-heavy, branch-heavy, memory-heavy, load-use-heavy, mixed-control, tiny-FIR, dhrystone-toy, and coremark-toy. The first six programs are intentionally small and phase-biased. The final two are handwritten toy-ISA ports inspired by recognizable benchmark patterns: Dhrystone-style integer/control mixing and CoreMark-style pointer/checksum traversal. They are not full benchmark-suite ports, but they make the workload set less anonymous while preserving instruction-for-instruction comparability with the sequential reference model.
+The evaluation uses ten embedded-style benchmarks: arithmetic-heavy, branch-heavy, memory-heavy, load-use-heavy, mixed-control, tiny-FIR, dhrystone-toy, coremark-toy, dsp-fir-codegen, and pid-control-codegen. The first six programs are intentionally small and phase-biased. The Dhrystone-style and CoreMark-style programs are toy-ISA ports inspired by recognizable integer/control and pointer/checksum patterns. The two generated-style kernels mimic straight-line compiler output for a small finite-impulse-response loop and a proportional-integral embedded-control loop. None are full benchmark-suite ports, but they make the workload set less anonymous while preserving instruction-for-instruction comparability with the sequential reference model.
 
 Each benchmark is executed in six configurations: static normal, fixed branch, fixed memory, fixed hazard, fixed low-power, and adaptive \pipesense. The fixed modes provide mechanism-level baselines. Static normal asks whether adaptation improves over a simple nonadaptive design. The best fixed mode chosen with hindsight serves as an oracle baseline. That oracle is not deployable, but it is important: if adaptive mode beats static normal but is far worse than the oracle, the result should be interpreted as controller headroom rather than a final performance victory.
 
-Metrics include total cycles, retired instructions, IPC, CPI, stall cycles, flush cycles, memory wait cycles, load-use stalls, reconfiguration count, reconfiguration penalty, an activity-energy proxy, safety faults, timeout status, and final architectural data-state hash. This follows the broader quantitative architecture practice of separating mechanism-level measurements from claims about implementation cost or general workload behavior \cite{hennessy2017quantitative}. The activity-energy proxy is not physical power. It is an RTL-level activity estimate used to compare relative mode behavior before synthesis or gate-level toggle data are available. Hardware cost is also reported analytically, not as synthesis evidence.
+Metrics include total cycles, retired instructions, IPC, CPI, stall cycles, flush cycles, memory wait cycles, load-use stalls, reconfiguration count, reconfiguration penalty, an activity-energy proxy, safety faults, timeout status, and final architectural data-state hash. This follows the broader quantitative architecture practice of separating mechanism-level measurements from claims about implementation cost or general workload behavior \cite{hennessy2017quantitative}. The activity-energy proxy is not physical power. It is an RTL-level activity estimate used to compare relative mode behavior before gate-level toggle data are available. Hardware cost is reported with a Yosys generic-cell proxy and older analytical notes; neither is calibrated timing, power, FPGA utilization, or physical area evidence.
 
 \section{Results}
 
-The current validated HDL run contains 48 benchmark/mode rows. Every run halted, no run timed out, and every run reported zero safety faults. HDL retired counts and final architectural data-state hashes match the sequential ISA reference model. The 500-seed safety regression adds randomized stress evidence and hits several reconfiguration-interaction buckets, including hazard-during-reconfiguration, back-to-back reconfiguration requests, and reconfiguration-then-branch. Table~\ref{tab:adaptive} compares adaptive \pipesense{} against static normal mode.
+The current validated HDL run contains 60 benchmark/mode rows. Every run halted, no run timed out, and every run reported zero safety faults. HDL retired counts and final architectural data-state hashes match the sequential ISA reference model. The 500-seed safety regression adds randomized stress evidence and hits several reconfiguration-interaction buckets, including hazard-during-reconfiguration, back-to-back reconfiguration requests, and reconfiguration-then-branch. Table~\ref{tab:adaptive} compares adaptive \pipesense{} against static normal mode.
 
 \begin{table*}[t]
 \centering
@@ -157,15 +178,17 @@ arithmetic\_heavy & 30 & 30 & 0.00\% & 0.00\% & 0.00\% & 0 & 0 \\
 branch\_heavy & 128 & 114 & 10.94\% & 12.28\% & 6.64\% & 1 & 2 \\
 coremark\_toy & 162 & 162 & 0.00\% & 0.00\% & 0.00\% & 0 & 0 \\
 dhrystone\_toy & 133 & 133 & 0.00\% & 0.00\% & 0.00\% & 0 & 0 \\
+dsp\_fir\_codegen & 192 & 194 & -1.04\% & -1.03\% & 0.36\% & 2 & 8 \\
 load\_use\_heavy & 205 & 178 & 13.17\% & 15.17\% & 7.64\% & 1 & 4 \\
 memory\_heavy & 231 & 201 & 12.99\% & 14.92\% & 15.68\% & 6 & 28 \\
 mixed\_control & 131 & 127 & 3.05\% & 3.14\% & 2.28\% & 1 & 4 \\
+pid\_control\_codegen & 192 & 200 & -4.17\% & -3.99\% & -0.79\% & 3 & 13 \\
 tiny\_fir & 159 & 160 & -0.63\% & -0.62\% & 3.17\% & 3 & 14 \\
 \hline
 \end{tabular}
 \end{table*}
 
-Adaptive control improves over static normal mode on four of the eight benchmarks. The largest cycle reduction is 13.17\% on load-use-heavy code, where the observer moves toward the hazard-optimized path and reduces load-use stalls. The branch-heavy benchmark improves by 10.94\% in cycles and 12.28\% in IPC. The memory-heavy benchmark improves by 12.99\% in cycles and also shows the largest activity-energy proxy reduction, 15.68\%, but it pays six reconfigurations and 28 reconfiguration penalty cycles. Mixed-control improves only modestly, suggesting that short phase changes leave less time to amortize switching cost. Arithmetic-heavy, dhrystone-toy, and coremark-toy are unchanged because the current thresholds classify them as balanced or front-end-limited without crossing the residency threshold for a profitable mode switch. Tiny-FIR is the useful negative case: adaptive mode slightly increases cycles while reducing the activity-energy proxy, indicating that mode switching can cost more than it saves on short mixed workloads.
+Adaptive control improves over static normal mode on four of the ten benchmarks. The largest cycle reduction is 13.17\% on load-use-heavy code, where the observer moves toward the hazard-optimized path and reduces load-use stalls. The branch-heavy benchmark improves by 10.94\% in cycles and 12.28\% in IPC. The memory-heavy benchmark improves by 12.99\% in cycles and also shows the largest activity-energy proxy reduction, 15.68\%, but it pays six reconfigurations and 28 reconfiguration penalty cycles. Mixed-control improves only modestly, suggesting that short phase changes leave less time to amortize switching cost. Arithmetic-heavy, dhrystone-toy, and coremark-toy are unchanged because the current thresholds classify them as balanced or front-end-limited without crossing the residency threshold for a profitable mode switch. Tiny-FIR, dsp-fir-codegen, and pid-control-codegen are useful negative cases: adaptive mode slightly increases cycles on each, indicating that mode switching can cost more than it saves on short mixed workloads. The generated-style PID kernel also increases the activity-energy proxy, so it is a clear controller miss rather than an energy/performance tradeoff.
 
 Table~\ref{tab:oracle} compares adaptive mode with the best fixed mode for each benchmark. Negative gaps mean adaptive is worse than an oracle fixed mode chosen after seeing the workload.
 
@@ -182,9 +205,11 @@ arithmetic\_heavy & fixed\_hazard & 29 & 30 & -3.45\% & 173 & -1.73\% \\
 branch\_heavy & fixed\_branch & 105 & 114 & -8.57\% & 609 & -3.94\% \\
 coremark\_toy & fixed\_hazard & 150 & 162 & -8.00\% & 927 & -3.24\% \\
 dhrystone\_toy & fixed\_branch & 124 & 133 & -7.26\% & 798 & -3.38\% \\
+dsp\_fir\_codegen & fixed\_hazard & 168 & 194 & -15.48\% & 1046 & -5.35\% \\
 load\_use\_heavy & fixed\_hazard & 169 & 178 & -5.33\% & 1017 & -2.16\% \\
 memory\_heavy & fixed\_memory & 147 & 201 & -36.73\% & 839 & -23.72\% \\
 mixed\_control & fixed\_memory & 105 & 127 & -20.95\% & 617 & -18.31\% \\
+pid\_control\_codegen & fixed\_memory & 178 & 200 & -12.36\% & 1080 & -6.76\% \\
 tiny\_fir & fixed\_memory & 127 & 160 & -25.98\% & 739 & -15.70\% \\
 \hline
 \end{tabular}
@@ -192,30 +217,49 @@ tiny\_fir & fixed\_memory & 127 & 160 & -25.98\% & 739 & -15.70\% \\
 
 The oracle comparison is the most important result for claim discipline. Adaptive \pipesense{} is better than static normal mode on most phase-biased tests, but it does not beat the best fixed mode. The largest gaps occur when fixed memory mode dominates. For memory-heavy code, fixed memory mode completes in 147 cycles while adaptive mode takes 201 cycles. That does not invalidate the prototype; it shows that the current threshold and residency policy does not move into memory-optimized mode early enough or remain there long enough. In a paper, this should be presented as evidence for future controller tuning rather than hidden as an unfavorable result.
 
-Table~\ref{tab:cost} reports analytical hardware-cost estimates. These estimates are first-order counts of state bits and simple arithmetic/comparison structures. They are not synthesis results.
+Table~\ref{tab:ablation} isolates three design assumptions. Disabling the observer or disabling the controller removes all adaptive switching, so the adaptive run falls back to the static-normal aggregate of 1,563 cycles. The zero-cost row is an analytical idealization computed from the validated full-adaptive run by subtracting reconfiguration penalty cycles; it is not an unsafe instant-switch RTL run. It estimates that eliminating drain cost would improve the default adaptive total from 1,499 to 1,426 cycles, a 4.87\% headroom bound.
 
 \begin{table}[t]
 \centering
-\caption{Analytical hardware-cost estimate.}
+\caption{Ablation summary for adaptive-mode aggregate over ten benchmarks. Cycle change is relative to full adaptive \pipesense{}.}
+\label{tab:ablation}
+\small
+\begin{tabular}{lrrrrr}
+\hline
+Ablation & Cycles & Cycle change & Energy & Reconfigs & Penalty \\
+\hline
+observer\_disabled & 1563 & 4.27\% & 8872 & 0 & 0 \\
+controller\_disabled & 1563 & 4.27\% & 8872 & 0 & 0 \\
+zero\_cost\_reconfig & 1426 & -4.87\% & 8508 & 17 & 0 \\
+\hline
+\end{tabular}
+\end{table}
+
+Table~\ref{tab:cost} reports the current Yosys generic-cell area proxy. The baseline core proxy contains 1,830 generic cells. Synthesizing the observer, controller, and reconfiguration modules as standalone proxy modules gives 3,087 generic cells, or 168.69\% of the baseline core proxy. These are not synthesis results for the full SystemVerilog RTL, and they are not calibrated to an FPGA family, standard-cell library, timing target, or power model.
+
+\begin{table}[t]
+\centering
+\caption{Yosys generic-cell area proxy.}
 \label{tab:cost}
 \small
-\begin{tabular}{lrrr}
+\begin{tabular}{lrr}
 \hline
-Component & FF bits & Comp. & Adders \\
+Component & Cells & Overhead \\
 \hline
-pipeline\_observer & 228 & 5 & 7 \\
-adaptive\_controller & 31 & 4 & 2 \\
-reconfig\_unit & 104 & 2 & 3 \\
-safety\_monitor\_sim & 193 & 4 & 1 \\
+baseline core proxy & 1830 & 100.00\% \\
+pipeline\_observer & 2390 & 130.60\% \\
+adaptive\_controller & 122 & 6.67\% \\
+reconfig\_unit & 575 & 31.42\% \\
+observer/controller/reconfig sum & 3087 & 168.69\% \\
 \hline
 \end{tabular}
 \end{table}
 
 \section{Parameter Sensitivity}
 
-The repository includes a 3x3x3 sweep over observer window size, minimum mode residency, and threshold profile. The tested windows are 16, 32, and 64 cycles; the tested residencies are 8, 24, and 48 cycles; and the tested threshold profiles are tight, medium, and loose. In the current benchmark suite, all 27 settings complete with identical aggregate adaptive behavior: 1105 total adaptive cycles across the eight benchmarks and 12 total adaptive reconfigurations. This stability is encouraging for artifact reproducibility because it shows that the current conclusions do not depend on a single fragile parameter setting.
+The repository includes a 3x3x3 sweep over observer window size, minimum mode residency, and threshold profile. The tested windows are 16, 32, and 64 cycles; the tested residencies are 8, 24, and 48 cycles; and the tested threshold profiles are tight, medium, and loose. All 27 settings complete with 60 benchmark/mode rows and zero validation failures, but the corrected sweep is not flat. Aggregate adaptive cycles range from 1,477 cycles with a 64-cycle window and loose thresholds to 1,670 cycles with a 16-cycle window, 8-cycle residency, and tight thresholds. The default setting sits near the low end at 1,499 cycles and 17 reconfigurations. The sweep records 318 adaptive cycle wins and 1,032 non-wins across adaptive-versus-fixed cells, reinforcing that the controller is sensitive to phase-classification policy.
 
-At the same time, this sweep also exposes a limitation of the evaluation. The handwritten benchmarks are short and phase-biased, and their bottlenecks are strong enough that the current threshold logic reaches the same high-level decisions under the tested parameters. A richer workload suite should include phase changes closer to the classification thresholds, randomized latency behavior, and longer mixed workloads where window size and residency should matter. In other words, the current sweep validates that the artifact is stable under simple parameter changes; it does not prove that the controller is robust for general embedded software.
+At the same time, this sweep also exposes a limitation of the evaluation. The benchmarks are short and phase-biased, so parameter changes can swing the number of transitions without proving robustness for general embedded software. A richer workload suite should include phase changes closer to the classification thresholds, randomized latency behavior, and longer mixed workloads where window size and residency should matter. In other words, the sweep validates that the artifact can explore sensitivity; it does not prove that the controller is robust for general embedded software.
 
 \section{Discussion}
 
@@ -223,11 +267,11 @@ The results support a modest but meaningful claim. A small hardware-resident obs
 
 At the same time, the results constrain the performance claim. Adaptive \pipesense{} should not be described as outperforming all baselines. It improves over static normal mode, but the oracle comparison shows that a well-chosen fixed mode can be substantially better on these short synthetic workloads. This tension is valuable. It suggests that future versions should explore lower reconfiguration cost, richer phase classification, predictive mode switching, and mode-specific residency rules. For example, memory-heavy loops might justify a more aggressive transition into memory-optimized mode, while short mixed loops might need stronger evidence before paying a reconfiguration penalty.
 
-The safety story is also intentionally limited. Simulation-time monitors, architectural hashes, and the abstract token-conservation harness are stronger than prose alone, but they are not formal verification of the full RTL core. The repository includes formal scaffolds for the reconfiguration unit and instruction-token conservation, but a paper-ready proof would need properties bound directly to the core that cover drain, fetch gating, mode update, and retirement invariants. Similarly, the activity-energy proxy and analytical cost estimate are useful early evidence, but not substitutes for synthesis, timing, and power measurements.
+The safety story is also intentionally limited. Simulation-time monitors, architectural hashes, and the abstract token-conservation harness are stronger than prose alone, but they are not formal verification of the full RTL core. The repository includes a bounded abstract no-double-commit proof across a mode switch, but a paper-ready proof would need properties bound directly to the core that cover drain, fetch gating, mode update, and retirement invariants. Similarly, the activity-energy proxy and generic-cell area proxy are useful early evidence, but not substitutes for timing and power measurements.
 
 \section{Threats to Validity}
 
-The first threat is workload representativeness. The eight benchmarks remain small, and most are intentionally structured to expose specific bottlenecks. That makes them good for debugging a controller, but weak as evidence about real embedded workloads. The dhrystone-toy and coremark-toy additions improve recognizability, but they are still handwritten subsets rather than compiler-generated benchmark ports. A broader embedded benchmark suite could reveal interactions not present here: function calls, pointer-heavy data access, memory aliasing, instruction-cache behavior, and irregular control flow.
+The first threat is workload representativeness. The ten benchmarks remain small, and most are intentionally structured to expose specific bottlenecks. That makes them good for debugging a controller, but weak as evidence about real embedded workloads. The dhrystone-toy, coremark-toy, dsp-fir-codegen, and pid-control-codegen additions improve recognizability, but they are still toy-ISA kernels rather than full compiler-generated benchmark ports. A broader embedded benchmark suite could reveal interactions not present here: function calls, pointer-heavy data access, memory aliasing, instruction-cache behavior, and irregular control flow.
 
 The second threat is the synthetic memory model. The current memory wait behavior is deterministic and address based. That makes runs reproducible and easy to inspect, but it does not model cache tags, bus arbitration, scratchpad banking, DMA traffic, DRAM timing, or cache-miss distributions. Because fixed memory mode is the oracle winner for several workloads, this abstraction matters. The most important next evaluation step is to replace the synthetic wait model with a parameterized cache or scratchpad model and then rerun the oracle comparison.
 
@@ -237,9 +281,9 @@ The fourth threat is safety coverage. The simulation monitors catch important ba
 
 \section{Limitations}
 
-\pipesense{} is an ARM-like educational embedded pipeline prototype, not an ARM-compatible processor. It omits exceptions, interrupts, privilege levels, caches, realistic buses, memory ordering, and a full compiler toolchain. The benchmark suite is small and handwritten. The memory wait model is deterministic and synthetic. The branch optimization models earlier handling rather than a realistic predictor with misprediction recovery. The memory optimization represents a simple buffer/prefetch effect by suppressing synthetic waits. The hazard optimization models an extra bypass path. The low-power mode changes an activity proxy rather than clock-tree or power-gate cells.
+\pipesense{} is an ARM-like educational embedded pipeline prototype, not an ARM-compatible processor. It omits exceptions, interrupts, privilege levels, caches, realistic buses, memory ordering, and a full compiler toolchain. The benchmark suite is small, mostly synthetic, and only generated-style rather than compiler-generated. The memory wait model is deterministic and synthetic. The branch optimization models earlier handling rather than a realistic predictor with misprediction recovery. The memory optimization represents a simple buffer/prefetch effect by suppressing synthetic waits. The hazard optimization models an extra bypass path. The low-power mode changes an activity proxy rather than clock-tree or power-gate cells.
 
-These limitations are acceptable for an undergraduate research prototype if stated clearly. They would not be sufficient for a top-tier computer architecture claim. A stronger version should add compiler-generated embedded kernels, randomized dependency stress tests, latency distributions, synthesis on a named FPGA or standard-cell flow, and formal checking of reconfiguration safety.
+These limitations are acceptable for an undergraduate research prototype if stated clearly. They would not be sufficient for a top-tier computer architecture claim. A stronger version should add full compiler-generated embedded benchmark ports, randomized dependency stress tests, latency distributions, synthesis on a named FPGA or standard-cell flow, and formal checking of reconfiguration safety.
 
 \section{Future Work}
 
@@ -249,7 +293,7 @@ The second extension is a more realistic memory hierarchy. A scratchpad, tiny ca
 
 The third extension is synthesis and formal verification. An FPGA synthesis flow could report LUTs, flip-flops, frequency, and a rough dynamic power estimate. A formal harness could prove that the reconfiguration unit only changes modes at safe boundaries and that fetch remains gated during active reconfiguration. These additions would turn the current analytical and simulation evidence into a stronger hardware-realism story.
 
-The fourth extension is workload scale. The current benchmark set should be expanded with compiler-generated kernels, branch traces, random dependency stress programs, and longer embedded-control loops. That would make it possible to evaluate whether the observer window, residency counter, and phase thresholds generalize beyond the current demonstration suite.
+The fourth extension is workload scale. The current benchmark set should be expanded from generated-style kernels to true compiler-generated programs, branch traces, random dependency stress programs, and longer embedded-control loops. That would make it possible to evaluate whether the observer window, residency counter, and phase thresholds generalize beyond the current demonstration suite.
 
 \section{Educational and Broader Impact}
 
@@ -265,7 +309,7 @@ Finally, the artifact emphasizes responsible claim boundaries. It labels the ISA
 
 The repository is organized so that the paper claims can be checked directly. The RTL directory contains the core, observer, controller, reconfiguration unit, hazard logic, forwarding logic, memories, counters, and shared definitions. The testbench directory contains the benchmark programs and the simulation harness. The scripts directory contains simulation, analysis, validation, plotting, parameter sweep, reference-model, and artifact-checking scripts. The docs directory records methodology, threats to validity, reviewer critique, hardware-realism notes, reproducibility notes, and requirements traceability.
 
-The primary command is \texttt{python scripts/run\_sim.py}. With Icarus Verilog installed, it compiles the SystemVerilog testbench, runs all 48 benchmark/mode combinations, writes the raw simulation log, generates result CSVs, validates the CSV fields, runs the sequential ISA reference model, and compares the HDL output against reference retired counts and architectural hashes. This single command is the strongest evidence path for the current paper. A secondary command, \texttt{python scripts/check\_artifact.py}, runs no-simulator checks that catch missing files, Python syntax errors, benchmark mismatch between the SystemVerilog and Python models, parser fixture failures, documentation contract violations, and paper-table drift.
+The primary command is \texttt{python scripts/run\_sim.py}. With Icarus Verilog installed, it compiles the SystemVerilog testbench, runs all 60 benchmark/mode combinations, writes the raw simulation log, generates result CSVs, validates the CSV fields, runs the sequential ISA reference model, and compares the HDL output against reference retired counts and architectural hashes. This single command is the strongest evidence path for the current paper. A secondary command, \texttt{python scripts/check\_artifact.py}, runs no-simulator checks that catch missing files, Python syntax errors, benchmark mismatch between the SystemVerilog and Python models, parser fixture failures, documentation contract violations, and paper-table drift.
 
 The paper itself is also checked. \texttt{python scripts/check\_paper.py} verifies that the manuscript has no unresolved placeholder tokens, that every cited bibliography key exists in \texttt{references.bib}, that claim-discipline language is present, and that the adaptive and oracle result tables match the local generated CSVs when those CSVs are available. This is a small guardrail, but it prevents a common research-artifact failure: updating experiments while forgetting to update the paper.
 

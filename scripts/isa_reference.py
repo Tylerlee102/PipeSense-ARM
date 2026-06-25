@@ -52,6 +52,8 @@ BENCH_ORDER = [
     "tiny_fir",
     "dhrystone_toy",
     "coremark_toy",
+    "dsp_fir_codegen",
+    "pid_control_codegen",
 ]
 
 
@@ -341,6 +343,93 @@ def benchmark_coremark_toy() -> Program:
     return p
 
 
+def benchmark_dsp_fir_codegen() -> Program:
+    p = Program("dsp_fir_codegen", 1800)
+    p.load_data(190, 8)
+    p.load_data(191, 1)
+    p.load_data(192, 200)
+    p.load_data(193, 220)
+    p.load_data(194, 0x000000FF)
+    for addr, value in [
+        (200, 3),
+        (201, 5),
+        (202, 8),
+        (203, 13),
+        (204, 21),
+        (205, 34),
+        (206, 55),
+        (207, 89),
+        (208, 144),
+        (209, 233),
+        (210, 377),
+    ]:
+        p.load_data(addr, value)
+    p.emit(enc_i(OP_LDR, 1, 0, 190))
+    p.emit(enc_i(OP_LDR, 2, 0, 191))
+    p.emit(enc_i(OP_LDR, 3, 0, 192))
+    p.emit(enc_i(OP_LDR, 11, 0, 193))
+    p.emit(enc_i(OP_LDR, 10, 0, 194))
+    p.emit(enc_i(OP_LDR, 4, 3, 0))
+    p.emit(enc_i(OP_LDR, 5, 3, 1))
+    p.emit(enc_r(OP_ADD, 6, 4, 5))
+    p.emit(enc_i(OP_LDR, 7, 3, 2))
+    p.emit(enc_r(OP_ADD, 6, 6, 7))
+    p.emit(enc_i(OP_LDR, 8, 3, 3))
+    p.emit(enc_r(OP_ADD, 6, 6, 8))
+    p.emit(enc_r(OP_EOR, 9, 6, 10))
+    p.emit(enc_r(OP_AND, 9, 9, 6))
+    p.emit(enc_i(OP_STR, 9, 11, 0))
+    p.emit(enc_r(OP_ADD, 3, 3, 2))
+    p.emit(enc_r(OP_ADD, 11, 11, 2))
+    p.emit(enc_r(OP_SUB, 1, 1, 2))
+    p.emit(enc_r(OP_CMP, 0, 1, 0))
+    p.emit(enc_b(COND_NE, 5))
+    p.emit(enc_halt())
+    return p
+
+
+def benchmark_pid_control_codegen() -> Program:
+    p = Program("pid_control_codegen", 1800)
+    p.load_data(56, 12)
+    p.load_data(57, 1)
+    p.load_data(58, 100)
+    p.load_data(59, 64)
+    p.load_data(60, 0x000000FF)
+    for addr, value in [
+        (64, 93),
+        (65, 97),
+        (66, 104),
+        (67, 99),
+        (68, 88),
+        (69, 101),
+        (70, 109),
+        (71, 95),
+        (72, 98),
+        (73, 106),
+        (74, 91),
+        (75, 100),
+    ]:
+        p.load_data(addr, value)
+    p.emit(enc_i(OP_LDR, 1, 0, 56))
+    p.emit(enc_i(OP_LDR, 2, 0, 57))
+    p.emit(enc_i(OP_LDR, 3, 0, 58))
+    p.emit(enc_i(OP_LDR, 4, 0, 59))
+    p.emit(enc_i(OP_LDR, 10, 0, 60))
+    p.emit(enc_i(OP_LDR, 5, 4, 0))
+    p.emit(enc_r(OP_SUB, 6, 3, 5))
+    p.emit(enc_r(OP_ADD, 7, 7, 6))
+    p.emit(enc_r(OP_ADD, 8, 6, 7))
+    p.emit(enc_r(OP_EOR, 8, 8, 10))
+    p.emit(enc_r(OP_AND, 8, 8, 10))
+    p.emit(enc_i(OP_STR, 8, 4, 32))
+    p.emit(enc_r(OP_ADD, 4, 4, 2))
+    p.emit(enc_r(OP_SUB, 1, 1, 2))
+    p.emit(enc_r(OP_CMP, 0, 1, 0))
+    p.emit(enc_b(COND_NE, 5))
+    p.emit(enc_halt())
+    return p
+
+
 BENCHMARKS = {
     "arithmetic_heavy": benchmark_arithmetic_heavy,
     "branch_heavy": benchmark_branch_heavy,
@@ -350,6 +439,8 @@ BENCHMARKS = {
     "tiny_fir": benchmark_tiny_fir,
     "dhrystone_toy": benchmark_dhrystone_toy,
     "coremark_toy": benchmark_coremark_toy,
+    "dsp_fir_codegen": benchmark_dsp_fir_codegen,
+    "pid_control_codegen": benchmark_pid_control_codegen,
 }
 
 

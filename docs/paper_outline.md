@@ -75,14 +75,18 @@ Use `results/pipesense_results.csv` and `results/adaptive_improvement.csv`. Pres
 
 Use `results/oracle_gap.csv` to avoid overclaiming. If adaptive improves over normal mode but is far from the best fixed mode, present that as controller-tuning evidence rather than a performance victory.
 
+Use `results/ablation_summary.csv` to show observer-disabled,
+controller-disabled, and zero-reconfiguration-penalty headroom results.
+
 Use `results/sweep_adaptive_vs_fixed.csv` to show sensitivity and report
 where adaptive mode does not win.
 
 ## 11. Hardware Cost
 
-Report `results/synth/area_summary.csv` if Yosys runs successfully. Label it
-as a generic-cell area proxy. If Yosys is unavailable, use the analytical
-estimate only as a weaker fallback and state that limitation.
+Report `results/synth/area_summary.csv` as a generic-cell area proxy. The
+current run reports 1,830 baseline core proxy cells and 3,087 standalone
+observer/controller/reconfiguration proxy cells, or 168.69% of the baseline
+core proxy. Keep the analytical estimate only as secondary documentation.
 
 ## 12. Limitations
 

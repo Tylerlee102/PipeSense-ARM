@@ -4,7 +4,7 @@
 
 The synthetic benchmarks are designed to trigger specific phases. That makes debugging easier, but it can overstate how cleanly a real workload separates into branch, memory, hazard, and idle regions.
 
-The current observer uses fixed thresholds. Results may depend strongly on window size, benchmark length, and minimum residency. Use `scripts/sweep_params.py` before claiming robustness.
+The current observer uses fixed thresholds. Results depend on window size, threshold profile, benchmark length, and minimum residency. Use `scripts/run_sweep.py` before claiming robustness.
 
 ## External validity
 
@@ -16,7 +16,7 @@ The memory model uses deterministic waits. Real embedded memory behavior depends
 
 IPC and cycle count are direct simulator metrics. The energy proxy is not physical energy. It should be described as an activity proxy until calibrated against synthesis or gate-level toggle data.
 
-The hardware-cost estimate is not a synthesis result. It is useful for transparency but should not be used as final area evidence.
+The Yosys hardware-cost proxy is a generic-cell result, not calibrated FPGA or ASIC implementation evidence. It is useful for transparency but should not be used as final area, timing, or power evidence.
 
 ## Conclusion validity
 

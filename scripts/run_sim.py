@@ -93,6 +93,8 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--load-use-threshold", type=int, default=None, help="Override load-use classification threshold.")
     parser.add_argument("--frontend-threshold", type=int, default=None, help="Override frontend-stall classification threshold.")
     parser.add_argument("--idle-threshold", type=int, default=None, help="Override idle/low-retire classification threshold.")
+    parser.add_argument("--disable-observer", action="store_true", help="Force observer output to PHASE_BALANCED.")
+    parser.add_argument("--disable-controller", action="store_true", help="Suppress adaptive controller reconfiguration requests.")
     parser.add_argument("--tag", default="", help="Optional suffix for the simulator log name.")
     parser.add_argument("--iverilog", default=os.environ.get("IVERILOG", ""), help="Path to iverilog executable.")
     parser.add_argument("--vvp", default=os.environ.get("VVP", ""), help="Path to vvp executable.")
@@ -139,21 +141,25 @@ def main() -> int:
         str(VVP_OUT),
     ]
     if args.obs_window is not None:
-        compile_cmd.extend(["-P", f"tb_pipesense.dut.OBS_WINDOW={args.obs_window}"])
+        compile_cmd.append(f"-DPIPESENSE_OBS_WINDOW={args.obs_window}")
     if args.min_residency is not None:
-        compile_cmd.extend(["-P", f"tb_pipesense.dut.MIN_MODE_RESIDENCY={args.min_residency}"])
+        compile_cmd.append(f"-DPIPESENSE_MIN_MODE_RESIDENCY={args.min_residency}")
     if args.data_wait_cycles is not None:
-        compile_cmd.extend(["-P", f"tb_pipesense.dut.DATA_WAIT_CYCLES={args.data_wait_cycles}"])
+        compile_cmd.append(f"-DPIPESENSE_DATA_WAIT_CYCLES={args.data_wait_cycles}")
     if args.branch_threshold is not None:
-        compile_cmd.extend(["-P", f"tb_pipesense.dut.OBS_BRANCH_THRESHOLD={args.branch_threshold}"])
+        compile_cmd.append(f"-DPIPESENSE_OBS_BRANCH_THRESHOLD={args.branch_threshold}")
     if args.mem_threshold is not None:
-        compile_cmd.extend(["-P", f"tb_pipesense.dut.OBS_MEM_STALL_THRESHOLD={args.mem_threshold}"])
+        compile_cmd.append(f"-DPIPESENSE_OBS_MEM_STALL_THRESHOLD={args.mem_threshold}")
     if args.load_use_threshold is not None:
-        compile_cmd.extend(["-P", f"tb_pipesense.dut.OBS_LOAD_USE_THRESHOLD={args.load_use_threshold}"])
+        compile_cmd.append(f"-DPIPESENSE_OBS_LOAD_USE_THRESHOLD={args.load_use_threshold}")
     if args.frontend_threshold is not None:
-        compile_cmd.extend(["-P", f"tb_pipesense.dut.OBS_FRONTEND_STALL_THRESHOLD={args.frontend_threshold}"])
+        compile_cmd.append(f"-DPIPESENSE_OBS_FRONTEND_STALL_THRESHOLD={args.frontend_threshold}")
     if args.idle_threshold is not None:
-        compile_cmd.extend(["-P", f"tb_pipesense.dut.OBS_IDLE_RETIRE_THRESHOLD={args.idle_threshold}"])
+        compile_cmd.append(f"-DPIPESENSE_OBS_IDLE_RETIRE_THRESHOLD={args.idle_threshold}")
+    if args.disable_observer:
+        compile_cmd.append("-DPIPESENSE_DISABLE_OBSERVER")
+    if args.disable_controller:
+        compile_cmd.append("-DPIPESENSE_DISABLE_CONTROLLER")
     compile_cmd.extend(str(source) for source in SOURCES)
     if msys_bash:
         compile_proc = run_msys(msys_bash, compile_cmd, ROOT)

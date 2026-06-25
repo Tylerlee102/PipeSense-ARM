@@ -20,6 +20,8 @@ EXPECTED_BENCHES = {
     "tiny_fir",
     "dhrystone_toy",
     "coremark_toy",
+    "dsp_fir_codegen",
+    "pid_control_codegen",
 }
 
 EXPECTED_MODES = {

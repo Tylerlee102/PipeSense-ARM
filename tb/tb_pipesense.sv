@@ -60,7 +60,9 @@ module tb_pipesense;
         4: bench_name = "mixed_control";
         5: bench_name = "tiny_fir";
         6: bench_name = "dhrystone_toy";
-        default: bench_name = "coremark_toy";
+        7: bench_name = "coremark_toy";
+        8: bench_name = "dsp_fir_codegen";
+        default: bench_name = "pid_control_codegen";
       endcase
     end
   endfunction
@@ -243,7 +245,7 @@ module tb_pipesense;
 
     repeat (2) @(posedge clk);
 
-    for (int bench = 0; bench < 8; bench++) begin
+    for (int bench = 0; bench < 10; bench++) begin
       run_case(bench, 1'b0, MODE_NORMAL);
       run_case(bench, 1'b0, MODE_BRANCH_OPT);
       run_case(bench, 1'b0, MODE_MEMORY_OPT);

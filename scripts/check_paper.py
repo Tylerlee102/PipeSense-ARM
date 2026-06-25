@@ -119,6 +119,26 @@ def check_oracle_table(tex: str) -> None:
             fail(f"Oracle table does not match CSV for {row['bench']}")
 
 
+def check_ablation_table(tex: str) -> None:
+    path = RESULTS / "ablation_summary.csv"
+    if not path.exists():
+        print("WARN ablation_summary.csv not found; skipped ablation-data check")
+        return
+    rows = load_csv(path)
+    compact_tex = compact(tex)
+    for row in rows:
+        expected = (
+            f"{latex_name(row['ablation'])} & "
+            f"{row['total_adaptive_cycles']} & "
+            f"{row['cycle_change_vs_full_pct']}\\% & "
+            f"{row['total_adaptive_energy']} & "
+            f"{row['total_reconfigs']} & "
+            f"{row['total_reconfig_penalty']}"
+        )
+        if compact(expected) not in compact_tex:
+            fail(f"Ablation table does not match CSV for {row['ablation']}")
+
+
 def main() -> int:
     tex, bib = check_files()
     check_no_placeholders(tex)
@@ -127,6 +147,7 @@ def main() -> int:
     check_extended_length(tex)
     check_adaptive_table(tex)
     check_oracle_table(tex)
+    check_ablation_table(tex)
     print("Paper draft checks passed.")
     return 0
 

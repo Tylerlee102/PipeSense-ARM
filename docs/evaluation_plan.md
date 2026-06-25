@@ -14,8 +14,9 @@
 - Main results: `results/pipesense_results.csv`
 - Adaptive versus normal: `results/adaptive_improvement.csv`
 - Adaptive versus oracle best fixed mode: `results/oracle_gap.csv`
+- Ablation summary: `results/ablation_summary.csv`
 - Hardware cost estimate: `results/hardware_cost_estimate.csv`
-- Parameter sweep summary: `results/sweep_summary.csv`
+- Parameter sweep summary: `results/sweep_results.csv`
 
 ## Required checks before making claims
 
@@ -25,12 +26,12 @@
 - Negative adaptive results are preserved rather than filtered out.
 - Best fixed-mode comparison is shown for every benchmark.
 
-## Ablations to add next
+## Ablations
 
-- Observer disabled, fixed normal mode
-- Observer enabled, controller disabled
-- Controller enabled, zero reconfiguration penalty idealization
-- Reconfiguration drain protocol versus hypothetical instant switch
+- done in Cycle 4: observer disabled
+- done in Cycle 4: controller disabled
+- done in Cycle 4: zero reconfiguration penalty idealization, computed from validated full-adaptive penalty cycles
+- future work: reconfiguration drain protocol versus hypothetical instant switch with a safety-preserving model
 - Each microarchitectural knob alone
 - Observer window and threshold sensitivity
 
@@ -38,10 +39,12 @@
 
 The current benchmarks are useful for debugging, but a paper needs broader evidence. Add:
 
+- done in Cycle 3: `dsp_fir_codegen`, a generated-style FIR stream loop
+- done in Cycle 3: `pid_control_codegen`, a generated-style embedded-control loop
 - generated random dependency chains
 - branch predictability sweeps
 - memory latency sweeps
 - small DSP kernels
 - embedded-control kernels
-- compiler-generated instruction streams for the simplified ISA
+- full compiler-generated instruction streams for the simplified ISA
 - trace-driven frontend and memory event injection

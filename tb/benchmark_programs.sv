@@ -355,6 +355,131 @@ task automatic load_coremark_toy(output int max_cycles);
   end
 endtask
 
+task automatic load_dsp_fir_codegen(output int max_cycles);
+  int p;
+  begin
+    max_cycles = 1800;
+    p = 0;
+    dut.load_data(190, 32'd8);
+    dut.load_data(191, 32'd1);
+    dut.load_data(192, 32'd200);
+    dut.load_data(193, 32'd220);
+    dut.load_data(194, 32'h000000ff);
+    dut.load_data(200, 32'd3);
+    dut.load_data(201, 32'd5);
+    dut.load_data(202, 32'd8);
+    dut.load_data(203, 32'd13);
+    dut.load_data(204, 32'd21);
+    dut.load_data(205, 32'd34);
+    dut.load_data(206, 32'd55);
+    dut.load_data(207, 32'd89);
+    dut.load_data(208, 32'd144);
+    dut.load_data(209, 32'd233);
+    dut.load_data(210, 32'd377);
+    dut.load_instr(p, enc_i(OP_LDR, 4'd1, 4'd0, 16'd190));
+    p++;
+    dut.load_instr(p, enc_i(OP_LDR, 4'd2, 4'd0, 16'd191));
+    p++;
+    dut.load_instr(p, enc_i(OP_LDR, 4'd3, 4'd0, 16'd192));
+    p++;
+    dut.load_instr(p, enc_i(OP_LDR, 4'd11, 4'd0, 16'd193));
+    p++;
+    dut.load_instr(p, enc_i(OP_LDR, 4'd10, 4'd0, 16'd194));
+    p++;
+    dut.load_instr(p, enc_i(OP_LDR, 4'd4, 4'd3, 16'd0));
+    p++;
+    dut.load_instr(p, enc_i(OP_LDR, 4'd5, 4'd3, 16'd1));
+    p++;
+    dut.load_instr(p, enc_r(OP_ADD, 4'd6, 4'd4, 4'd5));
+    p++;
+    dut.load_instr(p, enc_i(OP_LDR, 4'd7, 4'd3, 16'd2));
+    p++;
+    dut.load_instr(p, enc_r(OP_ADD, 4'd6, 4'd6, 4'd7));
+    p++;
+    dut.load_instr(p, enc_i(OP_LDR, 4'd8, 4'd3, 16'd3));
+    p++;
+    dut.load_instr(p, enc_r(OP_ADD, 4'd6, 4'd6, 4'd8));
+    p++;
+    dut.load_instr(p, enc_r(OP_EOR, 4'd9, 4'd6, 4'd10));
+    p++;
+    dut.load_instr(p, enc_r(OP_AND, 4'd9, 4'd9, 4'd6));
+    p++;
+    dut.load_instr(p, enc_i(OP_STR, 4'd9, 4'd11, 16'd0));
+    p++;
+    dut.load_instr(p, enc_r(OP_ADD, 4'd3, 4'd3, 4'd2));
+    p++;
+    dut.load_instr(p, enc_r(OP_ADD, 4'd11, 4'd11, 4'd2));
+    p++;
+    dut.load_instr(p, enc_r(OP_SUB, 4'd1, 4'd1, 4'd2));
+    p++;
+    dut.load_instr(p, enc_r(OP_CMP, 4'd0, 4'd1, 4'd0));
+    p++;
+    dut.load_instr(p, enc_b(COND_NE, 16'd5));
+    p++;
+    dut.load_instr(p, enc_halt());
+    p++;
+  end
+endtask
+
+task automatic load_pid_control_codegen(output int max_cycles);
+  int p;
+  begin
+    max_cycles = 1800;
+    p = 0;
+    dut.load_data(56, 32'd12);
+    dut.load_data(57, 32'd1);
+    dut.load_data(58, 32'd100);
+    dut.load_data(59, 32'd64);
+    dut.load_data(60, 32'h000000ff);
+    dut.load_data(64, 32'd93);
+    dut.load_data(65, 32'd97);
+    dut.load_data(66, 32'd104);
+    dut.load_data(67, 32'd99);
+    dut.load_data(68, 32'd88);
+    dut.load_data(69, 32'd101);
+    dut.load_data(70, 32'd109);
+    dut.load_data(71, 32'd95);
+    dut.load_data(72, 32'd98);
+    dut.load_data(73, 32'd106);
+    dut.load_data(74, 32'd91);
+    dut.load_data(75, 32'd100);
+    dut.load_instr(p, enc_i(OP_LDR, 4'd1, 4'd0, 16'd56));
+    p++;
+    dut.load_instr(p, enc_i(OP_LDR, 4'd2, 4'd0, 16'd57));
+    p++;
+    dut.load_instr(p, enc_i(OP_LDR, 4'd3, 4'd0, 16'd58));
+    p++;
+    dut.load_instr(p, enc_i(OP_LDR, 4'd4, 4'd0, 16'd59));
+    p++;
+    dut.load_instr(p, enc_i(OP_LDR, 4'd10, 4'd0, 16'd60));
+    p++;
+    dut.load_instr(p, enc_i(OP_LDR, 4'd5, 4'd4, 16'd0));
+    p++;
+    dut.load_instr(p, enc_r(OP_SUB, 4'd6, 4'd3, 4'd5));
+    p++;
+    dut.load_instr(p, enc_r(OP_ADD, 4'd7, 4'd7, 4'd6));
+    p++;
+    dut.load_instr(p, enc_r(OP_ADD, 4'd8, 4'd6, 4'd7));
+    p++;
+    dut.load_instr(p, enc_r(OP_EOR, 4'd8, 4'd8, 4'd10));
+    p++;
+    dut.load_instr(p, enc_r(OP_AND, 4'd8, 4'd8, 4'd10));
+    p++;
+    dut.load_instr(p, enc_i(OP_STR, 4'd8, 4'd4, 16'd32));
+    p++;
+    dut.load_instr(p, enc_r(OP_ADD, 4'd4, 4'd4, 4'd2));
+    p++;
+    dut.load_instr(p, enc_r(OP_SUB, 4'd1, 4'd1, 4'd2));
+    p++;
+    dut.load_instr(p, enc_r(OP_CMP, 4'd0, 4'd1, 4'd0));
+    p++;
+    dut.load_instr(p, enc_b(COND_NE, 16'd5));
+    p++;
+    dut.load_instr(p, enc_halt());
+    p++;
+  end
+endtask
+
 task automatic load_benchmark(input int bench_id, output int max_cycles);
   begin
     case (bench_id)
@@ -365,7 +490,9 @@ task automatic load_benchmark(input int bench_id, output int max_cycles);
       4: load_mixed_control(max_cycles);
       5: load_tiny_fir(max_cycles);
       6: load_dhrystone_toy(max_cycles);
-      default: load_coremark_toy(max_cycles);
+      7: load_coremark_toy(max_cycles);
+      8: load_dsp_fir_codegen(max_cycles);
+      default: load_pid_control_codegen(max_cycles);
     endcase
   end
 endtask

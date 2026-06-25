@@ -73,14 +73,17 @@ Benchmarks:
 - tiny FIR-style loop
 - Dhrystone-style integer/control toy port
 - CoreMark-style checksum/list-walk toy port
+- generated-style FIR stream loop
+- generated-style PID-control loop
 
 The suite remains small, but it now separates two purposes. The six original
 kernels are synthetic and phase-biased by design. The two toy ports add
-recognizable Dhrystone/CoreMark-style structure without pretending to be full
+recognizable Dhrystone/CoreMark-style structure, and the two generated-style
+kernels add DSP/control instruction streams without pretending to be full
 benchmark-suite executions. `verif/random_seq_gen.py` and
 `verif/fuzz_runner.py` add constrained-random instruction mixes for safety
-stress. The remaining workload limitation is the lack of compiler-generated
-embedded programs, tracked in `docs/limitations_and_honesty.md`.
+stress. The remaining workload limitation is the lack of full compiler-generated
+embedded benchmark ports, tracked in `docs/limitations_and_honesty.md`.
 
 ## Metrics
 
@@ -112,9 +115,16 @@ preserves the sweep dimensions and explicitly flags cells where adaptive mode
 does not beat a fixed baseline. `scripts/plot_results.py` generates basic
 comparison plots and sweep visualizations when matplotlib is installed.
 
-`scripts/synth_area_report.py` runs the Yosys generic synthesis scaffold when
-Yosys is available. Its output is a relative generic-cell area proxy, not
-calibrated ASIC area, FPGA utilization, timing, or power.
+`scripts/run_ablations.py` runs the observer-disabled and controller-disabled
+variants, then writes `ablation_summary.csv` with an additional analytical
+zero-reconfiguration-penalty headroom row computed from the validated
+full-adaptive run.
+
+`scripts/synth_area_report.py` runs the Yosys generic synthesis scaffold. Its
+current output is a relative generic-cell area proxy: 1,830 baseline core
+proxy cells and 3,087 standalone observer/controller/reconfiguration proxy
+cells, or 168.69% of the baseline core proxy. It is not calibrated ASIC area,
+FPGA utilization, timing, or power.
 
 ## Safety checks
 

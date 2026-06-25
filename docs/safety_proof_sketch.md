@@ -27,6 +27,13 @@ for the abstract five-stage token model, every fetched token is exactly one of
 three states: live in a pipeline stage, retired from writeback, or flushed. No
 token may be counted in more than one state, and no live stages may share a tag.
 
+I1c. No double commit across a mode switch:
+for the abstract drain-before-switch token model in
+`formal/no_double_commit_across_mode_switch.sv`, a tag that has committed
+before a visible mode switch cannot commit again after the switch. This is
+proven as a bounded formal property for k=16 cycles by
+`formal/no_double_commit_across_mode_switch.sby`.
+
 I2. Safe mode commit:
 `current_mode` changes only on a cycle where the safe boundary holds and
 `reconfig_done` is asserted.
@@ -90,6 +97,19 @@ Run it with:
 sby -f formal/token_conservation.sby
 ```
 
+`formal/no_double_commit_across_mode_switch.sv` turns I1c into an executable
+bounded proof. The harness abstracts instruction semantics but preserves the
+drain-before-switch protocol: fetch is gated while a mode change is active,
+the visible mode changes only when the abstract pipeline is empty, retiring
+tags are recorded, and post-switch retirement is checked against the
+pre-switch committed-tag set. The current passing run is bounded to k=16
+cycles and writes its proof log under
+`formal/results/no_double_commit_across_mode_switch/`:
+
+```bash
+sby -f -d formal/results/no_double_commit_across_mode_switch formal/no_double_commit_across_mode_switch.sby
+```
+
 `verif/cov_safety.sv` tracks:
 
 - phases visited
@@ -109,9 +129,11 @@ processor. It assumes the steady-state hazard and forwarding logic is correct
 except where the simulation monitors and ISA reference comparison check it.
 
 The assertion harness is executable evidence, not a complete proof of the
-whole processor. The token-conservation formal job proves the abstract token
-model, but it does not yet connect every instruction in the full RTL core to
-that abstraction. A stronger version should bind token-conservation properties
-directly into a reduced formal instance of `arm_like_core` and should prove the
-reconfiguration protocol for all reachable core states rather than only
-simulation traces.
+whole processor. The no-double-commit proof is bounded to k=16 and proves an
+abstract token model with flush held off; it does not yet bind directly to
+`arm_like_core`. The token-conservation formal job targets a related abstract
+model, but it also does not yet connect every instruction in the full RTL core
+to that abstraction. A stronger version should bind token-conservation and
+no-double-commit properties directly into a reduced formal instance of
+`arm_like_core` and should prove the reconfiguration protocol for all reachable
+core states rather than only simulation traces.

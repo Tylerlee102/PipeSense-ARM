@@ -1,18 +1,55 @@
 `include "defines.svh"
 import pipesense_defs::*;
 
+`ifndef PIPESENSE_OBS_WINDOW
+`define PIPESENSE_OBS_WINDOW 32
+`endif
+`ifndef PIPESENSE_DATA_WAIT_CYCLES
+`define PIPESENSE_DATA_WAIT_CYCLES 2
+`endif
+`ifndef PIPESENSE_MIN_MODE_RESIDENCY
+`define PIPESENSE_MIN_MODE_RESIDENCY 24
+`endif
+`ifndef PIPESENSE_OBS_BRANCH_THRESHOLD
+`define PIPESENSE_OBS_BRANCH_THRESHOLD 8
+`endif
+`ifndef PIPESENSE_OBS_MEM_STALL_THRESHOLD
+`define PIPESENSE_OBS_MEM_STALL_THRESHOLD 8
+`endif
+`ifndef PIPESENSE_OBS_LOAD_USE_THRESHOLD
+`define PIPESENSE_OBS_LOAD_USE_THRESHOLD 6
+`endif
+`ifndef PIPESENSE_OBS_FRONTEND_STALL_THRESHOLD
+`define PIPESENSE_OBS_FRONTEND_STALL_THRESHOLD 10
+`endif
+`ifndef PIPESENSE_OBS_IDLE_RETIRE_THRESHOLD
+`define PIPESENSE_OBS_IDLE_RETIRE_THRESHOLD 8
+`endif
+`ifdef PIPESENSE_DISABLE_OBSERVER
+`define PIPESENSE_DISABLE_OBSERVER_VALUE 1
+`else
+`define PIPESENSE_DISABLE_OBSERVER_VALUE 0
+`endif
+`ifdef PIPESENSE_DISABLE_CONTROLLER
+`define PIPESENSE_DISABLE_CONTROLLER_VALUE 1
+`else
+`define PIPESENSE_DISABLE_CONTROLLER_VALUE 0
+`endif
+
 // PipeSense-ARM research core: a compact ARM-like five-stage pipeline with a
 // hardware observer/controller/reconfiguration loop.
 module arm_like_core #(
   parameter int PC_WIDTH            = 8,
-  parameter int OBS_WINDOW          = 32,
-  parameter int DATA_WAIT_CYCLES    = 2,
-  parameter int MIN_MODE_RESIDENCY  = 24,
-  parameter int OBS_BRANCH_THRESHOLD = 8,
-  parameter int OBS_MEM_STALL_THRESHOLD = 8,
-  parameter int OBS_LOAD_USE_THRESHOLD = 6,
-  parameter int OBS_FRONTEND_STALL_THRESHOLD = 10,
-  parameter int OBS_IDLE_RETIRE_THRESHOLD = 8
+  parameter int OBS_WINDOW          = `PIPESENSE_OBS_WINDOW,
+  parameter int DATA_WAIT_CYCLES    = `PIPESENSE_DATA_WAIT_CYCLES,
+  parameter int MIN_MODE_RESIDENCY  = `PIPESENSE_MIN_MODE_RESIDENCY,
+  parameter int OBS_BRANCH_THRESHOLD = `PIPESENSE_OBS_BRANCH_THRESHOLD,
+  parameter int OBS_MEM_STALL_THRESHOLD = `PIPESENSE_OBS_MEM_STALL_THRESHOLD,
+  parameter int OBS_LOAD_USE_THRESHOLD = `PIPESENSE_OBS_LOAD_USE_THRESHOLD,
+  parameter int OBS_FRONTEND_STALL_THRESHOLD = `PIPESENSE_OBS_FRONTEND_STALL_THRESHOLD,
+  parameter int OBS_IDLE_RETIRE_THRESHOLD = `PIPESENSE_OBS_IDLE_RETIRE_THRESHOLD,
+  parameter int DISABLE_OBSERVER = `PIPESENSE_DISABLE_OBSERVER_VALUE,
+  parameter int DISABLE_CONTROLLER = `PIPESENSE_DISABLE_CONTROLLER_VALUE
 ) (
   input  logic             clk,
   input  logic             rst_n,
@@ -127,6 +164,8 @@ module arm_like_core #(
 
   logic reconfig_request;
   pipesense_mode_e requested_mode;
+  logic controller_reconfig_request;
+  pipesense_mode_e controller_requested_mode;
   pipesense_mode_e reconfig_latched_mode;
   logic reconfig_active;
   logic reconfig_done;
@@ -155,6 +194,7 @@ module arm_like_core #(
   logic [31:0] mem_wb_tag;
   logic [31:0] last_retired_tag;
   logic retire_seen;
+  pipesense_phase_e observer_phase;
   pipesense_mode_e prev_current_mode;
   logic safety_bad_mode_change;
   logic safety_bad_reconfig_done;
@@ -248,9 +288,12 @@ module arm_like_core #(
     .mem_wait(mem_wait_signal),
     .instruction_retired(instruction_retired),
     .cycle_count(cycle_count),
-    .phase_estimate(observed_phase),
+    .phase_estimate(observer_phase),
     .window_done()
   );
+
+  assign observed_phase = (DISABLE_OBSERVER != 0) ?
+                          pipesense_defs::PHASE_BALANCED : observer_phase;
 
   adaptive_controller #(
     .MIN_MODE_RESIDENCY(MIN_MODE_RESIDENCY),
@@ -263,9 +306,12 @@ module arm_like_core #(
     .current_mode(current_mode),
     .reconfig_ack(reconfig_done),
     .reconfig_active(reconfig_active),
-    .reconfig_request(reconfig_request),
-    .requested_mode(requested_mode)
+    .reconfig_request(controller_reconfig_request),
+    .requested_mode(controller_requested_mode)
   );
+
+  assign reconfig_request = (DISABLE_CONTROLLER != 0) ? 1'b0 : controller_reconfig_request;
+  assign requested_mode = (DISABLE_CONTROLLER != 0) ? current_mode : controller_requested_mode;
 
   reconfig_unit reconfig (
     .clk(clk),

@@ -17,15 +17,17 @@ recovery machinery.
 
 ## Workload Realism
 
-The benchmark suite contains six synthetic mechanism-characterization tests and
-two recognizable toy-ISA ports inspired by Dhrystone and CoreMark. The synthetic
-tests isolate branch, memory, load-use, mixed-control, and low-activity
-behavior; the toy ports add integer/control and checksum/list-walk structure.
-They are still not a publication-standard workload suite by themselves.
+The benchmark suite contains six synthetic mechanism-characterization tests,
+two recognizable toy-ISA ports inspired by Dhrystone and CoreMark, and two
+generated-style DSP/control instruction streams. The synthetic tests isolate
+branch, memory, load-use, mixed-control, and low-activity behavior; the toy
+ports add integer/control and checksum/list-walk structure; the generated-style
+kernels add FIR and PID-like loop structure. They are still not a
+publication-standard workload suite by themselves.
 
 The random safety generator stresses legal instruction mixtures and hazard
 density, but it is not a replacement for recognizable embedded benchmarks.
-A compiler-generated embedded benchmark subset would be stronger future
+A full compiler-generated embedded benchmark subset would be stronger future
 evidence.
 
 ## Energy Proxy
@@ -37,9 +39,11 @@ synthesis and power flow is added.
 ## Lightweight Claim
 
 The lightweight claim requires evidence. The repository now includes a Yosys
-generic synthesis scaffold and an analytical estimator. If Yosys is not
-available or cannot synthesize a module, the claim must be limited to the
-available analytical or partial synthesis evidence.
+generic-cell proxy and an analytical estimator. The current proxy reports
+1,830 cells for the baseline core proxy and 3,087 standalone cells for the
+observer, controller, and reconfiguration modules combined. This is stronger
+than a placeholder, but it is still not calibrated timing, power, FPGA
+utilization, or physical area evidence.
 
 ## Safety Claim
 
@@ -60,5 +64,5 @@ published processors or industrial designs.
 
 This artifact is suitable for an undergraduate research paper if the claims
 stay modest. It is not enough for a top-tier architecture venue without
-recognizable workloads, real synthesis/timing/power evidence, stronger formal
-verification, and tighter related-work positioning.
+larger recognizable workloads, calibrated timing/power evidence, stronger
+full-core formal verification, and tighter related-work positioning.
