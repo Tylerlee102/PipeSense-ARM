@@ -1,6 +1,6 @@
 # Formal Safety Plan
 
-The safety story should eventually move from simulation monitors to formal properties. The current repository includes `formal/reconfig_safety_properties.sv` as a starting point.
+The safety story should eventually move from simulation monitors to formal properties. The current repository includes `formal/reconfig_safety_properties.sv` as a starting point and `verif/sva_safety.sv` as an executable simulation assertion monitor.
 
 ## Properties currently expressed
 
@@ -9,12 +9,14 @@ The safety story should eventually move from simulation monitors to formal prope
 - Current mode stays stable while a reconfiguration is active.
 - The latched requested mode remains stable until completion.
 - A completed reconfiguration installs the latched requested mode.
+- Core-level fuzz checks monitor monotonic retirement tags, safe mode commit,
+  fetch gating, stable mode during reconfiguration, and bounded stall time.
 
 ## Why this is not enough yet
 
 These properties target the reconfiguration unit boundary. They do not prove full-core correctness, instruction conservation, register-file equivalence, memory ordering, or absence of duplicated writeback across arbitrary programs.
 
-The core-level simulation tags are useful because they catch duplicated or backward-moving retirement in normal simulation. A stronger proof would model instruction tokens across all pipeline registers and prove conservation under stalls, flushes, and reconfiguration.
+The core-level simulation tags are useful because they catch duplicated or backward-moving retirement in normal simulation. `docs/safety_proof_sketch.md` states the current invariants and maps them to `verif/sva_safety.sv`. A stronger proof would model instruction tokens across all pipeline registers and prove conservation under stalls, flushes, and reconfiguration.
 
 ## Next formal milestones
 

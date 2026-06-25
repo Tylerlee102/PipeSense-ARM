@@ -24,6 +24,7 @@ Expected:
 - paper draft has no unresolved placeholders and matches generated CSV tables when results are present
 - generated PDF preview is exactly 8 pages and each page renders with text
 - `results/hardware_cost_estimate.csv` is generated
+- required safety, sweep, related-work, and synthesis scaffold files exist
 
 ## HDL simulation checks
 
@@ -32,6 +33,8 @@ Run after installing a SystemVerilog simulator:
 ```bash
 python scripts/run_sim.py
 python scripts/plot_results.py
+python scripts/run_sweep.py
+python verif/fuzz_runner.py --seeds 500
 ```
 
 Required before making performance claims:
@@ -40,6 +43,22 @@ Required before making performance claims:
 - every row has `safety_faults == 0`
 - `results/oracle_gap.csv` exists
 - adaptive results are compared against both static normal and best fixed mode
+- `results/sweep_adaptive_vs_fixed.csv` reports non-win cells instead of hiding them
+- `results/safety/fuzz_summary.csv` reports zero assertion failures, zero safety faults, and zero timeouts
+
+## Synthesis/area proxy
+
+Run after installing Yosys:
+
+```bash
+python scripts/synth_area_report.py
+```
+
+Expected:
+
+- `results/synth/area_summary.csv` exists
+- observer/controller/reconfiguration overhead is reported as a percentage of baseline core cells
+- paper text labels the result as a generic-cell area proxy
 
 ## Optional formal checks
 

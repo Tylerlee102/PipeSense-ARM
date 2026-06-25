@@ -33,7 +33,9 @@ REQUIRED_FILES = [
     "scripts/compare_reference.py",
     "scripts/check_benchmark_parity.py",
     "scripts/plot_results.py",
+    "scripts/run_sweep.py",
     "scripts/sweep_params.py",
+    "scripts/synth_area_report.py",
     "scripts/estimate_hardware_cost.py",
     "scripts/audit_requirements.py",
     "scripts/lint_sv.py",
@@ -55,9 +57,19 @@ REQUIRED_FILES = [
     "docs/evaluation_plan.md",
     "docs/hardware_realism.md",
     "docs/threats_to_validity.md",
+    "docs/related_work.md",
+    "docs/safety_proof_sketch.md",
+    "docs/limitations_and_honesty.md",
+    "docs/decisions.md",
     "formal/reconfig_safety_properties.sv",
     "formal/reconfig_unit_formal_harness.sv",
     "formal/reconfig_unit.sby",
+    "verif/sva_safety.sv",
+    "verif/cov_safety.sv",
+    "verif/random_seq_gen.py",
+    "verif/fuzz_runner.py",
+    "synth/yosys_synth.tcl",
+    "synth/generic_cells.lib_or_note.md",
 ]
 
 PYTHON_FILES = [
@@ -67,7 +79,9 @@ PYTHON_FILES = [
     "scripts/compare_reference.py",
     "scripts/check_benchmark_parity.py",
     "scripts/plot_results.py",
+    "scripts/run_sweep.py",
     "scripts/sweep_params.py",
+    "scripts/synth_area_report.py",
     "scripts/estimate_hardware_cost.py",
     "scripts/audit_requirements.py",
     "scripts/lint_sv.py",
@@ -76,6 +90,8 @@ PYTHON_FILES = [
     "scripts/check_paper.py",
     "scripts/build_paper_preview.py",
     "scripts/verify_paper_preview.py",
+    "verif/random_seq_gen.py",
+    "verif/fuzz_runner.py",
 ]
 
 
@@ -284,7 +300,9 @@ def check_docs_contract() -> None:
         "safety_faults",
         "oracle_gap.csv",
         "hardware_cost_estimate.csv",
-        "not a synthesis report",
+        "generic-cell area proxy",
+        "fuzz_runner.py",
+        "synth_area_report.py",
         "ARM-like",
     ]
     missing = [term for term in required_terms if term not in readme]

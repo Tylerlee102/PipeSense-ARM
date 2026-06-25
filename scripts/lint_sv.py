@@ -14,6 +14,7 @@ SV_FILES = [
     *sorted((ROOT / "rtl").glob("*.sv")),
     *sorted((ROOT / "tb").glob("*.sv")),
     *sorted((ROOT / "formal").glob("*.sv")),
+    *sorted((ROOT / "verif").glob("*.sv")),
 ]
 SVH_FILES = sorted((ROOT / "rtl").glob("*.svh"))
 
@@ -30,6 +31,8 @@ REQUIRED_MODULES = {
     "tb_pipesense",
     "reconfig_safety_properties",
     "reconfig_unit_formal_harness",
+    "pipesense_core_sva",
+    "pipesense_safety_coverage",
 }
 
 RESULT_FIELDS = {
@@ -119,6 +122,11 @@ def check_core_contract() -> None:
         "MODE_MEMORY_OPT",
         "MODE_HAZARD_OPT",
         "MODE_LOW_POWER",
+        "OBS_BRANCH_THRESHOLD",
+        "OBS_MEM_STALL_THRESHOLD",
+        "OBS_LOAD_USE_THRESHOLD",
+        "OBS_FRONTEND_STALL_THRESHOLD",
+        "OBS_IDLE_RETIRE_THRESHOLD",
     ]:
         if term not in core:
             fail(f"arm_like_core.sv missing expected term {term}")

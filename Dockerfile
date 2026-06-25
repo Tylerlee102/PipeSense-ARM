@@ -15,6 +15,7 @@ RUN apt-get update && \
 WORKDIR /workspace
 COPY . /workspace
 
+RUN python3 -m pip install --break-system-packages -r requirements.txt
 RUN python3 scripts/check_artifact.py
 
 CMD ["python3", "scripts/run_sim.py"]

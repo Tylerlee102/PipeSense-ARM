@@ -14,6 +14,10 @@ jobs:
         with:
           python-version: "3.12"
 
+      - name: Install Python dependencies
+        run: |
+          python -m pip install -r requirements.txt
+
       - name: No-simulator artifact checks
         run: |
           python scripts/check_artifact.py
@@ -22,12 +26,24 @@ jobs:
       - name: Install HDL simulator
         run: |
           sudo apt-get update
-          sudo apt-get install -y iverilog
+          sudo apt-get install -y iverilog yosys
 
       - name: Run HDL simulation and validate CSVs
         run: |
           python scripts/run_sim.py
           python scripts/validate_results.py
+
+      - name: Run sweep smoke test
+        run: |
+          python scripts/run_sweep.py --max-configs 2
+
+      - name: Run safety fuzz smoke test
+        run: |
+          python verif/fuzz_runner.py --seeds 3
+
+      - name: Run generic synthesis proxy
+        run: |
+          python scripts/synth_area_report.py
 
       - name: Upload generated results
         uses: actions/upload-artifact@v4
@@ -35,6 +51,4 @@ jobs:
         with:
           name: pipesense-results
           path: |
-            results/*.txt
-            results/*.csv
-            results/*.png
+            results/**

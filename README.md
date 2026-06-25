@@ -2,7 +2,9 @@
 
 PipeSense-ARM is a research-prototype repository for an ARM-like educational embedded processor pipeline with a small hardware-resident observer/controller. The design is intentionally sequential, pipeline-based, closed-loop, and microarchitecture-aware.
 
-It is not a commercial ARM processor and it does not implement the full ARM ISA. It is a compact SystemVerilog model for exploring this research question:
+It is not a commercial ARM processor and it does not implement the full ARM
+ISA. It is not an ML-based classifier and it is not a calibrated power model.
+It is a compact SystemVerilog model for exploring this research question:
 
 > Can a tiny hardware observer inside an ARM-like embedded processor detect pipeline phases and safely reconfigure pipeline behavior to reduce stalls, improve IPC, and bound reconfiguration overhead?
 
@@ -123,11 +125,40 @@ make all
 Optional parameter sweep and hardware-cost estimate:
 
 ```bash
-python scripts/sweep_params.py
+python scripts/run_sweep.py
 python scripts/estimate_hardware_cost.py
+python scripts/synth_area_report.py
 ```
 
-The sweep script accepts the same `--iverilog` and `--vvp` options. Each sweep setting is copied under `results/sweeps/<setting>/`, and the default result tables are restored from `results/sim_output.txt` afterward.
+The sweep script accepts the same `--iverilog` and `--vvp` options. It sweeps
+observer window size, threshold profile, and minimum mode residency. Each
+sweep setting is copied under `results/sweeps/<setting>/`.
+
+Safety regression:
+
+```bash
+python verif/fuzz_runner.py --seeds 500
+```
+
+For a quick smoke test:
+
+```bash
+python verif/fuzz_runner.py --seeds 5
+```
+
+The safety regression generates constrained-random legal instruction streams,
+binds the safety monitor and coverage counter modules, and writes pass/fail
+and coverage summaries under `results/safety/`.
+
+Generic synthesis/area proxy:
+
+```bash
+python scripts/synth_area_report.py
+```
+
+This requires Yosys. If Yosys is unavailable, the script writes an explicit
+tool-unavailable note. Any synthesis output is a relative generic-cell area
+proxy, not calibrated ASIC area, FPGA utilization, timing, or power.
 
 Container path, on a machine with Docker:
 
@@ -174,8 +205,13 @@ Simulation and analysis create:
 - `results/pipesense_results.csv`: benchmark, mode, cycle, IPC, stall, flush, memory wait, load-use, reconfiguration, and energy proxy metrics.
 - `results/adaptive_improvement.csv`: adaptive PipeSense comparison against static normal mode.
 - `results/oracle_gap.csv`: adaptive PipeSense comparison against the best fixed mode per benchmark.
-- `results/sweep_summary.csv`: parameter-sweep run log, if `scripts/sweep_params.py` is used.
+- `results/sweep_runs.csv`: sweep configuration log from `scripts/run_sweep.py`.
+- `results/sweep_results.csv`: all per-run simulation rows with sweep dimensions preserved.
+- `results/sweep_adaptive_vs_fixed.csv`: adaptive versus every fixed baseline for every swept cell, including non-wins.
 - `results/sweeps/<setting>/pipesense_results.csv`: per-setting sweep tables.
+- `results/safety/fuzz_summary.csv`: constrained-random safety regression results by seed and mode.
+- `results/safety/fuzz_coverage.csv`: phase, transition, and interaction coverage counters by seed.
+- `results/synth/area_summary.csv`: Yosys generic-cell area proxy summary, if Yosys runs.
 - `results/hardware_cost_estimate.csv`: analytical first-order observer/controller/reconfiguration cost estimate.
 - `results/reference_model.csv`: sequential ISA golden-model outcomes for every benchmark.
 - `results/benchmark_disassembly.txt`: disassembly of the benchmark programs used by the reference model.
@@ -189,10 +225,15 @@ PipeSense-ARM demonstrates a hardware-native adaptive control loop for a small e
 
 - A minimal observer classifies pipeline phases from microarchitectural taps.
 - A hysteretic controller chooses runtime modes rather than relying on software policy.
-- A safe reconfiguration unit bounds switching overhead by draining the pipeline before mode changes.
+- A reconfiguration unit gates fetch and commits mode changes only at the documented safe boundary.
+- Safety monitors and fuzz regressions check retirement tags, fetch gating, safe mode commit, and bounded reconfiguration stalls.
 - Benchmarks expose arithmetic-heavy, branch-heavy, memory-heavy, load-use-heavy, mixed-control, and tiny FIR-like behavior.
 
-The current novelty claim should stay scoped: this is a hardware-control research scaffold that combines known ideas in a small, inspectable pipeline. A stronger paper would need synthesis results, richer workloads, formal safety checks, and real related-work positioning before claiming a new processor technique.
+The current novelty claim should stay scoped: this is a hardware-control
+research scaffold that combines known ideas in a small, inspectable pipeline.
+A stronger paper still needs recognizable workloads, deeper formal proof,
+calibrated timing/power evidence, and tighter literature review before
+claiming a broadly new processor technique.
 
 ## Simplifications
 
@@ -204,8 +245,8 @@ The current novelty claim should stay scoped: this is a hardware-control researc
 - The energy number is an activity proxy, not a physical power estimate.
 - The observer uses threshold logic; no machine learning is implemented.
 - The benchmark suite is synthetic and phase-biased.
-- The hardware-cost script is an analytical estimate, not a synthesis report.
-- Safety monitoring uses simulation-time tags; a minimal synthesized design would replace that with formal properties or remove the tags.
+- The Yosys flow is a generic-cell area proxy when available, not a calibrated physical implementation.
+- Safety monitoring uses simulation-time tags and assertions; a minimal synthesized design would remove the tags or prove equivalent properties formally.
 
 ## Files
 
@@ -215,6 +256,8 @@ tb/      Testbench and benchmark programs
 scripts/ Simulation, CSV analysis, and plotting helpers
 docs/    Research framing and paper-planning documents
 formal/  Optional formal/assertion scaffolding for reconfiguration safety
+verif/   Safety assertion monitors, coverage counters, and fuzz regression tools
+synth/   Yosys generic synthesis scaffold and cell-mapping note
 tests/   Parser fixture used by the artifact checker
 paper/   IEEE-style extended manuscript source and bibliography
 ```
@@ -228,6 +271,7 @@ paper/   IEEE-style extended manuscript source and bibliography
 - Run `python scripts/check_artifact.py` before packaging or sharing the artifact.
 - Confirm no benchmark has `timed_out == 1`.
 - Compare adaptive mode to both `static_normal` and the best fixed mode in `oracle_gap.csv`.
-- Run a small observer-window and residency sweep.
-- Add synthesis results for observer/controller/reconfiguration overhead.
+- Run the window, threshold, and residency sweep with `scripts/run_sweep.py`.
+- Run the constrained-random safety regression with `verif/fuzz_runner.py`.
+- Run the Yosys area proxy with `scripts/synth_area_report.py` or document why the tool is unavailable.
 - Replace TODO citation placeholders with real literature review citations.

@@ -6,6 +6,9 @@ This page summarizes the current validated simulation outputs. The source tables
 - `results/adaptive_improvement.csv`
 - `results/oracle_gap.csv`
 - `results/hardware_cost_estimate.csv`
+- `results/sweep_adaptive_vs_fixed.csv`
+- `results/safety/fuzz_summary.csv`
+- `results/synth/area_summary.csv`
 
 The current HDL run contains 36 benchmark/mode rows, with zero timeouts and zero safety faults. `scripts/compare_reference.py` also matches HDL retired counts and final architectural data-state hashes against the sequential ISA reference model.
 
@@ -39,7 +42,7 @@ Interpretation: adaptive mode is meaningfully better than static normal mode, bu
 
 ## Hardware-cost estimate
 
-`scripts/estimate_hardware_cost.py` reports an analytical estimate only, not synthesis evidence.
+`scripts/estimate_hardware_cost.py` reports an analytical estimate only, not synthesis evidence. `scripts/synth_area_report.py` reports a Yosys generic-cell proxy when Yosys is installed; label that proxy carefully.
 
 | Component | Estimated FF bits | Comparators | Adders | Notes |
 | --- | ---: | ---: | ---: | --- |
@@ -62,6 +65,9 @@ Suggested paper figures:
 - activity-energy proxy by benchmark and mode
 - adaptive gap to best fixed mode
 - sensitivity of adaptive performance to observer window and residency
+- sensitivity of adaptive performance to threshold profile
+- reconfiguration overhead versus cycle benefit
+- fuzz coverage summary for safety interactions
 
 ## Caveats to state
 
@@ -71,15 +77,15 @@ Suggested paper figures:
 - The ISA is ARM-like and educational.
 - The current observer is threshold-based.
 - The best fixed-mode baseline is an oracle over this tiny workload set.
-- Simulation-time safety monitors and architectural hashes increase artifact confidence but are not formal proof.
+- Simulation-time safety monitors, fuzz assertions, and architectural hashes increase artifact confidence but are not formal proof.
 
 ## Stronger claims after future work
 
 Only make stronger claims after adding:
 
 - larger benchmark corpus
-- formal or assertion-based safety checks
-- synthesis estimates for observer/controller overhead
+- machine-checked formal safety proof
+- calibrated synthesis/timing/power evidence for observer/controller overhead
 - comparison against a richer static baseline
 - sensitivity analysis for thresholds and residency settings
 - real related-work citations in place of TODO citation placeholders

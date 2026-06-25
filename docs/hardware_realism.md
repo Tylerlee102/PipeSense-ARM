@@ -32,7 +32,12 @@ PipeSense-ARM is a research prototype, not a production-quality embedded core. T
 
 Use `scripts/estimate_hardware_cost.py` for an analytical first-order estimate. Label it clearly as an estimate.
 
-For a stronger paper, add:
+Use `scripts/synth_area_report.py` for a Yosys generic-cell proxy when Yosys
+is installed. Label it clearly as a proxy, not a calibrated implementation
+result. The cell-mapping caveat is documented in
+`synth/generic_cells.lib_or_note.md`.
+
+For a stronger paper after the generic proxy, add:
 
 - synthesis tool and version
 - target technology or FPGA family

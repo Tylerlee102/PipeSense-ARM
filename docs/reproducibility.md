@@ -32,7 +32,8 @@ If `iverilog` and `vvp` are installed outside PATH, pass them explicitly:
 
 ```bash
 python scripts/run_sim.py --iverilog /path/to/iverilog --vvp /path/to/vvp
-python scripts/sweep_params.py --iverilog /path/to/iverilog --vvp /path/to/vvp
+python scripts/run_sweep.py --iverilog /path/to/iverilog --vvp /path/to/vvp
+python verif/fuzz_runner.py --seeds 500 --iverilog /path/to/iverilog --vvp /path/to/vvp
 ```
 
 On Ubuntu, the simulator install step is:
@@ -55,7 +56,8 @@ The expected primary outputs are:
 - `results/pipesense_results.csv`
 - `results/adaptive_improvement.csv`
 - `results/oracle_gap.csv`
-- `results/sweep_summary.csv` and `results/sweeps/<setting>/...` after parameter sweeps
+- `results/sweep_runs.csv`, `results/sweep_results.csv`, `results/sweep_adaptive_vs_fixed.csv`, and `results/sweeps/<setting>/...` after parameter sweeps
+- `results/safety/fuzz_summary.csv` and `results/safety/fuzz_coverage.csv` after the safety regression
 
 Before using results in a paper, confirm:
 
@@ -73,14 +75,26 @@ sby -f formal/reconfig_unit.sby
 
 This is not yet a complete proof of the whole processor. Treat it as a starting point for the safe-reconfiguration argument.
 
-For synthesis evidence, add a real flow and report:
+For generic synthesis evidence, install Yosys and run:
+
+```bash
+python scripts/synth_area_report.py
+```
+
+Expected output:
+
+- `results/synth/area_summary.csv`
+- `results/synth/*_yosys_stat.txt`
+
+Report:
 
 - tool and version
-- target FPGA or process
-- baseline core registers/LUTs/cells
-- PipeSense observer/controller/reconfiguration overhead
-- timing impact
-- power or toggle-based activity estimate
+- generic-cell mapping note
+- baseline core cell count proxy
+- PipeSense observer/controller/reconfiguration cell count proxy
+- overhead as a percentage of the baseline core
+
+Do not report this as calibrated FPGA/ASIC area, timing, or power.
 
 ## Environment notes
 

@@ -21,7 +21,10 @@ The observer samples minimal pipeline taps and accumulates rolling-window counts
 - frontend stall
 - idle or low utilization
 
-The first implementation uses thresholds instead of machine learning to keep the hardware policy explainable and cheap.
+The first implementation uses parameterized thresholds instead of machine
+learning to keep the hardware policy explainable and cheap. `scripts/run_sim.py`
+can override the observer window and all phase thresholds, and
+`scripts/run_sweep.py` runs tight, medium, and loose threshold profiles.
 
 ## Controller
 
@@ -44,6 +47,11 @@ The reconfiguration unit does not switch modes immediately. It stops new fetches
 
 This models a conservative safe boundary. It may overpay penalty compared with a more aggressive industrial design, but it makes the safety contract clear.
 
+The proof sketch in `docs/safety_proof_sketch.md` defines the safe boundary
+as `pipeline_empty && !mem_wait_signal`. The executable safety monitors in
+`verif/sva_safety.sv` check monotonic retirement tags, safe mode commit,
+fetch gating, stable mode during reconfiguration, and bounded stall time.
+
 ## Experimental matrix
 
 Each benchmark runs in six configurations:
@@ -63,6 +71,13 @@ Benchmarks:
 - load-use hazard-heavy loop
 - mixed embedded-control loop
 - tiny FIR-style loop
+
+The six kernels are the primary mechanism-characterization suite. They are
+synthetic and phase-biased by design. `verif/random_seq_gen.py` and
+`verif/fuzz_runner.py` add constrained-random instruction mixes for safety
+stress, but the project still needs a recognizable Dhrystone-style or
+CoreMark-style subset for stronger workload realism. This limitation is
+tracked in `docs/limitations_and_honesty.md`.
 
 ## Metrics
 
@@ -84,9 +99,19 @@ The testbench reports:
 
 ## Analysis
 
-`scripts/analyze_results.py` parses simulator output and computes adaptive improvement over static normal mode. It also writes `oracle_gap.csv`, which compares adaptive PipeSense against the best fixed mode for each benchmark.
+`scripts/analyze_results.py` parses simulator output and computes adaptive
+improvement over static normal mode. It also writes `oracle_gap.csv`, which
+compares adaptive PipeSense against the best fixed mode for each benchmark.
 
-`scripts/plot_results.py` generates simple plots when matplotlib is installed. `scripts/sweep_params.py` runs a small observer-window and minimum-residency sweep. `scripts/estimate_hardware_cost.py` writes an analytical cost estimate for the observer, controller, reconfiguration unit, and simulation safety monitor.
+`scripts/run_sweep.py` runs a sweep over observer window size, threshold
+profile, and minimum residency. It writes `sweep_adaptive_vs_fixed.csv`, which
+preserves the sweep dimensions and explicitly flags cells where adaptive mode
+does not beat a fixed baseline. `scripts/plot_results.py` generates basic
+comparison plots and sweep visualizations when matplotlib is installed.
+
+`scripts/synth_area_report.py` runs the Yosys generic synthesis scaffold when
+Yosys is available. Its output is a relative generic-cell area proxy, not
+calibrated ASIC area, FPGA utilization, timing, or power.
 
 ## Safety checks
 
@@ -98,6 +123,15 @@ The core exports `safety_faults`, which is incremented when simulation-time moni
 - duplicated or backward-moving retired instruction tags
 
 These monitors are not a substitute for formal verification, but they make the artifact more reviewable because safety claims are connected to executable checks.
+
+Additional safety regression:
+
+```bash
+python verif/fuzz_runner.py --seeds 500
+```
+
+The default seed count is intentionally high for a paper artifact. For a quick
+local smoke test, use `--seeds 5`.
 
 ## Baseline discipline
 

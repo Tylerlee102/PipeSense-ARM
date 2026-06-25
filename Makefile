@@ -1,6 +1,6 @@
 PYTHON ?= python
 
-.PHONY: all sim analyze validate plot sweep cost audit reference compare parity paper-check paper-preview paper-verify check clean
+.PHONY: all sim analyze validate plot sweep safety cost synth audit reference compare parity paper-check paper-preview paper-verify check clean
 
 all: sim plot
 
@@ -17,10 +17,16 @@ plot:
 	$(PYTHON) scripts/plot_results.py
 
 sweep:
-	$(PYTHON) scripts/sweep_params.py
+	$(PYTHON) scripts/run_sweep.py
+
+safety:
+	$(PYTHON) verif/fuzz_runner.py --seeds 500
 
 cost:
 	$(PYTHON) scripts/estimate_hardware_cost.py
+
+synth:
+	$(PYTHON) scripts/synth_area_report.py
 
 reference:
 	$(PYTHON) scripts/isa_reference.py

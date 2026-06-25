@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Audit the repository against the original PipeSense-ARM deliverables."""
+"""Audit the repository against the PipeSense-ARM deliverables."""
 
 from __future__ import annotations
 
@@ -25,14 +25,26 @@ REQUIRED_PATHS = [
     "scripts/run_sim.py",
     "scripts/analyze_results.py",
     "scripts/plot_results.py",
+    "scripts/run_sweep.py",
+    "scripts/synth_area_report.py",
     "scripts/isa_reference.py",
     "scripts/compare_reference.py",
     "scripts/check_benchmark_parity.py",
     "docs/paper_outline.md",
+    "docs/related_work.md",
     "docs/research_gap.md",
     "docs/methodology.md",
+    "docs/safety_proof_sketch.md",
+    "docs/limitations_and_honesty.md",
+    "docs/decisions.md",
     "docs/results_template.md",
     "docs/nsf_grfp_angle.md",
+    "verif/sva_safety.sv",
+    "verif/cov_safety.sv",
+    "verif/random_seq_gen.py",
+    "verif/fuzz_runner.py",
+    "synth/yosys_synth.tcl",
+    "synth/generic_cells.lib_or_note.md",
     "README.md",
     "Makefile",
 ]
@@ -41,6 +53,7 @@ CHECKS = {
     "ISA opcodes": ("rtl/defines.svh", ["OP_ADD", "OP_SUB", "OP_AND", "OP_ORR", "OP_EOR", "OP_LDR", "OP_STR", "OP_B", "OP_CMP", "OP_NOP"]),
     "Pipeline stages": ("README.md", ["IF", "ID", "EX", "MEM", "WB"]),
     "Observer taps": ("rtl/pipeline_observer.sv", ["if_valid", "id_valid", "ex_valid", "mem_valid", "wb_valid", "stall_if", "stall_id", "stall_ex", "flush", "branch_taken", "load_use_hazard", "mem_wait", "instruction_retired", "cycle_count"]),
+    "Observer threshold parameters": ("rtl/arm_like_core.sv", ["OBS_BRANCH_THRESHOLD", "OBS_MEM_STALL_THRESHOLD", "OBS_LOAD_USE_THRESHOLD", "OBS_FRONTEND_STALL_THRESHOLD", "OBS_IDLE_RETIRE_THRESHOLD"]),
     "Phase classes": ("rtl/defines.svh", ["PHASE_BALANCED", "PHASE_BRANCH_HEAVY", "PHASE_MEMORY_STALL", "PHASE_LOAD_USE_HAZARD", "PHASE_FRONTEND_STALL", "PHASE_IDLE_OR_LOW_UTIL"]),
     "Mode classes": ("rtl/defines.svh", ["MODE_NORMAL", "MODE_BRANCH_OPT", "MODE_MEMORY_OPT", "MODE_HAZARD_OPT", "MODE_LOW_POWER"]),
     "Controller hysteresis": ("rtl/adaptive_controller.sv", ["MIN_MODE_RESIDENCY", "PHASE_STABLE_COUNT", "residency_counter", "stable_counter"]),
@@ -49,9 +62,16 @@ CHECKS = {
     "Reference model": ("scripts/isa_reference.py", ["BENCH_ORDER", "run_program", "reference_model.csv", "benchmark_disassembly.txt"]),
     "Reference comparison": ("scripts/compare_reference.py", ["Retired mismatch", "Reference comparison passed"]),
     "Benchmark parity": ("scripts/check_benchmark_parity.py", ["parse_sv_benchmarks", "Benchmark parity check passed"]),
+    "Sweep methodology": ("scripts/run_sweep.py", ["THRESHOLD_PROFILES", "sweep_adaptive_vs_fixed.csv", "adaptive_wins_cycles"]),
+    "Safety assertions": ("verif/sva_safety.sv", ["SVA_I1", "SVA_I2", "SVA_I3", "SVA_I4", "SVA_I5"]),
+    "Safety coverage": ("verif/cov_safety.sv", ["phases_seen_mask", "transitions_seen", "hazard_during_reconfig", "back_to_back_reconfig_requests"]),
+    "Random safety regression": ("verif/fuzz_runner.py", ["--seeds", "fuzz_summary.csv", "fuzz_coverage.csv"]),
+    "Synthesis proxy": ("scripts/synth_area_report.py", ["area_summary.csv", "generic", "Yosys"]),
+    "Related work": ("docs/related_work.md", ["Precise Novelty Claim", "TODO: CITE"]),
+    "Honesty log": ("docs/limitations_and_honesty.md", ["Toy ISA", "Energy Proxy", "Safety Claim"]),
     "Benchmarks": ("tb/benchmark_programs.sv", ["load_arithmetic_heavy", "load_branch_heavy", "load_memory_heavy", "load_load_use_heavy", "load_mixed_control", "load_tiny_fir"]),
     "Baselines": ("tb/tb_pipesense.sv", ["MODE_NORMAL", "MODE_BRANCH_OPT", "MODE_MEMORY_OPT", "MODE_HAZARD_OPT", "MODE_LOW_POWER", "adaptive_pipesense"]),
-    "Research docs": ("README.md", ["not a commercial ARM processor", "combinational", "Research contribution", "Simplifications"]),
+    "Research docs": ("README.md", ["not a commercial ARM processor", "not an ML-based classifier", "Research contribution", "Simplifications"]),
     "NSF framing": ("docs/nsf_grfp_angle.md", ["Intellectual Merit", "Broader Impacts"]),
 }
 

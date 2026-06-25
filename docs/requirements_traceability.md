@@ -9,6 +9,8 @@ This file maps PipeSense-ARM project goals to repository evidence.
 - Simulation and analysis scripts: `scripts/`
 - Research documentation: `docs/`
 - Optional formal scaffold: `formal/`
+- Safety assertions and fuzz regression: `verif/`
+- Generic synthesis scaffold: `synth/`
 - Parser fixture: `tests/fixtures/`
 
 Automated check: `python scripts/audit_requirements.py`
@@ -32,8 +34,9 @@ Evidence:
 
 - `rtl/pipeline_observer.sv`
 - phase definitions in `rtl/defines.svh`
+- threshold parameters in `rtl/arm_like_core.sv`
 
-The observer samples narrow pipeline taps and classifies rolling windows into balanced, branch-heavy, memory-stall, load-use, frontend-stall, and idle/low-utilization phases.
+The observer samples narrow pipeline taps and classifies rolling windows into balanced, branch-heavy, memory-stall, load-use, frontend-stall, and idle/low-utilization phases. Window and threshold settings are parameterized and swept by `scripts/run_sweep.py`.
 
 ## Adaptive controller
 
@@ -50,6 +53,9 @@ Evidence:
 - `rtl/reconfig_unit.sv`
 - `formal/reconfig_safety_properties.sv`
 - `formal/reconfig_unit_formal_harness.sv`
+- `verif/sva_safety.sv`
+- `verif/cov_safety.sv`
+- `docs/safety_proof_sketch.md`
 
 The reconfiguration unit gates fetch, waits for an empty pipeline and no memory wait, switches modes at a safe boundary, and tracks reconfiguration penalty.
 
@@ -72,12 +78,18 @@ Evidence:
 - `scripts/analyze_results.py`
 - `scripts/validate_results.py`
 - `scripts/plot_results.py`
+- `scripts/run_sweep.py`
 - `scripts/sweep_params.py`
 - `scripts/isa_reference.py`
+- `verif/random_seq_gen.py`
+- `verif/fuzz_runner.py`
+- `scripts/synth_area_report.py`
 
-The testbench runs six benchmarks across six configurations and emits parseable `RESULT` lines. Analysis scripts produce CSVs, oracle comparisons, plots, and validation gates.
+The testbench runs six benchmarks across six configurations and emits parseable `RESULT` lines. Analysis scripts produce CSVs, oracle comparisons, plots, and validation gates. The sweep preserves observer-window, threshold-profile, residency, and seed dimensions and flags adaptive non-wins.
 
 The ISA reference model executes the benchmark programs sequentially to provide architectural golden outputs before HDL timing is considered.
+
+The fuzz regression generates constrained-random legal programs and records safety/coverage summaries. The synthesis script runs a Yosys generic-cell proxy when Yosys is available.
 
 ## Documentation
 
@@ -85,8 +97,12 @@ Evidence:
 
 - `README.md`
 - `docs/research_gap.md`
+- `docs/related_work.md`
 - `docs/paper_outline.md`
 - `docs/methodology.md`
+- `docs/safety_proof_sketch.md`
+- `docs/limitations_and_honesty.md`
+- `docs/decisions.md`
 - `docs/results_template.md`
 - `docs/nsf_grfp_angle.md`
 - `docs/reviewer_critique.md`

@@ -1,6 +1,7 @@
 build/
 results/
 output/
+verif/generated/
 __pycache__/
 *.pyc
 *.vvp

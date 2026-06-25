@@ -1,12 +1,16 @@
 # Research Gap
 
-PipeSense-ARM targets the space between static microarchitecture design and software-managed adaptation.
+PipeSense-ARM targets the space between static microarchitecture design and
+software-managed adaptation. This gap statement is bounded by
+`docs/related_work.md`: phase detection, counters, branch handling, memory
+latency mitigation, and low-power control are established ideas. The claim
+here is the integrated, inspectable hardware-control artifact.
 
 ## Common adaptation level
 
 Many adaptive systems operate at the software, firmware, compiler, runtime, operating-system, or DVFS policy level. Those approaches can be powerful, but they often observe behavior indirectly through coarse counters, timer interrupts, or software-visible events. They may also react after a phase has already produced avoidable stalls.
 
-TODO citation: Add references on software runtime adaptation, phase detection, DVFS governors, and adaptive embedded systems.
+See `docs/related_work.md` for the current literature map and citation TODOs.
 
 ## Hardware-resident observer
 
@@ -20,7 +24,10 @@ This prototype places a small observer inside the pipeline. It samples only narr
 - instruction retirement
 - cycle count
 
-The observer does not need full instruction traces or heavyweight profiling support. It keeps rolling-window counters and classifies the current phase with simple threshold logic.
+The observer does not need full instruction traces or heavyweight profiling
+support. It keeps rolling-window counters and classifies the current phase
+with parameterized threshold logic. `scripts/run_sweep.py` varies these
+thresholds so the claim is not tied to one hidden setting.
 
 ## Microarchitecture-aware feedback
 
@@ -36,7 +43,10 @@ The controller closes the loop by requesting modes at runtime:
 - low-power gating
 - normal mode
 
-The reconfiguration unit then enforces a safe boundary before committing the mode. This is the key distinction from a pure measurement design: the hardware both observes and acts.
+The reconfiguration unit then enforces a safe boundary before committing the
+mode. This is the key distinction from a pure measurement design: the hardware
+both observes and acts. The concrete safety predicate and invariant argument
+are in `docs/safety_proof_sketch.md`.
 
 ## Safety and bounded-stall angle
 
@@ -44,8 +54,11 @@ Naive adaptive reconfiguration can lose in-flight instructions, duplicate writeb
 
 - stop new fetches before switching
 - let in-flight instructions drain
-- switch only when the pipeline is empty
+- switch only when the pipeline is empty and no memory wait is active
 - count reconfiguration penalty
 - expose reconfiguration count and penalty in evaluation
+- check assertions and interaction coverage in `verif/`
 
-The prototype is intentionally small, but the safety contract is the part that can scale into a stronger research contribution.
+The prototype is intentionally small, but the safety contract is the part that
+can scale into a stronger research contribution. The current safety evidence
+is executable simulation and assertion scaffolding, not a full formal proof.

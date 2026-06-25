@@ -88,6 +88,11 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--obs-window", type=int, default=None, help="Override observer window size.")
     parser.add_argument("--min-residency", type=int, default=None, help="Override minimum mode residency.")
     parser.add_argument("--data-wait-cycles", type=int, default=None, help="Override synthetic data wait cycles.")
+    parser.add_argument("--branch-threshold", type=int, default=None, help="Override branch-heavy classification threshold.")
+    parser.add_argument("--mem-threshold", type=int, default=None, help="Override memory-stall classification threshold.")
+    parser.add_argument("--load-use-threshold", type=int, default=None, help="Override load-use classification threshold.")
+    parser.add_argument("--frontend-threshold", type=int, default=None, help="Override frontend-stall classification threshold.")
+    parser.add_argument("--idle-threshold", type=int, default=None, help="Override idle/low-retire classification threshold.")
     parser.add_argument("--tag", default="", help="Optional suffix for the simulator log name.")
     parser.add_argument("--iverilog", default=os.environ.get("IVERILOG", ""), help="Path to iverilog executable.")
     parser.add_argument("--vvp", default=os.environ.get("VVP", ""), help="Path to vvp executable.")
@@ -139,6 +144,16 @@ def main() -> int:
         compile_cmd.extend(["-P", f"tb_pipesense.dut.MIN_MODE_RESIDENCY={args.min_residency}"])
     if args.data_wait_cycles is not None:
         compile_cmd.extend(["-P", f"tb_pipesense.dut.DATA_WAIT_CYCLES={args.data_wait_cycles}"])
+    if args.branch_threshold is not None:
+        compile_cmd.extend(["-P", f"tb_pipesense.dut.OBS_BRANCH_THRESHOLD={args.branch_threshold}"])
+    if args.mem_threshold is not None:
+        compile_cmd.extend(["-P", f"tb_pipesense.dut.OBS_MEM_STALL_THRESHOLD={args.mem_threshold}"])
+    if args.load_use_threshold is not None:
+        compile_cmd.extend(["-P", f"tb_pipesense.dut.OBS_LOAD_USE_THRESHOLD={args.load_use_threshold}"])
+    if args.frontend_threshold is not None:
+        compile_cmd.extend(["-P", f"tb_pipesense.dut.OBS_FRONTEND_STALL_THRESHOLD={args.frontend_threshold}"])
+    if args.idle_threshold is not None:
+        compile_cmd.extend(["-P", f"tb_pipesense.dut.OBS_IDLE_RETIRE_THRESHOLD={args.idle_threshold}"])
     compile_cmd.extend(str(source) for source in SOURCES)
     if msys_bash:
         compile_proc = run_msys(msys_bash, compile_cmd, ROOT)

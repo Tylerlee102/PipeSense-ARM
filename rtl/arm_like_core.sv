@@ -7,7 +7,12 @@ module arm_like_core #(
   parameter int PC_WIDTH            = 8,
   parameter int OBS_WINDOW          = 32,
   parameter int DATA_WAIT_CYCLES    = 2,
-  parameter int MIN_MODE_RESIDENCY  = 24
+  parameter int MIN_MODE_RESIDENCY  = 24,
+  parameter int OBS_BRANCH_THRESHOLD = 8,
+  parameter int OBS_MEM_STALL_THRESHOLD = 8,
+  parameter int OBS_LOAD_USE_THRESHOLD = 6,
+  parameter int OBS_FRONTEND_STALL_THRESHOLD = 10,
+  parameter int OBS_IDLE_RETIRE_THRESHOLD = 8
 ) (
   input  logic             clk,
   input  logic             rst_n,
@@ -220,7 +225,12 @@ module arm_like_core #(
   );
 
   pipeline_observer #(
-    .WINDOW_SIZE(OBS_WINDOW)
+    .WINDOW_SIZE(OBS_WINDOW),
+    .BRANCH_THRESHOLD(OBS_BRANCH_THRESHOLD),
+    .MEM_STALL_THRESHOLD(OBS_MEM_STALL_THRESHOLD),
+    .LOAD_USE_THRESHOLD(OBS_LOAD_USE_THRESHOLD),
+    .FRONTEND_STALL_THRESHOLD(OBS_FRONTEND_STALL_THRESHOLD),
+    .IDLE_RETIRE_THRESHOLD(OBS_IDLE_RETIRE_THRESHOLD)
   ) observer (
     .clk(clk),
     .rst_n(rst_n),

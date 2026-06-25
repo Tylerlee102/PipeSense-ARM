@@ -10,9 +10,10 @@ Motivate embedded processors that encounter changing phases: control flow, memor
 
 ## 3. Related Work
 
-Cover adaptive microarchitecture, phase detection, performance counters, dynamic voltage/frequency scaling, branch prediction, memory prefetching, and low-power embedded processors.
-
-TODO citation: Add real references only after literature review.
+Cover adaptive microarchitecture, phase detection, performance counters,
+dynamic voltage/frequency scaling, branch prediction, memory prefetching,
+low-power embedded processors, and assertion-based verification. Use
+`docs/related_work.md` as the source of the novelty boundary.
 
 Be careful not to claim that phase detection, hardware counters, branch optimization, prefetching, or low-power gating are new by themselves. The claim should be about the integrated, minimal, hardware-resident observer/controller/reconfiguration loop in a reviewable educational pipeline.
 
@@ -34,20 +35,23 @@ Describe phase-to-mode mapping, hysteresis, minimum residency, reconfiguration r
 
 ## 8. Safe Reconfiguration
 
-State the safety properties:
+Summarize the invariant sketch in `docs/safety_proof_sketch.md`. State the
+safety properties:
 
 - no instruction lost during mode switching
 - no duplicated writeback
 - bounded switching penalty
 - explicit reconfiguration accounting
 
-Explain the drain-before-switch protocol.
+Explain the drain-before-switch protocol and the concrete safe-boundary
+predicate.
 
 ## 9. Evaluation Methodology
 
 Evaluate arithmetic-heavy, branch-heavy, memory-heavy, load-use-heavy, mixed embedded-control, and tiny FIR-style loops. Compare static normal, fixed branch, fixed memory, fixed hazard, fixed low-power, and adaptive PipeSense modes.
 
-Also include an oracle best-fixed comparison per benchmark.
+Also include an oracle best-fixed comparison per benchmark, a threshold/window
+/residency sweep, and a workload-realism caveat.
 
 Metrics:
 
@@ -71,16 +75,27 @@ Use `results/pipesense_results.csv` and `results/adaptive_improvement.csv`. Pres
 
 Use `results/oracle_gap.csv` to avoid overclaiming. If adaptive improves over normal mode but is far from the best fixed mode, present that as controller-tuning evidence rather than a performance victory.
 
-## 11. Limitations
+Use `results/sweep_adaptive_vs_fixed.csv` to show sensitivity and report
+where adaptive mode does not win.
+
+## 11. Hardware Cost
+
+Report `results/synth/area_summary.csv` if Yosys runs successfully. Label it
+as a generic-cell area proxy. If Yosys is unavailable, use the analytical
+estimate only as a weaker fallback and state that limitation.
+
+## 12. Limitations
 
 The processor is ARM-like, not ARM-compatible. The memory and energy models are synthetic. The branch, hazard, and memory optimizations are simplified research knobs. The observer uses threshold logic and short synthetic benchmarks.
 
-The current artifact does not yet include synthesis results, formal proofs, realistic compiler-generated workloads, cache behavior, interrupts/exceptions, or a calibrated physical energy model.
+The current artifact still does not include a complete formal proof,
+recognizable real benchmark ports, cache behavior, interrupts/exceptions, or a
+calibrated physical energy model.
 
-## 12. Future Work
+## 13. Future Work
 
 Add richer benchmarks, cycle-accurate memory hierarchy behavior, a real branch predictor, formal safety assertions, parameter sweeps, learned classifiers, and synthesis estimates for observer area/power overhead.
 
-## 13. Conclusion
+## 14. Conclusion
 
 Summarize the case for hardware-native adaptive processor control: a small observer can classify pipeline phases, a controller can select targeted modes, and a safe reconfiguration unit can bound the cost of adaptation.
