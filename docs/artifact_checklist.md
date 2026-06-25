@@ -45,6 +45,7 @@ Required before making performance claims:
 - adaptive results are compared against both static normal and best fixed mode
 - `results/sweep_adaptive_vs_fixed.csv` reports non-win cells instead of hiding them
 - `results/safety/fuzz_summary.csv` reports zero assertion failures, zero safety faults, and zero timeouts
+- `results/safety/fuzz_coverage.csv` records the reached interaction buckets; missing buckets should be stated as coverage gaps
 
 ## Synthesis/area proxy
 
@@ -62,10 +63,11 @@ Expected:
 
 ## Optional formal checks
 
-The `formal/` directory contains assertion scaffolding for the reconfiguration unit. With SymbiYosys/Yosys installed, the intended command is:
+The `formal/` directory contains assertion scaffolding for the reconfiguration unit and an abstract instruction-token conservation harness. With SymbiYosys/Yosys installed, the intended commands are:
 
 ```bash
 sby -f formal/reconfig_unit.sby
+sby -f formal/token_conservation.sby
 ```
 
-This is a scaffold, not a completed proof package. Treat failures as design or harness issues to investigate, not as paper-ready formal evidence.
+The token-conservation job proves the abstract token model, not the full RTL core. Treat failures as design or harness issues to investigate, not as paper-ready full-core formal evidence.

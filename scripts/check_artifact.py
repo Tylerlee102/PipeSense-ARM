@@ -64,6 +64,9 @@ REQUIRED_FILES = [
     "formal/reconfig_safety_properties.sv",
     "formal/reconfig_unit_formal_harness.sv",
     "formal/reconfig_unit.sby",
+    "formal/token_conservation_properties.sv",
+    "formal/token_conservation_formal_harness.sv",
+    "formal/token_conservation.sby",
     "verif/sva_safety.sv",
     "verif/cov_safety.sv",
     "verif/random_seq_gen.py",
@@ -198,6 +201,22 @@ def check_synthesis_proxy_contract() -> None:
         fail("Yosys proxy is missing expected modules: " + ", ".join(missing_modules))
 
 
+def check_fuzz_runner_contract() -> None:
+    fuzz_path = ROOT / "verif" / "fuzz_runner.py"
+    text = fuzz_path.read_text(encoding="utf-8")
+    required_terms = [
+        '"ERROR:" in line',
+        '"assertion_failures"',
+        'or row["assertion_failures"] != "0"',
+    ]
+    missing = [term for term in required_terms if term not in text]
+    if missing:
+        fail(
+            "Fuzz runner must count simulator assertion errors and fail on them; missing "
+            + ", ".join(missing)
+        )
+
+
 def run_analyzer_fixture() -> None:
     fixture = ROOT / "tests" / "fixtures" / "sample_sim_output.txt"
     with tempfile.TemporaryDirectory() as temp_dir:
@@ -283,8 +302,8 @@ def run_reference_model_fixture() -> None:
             fail("ISA reference model did not write expected outputs.")
         with csv_path.open(newline="", encoding="utf-8") as f:
             rows = list(csv.DictReader(f))
-        if len(rows) != 6:
-            fail(f"Expected 6 reference-model rows, found {len(rows)}")
+        if len(rows) != 8:
+            fail(f"Expected 8 reference-model rows, found {len(rows)}")
         if any(row["timed_out"] != "False" for row in rows):
             fail("Reference model reported a benchmark timeout.")
         if any(int(row["retired"]) <= 0 for row in rows):
@@ -387,6 +406,7 @@ def main() -> int:
         ("requirements audit", check_requirements_audit),
         ("benchmark parity", check_benchmark_parity),
         ("synthesis proxy contract", check_synthesis_proxy_contract),
+        ("fuzz runner contract", check_fuzz_runner_contract),
         ("analysis fixture", run_analyzer_fixture),
         ("ISA reference model", run_reference_model_fixture),
         ("documentation contract", check_docs_contract),

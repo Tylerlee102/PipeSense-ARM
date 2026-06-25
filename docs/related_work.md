@@ -47,9 +47,22 @@ Assertion-based verification is the right style of evidence for the safety
 claim because the risk is not only performance loss; it is lost instructions,
 duplicated writeback, torn mode state, or unbounded stalls.
 
-[TODO: CITE - find a specific assertion-based verification or formal
-verification paper for dynamically reconfigurable or adaptive processor
-control. This placeholder should not be replaced by a vague citation.]
+SystemVerilog Assertions are part of the IEEE 1800 SystemVerilog standard and
+provide a practical way to express clocked safety properties close to RTL
+signals. Foster, Krolnik, and Lacey's Assertion-Based Design text gives the
+methodological framing: assertions should capture design intent and be usable
+both in simulation and formal contexts. Clarke, Emerson, and Sistla's temporal
+logic model-checking work is the classic formal foundation for finite-state
+property checking, which is directly relevant to bounded pipeline-control
+proofs. For reconfigurable hardware systems specifically, Borgatti et al.
+describe an integrated design and verification methodology for dynamically
+reconfigurable multimedia SoCs that combines formal and semi-formal
+verification techniques.
+
+PipeSense-ARM is more modest than that body of work. It now includes
+simulation-compatible safety monitors and formal scaffolding for drain,
+fetch-gating, mode-commit, and instruction-token conservation properties, but
+it should not claim a complete machine-checked proof of the whole processor.
 
 ## Precise Novelty Claim
 

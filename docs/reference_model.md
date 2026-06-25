@@ -1,6 +1,6 @@
 # ISA Reference Model
 
-`scripts/isa_reference.py` is a sequential golden model for the simplified PipeSense educational ISA. It executes the same six benchmark programs at the architectural level and writes:
+`scripts/isa_reference.py` is a sequential golden model for the simplified PipeSense educational ISA. It executes the same eight benchmark programs at the architectural level and writes:
 
 - `results/reference_model.csv`
 - `results/benchmark_disassembly.txt`

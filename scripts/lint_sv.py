@@ -31,6 +31,8 @@ REQUIRED_MODULES = {
     "tb_pipesense",
     "reconfig_safety_properties",
     "reconfig_unit_formal_harness",
+    "token_conservation_properties",
+    "token_conservation_formal_harness",
     "pipesense_core_sva",
     "pipesense_safety_coverage",
 }

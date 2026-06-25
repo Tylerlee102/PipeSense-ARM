@@ -58,7 +58,9 @@ module tb_pipesense;
         2: bench_name = "memory_heavy";
         3: bench_name = "load_use_heavy";
         4: bench_name = "mixed_control";
-        default: bench_name = "tiny_fir";
+        5: bench_name = "tiny_fir";
+        6: bench_name = "dhrystone_toy";
+        default: bench_name = "coremark_toy";
       endcase
     end
   endfunction
@@ -241,7 +243,7 @@ module tb_pipesense;
 
     repeat (2) @(posedge clk);
 
-    for (int bench = 0; bench < 6; bench++) begin
+    for (int bench = 0; bench < 8; bench++) begin
       run_case(bench, 1'b0, MODE_NORMAL);
       run_case(bench, 1'b0, MODE_BRANCH_OPT);
       run_case(bench, 1'b0, MODE_MEMORY_OPT);

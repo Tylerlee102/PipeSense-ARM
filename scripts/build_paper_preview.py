@@ -385,6 +385,10 @@ def add_references(story: list) -> None:
         "[8] C. Isci and M. Martonosi, Runtime Power Monitoring in High-End Processors, MICRO, 2003.",
         "[9] T. Austin, E. Larson, and D. Ernst, SimpleScalar: An Infrastructure for Computer System Modeling, Computer, 2002.",
         "[10] J. L. Hennessy and D. A. Patterson, Computer Architecture: A Quantitative Approach, 6th ed., 2017.",
+        "[11] IEEE, IEEE Standard for SystemVerilog--Unified Hardware Design, Specification, and Verification Language, IEEE Std 1800-2023, 2023.",
+        "[12] H. D. Foster, A. C. Krolnik, and D. J. Lacey, Assertion-Based Design, Kluwer Academic Publishers, 2004.",
+        "[13] E. M. Clarke, E. A. Emerson, and A. P. Sistla, Automatic Verification of Finite-State Concurrent Systems Using Temporal Logic Specifications, TOPLAS, 1986.",
+        "[14] M. Borgatti et al., An Integrated Design and Verification Methodology for Reconfigurable Multimedia Systems, arXiv:0710.4846, 2007.",
     ]
     story.append(Paragraph("REFERENCES", styles["section"]))
     for ref in refs:

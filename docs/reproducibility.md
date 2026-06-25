@@ -63,17 +63,21 @@ Before using results in a paper, confirm:
 
 - `timed_out == 0` for every row
 - `safety_faults == 0` for every row
+- `assertion_failures == 0` for every fuzz row
 - adaptive mode is compared against both normal mode and best fixed mode
 
 ## Level 3: formal/synthesis evidence
 
-The `formal/` directory contains a starting SymbiYosys harness for the reconfiguration unit:
+The `formal/` directory contains a SymbiYosys harness for the reconfiguration unit and an abstract instruction-token conservation job:
 
 ```bash
 sby -f formal/reconfig_unit.sby
+sby -f formal/token_conservation.sby
 ```
 
-This is not yet a complete proof of the whole processor. Treat it as a starting point for the safe-reconfiguration argument.
+This is not yet a complete proof of the whole processor. Treat the
+reconfiguration job as a unit-level safety scaffold and the token-conservation
+job as a proof over an abstract five-stage token model.
 
 For generic synthesis evidence, install Yosys and run:
 

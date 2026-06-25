@@ -20,12 +20,14 @@ therefore attached to mode commit, not the first request edge.
 
 ## Workload Suite
 
-Decision: keep the six synthetic kernels as the primary characterization
-suite and add a separate constrained-random safety regression.
+Decision: keep six synthetic kernels as mechanism-characterization tests, add
+Dhrystone-style and CoreMark-style toy-ISA ports for recognizability, and keep a
+separate constrained-random safety regression.
 
 Rationale: the synthetic kernels isolate mechanisms cleanly. The random
-regression increases safety stress, but the project still needs recognizable
-embedded workloads for stronger external validity.
+regression increases safety stress. The two toy ports improve external
+readability, but full compiler-generated embedded workloads are still needed for
+stronger external validity.
 
 ## Threshold Classifier
 

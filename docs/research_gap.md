@@ -10,7 +10,7 @@ here is the integrated, inspectable hardware-control artifact.
 
 Many adaptive systems operate at the software, firmware, compiler, runtime, operating-system, or DVFS policy level. Those approaches can be powerful, but they often observe behavior indirectly through coarse counters, timer interrupts, or software-visible events. They may also react after a phase has already produced avoidable stalls.
 
-See `docs/related_work.md` for the current literature map and citation TODOs.
+See `docs/related_work.md` for the current literature map and verification citations.
 
 ## Hardware-resident observer
 

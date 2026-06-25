@@ -71,13 +71,16 @@ Benchmarks:
 - load-use hazard-heavy loop
 - mixed embedded-control loop
 - tiny FIR-style loop
+- Dhrystone-style integer/control toy port
+- CoreMark-style checksum/list-walk toy port
 
-The six kernels are the primary mechanism-characterization suite. They are
-synthetic and phase-biased by design. `verif/random_seq_gen.py` and
+The suite remains small, but it now separates two purposes. The six original
+kernels are synthetic and phase-biased by design. The two toy ports add
+recognizable Dhrystone/CoreMark-style structure without pretending to be full
+benchmark-suite executions. `verif/random_seq_gen.py` and
 `verif/fuzz_runner.py` add constrained-random instruction mixes for safety
-stress, but the project still needs a recognizable Dhrystone-style or
-CoreMark-style subset for stronger workload realism. This limitation is
-tracked in `docs/limitations_and_honesty.md`.
+stress. The remaining workload limitation is the lack of compiler-generated
+embedded programs, tracked in `docs/limitations_and_honesty.md`.
 
 ## Metrics
 
@@ -131,7 +134,11 @@ python verif/fuzz_runner.py --seeds 500
 ```
 
 The default seed count is intentionally high for a paper artifact. For a quick
-local smoke test, use `--seeds 5`.
+local smoke test, use `--seeds 5`. The current 500-seed run produced 2,500
+mode-result rows with zero assertion failures, zero safety faults, and zero
+timeouts. Its coverage counters hit several reconfiguration interaction
+buckets, but did not hit every bucket, so the result should be presented as
+stress evidence rather than exhaustive safety coverage.
 
 ## Baseline discipline
 

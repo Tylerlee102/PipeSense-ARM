@@ -148,7 +148,9 @@ python verif/fuzz_runner.py --seeds 5
 
 The safety regression generates constrained-random legal instruction streams,
 binds the safety monitor and coverage counter modules, and writes pass/fail
-and coverage summaries under `results/safety/`.
+and coverage summaries under `results/safety/`. The current 500-seed local
+run produced 2,500 mode-result rows with zero assertion failures, zero safety
+faults, and zero timeouts.
 
 Generic synthesis/area proxy:
 
@@ -227,13 +229,13 @@ PipeSense-ARM demonstrates a hardware-native adaptive control loop for a small e
 - A hysteretic controller chooses runtime modes rather than relying on software policy.
 - A reconfiguration unit gates fetch and commits mode changes only at the documented safe boundary.
 - Safety monitors and fuzz regressions check retirement tags, fetch gating, safe mode commit, and bounded reconfiguration stalls.
-- Benchmarks expose arithmetic-heavy, branch-heavy, memory-heavy, load-use-heavy, mixed-control, and tiny FIR-like behavior.
+- Benchmarks expose arithmetic-heavy, branch-heavy, memory-heavy, load-use-heavy, mixed-control, tiny FIR-like, Dhrystone-style, and CoreMark-style behavior.
 
 The current novelty claim should stay scoped: this is a hardware-control
 research scaffold that combines known ideas in a small, inspectable pipeline.
-A stronger paper still needs recognizable workloads, deeper formal proof,
-calibrated timing/power evidence, and tighter literature review before
-claiming a broadly new processor technique.
+A stronger paper still needs compiler-generated embedded workloads, deeper
+full-core formal proof, and calibrated timing/power evidence before claiming a
+broadly new processor technique.
 
 ## Simplifications
 
@@ -244,7 +246,7 @@ claiming a broadly new processor technique.
 - The hazard optimization models an extra load-result bypass path.
 - The energy number is an activity proxy, not a physical power estimate.
 - The observer uses threshold logic; no machine learning is implemented.
-- The benchmark suite is synthetic and phase-biased.
+- The benchmark suite is mostly synthetic and phase-biased, with two recognizable toy-ISA ports inspired by Dhrystone and CoreMark.
 - The Yosys flow is a generic-cell area proxy when available, not a calibrated physical implementation.
 - Safety monitoring uses simulation-time tags and assertions; a minimal synthesized design would remove the tags or prove equivalent properties formally.
 
@@ -274,4 +276,4 @@ paper/   IEEE-style extended manuscript source and bibliography
 - Run the window, threshold, and residency sweep with `scripts/run_sweep.py`.
 - Run the constrained-random safety regression with `verif/fuzz_runner.py`.
 - Run the Yosys area proxy with `scripts/synth_area_report.py` or document why the tool is unavailable.
-- Replace TODO citation placeholders with real literature review citations.
+- Keep the related-work citations current as the verification and workload story evolves.

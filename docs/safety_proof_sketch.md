@@ -22,9 +22,14 @@ I1. No duplicate dynamic writeback:
 retired instruction tags are strictly increasing. Therefore, the same dynamic
 instruction cannot retire twice.
 
+I1b. Instruction-token conservation:
+for the abstract five-stage token model, every fetched token is exactly one of
+three states: live in a pipeline stage, retired from writeback, or flushed. No
+token may be counted in more than one state, and no live stages may share a tag.
+
 I2. Safe mode commit:
-`current_mode` changes only when the previous cycle was a safe boundary and
-`reconfig_done` was asserted.
+`current_mode` changes only on a cycle where the safe boundary holds and
+`reconfig_done` is asserted.
 
 I3. Fetch gating during transition:
 when `reconfig_active` is asserted, `reconfig_stop_fetch` is asserted.
@@ -55,8 +60,8 @@ Inductive step with reconfiguration active:
 the reconfiguration unit gates fetch, so no new instruction enters the
 pipeline while the mode transition is pending. In-flight instructions continue
 to drain under the old visible mode. The visible mode is stable until the
-pipeline is empty and no memory wait is active. When the safe boundary holds,
-the reconfiguration unit asserts `reconfig_done` and commits the requested
+pipeline is empty and no memory wait is active. On the cycle where the safe
+boundary holds, the reconfiguration unit asserts `reconfig_done` and commits the requested
 mode. This preserves I2 and I4. Because no new fetch occurs during the drain,
 there is no mixed pre/post-mode instruction stream entering the pipeline,
 which supports I3 and I4.
@@ -66,11 +71,24 @@ which supports I3 and I4.
 `verif/sva_safety.sv` checks:
 
 - I1 with monotonic retirement-tag assertions and duplicate live-stage tag
-  assertions.
+  assertions across all live stage pairs.
 - I2 with the safe-boundary mode-change assertion.
 - I3 with the fetch-gating assertion.
 - I4 with the stable-mode-while-active assertion.
 - I5 with the `RECONFIG_STALL_BOUND` assertion.
+
+`formal/token_conservation_properties.sv` and
+`formal/token_conservation_formal_harness.sv` turn I1b into a bounded formal
+job. The harness abstracts opcode semantics away and symbolically explores
+fetch, stall, flush, and retirement choices. The central assertion is that the
+live-token count plus retired-token count plus flushed-token count equals the
+number of fetched tokens. It also asserts pairwise live-token uniqueness,
+stage-ordering of younger and older tags, and writeback-token retirement.
+Run it with:
+
+```bash
+sby -f formal/token_conservation.sby
+```
 
 `verif/cov_safety.sv` tracks:
 
@@ -90,7 +108,10 @@ cases, all memory-ordering behavior, or equivalence against a commercial ARM
 processor. It assumes the steady-state hazard and forwarding logic is correct
 except where the simulation monitors and ISA reference comparison check it.
 
-The assertion harness is executable evidence, not a complete formal proof.
-A stronger version should model instruction conservation across every stage
-with a formal solver and should prove the reconfiguration protocol for all
-reachable states rather than only simulation traces.
+The assertion harness is executable evidence, not a complete proof of the
+whole processor. The token-conservation formal job proves the abstract token
+model, but it does not yet connect every instruction in the full RTL core to
+that abstraction. A stronger version should bind token-conservation properties
+directly into a reduced formal instance of `arm_like_core` and should prove the
+reconfiguration protocol for all reachable core states rather than only
+simulation traces.

@@ -46,6 +46,6 @@ What remains: Add compiler-generated embedded kernels, random dependency stress 
 
 Weakness: Early-stage architecture papers often blend a proposed mechanism with assumed benefits.
 
-Patch direction: The docs now emphasize what is measured, what is synthetic, and what remains TODO. Results templates include caveats and oracle comparisons.
+Patch direction: The docs now emphasize what is measured, what is synthetic, and what remains future work. Results templates include caveats and oracle comparisons.
 
 What remains: After running simulations, write results in an answer-first style: state where PipeSense helps, where it hurts, and why the overhead is or is not justified.

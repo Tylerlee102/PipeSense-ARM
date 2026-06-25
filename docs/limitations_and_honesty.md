@@ -17,14 +17,16 @@ recovery machinery.
 
 ## Workload Realism
 
-The six primary kernels are synthetic mechanism-characterization tests. They
-are useful because they isolate branch, memory, load-use, mixed-control, and
-low-activity behavior. They are not a publication-standard workload suite by
-themselves.
+The benchmark suite contains six synthetic mechanism-characterization tests and
+two recognizable toy-ISA ports inspired by Dhrystone and CoreMark. The synthetic
+tests isolate branch, memory, load-use, mixed-control, and low-activity
+behavior; the toy ports add integer/control and checksum/list-walk structure.
+They are still not a publication-standard workload suite by themselves.
 
 The random safety generator stresses legal instruction mixtures and hazard
 density, but it is not a replacement for recognizable embedded benchmarks.
-A Dhrystone-style or CoreMark-style subset would be stronger future evidence.
+A compiler-generated embedded benchmark subset would be stronger future
+evidence.
 
 ## Energy Proxy
 
@@ -45,6 +47,8 @@ The simulation monitors and `verif/` assertion harness make the safety story
 reviewable, but they are not a full machine-checked proof of the whole core.
 The current safe boundary is drain-before-switch. It is conservative and may
 overpay performance penalty compared with a more aggressive design.
+The 500-seed constrained-random run is useful stress evidence, not exhaustive
+coverage; any unhit coverage bucket should be reported as such.
 
 ## Baselines
 

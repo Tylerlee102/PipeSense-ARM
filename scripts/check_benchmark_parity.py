@@ -23,6 +23,8 @@ TASK_TO_BENCH = {
     "load_load_use_heavy": "load_use_heavy",
     "load_mixed_control": "mixed_control",
     "load_tiny_fir": "tiny_fir",
+    "load_dhrystone_toy": "dhrystone_toy",
+    "load_coremark_toy": "coremark_toy",
 }
 
 OPCODES = {

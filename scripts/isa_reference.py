@@ -50,6 +50,8 @@ BENCH_ORDER = [
     "load_use_heavy",
     "mixed_control",
     "tiny_fir",
+    "dhrystone_toy",
+    "coremark_toy",
 ]
 
 
@@ -272,6 +274,73 @@ def benchmark_tiny_fir() -> Program:
     return p
 
 
+def benchmark_dhrystone_toy() -> Program:
+    p = Program("dhrystone_toy", 1400)
+    p.load_data(160, 10)
+    p.load_data(161, 1)
+    p.load_data(162, 3)
+    p.load_data(163, 5)
+    p.load_data(164, 0x00FF00FF)
+    p.load_data(165, 0x0F0F0F0F)
+    p.emit(enc_i(OP_LDR, 1, 0, 160))
+    p.emit(enc_i(OP_LDR, 2, 0, 161))
+    p.emit(enc_i(OP_LDR, 3, 0, 162))
+    p.emit(enc_i(OP_LDR, 4, 0, 163))
+    p.emit(enc_i(OP_LDR, 10, 0, 164))
+    p.emit(enc_i(OP_LDR, 11, 0, 165))
+    p.emit(enc_r(OP_ADD, 5, 3, 4))
+    p.emit(enc_r(OP_EOR, 6, 5, 10))
+    p.emit(enc_r(OP_AND, 7, 6, 11))
+    p.emit(enc_r(OP_ORR, 8, 7, 2))
+    p.emit(enc_r(OP_ADD, 3, 8, 4))
+    p.emit(enc_r(OP_SUB, 4, 3, 2))
+    p.emit(enc_i(OP_STR, 4, 0, 170))
+    p.emit(enc_r(OP_SUB, 1, 1, 2))
+    p.emit(enc_r(OP_CMP, 0, 1, 0))
+    p.emit(enc_b(COND_NE, 6))
+    p.emit(enc_halt())
+    return p
+
+
+def benchmark_coremark_toy() -> Program:
+    p = Program("coremark_toy", 1600)
+    p.load_data(180, 12)
+    p.load_data(181, 1)
+    p.load_data(182, 200)
+    p.load_data(183, 0x0000ACE1)
+    for addr, value in [
+        (200, 37),
+        (201, 19),
+        (202, 91),
+        (203, 44),
+        (204, 12),
+        (205, 73),
+        (206, 5),
+        (207, 128),
+        (208, 64),
+        (209, 23),
+        (210, 17),
+        (211, 99),
+    ]:
+        p.load_data(addr, value)
+    p.emit(enc_i(OP_LDR, 1, 0, 180))
+    p.emit(enc_i(OP_LDR, 2, 0, 181))
+    p.emit(enc_i(OP_LDR, 3, 0, 182))
+    p.emit(enc_i(OP_LDR, 4, 0, 183))
+    p.emit(enc_i(OP_LDR, 5, 3, 0))
+    p.emit(enc_r(OP_ADD, 6, 5, 4))
+    p.emit(enc_r(OP_EOR, 4, 6, 1))
+    p.emit(enc_r(OP_AND, 7, 4, 5))
+    p.emit(enc_r(OP_ORR, 4, 4, 7))
+    p.emit(enc_r(OP_ADD, 3, 3, 2))
+    p.emit(enc_r(OP_SUB, 1, 1, 2))
+    p.emit(enc_r(OP_CMP, 0, 1, 0))
+    p.emit(enc_b(COND_NE, 4))
+    p.emit(enc_i(OP_STR, 4, 0, 220))
+    p.emit(enc_halt())
+    return p
+
+
 BENCHMARKS = {
     "arithmetic_heavy": benchmark_arithmetic_heavy,
     "branch_heavy": benchmark_branch_heavy,
@@ -279,6 +348,8 @@ BENCHMARKS = {
     "load_use_heavy": benchmark_load_use_heavy,
     "mixed_control": benchmark_mixed_control,
     "tiny_fir": benchmark_tiny_fir,
+    "dhrystone_toy": benchmark_dhrystone_toy,
+    "coremark_toy": benchmark_coremark_toy,
 }
 
 

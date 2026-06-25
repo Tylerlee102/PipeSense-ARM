@@ -1,0 +1,15 @@
+[options]
+mode prove
+depth 24
+
+[engines]
+smtbmc
+
+[script]
+read_verilog -formal -sv formal/token_conservation_properties.sv
+read_verilog -formal -sv formal/token_conservation_formal_harness.sv
+prep -top token_conservation_formal_harness
+
+[files]
+formal/token_conservation_properties.sv
+formal/token_conservation_formal_harness.sv

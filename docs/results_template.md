@@ -10,7 +10,9 @@ This page summarizes the current validated simulation outputs. The source tables
 - `results/safety/fuzz_summary.csv`
 - `results/synth/area_summary.csv`
 
-The current HDL run contains 36 benchmark/mode rows, with zero timeouts and zero safety faults. `scripts/compare_reference.py` also matches HDL retired counts and final architectural data-state hashes against the sequential ISA reference model.
+The current HDL run contains 48 benchmark/mode rows, with zero timeouts and zero safety faults. `scripts/compare_reference.py` also matches HDL retired counts and final architectural data-state hashes against the sequential ISA reference model.
+
+The constrained-random safety run contains 500 seeds and 2,500 mode-result rows. It reports zero simulator assertion failures, zero safety faults, and zero timeouts. The coverage counters observed the random-harness phase classes encoded by mask `0x1d` and a broad set of mode transitions encoded by mask `0x3adae`, including 141 hazard-during-reconfiguration events, 3,040 back-to-back reconfiguration-request events, and 21 reconfiguration-then-branch events. The current run did not hit the reconfiguration-then-load-use coverage bucket, so coverage should not be described as complete.
 
 ## Adaptive versus normal
 
@@ -18,12 +20,14 @@ The current HDL run contains 36 benchmark/mode rows, with zero timeouts and zero
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
 | arithmetic_heavy | 30 | 30 | 0.00% | 0.00% | 0.00% | 0 | 0 |
 | branch_heavy | 128 | 114 | 10.94% | 12.28% | 6.64% | 1 | 2 |
-| memory_heavy | 231 | 201 | 12.99% | 14.92% | 15.68% | 6 | 28 |
+| coremark_toy | 162 | 162 | 0.00% | 0.00% | 0.00% | 0 | 0 |
+| dhrystone_toy | 133 | 133 | 0.00% | 0.00% | 0.00% | 0 | 0 |
 | load_use_heavy | 205 | 178 | 13.17% | 15.17% | 7.64% | 1 | 4 |
+| memory_heavy | 231 | 201 | 12.99% | 14.92% | 15.68% | 6 | 28 |
 | mixed_control | 131 | 127 | 3.05% | 3.14% | 2.28% | 1 | 4 |
 | tiny_fir | 159 | 160 | -0.63% | -0.62% | 3.17% | 3 | 14 |
 
-Interpretation: the adaptive controller improves over static normal mode on the phase-biased branch, memory, load-use, and mixed-control tests. It does not help arithmetic-heavy code, where normal execution is already close to suitable. On `tiny_fir`, adaptive mode slightly hurts cycles while still lowering the activity-energy proxy; this is useful negative evidence because it shows the controller can pay reconfiguration cost without enough cycle benefit.
+Interpretation: the adaptive controller improves over static normal mode on the phase-biased branch, memory, load-use, and mixed-control tests. It does not help arithmetic-heavy, `dhrystone_toy`, or `coremark_toy`, where the current thresholds do not justify a mode switch. On `tiny_fir`, adaptive mode slightly hurts cycles while still lowering the activity-energy proxy; this is useful negative evidence because it shows the controller can pay reconfiguration cost without enough cycle benefit.
 
 ## Oracle fixed-mode comparison
 
@@ -33,8 +37,10 @@ The oracle comparison asks whether adaptive mode approaches the best single fixe
 | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: |
 | arithmetic_heavy | fixed_hazard | 29 | 30 | -3.45% | 173 | 176 | -1.73% |
 | branch_heavy | fixed_branch | 105 | 114 | -8.57% | 609 | 633 | -3.94% |
-| memory_heavy | fixed_memory | 147 | 201 | -36.73% | 839 | 1038 | -23.72% |
+| coremark_toy | fixed_hazard | 150 | 162 | -8.00% | 927 | 957 | -3.24% |
+| dhrystone_toy | fixed_branch | 124 | 133 | -7.26% | 798 | 825 | -3.38% |
 | load_use_heavy | fixed_hazard | 169 | 178 | -5.33% | 1017 | 1039 | -2.16% |
+| memory_heavy | fixed_memory | 147 | 201 | -36.73% | 839 | 1038 | -23.72% |
 | mixed_control | fixed_memory | 105 | 127 | -20.95% | 617 | 730 | -18.31% |
 | tiny_fir | fixed_memory | 127 | 160 | -25.98% | 739 | 855 | -15.70% |
 
@@ -88,4 +94,4 @@ Only make stronger claims after adding:
 - calibrated synthesis/timing/power evidence for observer/controller overhead
 - comparison against a richer static baseline
 - sensitivity analysis for thresholds and residency settings
-- real related-work citations in place of TODO citation placeholders
+- updated related-work citations for any new verification or workload claims

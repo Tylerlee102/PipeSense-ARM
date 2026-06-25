@@ -42,8 +42,6 @@ module pipesense_core_sva #(
   logic retire_seen;
   pipesense_mode_e mode_at_reconfig_start;
   pipesense_mode_e prev_current_mode;
-  logic prev_safe_boundary;
-  logic prev_reconfig_done;
   logic past_valid;
 
   assign safe_boundary = pipeline_empty && !mem_wait_signal;
@@ -54,8 +52,6 @@ module pipesense_core_sva #(
       retire_seen            <= 1'b0;
       mode_at_reconfig_start <= MODE_NORMAL;
       prev_current_mode      <= MODE_NORMAL;
-      prev_safe_boundary     <= 1'b0;
-      prev_reconfig_done     <= 1'b0;
       past_valid             <= 1'b0;
     end else begin
       if (instruction_retired && retire_seen) begin
@@ -66,16 +62,28 @@ module pipesense_core_sva #(
         assert (if_id_tag != id_ex_tag)
           else $error("SVA_I1_DUPLICATE_TAG_IF_ID_EX");
       end
+      if (if_id_valid && ex_mem_valid) begin
+        assert (if_id_tag != ex_mem_tag)
+          else $error("SVA_I1_DUPLICATE_TAG_IF_ID_MEM");
+      end
+      if (if_id_valid && mem_wb_valid) begin
+        assert (if_id_tag != mem_wb_tag)
+          else $error("SVA_I1_DUPLICATE_TAG_IF_ID_WB");
+      end
       if (id_ex_valid && ex_mem_valid) begin
         assert (id_ex_tag != ex_mem_tag)
           else $error("SVA_I1_DUPLICATE_TAG_ID_EX_MEM");
+      end
+      if (id_ex_valid && mem_wb_valid) begin
+        assert (id_ex_tag != mem_wb_tag)
+          else $error("SVA_I1_DUPLICATE_TAG_ID_EX_WB");
       end
       if (ex_mem_valid && mem_wb_valid) begin
         assert (ex_mem_tag != mem_wb_tag)
           else $error("SVA_I1_DUPLICATE_TAG_EX_MEM_WB");
       end
       if (past_valid && (current_mode != prev_current_mode)) begin
-        assert (prev_safe_boundary && prev_reconfig_done)
+        assert (safe_boundary && reconfig_done)
           else $error("SVA_I2_MODE_CHANGE_OUTSIDE_SAFE_BOUNDARY");
       end
       if (reconfig_active) begin
@@ -94,8 +102,6 @@ module pipesense_core_sva #(
         retire_seen      <= 1'b1;
       end
       prev_current_mode  <= current_mode;
-      prev_safe_boundary <= safe_boundary;
-      prev_reconfig_done <= reconfig_done;
       past_valid         <= 1'b1;
     end
   end

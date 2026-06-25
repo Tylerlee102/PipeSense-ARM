@@ -18,6 +18,8 @@ EXPECTED_BENCHES = {
     "load_use_heavy",
     "mixed_control",
     "tiny_fir",
+    "dhrystone_toy",
+    "coremark_toy",
 }
 
 EXPECTED_MODES = {

@@ -128,7 +128,11 @@ def compile_and_run(
 
 def parse_output(seed: int, text: str, return_code: int) -> tuple[list[dict[str, str]], dict[str, str]]:
     result_rows = [match.groupdict() for match in FUZZ_RE.finditer(text)]
-    assertion_failures = sum(1 for line in text.splitlines() if "SVA_" in line or "SAFETY:" in line)
+    assertion_failures = sum(
+        1
+        for line in text.splitlines()
+        if "ERROR:" in line and ("SVA_" in line or "SAFETY:" in line)
+    )
     for row in result_rows:
         row["return_code"] = str(return_code)
         row["assertion_failures"] = str(assertion_failures)
@@ -246,7 +250,10 @@ def main() -> int:
 
     failed = [
         row for row in all_results
-        if row["return_code"] != "0" or row["safety_faults"] != "0" or row["timed_out"] != "0"
+        if row["return_code"] != "0"
+        or row["safety_faults"] != "0"
+        or row["timed_out"] != "0"
+        or row["assertion_failures"] != "0"
     ]
     print(f"Wrote {RESULTS / 'fuzz_summary.csv'}")
     print(f"Wrote {RESULTS / 'fuzz_coverage.csv'}")

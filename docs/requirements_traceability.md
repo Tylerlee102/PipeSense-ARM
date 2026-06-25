@@ -53,6 +53,8 @@ Evidence:
 - `rtl/reconfig_unit.sv`
 - `formal/reconfig_safety_properties.sv`
 - `formal/reconfig_unit_formal_harness.sv`
+- `formal/token_conservation_properties.sv`
+- `formal/token_conservation_formal_harness.sv`
 - `verif/sva_safety.sv`
 - `verif/cov_safety.sv`
 - `docs/safety_proof_sketch.md`
@@ -85,7 +87,7 @@ Evidence:
 - `verif/fuzz_runner.py`
 - `scripts/synth_area_report.py`
 
-The testbench runs six benchmarks across six configurations and emits parseable `RESULT` lines. Analysis scripts produce CSVs, oracle comparisons, plots, and validation gates. The sweep preserves observer-window, threshold-profile, residency, and seed dimensions and flags adaptive non-wins.
+The testbench runs eight benchmarks across six configurations and emits parseable `RESULT` lines. Analysis scripts produce CSVs, oracle comparisons, plots, and validation gates. The sweep preserves observer-window, threshold-profile, residency, and seed dimensions and flags adaptive non-wins.
 
 The ISA reference model executes the benchmark programs sequentially to provide architectural golden outputs before HDL timing is considered.
 
@@ -111,4 +113,4 @@ Evidence:
 - `docs/reproducibility.md`
 - `docs/artifact_status.md`
 
-The docs keep claims scoped to an ARM-like educational embedded pipeline prototype and use TODO placeholders for citations.
+The docs keep claims scoped to an ARM-like educational embedded pipeline prototype and tie verification-related claims to real citations.
