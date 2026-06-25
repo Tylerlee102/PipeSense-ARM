@@ -25,6 +25,10 @@ REPORTS = {
 }
 
 NUMBER_RE = re.compile(r"^\s*(?P<name>Number of \S+(?: \S+)*)\s*:\s*(?P<value>[0-9]+)")
+COUNT_RE = re.compile(
+    r"^\s*(?P<value>[0-9]+)\s+"
+    r"(?P<name>wires|wire bits|public wires|public wire bits|memories|memory bits|processes|cells)\s*$"
+)
 CELL_RE = re.compile(r"^\s*(?P<cell>\$_?[A-Za-z0-9_]+)\s+(?P<count>[0-9]+)\s*$")
 
 
@@ -79,6 +83,11 @@ def parse_report(path: Path) -> dict[str, int]:
         if number:
             key = number.group("name").lower().replace(" ", "_")
             metrics[key] = int(number.group("value"))
+            continue
+        count = COUNT_RE.match(line)
+        if count:
+            key = "number_of_" + count.group("name").lower().replace(" ", "_")
+            metrics[key] = int(count.group("value"))
             continue
         cell = CELL_RE.match(line)
         if cell:

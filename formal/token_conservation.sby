@@ -6,8 +6,8 @@ depth 24
 smtbmc
 
 [script]
-read_verilog -formal -sv formal/token_conservation_properties.sv
-read_verilog -formal -sv formal/token_conservation_formal_harness.sv
+read_verilog -formal -sv token_conservation_properties.sv
+read_verilog -formal -sv token_conservation_formal_harness.sv
 prep -top token_conservation_formal_harness
 
 [files]
