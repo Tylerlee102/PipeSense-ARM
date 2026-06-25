@@ -178,6 +178,7 @@ def check_synthesis_proxy_contract() -> None:
         "read_verilog -sv rtl/",
         "rtl/hazard_unit.sv",
         "rtl/arm_like_core.sv",
+        "shell mkdir",
     ]
     found_forbidden = [term for term in forbidden_terms if term in tcl]
     if found_forbidden:

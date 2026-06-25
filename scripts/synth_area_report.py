@@ -39,6 +39,7 @@ def validate_synth_script() -> None:
         "read_verilog -sv rtl/",
         "rtl/hazard_unit.sv",
         "rtl/arm_like_core.sv",
+        "shell mkdir",
     ]
     found_forbidden = [term for term in forbidden_terms if term in tcl]
     if found_forbidden:
@@ -165,7 +166,7 @@ def main() -> int:
             print(stdout)
             print(f"Yosys failed; partial log written to {RESULTS / 'yosys_stdout.txt'}")
             write_yosys_failure_summary(stdout)
-            return 0
+            return 1
 
     rows: list[dict[str, str]] = []
     baseline_cells = 0

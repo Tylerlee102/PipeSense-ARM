@@ -10,8 +10,6 @@
 # The generated numbers are therefore a generic-cell proxy, not full RTL
 # synthesis evidence.
 
-shell mkdir -p results/synth
-
 design -reset
 read_verilog synth/yosys_area_proxy.v
 hierarchy -check -top arm_like_core
