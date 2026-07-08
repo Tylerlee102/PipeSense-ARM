@@ -28,7 +28,7 @@ Weakness: The memory wait model is synthetic, branch optimization is an early-re
 
 Patch direction: Added `scripts/estimate_hardware_cost.py` and `docs/hardware_realism.md` so the prototype separates analytical cost estimates from synthesis claims.
 
-Cycle 2 status: Ran `scripts/synth_area_report.py` with local Yosys. `results/synth/area_summary.csv` reports 1,830 cells for the baseline core proxy and 3,087 standalone cells for the observer, controller, and reconfiguration modules combined, or 168.69% of the baseline core proxy.
+Cycle 2 status: Ran `scripts/synth_area_report.py` with local Yosys. `results/synth/area_summary.csv` reports 1,830 cells for the baseline core proxy and 2,819 standalone cells for the observer, controller, and reconfiguration modules combined, or 154.04% of the baseline core proxy.
 
 What remains: Add calibrated timing/power estimates and replace the synthetic memory model with a parameterized cache or scratchpad model.
 

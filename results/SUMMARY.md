@@ -27,7 +27,8 @@ reported Icarus Verilog 12.0 and Yosys 0.33.
 ## Headline Numbers
 
 All numbers below are copied from generated CSV files under `results/` after
-the fresh run. Raw CSV and log files are intentionally not committed.
+the fresh run. Raw CSV, log, build, preview, and formal-result artifacts are
+now committed on `main` at user request.
 
 - Main simulation: 10 benchmarks x 6 modes = 60 rows.
 - Simulation safety faults: 0.

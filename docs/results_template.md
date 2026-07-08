@@ -69,15 +69,15 @@ The corrected 3x3x3 sweep is not flat. All 27 settings complete with 60 rows, bu
 
 ## Hardware-cost evidence
 
-`scripts/estimate_hardware_cost.py` reports an analytical estimate only, not synthesis evidence. `scripts/synth_area_report.py` now reports a Yosys generic-cell proxy; label that proxy carefully. The current proxy run reports 1,830 cells for the baseline core proxy and 3,087 standalone cells for the observer, controller, and reconfiguration modules combined, or 168.69% of the baseline core proxy. This is not calibrated FPGA/ASIC area, timing, or power.
+`scripts/estimate_hardware_cost.py` reports an analytical estimate only, not synthesis evidence. `scripts/synth_area_report.py` now reports a Yosys generic-cell proxy; label that proxy carefully. The current proxy run reports 1,830 cells for the baseline core proxy and 2,819 standalone cells for the observer, controller, and reconfiguration modules combined, or 154.04% of the baseline core proxy. This is not calibrated FPGA/ASIC area, timing, or power.
 
 | Component | Generic cells | Overhead versus core proxy |
 | --- | ---: | ---: |
 | baseline core proxy | 1,830 | 100.00% |
-| pipeline_observer | 2,390 | 130.60% |
-| adaptive_controller | 122 | 6.67% |
+| pipeline_observer | 2,128 | 116.28% |
+| adaptive_controller | 116 | 6.34% |
 | reconfig_unit | 575 | 31.42% |
-| observer/controller/reconfig sum | 3,087 | 168.69% |
+| observer/controller/reconfig sum | 2,819 | 154.04% |
 
 ## Figures
 

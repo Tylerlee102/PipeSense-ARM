@@ -122,8 +122,8 @@ full-adaptive run.
 
 `scripts/synth_area_report.py` runs the Yosys generic synthesis scaffold. Its
 current output is a relative generic-cell area proxy: 1,830 baseline core
-proxy cells and 3,087 standalone observer/controller/reconfiguration proxy
-cells, or 168.69% of the baseline core proxy. It is not calibrated ASIC area,
+proxy cells and 2,819 standalone observer/controller/reconfiguration proxy
+cells, or 154.04% of the baseline core proxy. It is not calibrated ASIC area,
 FPGA utilization, timing, or power.
 
 ## Safety checks

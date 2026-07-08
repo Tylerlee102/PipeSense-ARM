@@ -162,8 +162,8 @@ python scripts/synth_area_report.py
 ```
 
 This requires Yosys. The current local run reports 1,830 cells for the
-baseline core proxy and 3,087 standalone cells for the observer, controller,
-and reconfiguration modules combined, or 168.69% of the baseline core proxy.
+baseline core proxy and 2,819 standalone cells for the observer, controller,
+and reconfiguration modules combined, or 154.04% of the baseline core proxy.
 The output is a relative generic-cell area proxy, not calibrated ASIC area,
 FPGA utilization, timing, or power.
 
@@ -268,7 +268,7 @@ formal/  Optional formal/assertion scaffolding for reconfiguration safety
 verif/   Safety assertion monitors, coverage counters, and fuzz regression tools
 synth/   Yosys generic synthesis scaffold and cell-mapping note
 tests/   Parser fixture used by the artifact checker
-paper/   IEEE-style extended manuscript source and bibliography
+paper/   IEEE-style six-page workshop manuscript source and bibliography
 ```
 
 ## Research Readiness Checklist

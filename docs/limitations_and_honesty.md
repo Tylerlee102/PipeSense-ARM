@@ -40,7 +40,7 @@ synthesis and power flow is added.
 
 The lightweight claim requires evidence. The repository now includes a Yosys
 generic-cell proxy and an analytical estimator. The current proxy reports
-1,830 cells for the baseline core proxy and 3,087 standalone cells for the
+1,830 cells for the baseline core proxy and 2,819 standalone cells for the
 observer, controller, and reconfiguration modules combined. This is stronger
 than a placeholder, but it is still not calibrated timing, power, FPGA
 utilization, or physical area evidence.

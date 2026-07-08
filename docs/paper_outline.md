@@ -84,8 +84,8 @@ where adaptive mode does not win.
 ## 11. Hardware Cost
 
 Report `results/synth/area_summary.csv` as a generic-cell area proxy. The
-current run reports 1,830 baseline core proxy cells and 3,087 standalone
-observer/controller/reconfiguration proxy cells, or 168.69% of the baseline
+current run reports 1,830 baseline core proxy cells and 2,819 standalone
+observer/controller/reconfiguration proxy cells, or 154.04% of the baseline
 core proxy. Keep the analytical estimate only as secondary documentation.
 
 ## 12. Limitations
