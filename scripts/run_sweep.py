@@ -233,6 +233,20 @@ def write_csv(path: Path, rows: list[dict[str, str]], preferred_fields: list[str
         writer.writerows(rows)
 
 
+def snapshot_generated_tables() -> dict[str, bytes]:
+    snapshot: dict[str, bytes] = {}
+    for table in GENERATED_TABLES:
+        path = RESULTS / table
+        if path.exists():
+            snapshot[table] = path.read_bytes()
+    return snapshot
+
+
+def restore_generated_tables(snapshot: dict[str, bytes]) -> None:
+    for table, contents in snapshot.items():
+        (RESULTS / table).write_bytes(contents)
+
+
 def write_tool_missing_note(iverilog: str, vvp: str) -> None:
     RESULTS.mkdir(parents=True, exist_ok=True)
     note = RESULTS / "sweep_tool_unavailable.md"
@@ -264,6 +278,7 @@ def main() -> int:
         print(f"Unknown threshold profiles: {', '.join(unknown)}")
         return 1
 
+    generated_table_snapshot = snapshot_generated_tables()
     run_rows: list[dict[str, str]] = []
     all_results: list[dict[str, str]] = []
     configs = list(itertools.product(windows, residencies, profiles, seeds))
@@ -321,6 +336,7 @@ def main() -> int:
         "bench",
         "baseline_mode",
     ])
+    restore_generated_tables(generated_table_snapshot)
 
     losing = [row for row in comparisons if row["adaptive_wins_cycles"] != "True"]
     print(f"Wrote {SWEEP_RUNS_CSV}")

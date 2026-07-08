@@ -139,6 +139,43 @@ def check_ablation_table(tex: str) -> None:
             fail(f"Ablation table does not match CSV for {row['ablation']}")
 
 
+def check_area_table(tex: str) -> None:
+    path = RESULTS / "synth" / "area_summary.csv"
+    if not path.exists():
+        print("WARN area_summary.csv not found; skipped area-data check")
+        return
+    rows = {row["module"]: row for row in load_csv(path)}
+    compact_tex = compact(tex)
+    core = rows.get("arm_like_core")
+    total = rows.get("observer_controller_reconfig_total")
+    if not core:
+        fail("Area CSV missing arm_like_core row")
+    if not total:
+        fail("Area CSV missing observer_controller_reconfig_total row")
+    expected_core = f"baseline core proxy & {core['number_of_cells']} & 100.00\\%"
+    baseline_cells = float(core["number_of_cells"])
+    module_expectations = []
+    for module in ["pipeline_observer", "adaptive_controller", "reconfig_unit"]:
+        row = rows.get(module)
+        if not row:
+            fail(f"Area CSV missing {module} row")
+        pct = (float(row["number_of_cells"]) / baseline_cells) * 100.0
+        module_expectations.append(
+            f"{latex_name(module)} & {row['number_of_cells']} & {pct:.2f}\\%"
+        )
+    expected_total = (
+        "observer/controller/reconfig sum & "
+        f"{total['number_of_cells']} & {total['overhead_vs_core_pct']}\\%"
+    )
+    if compact(expected_core) not in compact_tex:
+        fail("Area table does not match CSV for arm_like_core")
+    for expected in module_expectations:
+        if compact(expected) not in compact_tex:
+            fail(f"Area table does not match CSV for {expected.split(' & ', 1)[0]}")
+    if compact(expected_total) not in compact_tex:
+        fail("Area table does not match CSV for observer/controller/reconfig sum")
+
+
 def main() -> int:
     tex, bib = check_files()
     check_no_placeholders(tex)
@@ -148,6 +185,7 @@ def main() -> int:
     check_adaptive_table(tex)
     check_oracle_table(tex)
     check_ablation_table(tex)
+    check_area_table(tex)
     print("Paper draft checks passed.")
     return 0
 

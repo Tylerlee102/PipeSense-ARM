@@ -235,7 +235,7 @@ zero\_cost\_reconfig & 1426 & -4.87\% & 8508 & 17 & 0 \\
 \end{tabular}
 \end{table}
 
-Table~\ref{tab:cost} reports the current Yosys generic-cell area proxy. The baseline core proxy contains 1,830 generic cells. Synthesizing the observer, controller, and reconfiguration modules as standalone proxy modules gives 3,087 generic cells, or 168.69\% of the baseline core proxy. These are not synthesis results for the full SystemVerilog RTL, and they are not calibrated to an FPGA family, standard-cell library, timing target, or power model.
+Table~\ref{tab:cost} reports the current Yosys generic-cell area proxy. The baseline core proxy contains 1,830 generic cells. Synthesizing the observer, controller, and reconfiguration modules as standalone proxy modules gives 2,819 generic cells, or 154.04\% of the baseline core proxy. These are not synthesis results for the full SystemVerilog RTL, and they are not calibrated to an FPGA family, standard-cell library, timing target, or power model.
 
 \begin{table}[t]
 \centering
@@ -247,10 +247,10 @@ Table~\ref{tab:cost} reports the current Yosys generic-cell area proxy. The base
 Component & Cells & Overhead \\
 \hline
 baseline core proxy & 1830 & 100.00\% \\
-pipeline\_observer & 2390 & 130.60\% \\
-adaptive\_controller & 122 & 6.67\% \\
+pipeline\_observer & 2128 & 116.28\% \\
+adaptive\_controller & 116 & 6.34\% \\
 reconfig\_unit & 575 & 31.42\% \\
-observer/controller/reconfig sum & 3087 & 168.69\% \\
+observer/controller/reconfig sum & 2819 & 154.04\% \\
 \hline
 \end{tabular}
 \end{table}

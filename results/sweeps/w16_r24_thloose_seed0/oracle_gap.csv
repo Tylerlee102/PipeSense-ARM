@@ -1,0 +1,11 @@
+bench,best_fixed_mode,best_fixed_cycles,adaptive_cycles,adaptive_gap_to_best_fixed_pct,best_fixed_energy,adaptive_energy,adaptive_energy_gap_to_best_fixed_pct,adaptive_safety_faults,adaptive_timed_out
+arithmetic_heavy,fixed_hazard,29,30,-3.45,173,176,-1.73,0,0
+branch_heavy,fixed_branch,105,128,-21.90,609,678,-11.33,0,0
+coremark_toy,fixed_hazard,150,162,-8.00,927,957,-3.24,0,0
+dhrystone_toy,fixed_branch,124,133,-7.26,798,825,-3.38,0,0
+dsp_fir_codegen,fixed_hazard,168,192,-14.29,1046,1106,-5.74,0,0
+load_use_heavy,fixed_hazard,169,205,-21.30,1017,1125,-10.62,0,0
+memory_heavy,fixed_memory,147,231,-57.14,839,1231,-46.72,0,0
+mixed_control,fixed_memory,105,131,-24.76,617,747,-21.07,0,0
+pid_control_codegen,fixed_memory,178,192,-7.87,1080,1144,-5.93,0,0
+tiny_fir,fixed_memory,127,159,-25.20,739,883,-19.49,0,0
