@@ -44,7 +44,7 @@ Evidence:
 
 - `rtl/adaptive_controller.sv`
 
-The controller maps phases to modes, uses stable-phase hysteresis, uses minimum mode residency, and emits reconfiguration requests.
+The controller maps phases to modes, uses stable-phase hysteresis, uses mode-specific minimum residency thresholds, and emits reconfiguration requests.
 
 ## Reconfiguration unit
 
@@ -87,7 +87,7 @@ Evidence:
 - `verif/fuzz_runner.py`
 - `scripts/synth_area_report.py`
 
-The testbench runs ten benchmarks across six configurations and emits parseable `RESULT` lines. Analysis scripts produce CSVs, oracle comparisons, plots, and validation gates. The sweep preserves observer-window, threshold-profile, residency, and seed dimensions and flags adaptive non-wins.
+The testbench runs 13 benchmarks across six configurations and emits parseable `RESULT` lines. Analysis scripts produce CSVs, oracle comparisons, plots, and validation gates. The sweep preserves observer-window, threshold-profile, residency, and seed dimensions and flags adaptive non-wins.
 
 The ISA reference model executes the benchmark programs sequentially to provide architectural golden outputs before HDL timing is considered.
 

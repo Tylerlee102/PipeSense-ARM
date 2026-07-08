@@ -36,10 +36,13 @@ memory stall       -> MODE_MEMORY_OPT
 load-use hazard    -> MODE_HAZARD_OPT
 frontend stall     -> MODE_BRANCH_OPT
 idle/low-util      -> MODE_LOW_POWER
-balanced           -> MODE_NORMAL
+balanced           -> keep current mode
 ```
 
-It applies hysteresis through a stable-phase counter and a minimum mode residency counter.
+It applies hysteresis through a stable-phase counter and mode-specific minimum
+residency requirements. Memory mode can enter faster than branch, hazard,
+low-power, or normal modes because memory stalls dominate the short benchmark
+suite.
 
 ## Reconfiguration safety
 
@@ -75,12 +78,16 @@ Benchmarks:
 - CoreMark-style checksum/list-walk toy port
 - generated-style FIR stream loop
 - generated-style PID-control loop
+- long FIR stress loop
+- PID phase stress loop
+- randomized memory-latency stress loop
 
 The suite remains small, but it now separates two purposes. The six original
 kernels are synthetic and phase-biased by design. The two toy ports add
-recognizable Dhrystone/CoreMark-style structure, and the two generated-style
-kernels add DSP/control instruction streams without pretending to be full
-benchmark-suite executions. `verif/random_seq_gen.py` and
+recognizable Dhrystone/CoreMark-style structure, the generated-style kernels add
+DSP/control instruction streams, and the three longer stress workloads reduce
+overfitting to tiny loops without pretending to be full benchmark-suite
+executions. `verif/random_seq_gen.py` and
 `verif/fuzz_runner.py` add constrained-random instruction mixes for safety
 stress. The remaining workload limitation is the lack of full compiler-generated
 embedded benchmark ports, tracked in `docs/limitations_and_honesty.md`.
@@ -122,8 +129,9 @@ full-adaptive run.
 
 `scripts/synth_area_report.py` runs the Yosys generic synthesis scaffold. Its
 current output is a relative generic-cell area proxy: 1,830 baseline core
-proxy cells and 2,819 standalone observer/controller/reconfiguration proxy
-cells, or 154.04% of the baseline core proxy. It is not calibrated ASIC area,
+proxy cells, 2,885 standalone observer/controller/reconfiguration proxy cells
+(157.65% of the baseline core proxy), and a 4,850-cell integrated proxy
+(165.03% delta over the baseline core proxy). It is not calibrated ASIC area,
 FPGA utilization, timing, or power.
 
 ## Safety checks

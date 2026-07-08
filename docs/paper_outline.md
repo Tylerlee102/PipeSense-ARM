@@ -48,7 +48,7 @@ predicate.
 
 ## 9. Evaluation Methodology
 
-Evaluate arithmetic-heavy, branch-heavy, memory-heavy, load-use-heavy, mixed embedded-control, and tiny FIR-style loops. Compare static normal, fixed branch, fixed memory, fixed hazard, fixed low-power, and adaptive PipeSense modes.
+Evaluate arithmetic-heavy, branch-heavy, memory-heavy, load-use-heavy, mixed embedded-control, tiny FIR-style, Dhrystone-style, CoreMark-style, generated DSP/control, long FIR stress, PID phase stress, and randomized memory-latency stress loops. Compare static normal, fixed branch, fixed memory, fixed hazard, fixed low-power, and adaptive PipeSense modes.
 
 Also include an oracle best-fixed comparison per benchmark, a threshold/window
 /residency sweep, and a workload-realism caveat.
@@ -84,9 +84,11 @@ where adaptive mode does not win.
 ## 11. Hardware Cost
 
 Report `results/synth/area_summary.csv` as a generic-cell area proxy. The
-current run reports 1,830 baseline core proxy cells and 2,819 standalone
-observer/controller/reconfiguration proxy cells, or 154.04% of the baseline
-core proxy. Keep the analytical estimate only as secondary documentation.
+current run reports 1,830 baseline core proxy cells and 2,885 standalone
+observer/controller/reconfiguration proxy cells, or 157.65% of the baseline
+core proxy, plus a 4,850-cell integrated proxy with a 165.03% delta over the
+baseline core proxy. Keep the analytical estimate only as secondary
+documentation.
 
 ## 12. Limitations
 

@@ -3,9 +3,12 @@ arithmetic_heavy,fixed_hazard,29,30,-3.45,173,176,-1.73,0,0
 branch_heavy,fixed_branch,105,119,-13.33,609,646,-6.08,0,0
 coremark_toy,fixed_hazard,150,162,-8.00,927,957,-3.24,0,0
 dhrystone_toy,fixed_branch,124,133,-7.26,798,825,-3.38,0,0
-dsp_fir_codegen,fixed_hazard,168,196,-16.67,1046,1103,-5.45,0,0
+dsp_fir_codegen,fixed_hazard,168,177,-5.36,1046,1064,-1.72,0,0
 load_use_heavy,fixed_hazard,169,193,-14.20,1017,1079,-6.10,0,0
-memory_heavy,fixed_memory,147,197,-34.01,839,1040,-23.96,0,0
+long_fir_stress,fixed_memory,778,801,-2.96,4656,4748,-1.98,0,0
+memory_heavy,fixed_memory,147,168,-14.29,839,929,-10.73,0,0
 mixed_control,fixed_memory,105,131,-24.76,617,725,-17.50,0,0
-pid_control_codegen,fixed_memory,178,196,-10.11,1080,1140,-5.56,0,0
+pid_control_codegen,fixed_memory,178,187,-5.06,1080,1112,-2.96,0,0
+pid_phase_stress,fixed_memory,611,653,-6.87,3775,3965,-5.03,0,0
+random_mem_latency_stress,fixed_memory,189,210,-11.11,1109,1194,-7.66,0,0
 tiny_fir,fixed_memory,127,161,-26.77,739,869,-17.59,0,0

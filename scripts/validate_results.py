@@ -22,6 +22,9 @@ EXPECTED_BENCHES = {
     "coremark_toy",
     "dsp_fir_codegen",
     "pid_control_codegen",
+    "long_fir_stress",
+    "pid_phase_stress",
+    "random_mem_latency_stress",
 }
 
 EXPECTED_MODES = {

@@ -22,6 +22,7 @@ REPORTS = {
     "pipeline_observer": RESULTS / "pipeline_observer_yosys_stat.txt",
     "adaptive_controller": RESULTS / "adaptive_controller_yosys_stat.txt",
     "reconfig_unit": RESULTS / "reconfig_unit_yosys_stat.txt",
+    "pipesense_integrated_core": RESULTS / "pipesense_integrated_core_yosys_stat.txt",
 }
 
 NUMBER_RE = re.compile(r"^\s*(?P<name>Number of \S+(?: \S+)*)\s*:\s*(?P<value>[0-9]+)")
@@ -201,6 +202,17 @@ def main() -> int:
                 "status": "parsed" if report.exists() else "missing_report",
             }
         )
+
+    for row in rows:
+        if row["module"] == "arm_like_core":
+            row["overhead_vs_core_pct"] = "100.00"
+            continue
+        cells = float(row["number_of_cells"])
+        if row["module"] == "pipesense_integrated_core":
+            row["overhead_vs_core_pct"] = f"{(((cells - baseline_cells) / baseline_cells) * 100.0) if baseline_cells else 0.0:.2f}"
+            row["status"] = "integrated_proxy" if row["status"] == "parsed" else row["status"]
+        else:
+            row["overhead_vs_core_pct"] = f"{((cells / baseline_cells) * 100.0) if baseline_cells else 0.0:.2f}"
 
     addition_cells = sum(parsed[module].get("number_of_cells", 0) for module in [
         "pipeline_observer",

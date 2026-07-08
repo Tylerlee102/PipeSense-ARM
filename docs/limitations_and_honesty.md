@@ -18,12 +18,13 @@ recovery machinery.
 ## Workload Realism
 
 The benchmark suite contains six synthetic mechanism-characterization tests,
-two recognizable toy-ISA ports inspired by Dhrystone and CoreMark, and two
-generated-style DSP/control instruction streams. The synthetic tests isolate
-branch, memory, load-use, mixed-control, and low-activity behavior; the toy
-ports add integer/control and checksum/list-walk structure; the generated-style
-kernels add FIR and PID-like loop structure. They are still not a
-publication-standard workload suite by themselves.
+two recognizable toy-ISA ports inspired by Dhrystone and CoreMark, two
+generated-style DSP/control instruction streams, and three longer stress
+workloads. The synthetic tests isolate branch, memory, load-use, mixed-control,
+and low-activity behavior; the toy ports add integer/control and
+checksum/list-walk structure; the generated-style kernels add FIR and PID-like
+loop structure; and the stress workloads reduce overfitting to tiny loops. They
+are still not a publication-standard workload suite by themselves.
 
 The random safety generator stresses legal instruction mixtures and hazard
 density, but it is not a replacement for recognizable embedded benchmarks.
@@ -40,10 +41,10 @@ synthesis and power flow is added.
 
 The lightweight claim requires evidence. The repository now includes a Yosys
 generic-cell proxy and an analytical estimator. The current proxy reports
-1,830 cells for the baseline core proxy and 2,819 standalone cells for the
-observer, controller, and reconfiguration modules combined. This is stronger
-than a placeholder, but it is still not calibrated timing, power, FPGA
-utilization, or physical area evidence.
+1,830 cells for the baseline core proxy, 2,885 standalone cells for the
+observer, controller, and reconfiguration modules combined, and 4,850 cells for
+the integrated proxy. This is stronger than a placeholder, but it is still not
+calibrated timing, power, FPGA utilization, or physical area evidence.
 
 ## Safety Claim
 

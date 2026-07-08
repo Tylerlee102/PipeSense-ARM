@@ -2,6 +2,6 @@ FUZZ_RESULT seed=439 mode=static_normal cycles=126 retired=79 stalls=33 flushes=
 FUZZ_RESULT seed=439 mode=fixed_branch cycles=121 retired=79 stalls=33 flushes=5 mem_wait=16 load_use=13 reconfigs=0 reconfig_penalty=0 energy=713 safety_faults=0 timed_out=0
 FUZZ_RESULT seed=439 mode=fixed_memory cycles=110 retired=79 stalls=17 flushes=10 mem_wait=0 load_use=11 reconfigs=0 reconfig_penalty=0 energy=661 safety_faults=0 timed_out=0
 FUZZ_RESULT seed=439 mode=fixed_hazard cycles=115 retired=79 stalls=22 flushes=10 mem_wait=16 load_use=0 reconfigs=0 reconfig_penalty=0 energy=708 safety_faults=0 timed_out=0
-FUZZ_RESULT seed=439 mode=adaptive_pipesense cycles=144 retired=79 stalls=51 flushes=10 mem_wait=16 load_use=11 reconfigs=4 reconfig_penalty=16 energy=767 safety_faults=0 timed_out=0
-FUZZ_COVERAGE seed=439 phases_seen=0x00000019 transitions_seen=0x00008102 hazard_during_reconfig=0 back_to_back_reconfig_requests=20 reconfig_then_branch=0 reconfig_then_load_use=0
-/workspace/verif/generated/tb_random_seed_439.sv:291: $finish called at 6375000 (1ps)
+FUZZ_RESULT seed=439 mode=adaptive_pipesense cycles=132 retired=79 stalls=39 flushes=10 mem_wait=16 load_use=9 reconfigs=2 reconfig_penalty=8 energy=743 safety_faults=0 timed_out=0
+FUZZ_COVERAGE seed=439 phases_seen=0x00000019 transitions_seen=0x00000102 hazard_during_reconfig=0 back_to_back_reconfig_requests=10 reconfig_then_branch=0 reconfig_then_load_use=0
+/repo/verif/generated/tb_random_seed_439.sv:291: $finish called at 6255000 (1ps)

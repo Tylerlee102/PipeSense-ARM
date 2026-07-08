@@ -6,14 +6,13 @@ This page summarizes the current validated simulation outputs. The source tables
 - `results/adaptive_improvement.csv`
 - `results/oracle_gap.csv`
 - `results/ablation_summary.csv`
-- `results/hardware_cost_estimate.csv`
 - `results/sweep_adaptive_vs_fixed.csv`
 - `results/safety/fuzz_summary.csv`
 - `results/synth/area_summary.csv`
 
-The current HDL run contains 60 benchmark/mode rows, with zero timeouts and zero safety faults. `scripts/compare_reference.py` also matches HDL retired counts and final architectural data-state hashes against the sequential ISA reference model.
+The current HDL run contains 78 benchmark/mode rows, with zero timeouts and zero safety faults. `scripts/compare_reference.py` matches HDL retired counts and final architectural data-state hashes against the sequential ISA reference model.
 
-The constrained-random safety run contains 500 seeds and 2,500 mode-result rows. It reports zero simulator assertion failures, zero safety faults, and zero timeouts. The coverage counters observed the random-harness phase classes encoded by mask `0x1d` and a broad set of mode transitions encoded by mask `0x3adae`, including 141 hazard-during-reconfiguration events, 3,040 back-to-back reconfiguration-request events, and 21 reconfiguration-then-branch events. The current run did not hit the reconfiguration-then-load-use coverage bucket, so coverage should not be described as complete.
+The constrained-random safety run contains 500 seeds and 2,500 mode-result rows. It reports zero simulator assertion failures, zero safety faults, and zero timeouts. Coverage should be described as stress evidence, not exhaustive proof.
 
 ## Adaptive versus normal
 
@@ -25,12 +24,15 @@ The constrained-random safety run contains 500 seeds and 2,500 mode-result rows.
 | dhrystone_toy | 133 | 133 | 0.00% | 0.00% | 0.00% | 0 | 0 |
 | dsp_fir_codegen | 192 | 194 | -1.04% | -1.03% | 0.36% | 2 | 8 |
 | load_use_heavy | 205 | 178 | 13.17% | 15.17% | 7.64% | 1 | 4 |
-| memory_heavy | 231 | 201 | 12.99% | 14.92% | 15.68% | 6 | 28 |
+| long_fir_stress | 876 | 792 | 9.59% | 10.62% | 7.63% | 1 | 4 |
+| memory_heavy | 231 | 162 | 29.87% | 42.60% | 26.81% | 1 | 3 |
 | mixed_control | 131 | 127 | 3.05% | 3.14% | 2.28% | 1 | 4 |
-| pid_control_codegen | 192 | 200 | -4.17% | -3.99% | -0.79% | 3 | 13 |
-| tiny_fir | 159 | 160 | -0.63% | -0.62% | 3.17% | 3 | 14 |
+| pid_control_codegen | 192 | 188 | 2.08% | 2.13% | 1.49% | 1 | 4 |
+| pid_phase_stress | 653 | 620 | 5.05% | 5.32% | 2.62% | 1 | 4 |
+| random_mem_latency_stress | 215 | 204 | 5.12% | 5.39% | 5.05% | 1 | 4 |
+| tiny_fir | 159 | 152 | 4.40% | 4.61% | 6.00% | 2 | 10 |
 
-Interpretation: the adaptive controller improves over static normal mode on the phase-biased branch, memory, load-use, and mixed-control tests. It does not help arithmetic-heavy, `dhrystone_toy`, or `coremark_toy`, where the current thresholds do not justify a mode switch. On `tiny_fir`, `dsp_fir_codegen`, and `pid_control_codegen`, adaptive mode increases cycles; the PID-style kernel also increases the activity-energy proxy. These negative cases show that the controller can pay reconfiguration cost without enough useful phase residency.
+Interpretation: adaptive mode improves 9 of 13 workloads, ties 3, and slows `dsp_fir_codegen` by 1.04%. Aggregate static-normal execution takes 3,307 cycles; adaptive execution takes 3,056 cycles, a 7.59% total cycle reduction. Total activity-energy proxy falls from 19,162 to 18,055, a 5.78% reduction.
 
 ## Oracle fixed-mode comparison
 
@@ -44,44 +46,48 @@ The oracle comparison asks whether adaptive mode approaches the best single fixe
 | dhrystone_toy | fixed_branch | 124 | 133 | -7.26% | 798 | 825 | -3.38% |
 | dsp_fir_codegen | fixed_hazard | 168 | 194 | -15.48% | 1046 | 1102 | -5.35% |
 | load_use_heavy | fixed_hazard | 169 | 178 | -5.33% | 1017 | 1039 | -2.16% |
-| memory_heavy | fixed_memory | 147 | 201 | -36.73% | 839 | 1038 | -23.72% |
+| long_fir_stress | fixed_memory | 778 | 792 | -1.80% | 4656 | 4709 | -1.14% |
+| memory_heavy | fixed_memory | 147 | 162 | -10.20% | 839 | 901 | -7.39% |
 | mixed_control | fixed_memory | 105 | 127 | -20.95% | 617 | 730 | -18.31% |
-| pid_control_codegen | fixed_memory | 178 | 200 | -12.36% | 1080 | 1153 | -6.76% |
-| tiny_fir | fixed_memory | 127 | 160 | -25.98% | 739 | 855 | -15.70% |
+| pid_control_codegen | fixed_memory | 178 | 188 | -5.62% | 1080 | 1127 | -4.35% |
+| pid_phase_stress | fixed_memory | 611 | 620 | -1.47% | 3775 | 3861 | -2.28% |
+| random_mem_latency_stress | fixed_memory | 189 | 204 | -7.94% | 1109 | 1165 | -5.05% |
+| tiny_fir | fixed_memory | 127 | 152 | -19.69% | 739 | 830 | -12.31% |
 
-Interpretation: adaptive mode is meaningfully better than static normal mode, but it does not beat the best fixed-mode oracle. This should be framed as an early hardware-control prototype result, not as a final performance win. The largest gaps occur when memory mitigation dominates and the observer/controller does not move into, or stay in, memory-optimized mode early enough.
+Interpretation: adaptive mode is better than static normal mode in aggregate, but it does not beat the best fixed-mode oracle. The average adaptive gap is -8.90% in cycles and -5.43% in the activity-energy proxy.
 
 ## Ablation summary
 
-The ablation summary compares aggregate adaptive-mode behavior against the full adaptive default, which totals 1,499 cycles over the ten benchmarks.
+The ablation summary compares aggregate adaptive-mode behavior against the full adaptive default, which totals 3,056 cycles over the 13 workloads.
 
 | Ablation | Total adaptive cycles | Cycle change vs full | Total adaptive energy | Reconfigs | Reconfig penalty | Safety faults | Timeouts |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| observer_disabled | 1,563 | 4.27% | 8,872 | 0 | 0 | 0 | 0 |
-| controller_disabled | 1,563 | 4.27% | 8,872 | 0 | 0 | 0 | 0 |
-| zero_cost_reconfig | 1,426 | -4.87% | 8,508 | 17 | 0 | 0 | 0 |
+| observer_disabled | 3,307 | 8.21% | 19,162 | 0 | 0 | 0 | 0 |
+| controller_disabled | 3,307 | 8.21% | 19,162 | 0 | 0 | 0 | 0 |
+| zero_cost_reconfig | 3,009 | -1.54% | 18,055 | 12 | 0 | 0 | 0 |
 
 Interpretation: disabling either the observer or controller removes all adaptive switching and matches static-normal aggregate behavior. The zero-cost row is an analytical idealization computed from the validated full-adaptive run by subtracting reconfiguration penalty cycles; it is not an unsafe instant-switch RTL run.
 
 ## Sweep sensitivity
 
-The corrected 3x3x3 sweep is not flat. All 27 settings complete with 60 rows, but aggregate adaptive cycles range from 1,477 cycles with a 64-cycle observer window and loose thresholds to 1,670 cycles with a 16-cycle window, 8-cycle residency, and tight thresholds. The sweep records 318 adaptive cycle wins and 1,032 non-wins across adaptive-versus-fixed comparison cells.
+The corrected 3x3x3 sweep completes all 27 settings with 78 rows per setting, for 2,106 result rows. It records adaptive-versus-fixed comparison cells, including non-wins, rather than filtering to favorable cases.
 
 ## Hardware-cost evidence
 
-`scripts/estimate_hardware_cost.py` reports an analytical estimate only, not synthesis evidence. `scripts/synth_area_report.py` now reports a Yosys generic-cell proxy; label that proxy carefully. The current proxy run reports 1,830 cells for the baseline core proxy and 2,819 standalone cells for the observer, controller, and reconfiguration modules combined, or 154.04% of the baseline core proxy. This is not calibrated FPGA/ASIC area, timing, or power.
+`scripts/synth_area_report.py` reports a Yosys generic-cell proxy. Label that proxy carefully. This is not calibrated FPGA/ASIC area, timing, or power.
 
 | Component | Generic cells | Overhead versus core proxy |
 | --- | ---: | ---: |
 | baseline core proxy | 1,830 | 100.00% |
 | pipeline_observer | 2,128 | 116.28% |
-| adaptive_controller | 116 | 6.34% |
+| adaptive_controller | 182 | 9.95% |
 | reconfig_unit | 575 | 31.42% |
-| observer/controller/reconfig sum | 2,819 | 154.04% |
+| integrated core proxy | 4,850 | 165.03% |
+| observer/controller/reconfig sum | 2,885 | 157.65% |
 
 ## Figures
 
-`scripts/plot_results.py` generates PNG plots when `matplotlib` is installed. In the current local environment, `matplotlib` is not installed, so the script wrote `results/plot_results.txt` as a text fallback.
+`scripts/plot_results.py` generates PNG plots when `matplotlib` is installed.
 
 Suggested paper figures:
 
@@ -101,10 +107,10 @@ Suggested paper figures:
 
 - The memory wait model is deterministic and synthetic.
 - The energy metric is an activity proxy.
-- Benchmarks are microbenchmarks, not full embedded applications.
+- Benchmarks are toy-ISA kernels and stress workloads, not full embedded applications.
 - The ISA is ARM-like and educational.
 - The current observer is threshold-based.
-- The best fixed-mode baseline is an oracle over this tiny workload set.
+- The best fixed-mode baseline is an oracle over this workload set.
 - Simulation-time safety monitors, fuzz assertions, and architectural hashes increase artifact confidence but are not formal proof.
 - The Yosys numbers are a generic-cell proxy, not calibrated implementation evidence.
 
@@ -112,8 +118,8 @@ Suggested paper figures:
 
 Only make stronger claims after adding:
 
-- larger benchmark corpus
-- machine-checked formal safety proof
+- larger compiler-generated benchmark corpus
+- machine-checked formal safety proof bound into the full core
 - calibrated timing/power evidence for observer/controller overhead
 - comparison against a richer static baseline
 - sensitivity analysis for thresholds and residency settings

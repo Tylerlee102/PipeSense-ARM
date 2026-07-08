@@ -53,3 +53,14 @@ opt
 techmap
 opt
 tee -o results/synth/reconfig_unit_yosys_stat.txt stat
+
+design -reset
+read_verilog synth/yosys_area_proxy.v
+hierarchy -check -top pipesense_integrated_core
+proc
+opt
+memory
+opt
+techmap
+opt
+tee -o results/synth/pipesense_integrated_core_yosys_stat.txt stat

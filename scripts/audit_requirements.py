@@ -79,7 +79,7 @@ CHECKS = {
     "Synthesis proxy": ("synth/generic_cells.lib_or_note.md", ["yosys_area_proxy.v", "generic-cell", "full RTL synthesis"]),
     "Related work": ("docs/related_work.md", ["Precise Novelty Claim", "IEEE 1800", "Assertion-Based Design", "reconfigurable multimedia SoCs"]),
     "Honesty log": ("docs/limitations_and_honesty.md", ["Toy ISA", "Energy Proxy", "Safety Claim"]),
-    "Benchmarks": ("tb/benchmark_programs.sv", ["load_arithmetic_heavy", "load_branch_heavy", "load_memory_heavy", "load_load_use_heavy", "load_mixed_control", "load_tiny_fir", "load_dhrystone_toy", "load_coremark_toy", "load_dsp_fir_codegen", "load_pid_control_codegen"]),
+    "Benchmarks": ("tb/benchmark_programs.sv", ["load_arithmetic_heavy", "load_branch_heavy", "load_memory_heavy", "load_load_use_heavy", "load_mixed_control", "load_tiny_fir", "load_dhrystone_toy", "load_coremark_toy", "load_dsp_fir_codegen", "load_pid_control_codegen", "load_long_fir_stress", "load_pid_phase_stress", "load_random_mem_latency_stress"]),
     "Baselines": ("tb/tb_pipesense.sv", ["MODE_NORMAL", "MODE_BRANCH_OPT", "MODE_MEMORY_OPT", "MODE_HAZARD_OPT", "MODE_LOW_POWER", "adaptive_pipesense"]),
     "Research docs": ("README.md", ["not a commercial ARM processor", "not an ML-based classifier", "Research contribution", "Simplifications"]),
     "NSF framing": ("docs/nsf_grfp_angle.md", ["Intellectual Merit", "Broader Impacts"]),

@@ -480,6 +480,151 @@ task automatic load_pid_control_codegen(output int max_cycles);
   end
 endtask
 
+task automatic load_long_fir_stress(output int max_cycles);
+  int p;
+  begin
+    max_cycles = 6000;
+    p = 0;
+    dut.load_data(30, 32'd48);
+    dut.load_data(31, 32'd1);
+    dut.load_data(32, 32'd64);
+    dut.load_data(33, 32'd144);
+    dut.load_data(34, 32'h000000ff);
+    dut.load_instr(p, enc_i(OP_LDR, 4'd1, 4'd0, 16'd30));
+    p++;
+    dut.load_instr(p, enc_i(OP_LDR, 4'd2, 4'd0, 16'd31));
+    p++;
+    dut.load_instr(p, enc_i(OP_LDR, 4'd3, 4'd0, 16'd32));
+    p++;
+    dut.load_instr(p, enc_i(OP_LDR, 4'd11, 4'd0, 16'd33));
+    p++;
+    dut.load_instr(p, enc_i(OP_LDR, 4'd10, 4'd0, 16'd34));
+    p++;
+    dut.load_instr(p, enc_i(OP_LDR, 4'd4, 4'd3, 16'd3));
+    p++;
+    dut.load_instr(p, enc_i(OP_LDR, 4'd5, 4'd3, 16'd7));
+    p++;
+    dut.load_instr(p, enc_r(OP_ADD, 4'd6, 4'd4, 4'd5));
+    p++;
+    dut.load_instr(p, enc_i(OP_LDR, 4'd7, 4'd3, 16'd11));
+    p++;
+    dut.load_instr(p, enc_r(OP_ADD, 4'd6, 4'd6, 4'd7));
+    p++;
+    dut.load_instr(p, enc_r(OP_EOR, 4'd8, 4'd6, 4'd10));
+    p++;
+    dut.load_instr(p, enc_i(OP_STR, 4'd8, 4'd11, 16'd3));
+    p++;
+    dut.load_instr(p, enc_r(OP_ADD, 4'd3, 4'd3, 4'd2));
+    p++;
+    dut.load_instr(p, enc_r(OP_ADD, 4'd11, 4'd11, 4'd2));
+    p++;
+    dut.load_instr(p, enc_r(OP_SUB, 4'd1, 4'd1, 4'd2));
+    p++;
+    dut.load_instr(p, enc_r(OP_CMP, 4'd0, 4'd1, 4'd0));
+    p++;
+    dut.load_instr(p, enc_b(COND_NE, 16'd5));
+    p++;
+    dut.load_instr(p, enc_halt());
+    p++;
+  end
+endtask
+
+task automatic load_pid_phase_stress(output int max_cycles);
+  int p;
+  begin
+    max_cycles = 6000;
+    p = 0;
+    dut.load_data(40, 32'd40);
+    dut.load_data(41, 32'd1);
+    dut.load_data(42, 32'd100);
+    dut.load_data(43, 32'd80);
+    dut.load_data(44, 32'd180);
+    dut.load_data(45, 32'h000000ff);
+    dut.load_instr(p, enc_i(OP_LDR, 4'd1, 4'd0, 16'd40));
+    p++;
+    dut.load_instr(p, enc_i(OP_LDR, 4'd2, 4'd0, 16'd41));
+    p++;
+    dut.load_instr(p, enc_i(OP_LDR, 4'd3, 4'd0, 16'd42));
+    p++;
+    dut.load_instr(p, enc_i(OP_LDR, 4'd4, 4'd0, 16'd43));
+    p++;
+    dut.load_instr(p, enc_i(OP_LDR, 4'd11, 4'd0, 16'd44));
+    p++;
+    dut.load_instr(p, enc_i(OP_LDR, 4'd10, 4'd0, 16'd45));
+    p++;
+    dut.load_instr(p, enc_i(OP_LDR, 4'd5, 4'd4, 16'd3));
+    p++;
+    dut.load_instr(p, enc_r(OP_SUB, 4'd6, 4'd3, 4'd5));
+    p++;
+    dut.load_instr(p, enc_r(OP_ADD, 4'd7, 4'd7, 4'd6));
+    p++;
+    dut.load_instr(p, enc_r(OP_ADD, 4'd8, 4'd6, 4'd7));
+    p++;
+    dut.load_instr(p, enc_r(OP_EOR, 4'd8, 4'd8, 4'd10));
+    p++;
+    dut.load_instr(p, enc_r(OP_AND, 4'd8, 4'd8, 4'd10));
+    p++;
+    dut.load_instr(p, enc_i(OP_STR, 4'd8, 4'd11, 16'd3));
+    p++;
+    dut.load_instr(p, enc_r(OP_ADD, 4'd4, 4'd4, 4'd2));
+    p++;
+    dut.load_instr(p, enc_r(OP_ADD, 4'd11, 4'd11, 4'd2));
+    p++;
+    dut.load_instr(p, enc_r(OP_SUB, 4'd1, 4'd1, 4'd2));
+    p++;
+    dut.load_instr(p, enc_r(OP_CMP, 4'd0, 4'd1, 4'd0));
+    p++;
+    dut.load_instr(p, enc_b(COND_NE, 16'd6));
+    p++;
+    dut.load_instr(p, enc_halt());
+    p++;
+  end
+endtask
+
+task automatic load_random_mem_latency_stress(output int max_cycles);
+  int p;
+  begin
+    max_cycles = 6000;
+    p = 0;
+    dut.load_data(50, 32'd36);
+    dut.load_data(51, 32'd3);
+    dut.load_data(52, 32'd16);
+    dut.load_data(53, 32'd140);
+    dut.load_instr(p, enc_i(OP_LDR, 4'd1, 4'd0, 16'd50));
+    p++;
+    dut.load_instr(p, enc_i(OP_LDR, 4'd2, 4'd0, 16'd51));
+    p++;
+    dut.load_instr(p, enc_i(OP_LDR, 4'd3, 4'd0, 16'd52));
+    p++;
+    dut.load_instr(p, enc_i(OP_LDR, 4'd11, 4'd0, 16'd53));
+    p++;
+    dut.load_instr(p, enc_i(OP_LDR, 4'd4, 4'd3, 16'd3));
+    p++;
+    dut.load_instr(p, enc_i(OP_LDR, 4'd5, 4'd3, 16'd11));
+    p++;
+    dut.load_instr(p, enc_r(OP_EOR, 4'd6, 4'd4, 4'd5));
+    p++;
+    dut.load_instr(p, enc_i(OP_LDR, 4'd7, 4'd3, 16'd19));
+    p++;
+    dut.load_instr(p, enc_r(OP_ADD, 4'd6, 4'd6, 4'd7));
+    p++;
+    dut.load_instr(p, enc_i(OP_STR, 4'd6, 4'd11, 16'd7));
+    p++;
+    dut.load_instr(p, enc_r(OP_ADD, 4'd3, 4'd3, 4'd2));
+    p++;
+    dut.load_instr(p, enc_r(OP_ADD, 4'd11, 4'd11, 4'd2));
+    p++;
+    dut.load_instr(p, enc_r(OP_SUB, 4'd1, 4'd1, 4'd2));
+    p++;
+    dut.load_instr(p, enc_r(OP_CMP, 4'd0, 4'd1, 4'd0));
+    p++;
+    dut.load_instr(p, enc_b(COND_NE, 16'd4));
+    p++;
+    dut.load_instr(p, enc_halt());
+    p++;
+  end
+endtask
+
 task automatic load_benchmark(input int bench_id, output int max_cycles);
   begin
     case (bench_id)
@@ -492,7 +637,10 @@ task automatic load_benchmark(input int bench_id, output int max_cycles);
       6: load_dhrystone_toy(max_cycles);
       7: load_coremark_toy(max_cycles);
       8: load_dsp_fir_codegen(max_cycles);
-      default: load_pid_control_codegen(max_cycles);
+      9: load_pid_control_codegen(max_cycles);
+      10: load_long_fir_stress(max_cycles);
+      11: load_pid_phase_stress(max_cycles);
+      default: load_random_mem_latency_stress(max_cycles);
     endcase
   end
 endtask

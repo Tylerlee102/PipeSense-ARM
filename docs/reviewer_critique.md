@@ -28,7 +28,7 @@ Weakness: The memory wait model is synthetic, branch optimization is an early-re
 
 Patch direction: Added `scripts/estimate_hardware_cost.py` and `docs/hardware_realism.md` so the prototype separates analytical cost estimates from synthesis claims.
 
-Cycle 2 status: Ran `scripts/synth_area_report.py` with local Yosys. `results/synth/area_summary.csv` reports 1,830 cells for the baseline core proxy and 2,819 standalone cells for the observer, controller, and reconfiguration modules combined, or 154.04% of the baseline core proxy.
+Cycle 7 status: Ran `scripts/synth_area_report.py` with local Yosys after adding an integrated proxy top module. `results/synth/area_summary.csv` reports 1,830 cells for the baseline core proxy, 2,885 standalone cells for the observer, controller, and reconfiguration modules combined (157.65% of baseline), and 4,850 cells for the integrated proxy (165.03% delta over baseline).
 
 What remains: Add calibrated timing/power estimates and replace the synthetic memory model with a parameterized cache or scratchpad model.
 
@@ -48,9 +48,9 @@ Weakness: The benchmarks are hand-written microbenchmarks. They demonstrate phas
 
 Patch direction: Added a sensitivity-sweep script for observer window size and minimum residency.
 
-Cycle 3 status: Added two generated-style benchmark streams, `dsp_fir_codegen` and `pid_control_codegen`, to both `tb/benchmark_programs.sv` and `scripts/isa_reference.py`. `scripts/check_benchmark_parity.py` passes, `scripts/run_sim.py` now reports `SUMMARY total_cases=60 failed_cases=0`, `scripts/validate_results.py` passes, `scripts/compare_reference.py` passes, and `scripts/run_sweep.py` completes all 27 settings with 60 rows per setting. `results/oracle_gap.csv` includes both new workloads. Adaptive mode loses on both: `dsp_fir_codegen` takes 194 cycles versus a 168-cycle fixed-hazard oracle (-15.48%), and `pid_control_codegen` takes 200 cycles versus a 178-cycle fixed-memory oracle (-12.36%). These losses are preserved in the paper and support the claim that the current controller is conservative and phase-residency limited.
+Cycle 7 status: Added three longer stress workloads, `long_fir_stress`, `pid_phase_stress`, and `random_mem_latency_stress`, to both `tb/benchmark_programs.sv` and `scripts/isa_reference.py`. `scripts/check_benchmark_parity.py` passes, `scripts/run_sim.py` reports `SUMMARY total_cases=78 failed_cases=0`, `scripts/validate_results.py` passes, `scripts/compare_reference.py` passes, and `scripts/run_sweep.py` covers all 27 settings with 78 rows per setting. Adaptive mode now improves 9 of 13 workloads, ties 3, and preserves the negative `dsp_fir_codegen` row at -1.04% cycles versus static normal.
 
-Cycle 4 status: Added `scripts/run_ablations.py`, compile-time observer/controller disable hooks, `results/ablation_summary.csv`, and an ablation table in the paper. Observer-disabled and controller-disabled runs each pass full HDL/reference validation and total 1,563 adaptive cycles with zero reconfigurations. The zero-reconfiguration-penalty row is an analytical headroom estimate from the validated full-adaptive run: 1,426 cycles, 17 reconfiguration events, and zero counted penalty. A failed instant-switch experiment changed the `dsp_fir_codegen` architectural hash, so it was not used as paper evidence.
+Cycle 7 status: `scripts/run_ablations.py` passes on the 13-workload set. Observer-disabled and controller-disabled runs each pass full HDL/reference validation and total 3,307 adaptive cycles with zero reconfigurations. The zero-reconfiguration-penalty row is an analytical headroom estimate from the validated full-adaptive run: 3,009 cycles, 12 reconfiguration events, and zero counted penalty.
 
 What remains: Add full compiler-generated embedded benchmark ports, random dependency stress tests, branch traces, and memory latency distributions.
 
@@ -60,6 +60,6 @@ Weakness: Early-stage architecture papers often blend a proposed mechanism with 
 
 Patch direction: The docs now emphasize what is measured, what is synthetic, and what remains future work. Results templates include caveats and oracle comparisons.
 
-Cycle 6 status: Completed a writing/readiness pass after the benchmark, ablation, related-work, and sweep updates. The paper now states the claim boundary in one sentence, keeps negative adaptive/oracle results, labels activity energy and Yosys area as proxies, and distinguishes simulation monitors plus bounded abstract proof from full formal verification. A human-facing scan found no AI/tooling provenance language in README, docs, or paper text. `scripts/check_paper.py` passes, and `scripts/verify_paper_preview.py` verifies an exactly 6-page rendered preview.
+Cycle 7 status: Completed a URTC-readiness pass after the controller-v2, workload, synthesis, CI, and paper updates. The paper states the claim boundary, keeps negative adaptive/oracle results, labels activity energy and Yosys area as proxies, and distinguishes simulation monitors plus bounded abstract proof from full formal verification. `scripts/check_paper.py` passes, and `scripts/verify_paper_preview.py` verifies an exactly 5-page rendered preview.
 
-What remains: For a final submission, replace placeholder author metadata, confirm the current MIT URTC page limit and template, and add any required institutional formatting before upload.
+What remains: For a final submission, confirm the preferred author metadata, current MIT URTC template, and any required institutional formatting before upload.

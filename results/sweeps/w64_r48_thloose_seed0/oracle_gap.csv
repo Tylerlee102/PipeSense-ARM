@@ -5,7 +5,10 @@ coremark_toy,fixed_hazard,150,162,-8.00,927,957,-3.24,0,0
 dhrystone_toy,fixed_branch,124,133,-7.26,798,825,-3.38,0,0
 dsp_fir_codegen,fixed_hazard,168,182,-8.33,1046,1077,-2.96,0,0
 load_use_heavy,fixed_hazard,169,186,-10.06,1017,1063,-4.52,0,0
-memory_heavy,fixed_memory,147,198,-34.69,839,1066,-27.06,0,0
+long_fir_stress,fixed_memory,778,828,-6.43,4656,4956,-6.44,0,0
+memory_heavy,fixed_memory,147,174,-18.37,839,957,-14.06,0,0
 mixed_control,fixed_memory,105,122,-16.19,617,693,-12.32,0,0
 pid_control_codegen,fixed_memory,178,188,-5.62,1080,1127,-4.35,0,0
-tiny_fir,fixed_memory,127,154,-21.26,739,834,-12.86,0,0
+pid_phase_stress,fixed_memory,611,622,-1.80,3775,3867,-2.44,0,0
+random_mem_latency_stress,fixed_memory,189,204,-7.94,1109,1197,-7.94,0,0
+tiny_fir,fixed_memory,127,145,-14.17,739,806,-9.07,0,0

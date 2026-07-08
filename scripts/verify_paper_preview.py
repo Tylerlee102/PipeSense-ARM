@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Verify the generated 6-page paper preview PDF."""
+"""Verify the generated 5-page paper preview PDF."""
 
 from __future__ import annotations
 
@@ -9,7 +9,7 @@ import fitz
 
 
 ROOT = Path(__file__).resolve().parents[1]
-PDF = ROOT / "output" / "pdf" / "pipesense_urtc_6page_preview.pdf"
+PDF = ROOT / "output" / "pdf" / "pipesense_urtc_5page_preview.pdf"
 RENDER_DIR = ROOT / "output" / "pdf" / "rendered"
 
 
@@ -22,8 +22,8 @@ def main() -> int:
         fail(f"Missing preview PDF: {PDF}")
 
     doc = fitz.open(PDF)
-    if doc.page_count != 6:
-        fail(f"Expected exactly 6 pages, found {doc.page_count}")
+    if doc.page_count != 5:
+        fail(f"Expected exactly 5 pages, found {doc.page_count}")
 
     RENDER_DIR.mkdir(parents=True, exist_ok=True)
     for index, page in enumerate(doc, start=1):

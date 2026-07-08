@@ -1,10 +1,20 @@
 `include "defines.svh"
 import pipesense_defs::*;
 
-// Converts observer phases into mode requests with simple hysteresis.
+// Converts observer phases into mode requests with mode-specific hysteresis.
 module adaptive_controller #(
   parameter int MIN_MODE_RESIDENCY = 32,
-  parameter int PHASE_STABLE_COUNT = 2
+  parameter int PHASE_STABLE_COUNT = 2,
+  parameter int BRANCH_MIN_RESIDENCY = 12,
+  parameter int MEMORY_MIN_RESIDENCY = 8,
+  parameter int HAZARD_MIN_RESIDENCY = 12,
+  parameter int LOW_POWER_MIN_RESIDENCY = 48,
+  parameter int NORMAL_MIN_RESIDENCY = 48,
+  parameter int BRANCH_STABLE_COUNT = 3,
+  parameter int MEMORY_STABLE_COUNT = 0,
+  parameter int HAZARD_STABLE_COUNT = 1,
+  parameter int LOW_POWER_STABLE_COUNT = 3,
+  parameter int NORMAL_STABLE_COUNT = 3
 ) (
   input  logic             clk,
   input  logic             rst_n,
@@ -20,16 +30,52 @@ module adaptive_controller #(
   pipesense_mode_e last_desired_mode;
   logic [15:0] residency_counter;
   logic [7:0]  stable_counter;
+  logic [15:0] required_residency;
+  logic [7:0]  required_stability;
 
   always_comb begin
     case (phase_estimate)
       PHASE_BRANCH_HEAVY:     desired_mode = MODE_BRANCH_OPT;
       PHASE_MEMORY_STALL:     desired_mode = MODE_MEMORY_OPT;
       PHASE_LOAD_USE_HAZARD:  desired_mode = MODE_HAZARD_OPT;
-      PHASE_FRONTEND_STALL:   desired_mode = MODE_BRANCH_OPT;
+      PHASE_FRONTEND_STALL: begin
+        if (current_mode == MODE_MEMORY_OPT) begin
+          desired_mode = MODE_MEMORY_OPT;
+        end else begin
+          desired_mode = MODE_BRANCH_OPT;
+        end
+      end
       PHASE_IDLE_OR_LOW_UTIL: desired_mode = MODE_LOW_POWER;
-      default:                desired_mode = MODE_NORMAL;
+      default:                desired_mode = current_mode;
     endcase
+  end
+
+  always_comb begin
+    case (desired_mode)
+      MODE_BRANCH_OPT: begin
+        required_residency = BRANCH_MIN_RESIDENCY;
+        required_stability = BRANCH_STABLE_COUNT;
+      end
+      MODE_MEMORY_OPT: begin
+        required_residency = MEMORY_MIN_RESIDENCY;
+        required_stability = MEMORY_STABLE_COUNT;
+      end
+      MODE_HAZARD_OPT: begin
+        required_residency = HAZARD_MIN_RESIDENCY;
+        required_stability = HAZARD_STABLE_COUNT;
+      end
+      MODE_LOW_POWER: begin
+        required_residency = LOW_POWER_MIN_RESIDENCY;
+        required_stability = LOW_POWER_STABLE_COUNT;
+      end
+      default: begin
+        required_residency = NORMAL_MIN_RESIDENCY;
+        required_stability = NORMAL_STABLE_COUNT;
+      end
+    endcase
+    if (required_residency < MIN_MODE_RESIDENCY) begin
+      required_residency = MIN_MODE_RESIDENCY;
+    end
   end
 
   always_ff @(posedge clk or negedge rst_n) begin
@@ -61,8 +107,8 @@ module adaptive_controller #(
         requested_mode   <= current_mode;
       end else if (!reconfig_request && !reconfig_active &&
                    (desired_mode != current_mode) &&
-                   (residency_counter >= MIN_MODE_RESIDENCY) &&
-                   (stable_counter >= PHASE_STABLE_COUNT)) begin
+                   (residency_counter >= required_residency) &&
+                   (stable_counter >= required_stability)) begin
         reconfig_request <= 1'b1;
         requested_mode   <= desired_mode;
       end

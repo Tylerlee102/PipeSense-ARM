@@ -197,6 +197,7 @@ def check_synthesis_proxy_contract() -> None:
         "module pipeline_observer",
         "module adaptive_controller",
         "module reconfig_unit",
+        "module pipesense_integrated_core",
     ]
     missing_modules = [module for module in required_modules if module not in proxy]
     if missing_modules:
@@ -304,8 +305,8 @@ def run_reference_model_fixture() -> None:
             fail("ISA reference model did not write expected outputs.")
         with csv_path.open(newline="", encoding="utf-8") as f:
             rows = list(csv.DictReader(f))
-        if len(rows) != 10:
-            fail(f"Expected 10 reference-model rows, found {len(rows)}")
+        if len(rows) != 13:
+            fail(f"Expected 13 reference-model rows, found {len(rows)}")
         if any(row["timed_out"] != "False" for row in rows):
             fail("Reference model reported a benchmark timeout.")
         if any(int(row["retired"]) <= 0 for row in rows):

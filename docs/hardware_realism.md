@@ -33,11 +33,12 @@ PipeSense-ARM is a research prototype, not a production-quality embedded core. T
 Use `scripts/estimate_hardware_cost.py` for an analytical first-order estimate. Label it clearly as an estimate.
 
 Use `scripts/synth_area_report.py` for the Yosys generic-cell proxy. The
-current local run reports 1,830 cells for the baseline core proxy and 2,819
+current local run reports 1,830 cells for the baseline core proxy and 2,885
 standalone cells for the observer, controller, and reconfiguration modules
-combined, or 154.04% of the baseline core proxy. Label this clearly as a proxy,
-not a calibrated implementation result. The cell-mapping caveat is documented
-in `synth/generic_cells.lib_or_note.md`.
+combined, or 157.65% of the baseline core proxy. It also reports a 4,850-cell
+integrated proxy, a 165.03% delta over the baseline core proxy. Label this
+clearly as a proxy, not a calibrated implementation result. The cell-mapping
+caveat is documented in `synth/generic_cells.lib_or_note.md`.
 
 For a stronger paper after the generic proxy, add:
 

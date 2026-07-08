@@ -40,7 +40,15 @@ def check_files() -> tuple[str, str]:
 
 
 def check_no_placeholders(tex: str) -> None:
-    forbidden = ["TODO", "TBD", "FIXME", "??"]
+    forbidden = [
+        "TODO",
+        "TBD",
+        "FIXME",
+        "??",
+        "Author Name",
+        "email@example.com",
+        "City, State",
+    ]
     found = [token for token in forbidden if token in tex]
     if found:
         fail("Paper contains unresolved placeholders: " + ", ".join(found))
@@ -64,7 +72,7 @@ def check_citations(tex: str, bib: str) -> None:
 def check_claim_language(tex: str) -> None:
     required_phrases = [
         "not an ARM-compatible processor",
-        "not synthesis results",
+        "not calibrated synthesis results",
         "not formal verification",
         "oracle comparison",
         "zero safety faults",
@@ -77,8 +85,10 @@ def check_claim_language(tex: str) -> None:
 def check_workshop_length(tex: str) -> None:
     text_without_commands = re.sub(r"\\[A-Za-z]+\*?(?:\[[^\]]*\])?(?:\{[^}]*\})?", " ", tex)
     words = re.findall(r"[A-Za-z0-9][A-Za-z0-9_-]*", text_without_commands)
-    if len(words) < 3200:
-        fail(f"Paper is too short for a six-page workshop draft: {len(words)} words")
+    if len(words) < 1800:
+        fail(f"Paper is too short for a five-page workshop draft: {len(words)} words")
+    if len(words) > 3900:
+        fail(f"Paper is too long for a five-page workshop draft proxy: {len(words)} words")
 
 
 def check_adaptive_table(tex: str) -> None:
@@ -148,10 +158,13 @@ def check_area_table(tex: str) -> None:
     compact_tex = compact(tex)
     core = rows.get("arm_like_core")
     total = rows.get("observer_controller_reconfig_total")
+    integrated = rows.get("pipesense_integrated_core")
     if not core:
         fail("Area CSV missing arm_like_core row")
     if not total:
         fail("Area CSV missing observer_controller_reconfig_total row")
+    if not integrated:
+        fail("Area CSV missing pipesense_integrated_core row")
     expected_core = f"baseline core proxy & {core['number_of_cells']} & 100.00\\%"
     baseline_cells = float(core["number_of_cells"])
     module_expectations = []
@@ -167,6 +180,10 @@ def check_area_table(tex: str) -> None:
         "observer/controller/reconfig sum & "
         f"{total['number_of_cells']} & {total['overhead_vs_core_pct']}\\%"
     )
+    expected_integrated = (
+        "integrated core proxy & "
+        f"{integrated['number_of_cells']} & {integrated['overhead_vs_core_pct']}\\%"
+    )
     if compact(expected_core) not in compact_tex:
         fail("Area table does not match CSV for arm_like_core")
     for expected in module_expectations:
@@ -174,6 +191,8 @@ def check_area_table(tex: str) -> None:
             fail(f"Area table does not match CSV for {expected.split(' & ', 1)[0]}")
     if compact(expected_total) not in compact_tex:
         fail("Area table does not match CSV for observer/controller/reconfig sum")
+    if compact(expected_integrated) not in compact_tex:
+        fail("Area table does not match CSV for integrated core proxy")
 
 
 def main() -> int:

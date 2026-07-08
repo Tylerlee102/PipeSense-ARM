@@ -27,6 +27,9 @@ TASK_TO_BENCH = {
     "load_coremark_toy": "coremark_toy",
     "load_dsp_fir_codegen": "dsp_fir_codegen",
     "load_pid_control_codegen": "pid_control_codegen",
+    "load_long_fir_stress": "long_fir_stress",
+    "load_pid_phase_stress": "pid_phase_stress",
+    "load_random_mem_latency_stress": "random_mem_latency_stress",
 }
 
 OPCODES = {

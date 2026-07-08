@@ -32,23 +32,25 @@ jobs:
         run: |
           python scripts/run_sim.py
           python scripts/validate_results.py
+          python scripts/compare_reference.py
 
       - name: Build paper preview from generated results
         run: |
           python scripts/build_paper_preview.py
           python scripts/verify_paper_preview.py
 
-      - name: Run sweep smoke test
+      - name: Run full parameter sweep
         run: |
-          python scripts/run_sweep.py --max-configs 2
+          python scripts/run_sweep.py
 
-      - name: Run safety fuzz smoke test
+      - name: Run safety fuzz regression
         run: |
-          python verif/fuzz_runner.py --seeds 3
+          python verif/fuzz_runner.py --seeds 500
 
       - name: Run generic synthesis proxy
         run: |
           python scripts/synth_area_report.py
+          python scripts/check_paper.py
 
       - name: Upload generated results
         uses: actions/upload-artifact@v4

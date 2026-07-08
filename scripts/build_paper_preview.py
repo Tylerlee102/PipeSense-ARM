@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build a 6-page PDF preview from the PipeSense paper source and results."""
+"""Build a 5-page PDF preview from the PipeSense paper source and results."""
 
 from __future__ import annotations
 
@@ -30,7 +30,7 @@ PAPER = ROOT / "paper" / "pipesense_urtc_8page.tex"
 RESULTS = ROOT / "results"
 OUTPUT_DIR = ROOT / "output" / "pdf"
 FIGURE_DIR = ROOT / "output" / "pdf" / "figures"
-OUTPUT_PDF = OUTPUT_DIR / "pipesense_urtc_6page_preview.pdf"
+OUTPUT_PDF = OUTPUT_DIR / "pipesense_urtc_5page_preview.pdf"
 
 
 SECTION_ORDER = [
@@ -87,6 +87,22 @@ def citation_text(keys: str) -> str:
 def extract_block(tex: str, env: str) -> str:
     match = re.search(rf"\\begin\{{{env}\}}(.*?)\\end\{{{env}\}}", tex, flags=re.S)
     return clean_inline(match.group(1)) if match else ""
+
+
+def extract_title(tex: str) -> str:
+    match = re.search(r"\\title\{(.*?)\}", tex, flags=re.S)
+    return clean_inline(match.group(1)) if match else "PipeSense-ARM"
+
+
+def extract_author_html(tex: str) -> str:
+    name_match = re.search(r"\\IEEEauthorblockN\{(.*?)\}", tex, flags=re.S)
+    block_match = re.search(r"\\IEEEauthorblockA\{(.*?)\}", tex, flags=re.S)
+    name = clean_inline(name_match.group(1)) if name_match else "Author"
+    lines = []
+    if block_match:
+        raw = block_match.group(1).replace("\\\\", "\n")
+        lines = [clean_inline(line) for line in raw.splitlines() if clean_inline(line)]
+    return "<br/>".join([name] + lines)
 
 
 def strip_floats(tex: str) -> str:
@@ -282,7 +298,7 @@ def draw_page(canvas, doc) -> None:
     canvas.setFont("Times-Roman", 7)
     canvas.drawCentredString(letter[0] / 2, 0.28 * inch, f"{doc.page}")
     canvas.setFont("Times-Italic", 6.5)
-    canvas.drawCentredString(letter[0] / 2, letter[1] - 0.27 * inch, "PipeSense-ARM six-page workshop draft preview")
+    canvas.drawCentredString(letter[0] / 2, letter[1] - 0.25 * inch, "PipeSense-ARM five-page workshop draft preview")
     canvas.restoreState()
 
 
@@ -295,8 +311,8 @@ def main() -> int:
 
     styles = build_styles()
     story: list = []
-    story.append(Paragraph("PipeSense-ARM: A Lightweight Hardware Observer for Safe Adaptive Pipeline Reconfiguration in Embedded ARM-Like Processors", styles["title"]))
-    story.append(Paragraph("Author Name<br/>Affiliation - email@example.com", styles["author"]))
+    story.append(Paragraph(extract_title(tex), styles["title"]))
+    story.append(Paragraph(extract_author_html(tex), styles["author"]))
     story.append(Paragraph("<b>Abstract-</b> " + extract_block(tex, "abstract"), styles["abstract"]))
     story.append(Paragraph("<b>Index Terms-</b> computer architecture, embedded processors, adaptive microarchitecture, pipeline reconfiguration, hardware performance monitoring", styles["abstract"]))
 
@@ -357,11 +373,28 @@ def add_results_tables(story: list) -> None:
         )
     add_table(story, "Table II. Adaptive mode versus best fixed-mode oracle.", oracle_data, [74, 48, 29, 32, 43, 43])
 
-    cost = read_csv(RESULTS / "hardware_cost_estimate.csv")
-    cost_data = [["Component", "FF bits", "Comp.", "Adders"]]
-    for row in cost:
-        cost_data.append([row["component"].replace("_", " "), row["estimated_ff_bits"], row["estimated_comparators"], row["estimated_adders"]])
-    add_table(story, "Table III. Analytical hardware-cost estimate, not synthesis evidence.", cost_data, [97, 42, 34, 34])
+    area_path = RESULTS / "synth" / "area_summary.csv"
+    if area_path.exists():
+        area = read_csv(area_path)
+        names = {
+            "arm_like_core": "baseline core proxy",
+            "pipeline_observer": "pipeline_observer",
+            "adaptive_controller": "adaptive_controller",
+            "reconfig_unit": "reconfig_unit",
+            "observer_controller_reconfig_total": "observer/controller/reconfig sum",
+            "pipesense_integrated_core": "integrated core proxy",
+        }
+        cost_data = [["Component", "Cells", "Overhead"]]
+        for row in area:
+            if row["module"] in names:
+                cost_data.append([names[row["module"]], row["number_of_cells"], row["overhead_vs_core_pct"] + "%"])
+        add_table(story, "Table III. Yosys generic-cell area proxy, not calibrated synthesis.", cost_data, [115, 38, 45])
+    else:
+        cost = read_csv(RESULTS / "hardware_cost_estimate.csv")
+        cost_data = [["Component", "FF bits", "Comp.", "Adders"]]
+        for row in cost:
+            cost_data.append([row["component"].replace("_", " "), row["estimated_ff_bits"], row["estimated_comparators"], row["estimated_adders"]])
+        add_table(story, "Table III. Analytical hardware-cost estimate, not synthesis evidence.", cost_data, [97, 42, 34, 34])
 
 
 def add_references(story: list) -> None:

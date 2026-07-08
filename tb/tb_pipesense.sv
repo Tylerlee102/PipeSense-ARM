@@ -22,6 +22,7 @@ module tb_pipesense;
   logic [31:0] safety_faults;
   int total_cases;
   int failed_cases;
+  localparam int NUM_BENCHES = 13;
 
   arm_like_core dut (
     .clk(clk),
@@ -62,7 +63,10 @@ module tb_pipesense;
         6: bench_name = "dhrystone_toy";
         7: bench_name = "coremark_toy";
         8: bench_name = "dsp_fir_codegen";
-        default: bench_name = "pid_control_codegen";
+        9: bench_name = "pid_control_codegen";
+        10: bench_name = "long_fir_stress";
+        11: bench_name = "pid_phase_stress";
+        default: bench_name = "random_mem_latency_stress";
       endcase
     end
   endfunction
@@ -245,7 +249,7 @@ module tb_pipesense;
 
     repeat (2) @(posedge clk);
 
-    for (int bench = 0; bench < 10; bench++) begin
+    for (int bench = 0; bench < NUM_BENCHES; bench++) begin
       run_case(bench, 1'b0, MODE_NORMAL);
       run_case(bench, 1'b0, MODE_BRANCH_OPT);
       run_case(bench, 1'b0, MODE_MEMORY_OPT);

@@ -135,17 +135,44 @@ module adaptive_controller (
 );
   reg [7:0] residency_counter;
   reg [1:0] stable_counter;
-  reg [2:0] last_phase;
+  reg [2:0] last_desired_mode;
   reg [2:0] desired_mode;
+  reg [7:0] required_residency;
+  reg [1:0] required_stability;
 
   always @* begin
     case (phase_estimate)
       3'd1: desired_mode = 3'd1;
       3'd2: desired_mode = 3'd2;
       3'd3: desired_mode = 3'd3;
-      3'd4: desired_mode = 3'd1;
+      3'd4: desired_mode = (current_mode == 3'd2) ? 3'd2 : 3'd1;
       3'd5: desired_mode = 3'd4;
-      default: desired_mode = 3'd0;
+      default: desired_mode = current_mode;
+    endcase
+  end
+
+  always @* begin
+    case (desired_mode)
+      3'd1: begin
+        required_residency = 8'd12;
+        required_stability = 2'd3;
+      end
+      3'd2: begin
+        required_residency = 8'd8;
+        required_stability = 2'd0;
+      end
+      3'd3: begin
+        required_residency = 8'd12;
+        required_stability = 2'd1;
+      end
+      3'd4: begin
+        required_residency = 8'd48;
+        required_stability = 2'd3;
+      end
+      default: begin
+        required_residency = 8'd48;
+        required_stability = 2'd3;
+      end
     endcase
   end
 
@@ -153,19 +180,24 @@ module adaptive_controller (
     if (!rst_n) begin
       residency_counter <= 8'd0;
       stable_counter <= 2'd0;
-      last_phase <= 3'd0;
+      last_desired_mode <= 3'd0;
       requested_mode <= 3'd0;
       reconfig_request <= 1'b0;
     end else begin
-      residency_counter <= residency_counter + 8'd1;
-      stable_counter <= (phase_estimate == last_phase) ? stable_counter + 2'd1 : 2'd0;
-      last_phase <= phase_estimate;
+      if (residency_counter != 8'hff) residency_counter <= residency_counter + 8'd1;
+      if (desired_mode == last_desired_mode) begin
+        if (stable_counter != 2'd3) stable_counter <= stable_counter + 2'd1;
+      end else begin
+        stable_counter <= 2'd0;
+        last_desired_mode <= desired_mode;
+      end
       if (reconfig_ack) begin
         residency_counter <= 8'd0;
         reconfig_request <= 1'b0;
       end else if (adaptive_enable && !reconfig_active && !reconfig_request &&
-                   desired_mode != current_mode && residency_counter >= 8'd24 &&
-                   stable_counter >= 2'd1) begin
+                   desired_mode != current_mode &&
+                   residency_counter >= required_residency &&
+                   stable_counter >= required_stability) begin
         requested_mode <= desired_mode;
         reconfig_request <= 1'b1;
       end
@@ -223,4 +255,89 @@ module reconfig_unit (
       end
     end
   end
+endmodule
+
+module pipesense_integrated_core (
+  input clk,
+  input rst_n,
+  input adaptive_enable,
+  input [31:0] instr_in,
+  input [31:0] mem_in,
+  input [7:0] events,
+  input stall,
+  input flush,
+  input pipeline_empty,
+  input mem_wait,
+  input instruction_retired,
+  output [31:0] state_hash
+);
+  wire [31:0] core_hash;
+  wire [2:0] phase_estimate;
+  wire [31:0] observer_sum;
+  wire reconfig_request;
+  wire [2:0] requested_mode;
+  wire [2:0] current_mode;
+  wire [2:0] requested_mode_latched;
+  wire reconfig_active;
+  wire reconfig_done;
+  wire stop_fetch;
+  wire [31:0] reconfig_stall_cycles;
+  wire [31:0] total_reconfigurations;
+  wire [31:0] total_reconfig_penalty;
+
+  arm_like_core core (
+    .clk(clk),
+    .rst_n(rst_n),
+    .instr_in(instr_in),
+    .mem_in(mem_in),
+    .stall(stall | stop_fetch),
+    .flush(flush),
+    .state_hash(core_hash)
+  );
+
+  pipeline_observer observer (
+    .clk(clk),
+    .rst_n(rst_n),
+    .events(events),
+    .instruction_retired(instruction_retired),
+    .phase_estimate(phase_estimate),
+    .observer_sum(observer_sum)
+  );
+
+  adaptive_controller controller (
+    .clk(clk),
+    .rst_n(rst_n),
+    .adaptive_enable(adaptive_enable),
+    .phase_estimate(phase_estimate),
+    .current_mode(current_mode),
+    .reconfig_ack(reconfig_done),
+    .reconfig_active(reconfig_active),
+    .reconfig_request(reconfig_request),
+    .requested_mode(requested_mode)
+  );
+
+  reconfig_unit reconfig (
+    .clk(clk),
+    .rst_n(rst_n),
+    .boot_mode(3'd0),
+    .reconfig_request(reconfig_request),
+    .requested_mode(requested_mode),
+    .pipeline_empty(pipeline_empty),
+    .mem_wait(mem_wait),
+    .current_mode(current_mode),
+    .requested_mode_latched(requested_mode_latched),
+    .reconfig_active(reconfig_active),
+    .reconfig_done(reconfig_done),
+    .stop_fetch(stop_fetch),
+    .reconfig_stall_cycles(reconfig_stall_cycles),
+    .total_reconfigurations(total_reconfigurations),
+    .total_reconfig_penalty(total_reconfig_penalty)
+  );
+
+  assign state_hash = core_hash ^ observer_sum ^
+                      {29'd0, current_mode} ^
+                      {29'd0, requested_mode_latched} ^
+                      reconfig_stall_cycles ^
+                      total_reconfigurations ^
+                      total_reconfig_penalty;
 endmodule

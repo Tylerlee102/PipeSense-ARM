@@ -54,6 +54,9 @@ BENCH_ORDER = [
     "coremark_toy",
     "dsp_fir_codegen",
     "pid_control_codegen",
+    "long_fir_stress",
+    "pid_phase_stress",
+    "random_mem_latency_stress",
 ]
 
 
@@ -430,6 +433,89 @@ def benchmark_pid_control_codegen() -> Program:
     return p
 
 
+def benchmark_long_fir_stress() -> Program:
+    p = Program("long_fir_stress", 6000)
+    p.load_data(30, 48)
+    p.load_data(31, 1)
+    p.load_data(32, 64)
+    p.load_data(33, 144)
+    p.load_data(34, 0x000000FF)
+    p.emit(enc_i(OP_LDR, 1, 0, 30))
+    p.emit(enc_i(OP_LDR, 2, 0, 31))
+    p.emit(enc_i(OP_LDR, 3, 0, 32))
+    p.emit(enc_i(OP_LDR, 11, 0, 33))
+    p.emit(enc_i(OP_LDR, 10, 0, 34))
+    p.emit(enc_i(OP_LDR, 4, 3, 3))
+    p.emit(enc_i(OP_LDR, 5, 3, 7))
+    p.emit(enc_r(OP_ADD, 6, 4, 5))
+    p.emit(enc_i(OP_LDR, 7, 3, 11))
+    p.emit(enc_r(OP_ADD, 6, 6, 7))
+    p.emit(enc_r(OP_EOR, 8, 6, 10))
+    p.emit(enc_i(OP_STR, 8, 11, 3))
+    p.emit(enc_r(OP_ADD, 3, 3, 2))
+    p.emit(enc_r(OP_ADD, 11, 11, 2))
+    p.emit(enc_r(OP_SUB, 1, 1, 2))
+    p.emit(enc_r(OP_CMP, 0, 1, 0))
+    p.emit(enc_b(COND_NE, 5))
+    p.emit(enc_halt())
+    return p
+
+
+def benchmark_pid_phase_stress() -> Program:
+    p = Program("pid_phase_stress", 6000)
+    p.load_data(40, 40)
+    p.load_data(41, 1)
+    p.load_data(42, 100)
+    p.load_data(43, 80)
+    p.load_data(44, 180)
+    p.load_data(45, 0x000000FF)
+    p.emit(enc_i(OP_LDR, 1, 0, 40))
+    p.emit(enc_i(OP_LDR, 2, 0, 41))
+    p.emit(enc_i(OP_LDR, 3, 0, 42))
+    p.emit(enc_i(OP_LDR, 4, 0, 43))
+    p.emit(enc_i(OP_LDR, 11, 0, 44))
+    p.emit(enc_i(OP_LDR, 10, 0, 45))
+    p.emit(enc_i(OP_LDR, 5, 4, 3))
+    p.emit(enc_r(OP_SUB, 6, 3, 5))
+    p.emit(enc_r(OP_ADD, 7, 7, 6))
+    p.emit(enc_r(OP_ADD, 8, 6, 7))
+    p.emit(enc_r(OP_EOR, 8, 8, 10))
+    p.emit(enc_r(OP_AND, 8, 8, 10))
+    p.emit(enc_i(OP_STR, 8, 11, 3))
+    p.emit(enc_r(OP_ADD, 4, 4, 2))
+    p.emit(enc_r(OP_ADD, 11, 11, 2))
+    p.emit(enc_r(OP_SUB, 1, 1, 2))
+    p.emit(enc_r(OP_CMP, 0, 1, 0))
+    p.emit(enc_b(COND_NE, 6))
+    p.emit(enc_halt())
+    return p
+
+
+def benchmark_random_mem_latency_stress() -> Program:
+    p = Program("random_mem_latency_stress", 6000)
+    p.load_data(50, 36)
+    p.load_data(51, 3)
+    p.load_data(52, 16)
+    p.load_data(53, 140)
+    p.emit(enc_i(OP_LDR, 1, 0, 50))
+    p.emit(enc_i(OP_LDR, 2, 0, 51))
+    p.emit(enc_i(OP_LDR, 3, 0, 52))
+    p.emit(enc_i(OP_LDR, 11, 0, 53))
+    p.emit(enc_i(OP_LDR, 4, 3, 3))
+    p.emit(enc_i(OP_LDR, 5, 3, 11))
+    p.emit(enc_r(OP_EOR, 6, 4, 5))
+    p.emit(enc_i(OP_LDR, 7, 3, 19))
+    p.emit(enc_r(OP_ADD, 6, 6, 7))
+    p.emit(enc_i(OP_STR, 6, 11, 7))
+    p.emit(enc_r(OP_ADD, 3, 3, 2))
+    p.emit(enc_r(OP_ADD, 11, 11, 2))
+    p.emit(enc_r(OP_SUB, 1, 1, 2))
+    p.emit(enc_r(OP_CMP, 0, 1, 0))
+    p.emit(enc_b(COND_NE, 4))
+    p.emit(enc_halt())
+    return p
+
+
 BENCHMARKS = {
     "arithmetic_heavy": benchmark_arithmetic_heavy,
     "branch_heavy": benchmark_branch_heavy,
@@ -441,6 +527,9 @@ BENCHMARKS = {
     "coremark_toy": benchmark_coremark_toy,
     "dsp_fir_codegen": benchmark_dsp_fir_codegen,
     "pid_control_codegen": benchmark_pid_control_codegen,
+    "long_fir_stress": benchmark_long_fir_stress,
+    "pid_phase_stress": benchmark_pid_phase_stress,
+    "random_mem_latency_stress": benchmark_random_mem_latency_stress,
 }
 
 

@@ -162,8 +162,10 @@ python scripts/synth_area_report.py
 ```
 
 This requires Yosys. The current local run reports 1,830 cells for the
-baseline core proxy and 2,819 standalone cells for the observer, controller,
-and reconfiguration modules combined, or 154.04% of the baseline core proxy.
+baseline core proxy, 2,885 standalone cells for the observer, controller,
+and reconfiguration modules combined, or 157.65% of the baseline core proxy.
+The integrated proxy reports 4,850 cells, a 165.03% delta over the baseline
+core proxy.
 The output is a relative generic-cell area proxy, not calibrated ASIC area,
 FPGA utilization, timing, or power.
 
@@ -187,7 +189,7 @@ python scripts/check_paper.py
 
 ## Paper draft
 
-The `paper/` directory contains an IEEE-style six-page workshop manuscript source:
+The `paper/` directory contains an IEEE-style five-page URTC-targeted workshop manuscript source:
 
 - `paper/pipesense_urtc_8page.tex`
 - `paper/references.bib`
@@ -195,14 +197,14 @@ The `paper/` directory contains an IEEE-style six-page workshop manuscript sourc
 
 Run `python scripts/check_paper.py` to verify that the paper has no unresolved placeholders, cites bibliography keys that exist, preserves claim-discipline language, and matches the generated result CSVs where local results are available. Current venue instructions should still be checked before submission.
 
-To generate and verify a six-page PDF preview without LaTeX:
+To generate and verify a five-page PDF preview without LaTeX:
 
 ```bash
 python scripts/build_paper_preview.py
 python scripts/verify_paper_preview.py
 ```
 
-The preview is written to `output/pdf/pipesense_urtc_6page_preview.pdf` and rendered page images are written under `output/pdf/rendered/`.
+The preview is written to `output/pdf/pipesense_urtc_5page_preview.pdf` and rendered page images are written under `output/pdf/rendered/`.
 
 ## Expected outputs
 
@@ -236,7 +238,7 @@ PipeSense-ARM demonstrates a hardware-native adaptive control loop for a small e
 - A hysteretic controller chooses runtime modes rather than relying on software policy.
 - A reconfiguration unit gates fetch and commits mode changes only at the documented safe boundary.
 - Safety monitors and fuzz regressions check retirement tags, fetch gating, safe mode commit, and bounded reconfiguration stalls.
-- Benchmarks expose arithmetic-heavy, branch-heavy, memory-heavy, load-use-heavy, mixed-control, tiny FIR-like, Dhrystone-style, CoreMark-style, generated-style DSP, and generated-style embedded-control behavior.
+- Benchmarks expose arithmetic-heavy, branch-heavy, memory-heavy, load-use-heavy, mixed-control, tiny FIR-like, Dhrystone-style, CoreMark-style, generated-style DSP/control, long FIR stress, PID phase stress, and randomized memory-latency behavior.
 
 The current novelty claim should stay scoped: this is a hardware-control
 research scaffold that combines known ideas in a small, inspectable pipeline.
@@ -253,7 +255,7 @@ claiming a broadly new processor technique.
 - The hazard optimization models an extra load-result bypass path.
 - The energy number is an activity proxy, not a physical power estimate.
 - The observer uses threshold logic; no machine learning is implemented.
-- The benchmark suite is mostly synthetic and phase-biased, with Dhrystone/CoreMark-style toy ports and two generated-style DSP/control kernels.
+- The benchmark suite is mostly synthetic and phase-biased, with Dhrystone/CoreMark-style toy ports, generated-style DSP/control kernels, and three longer stress workloads.
 - The Yosys flow is a generic-cell area proxy, not a calibrated physical implementation.
 - Safety monitoring uses simulation-time tags and assertions; a minimal synthesized design would remove the tags or prove equivalent properties formally.
 
@@ -268,7 +270,7 @@ formal/  Optional formal/assertion scaffolding for reconfiguration safety
 verif/   Safety assertion monitors, coverage counters, and fuzz regression tools
 synth/   Yosys generic synthesis scaffold and cell-mapping note
 tests/   Parser fixture used by the artifact checker
-paper/   IEEE-style six-page workshop manuscript source and bibliography
+paper/   IEEE-style five-page workshop manuscript source and bibliography
 ```
 
 ## Research Readiness Checklist
