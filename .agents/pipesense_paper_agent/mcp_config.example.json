@@ -1,0 +1,13 @@
+{
+  "mcpServers": {
+    "pipesense-arm-paper": {
+      "command": "C:/Users/tyboy/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/python.exe",
+      "args": [
+        "C:/Users/tyboy/OneDrive/Documents/mit_2026/.agents/pipesense_paper_agent/src/pipesense_arm_mcp.py"
+      ],
+      "env": {
+        "PIPESENSE_ROOT": "C:/Users/tyboy/OneDrive/Documents/mit_2026"
+      }
+    }
+  }
+}
