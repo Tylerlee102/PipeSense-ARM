@@ -1,0 +1,222 @@
+{
+  "bottom_line": "The agent can close the audit findings for the current prototype-paper scope by verifying and reporting the existing evidence. It cannot honestly erase the need for real workload ports, target hardware calibration, or a full-core proof if the claims expand.",
+  "evidence_summaries": {
+    "area_proxy": {
+      "core_cells": "1830",
+      "cost_rows": 4,
+      "evidence_files": [
+        "results/synth/area_summary.csv",
+        "results/hardware_cost_estimate.csv"
+      ],
+      "observer_controller_reconfig_cells": "2819",
+      "overhead_vs_core_pct": "154.04",
+      "proxy_statuses": [
+        "parsed",
+        "proxy_sum"
+      ],
+      "rows": 5,
+      "status": "ok"
+    },
+    "formal": {
+      "evidence_files": [
+        "formal/results/no_double_commit_across_mode_switch/PASS",
+        "formal/results/no_double_commit_across_mode_switch/status",
+        "formal/no_double_commit_across_mode_switch.sby",
+        "formal/token_conservation.sby",
+        "docs/safety_proof_sketch.md"
+      ],
+      "no_double_commit_pass": true,
+      "no_double_commit_status": "PASS 0 0",
+      "sby_files": [
+        "formal/no_double_commit_across_mode_switch.sby",
+        "formal/reconfig_unit.sby",
+        "formal/token_conservation.sby"
+      ],
+      "status": "ok",
+      "token_conservation_pass": false
+    },
+    "fuzz": {
+      "coverage_rows": 500,
+      "evidence_files": [
+        "results/safety/fuzz_summary.csv",
+        "results/safety/fuzz_coverage.csv"
+      ],
+      "failures": 0,
+      "modes": [
+        "adaptive_pipesense",
+        "fixed_branch",
+        "fixed_hazard",
+        "fixed_memory",
+        "static_normal"
+      ],
+      "rows": 2500,
+      "seed_count": 500,
+      "status": "ok"
+    },
+    "results": {
+      "ablation_rows": 3,
+      "adaptive_vs_best_fixed": {
+        "avg_cycle_gap_pct": -14.411,
+        "avg_energy_gap_pct": -8.429,
+        "rows": 10
+      },
+      "adaptive_vs_static_normal": {
+        "avg_cycle_reduction_pct": 3.431,
+        "avg_energy_reduction_pct": 3.498,
+        "avg_ipc_improvement_pct": 3.987,
+        "rows": 10
+      },
+      "area_rows": 5,
+      "benchmarks": [
+        "arithmetic_heavy",
+        "branch_heavy",
+        "coremark_toy",
+        "dhrystone_toy",
+        "dsp_fir_codegen",
+        "load_use_heavy",
+        "memory_heavy",
+        "mixed_control",
+        "pid_control_codegen",
+        "tiny_fir"
+      ],
+      "evidence_files": [
+        "results/pipesense_results.csv",
+        "results/adaptive_improvement.csv",
+        "results/oracle_gap.csv",
+        "results/ablation_summary.csv",
+        "results/synth/area_summary.csv"
+      ],
+      "mode_totals": {
+        "adaptive_pipesense": {
+          "cycles": 1499.0,
+          "energy": 8508.0,
+          "retired": 971.0
+        },
+        "fixed_branch": {
+          "cycles": 1454.0,
+          "energy": 8534.0,
+          "retired": 971.0
+        },
+        "fixed_hazard": {
+          "cycles": 1447.0,
+          "energy": 8592.0,
+          "retired": 971.0
+        },
+        "fixed_low_power": {
+          "cycles": 1563.0,
+          "energy": 5746.0,
+          "retired": 971.0
+        },
+        "fixed_memory": {
+          "cycles": 1375.0,
+          "energy": 8000.0,
+          "retired": 971.0
+        },
+        "static_normal": {
+          "cycles": 1563.0,
+          "energy": 8872.0,
+          "retired": 971.0
+        }
+      },
+      "modes": [
+        "adaptive_pipesense",
+        "fixed_branch",
+        "fixed_hazard",
+        "fixed_low_power",
+        "fixed_memory",
+        "static_normal"
+      ],
+      "result_rows": 60,
+      "safety_faults": 0,
+      "status": "ok",
+      "timeouts": 0
+    },
+    "sweeps": {
+      "adaptive_non_win_cells": 1032,
+      "benchmarks": [
+        "arithmetic_heavy",
+        "branch_heavy",
+        "coremark_toy",
+        "dhrystone_toy",
+        "dsp_fir_codegen",
+        "load_use_heavy",
+        "memory_heavy",
+        "mixed_control",
+        "pid_control_codegen",
+        "tiny_fir"
+      ],
+      "comparison_rows": 1350,
+      "evidence_files": [
+        "results/sweep_runs.csv",
+        "results/sweep_results.csv",
+        "results/sweep_adaptive_vs_fixed.csv"
+      ],
+      "failed_runs": 0,
+      "residencies": [
+        "24",
+        "48",
+        "8"
+      ],
+      "result_rows": 1620,
+      "run_count": 27,
+      "seeds": [
+        "0"
+      ],
+      "status": "ok",
+      "threshold_profiles": [
+        "loose",
+        "medium",
+        "tight"
+      ],
+      "windows": [
+        "16",
+        "32",
+        "64"
+      ]
+    }
+  },
+  "generated_utc": "2026-07-08T00:51:04.383628+00:00",
+  "limits": [
+    {
+      "agent_can_fix": "Run and summarize the benchmark matrix, preserve negative cases, verify reference-model parity, and use the 27-configuration sensitivity sweep as robustness evidence.",
+      "area": "Workload validity",
+      "evidence": [
+        "10 benchmark rows summarized from results/pipesense_results.csv",
+        "27 sweep configurations in results/sweep_runs.csv",
+        "results/sweep_adaptive_vs_fixed.csv records adaptive wins and non-wins",
+        "results/ablation_summary.csv separates observer/controller/reconfiguration effects"
+      ],
+      "external_limit": "A publication-standard workload suite or compiler-generated embedded benchmark ports would still be needed for broad architecture claims.",
+      "next_action": "Keep claims scoped to the current 10-benchmark prototype suite, or add real/compiler-generated benchmark ports before making broad workload claims.",
+      "status": "mitigated_for_current_paper_scope"
+    },
+    {
+      "agent_can_fix": "Regenerate the analytical hardware-cost estimate, parse the Yosys generic-cell proxy, and enforce wording that labels energy and area as proxies.",
+      "area": "Hardware realism",
+      "evidence": [
+        "baseline core cells: 1830",
+        "observer/controller/reconfiguration cells: 2819",
+        "proxy overhead vs core: 154.04%",
+        "4 analytical cost rows in results/hardware_cost_estimate.csv"
+      ],
+      "external_limit": "Calibrated power, timing, FPGA utilization, or ASIC area requires a target toolchain and target technology.",
+      "next_action": "Use the proxy numbers for transparent overhead discussion, then run an FPGA or ASIC flow if the paper needs physical implementation claims.",
+      "status": "proxy_evidence_complete"
+    },
+    {
+      "agent_can_fix": "Run simulation assertions, summarize the 500-seed safety fuzz evidence, and track the bounded no-double-commit proof result.",
+      "area": "Formal coverage",
+      "evidence": [
+        "500 fuzz seeds in results/safety/fuzz_summary.csv",
+        "0 fuzz failures",
+        "no-double-commit bounded proof PASS: True",
+        "docs/safety_proof_sketch.md maps invariants to monitors and formal jobs"
+      ],
+      "external_limit": "A full-core formal proof bound directly to arm_like_core is still a research task, not a report-generation step.",
+      "next_action": "Present bounded safety evidence honestly now; implement a reduced full-core formal harness before claiming complete processor correctness.",
+      "status": "bounded_safety_evidence_complete"
+    }
+  ],
+  "overall_status": "actionable_limits_closed_for_current_scope",
+  "repository_root": "C:\\Users\\tyboy\\OneDrive\\Documents\\mit_2026"
+}
