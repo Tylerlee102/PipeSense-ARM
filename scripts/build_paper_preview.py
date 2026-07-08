@@ -39,7 +39,7 @@ SECTION_ORDER = [
     "PipeSense-ARM Architecture",
     "Safe Reconfiguration and Implementation",
     "Evaluation Methodology",
-    "Results",
+    "Results and Evaluation",
     "Parameter Sensitivity",
     "Discussion and Limitations",
     "Artifact and Reproducibility",
@@ -323,7 +323,7 @@ def main() -> int:
             story.append(Paragraph("Fig. 1. PipeSense-ARM places an observer/controller/reconfiguration loop around a small five-stage pipeline.", styles["caption"]))
         for para in paragraphs:
             story.append(Paragraph(para, styles["body"]))
-        if title == "Results":
+        if title == "Results and Evaluation":
             add_results_tables(story)
 
     add_references(story)

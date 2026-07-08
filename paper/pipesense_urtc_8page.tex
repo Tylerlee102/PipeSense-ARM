@@ -104,9 +104,33 @@ The evaluation order is fixed. Simulation output is parsed into raw result CSVs,
 
 This ordering is also used when packaging the artifact. The full local run produces raw HDL logs, normalized CSVs, reference-model CSVs, disassembly, sweep directories, fuzz summaries, area reports, generated figures, and a rendered paper preview. The checked-in summary gives reviewers a quick status page, while the detailed artifacts remain reproducible by rerunning the scripts.
 
-\section{Results}
+\section{Results and Evaluation}
 
-The current directed HDL run contains 78 benchmark/mode rows. Every run halted, no run timed out, every run reported zero safety faults, and every adaptive row matched the sequential ISA reference model. Table~\ref{tab:adaptive} compares adaptive \pipesense{} against static normal mode.
+The first result is a trust gate, not a speedup. The current directed HDL matrix contains 78 benchmark/mode rows. Every row halts, no row times out, every row reports zero safety faults, and every adaptive row matches the sequential ISA reference model. Fig.~\ref{fig:evidence} summarizes how generated evidence flows into the claims: raw HDL, sweep, fuzz, and Yosys outputs must pass validation before the paper checker accepts any manuscript number.
+
+\begin{figure}[t]
+\centering
+\fbox{\begin{minipage}{0.94\linewidth}
+\small
+\begin{verbatim}
+generated evidence
+  78 HDL rows, 27 sweep configs,
+  500 fuzz seeds, Yosys proxy
+          |
+trust gates
+  validator, ISA reference model,
+  safety checks, paper-number check
+          |
+reported claims
+  static-normal gain, oracle gap,
+  safety result, generic-cell cost
+\end{verbatim}
+\end{minipage}}
+\caption{Evaluation evidence flow. Performance, safety, sensitivity, and cost claims are accepted only after generated outputs pass the artifact checks.}
+\label{fig:evidence}
+\end{figure}
+
+Table~\ref{tab:adaptive} compares adaptive \pipesense{} against static normal mode. Across all 13 workloads, static-normal execution takes 3,307 cycles and adaptive execution takes 3,056 cycles, a 7.59\% total reduction. Total activity-energy proxy falls from 19,162 to 18,055, a 5.78\% reduction. Adaptive improves cycles on 9 workloads, ties 3, and slows dsp-fir-codegen by 1.04\%. The average per-workload cycle reduction is 6.33\%, average IPC improvement is 7.71\%, and average activity-energy reduction is 5.12\%.
 
 \begin{table*}[t]
 \centering
@@ -133,8 +157,6 @@ tiny\_fir & 159 & 152 & 4.40\% & 4.61\% & 6.00\% & 2 & 10 \\
 \hline
 \end{tabular}
 \end{table*}
-
-Across all 13 workloads, static-normal execution takes 3,307 cycles and adaptive execution takes 3,056 cycles, a 7.59\% total reduction. Total activity-energy proxy falls from 19,162 to 18,055, a 5.78\% reduction. Adaptive improves cycles on 9 workloads, ties 3, and slows dsp-fir-codegen by 1.04\%. The average per-workload cycle reduction is 6.33\%, average IPC improvement is 7.71\%, and average activity-energy reduction is 5.12\%.
 
 Table~\ref{tab:oracle} compares adaptive mode with the best fixed mode chosen after seeing each workload. Negative gaps mean adaptive is worse than that hindsight oracle.
 
@@ -164,9 +186,7 @@ tiny\_fir & fixed\_memory & 127 & 152 & -19.69\% & 739 & -12.31\% \\
 \end{tabular}
 \end{table*}
 
-The oracle comparison keeps the claim bounded. Adaptive remains an average -8.90\% behind the best fixed mode in cycles and -5.43\% behind in activity-energy proxy. This shows that the mode mechanisms have useful headroom, while the online controller still misses fixed-memory opportunities on mixed-control and tiny-FIR.
-
-The most important change from the earlier draft is that adaptive memory behavior is now plausible but still imperfect. Memory-heavy improves by 29.87\% versus static normal and closes most of the previous fixed-memory gap, but it remains 10.20\% behind the oracle. Mixed-control and tiny-FIR still show larger oracle gaps because the online policy sees mixed evidence and pays reconfiguration cost. The single static-normal regression, dsp-fir-codegen, is kept in the table because it is exactly the kind of short generated loop where controller overhead can dominate.
+The oracle comparison keeps the claim bounded. Adaptive remains an average -8.90\% behind the best fixed mode in cycles and -5.43\% behind in activity-energy proxy. This shows useful mode headroom, but it does not show a finished online policy. Memory-heavy improves by 29.87\% versus static normal and closes much of the fixed-memory gap, but it remains 10.20\% behind the oracle. Mixed-control and tiny-FIR have larger oracle gaps because the online policy sees mixed evidence and pays reconfiguration cost. The single static-normal regression, dsp-fir-codegen, is kept in the table because it is exactly the kind of short generated loop where controller overhead can dominate.
 
 \begin{table}[t]
 \centering
@@ -184,7 +204,7 @@ zero\_cost\_reconfig & 3009 & -1.54\% & 18055 & 12 & 0 \\
 \end{tabular}
 \end{table}
 
-The ablation rows make the controller's contribution visible. Disabling the observer or controller collapses adaptive execution back to the static-normal aggregate. The zero-cost row is not an unsafe RTL run; it subtracts measured reconfiguration penalty from validated adaptive rows to estimate a best-case bound for reducing drain cost. That bound is small after controller v2, which suggests that the next improvement should target phase decisions rather than only switch latency.
+The ablation rows make the controller's contribution visible. Disabling the observer or controller collapses adaptive execution back to the static-normal aggregate, so the gain is not coming from a hidden default-mode change. The zero-cost row is not an unsafe RTL run; it subtracts measured reconfiguration penalty from validated adaptive rows to estimate a best-case bound for reducing drain cost. That bound is small after controller v2, which suggests that the next improvement should target phase decisions rather than only switch latency.
 
 \begin{table}[t]
 \centering
@@ -205,9 +225,9 @@ observer/controller/reconfig sum & 2885 & 157.65\% \\
 \end{tabular}
 \end{table}
 
-The area proxy is intentionally sobering. Standalone observer, controller, and reconfiguration modules sum to 2,885 generic cells, and the integrated proxy reports 4,850 cells, a 165.03\% delta over the baseline core proxy. These numbers should not be read as final silicon cost, but they do warn that the first prototype spends more hardware on observation than a tiny teaching core can justify without better mechanisms or shared counters.
+The area proxy is intentionally sobering. Standalone observer, controller, and reconfiguration modules sum to 2,885 generic cells, and the integrated proxy reports 4,850 cells, a 165.03\% delta over the baseline core proxy. These numbers are not calibrated synthesis results, FPGA utilization, timing closure, or physical power. They are still useful because they warn that the first prototype spends more hardware on observation than a tiny teaching core can justify without better mechanisms or shared counters.
 
-The row-level CSVs are kept because aggregate wins alone would overstate the artifact. For example, adaptive memory behavior is strong on memory-heavy but weaker on mixed-control, where the best fixed mode still wins by 20.95\%. Likewise, the low cycle gap on long-FIR-stress does not imply general robustness; it means that this longer workload happens to align with the current memory-entry policy. These details are easier to audit in CSV form than in prose, so the repository keeps both summary tables and raw generated outputs.
+Overall, the evaluation supports a scoped artifact claim: the closed-loop RTL improves over static normal mode while preserving the modeled safety and architectural checks. It does not support a broad claim that the controller is optimal, that the modes are realistic production mechanisms, or that the area and energy values are physical implementation results. The row-level CSVs are kept because aggregate wins alone would overstate the artifact. For example, adaptive memory behavior is strong on memory-heavy but weaker on mixed-control, where the best fixed mode still wins by 20.95\%. Likewise, the low cycle gap on long-FIR-stress does not imply general robustness; it means that this longer workload happens to align with the current memory-entry policy.
 
 \section{Parameter Sensitivity}
 
