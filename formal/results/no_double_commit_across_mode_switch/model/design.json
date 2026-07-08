@@ -1,0 +1,1437 @@
+{
+  "$schema": "https://raw.githubusercontent.com/YosysHQ/yosys/main/misc/jny.schema.json",
+  "generator": "Yosys 0.66+154 (git sha1 23aadd92a, Release, GNU /usr/bin/x86_64-w64-mingw32-g++ 13.2.1)",
+  "version": "0.0.1",
+  "invocation": "write_jny -no-connections ../model/design.json ",
+  "features": ["attributes", "properties"],
+  "modules": [
+      {
+        "name": "no_double_commit_across_mode_switch_harness",
+        "cell_sorts": [
+          {
+            "type": "$add",
+            "ports": [
+                {
+                  "name": "A",
+                  "direction": "io",
+                  "range": [4, 0]
+                },
+                {
+                  "name": "B",
+                  "direction": "io",
+                  "range": [0, 0]
+                },
+                {
+                  "name": "Y",
+                  "direction": "",
+                  "range": [4, 0]
+                }
+            ],
+            "cells": [
+                {
+                  "name": "$add$no_double_commit_across_mode_switch.sv:131$53",
+                  "attributes": {
+                    "src": "no_double_commit_across_mode_switch.sv:131.26-131.67"
+                  },
+                  "parameters": {
+                    "A_SIGNED": "00000000000000000000000000000000",
+                    "A_WIDTH": "00000000000000000000000000000100",
+                    "B_SIGNED": "00000000000000000000000000000000",
+                    "B_WIDTH": "00000000000000000000000000000001",
+                    "Y_WIDTH": "00000000000000000000000000000100"
+                  }
+                }
+            ]
+          },
+          {
+            "type": "$shiftx",
+            "ports": [
+                {
+                  "name": "A",
+                  "direction": "io",
+                  "range": [8, 0]
+                },
+                {
+                  "name": "B",
+                  "direction": "io",
+                  "range": [3, 0]
+                },
+                {
+                  "name": "Y",
+                  "direction": "",
+                  "range": [0, 0]
+                }
+            ],
+            "cells": [
+                {
+                  "name": "$shiftx$no_double_commit_across_mode_switch.sv:139$56",
+                  "attributes": {
+                    "src": "no_double_commit_across_mode_switch.sv:139.29-139.41"
+                  },
+                  "parameters": {
+                    "A_SIGNED": "00000000000000000000000000000000",
+                    "A_WIDTH": "00000000000000000000000000001000",
+                    "B_SIGNED": "00000000000000000000000000000000",
+                    "B_WIDTH": "00000000000000000000000000000011",
+                    "Y_WIDTH": "00000000000000000000000000000001"
+                  }
+                },
+                {
+                  "name": "$shiftx$no_double_commit_across_mode_switch.sv:141$59",
+                  "attributes": {
+                    "src": "no_double_commit_across_mode_switch.sv:141.40-141.52"
+                  },
+                  "parameters": {
+                    "A_SIGNED": "00000000000000000000000000000000",
+                    "A_WIDTH": "00000000000000000000000000001000",
+                    "B_SIGNED": "00000000000000000000000000000000",
+                    "B_WIDTH": "00000000000000000000000000000011",
+                    "Y_WIDTH": "00000000000000000000000000000001"
+                  }
+                }
+            ]
+          },
+          {
+            "type": "$neg",
+            "ports": [
+                {
+                  "name": "A",
+                  "direction": "io",
+                  "range": [3, 0]
+                },
+                {
+                  "name": "Y",
+                  "direction": "",
+                  "range": [4, 0]
+                }
+            ],
+            "cells": [
+                {
+                  "name": "$neg$no_double_commit_across_mode_switch.sv:97$43",
+                  "attributes": {
+                    "src": "no_double_commit_across_mode_switch.sv:97.7-97.41"
+                  },
+                  "parameters": {
+                    "A_SIGNED": "00000000000000000000000000000000",
+                    "A_WIDTH": "00000000000000000000000000000011",
+                    "Y_WIDTH": "00000000000000000000000000000100"
+                  }
+                }
+            ]
+          },
+          {
+            "type": "$and",
+            "ports": [
+                {
+                  "name": "A",
+                  "direction": "io",
+                  "range": [8, 0]
+                },
+                {
+                  "name": "B",
+                  "direction": "io",
+                  "range": [8, 0]
+                },
+                {
+                  "name": "Y",
+                  "direction": "",
+                  "range": [8, 0]
+                }
+            ],
+            "cells": [
+                {
+                  "name": "$and$no_double_commit_across_mode_switch.sv:97$42",
+                  "attributes": {
+                    "src": "no_double_commit_across_mode_switch.sv:97.7-97.41"
+                  },
+                  "parameters": {
+                    "A_SIGNED": "00000000000000000000000000000000",
+                    "A_WIDTH": "00000000000000000000000000001000",
+                    "B_SIGNED": "00000000000000000000000000000000",
+                    "B_WIDTH": "00000000000000000000000000001000",
+                    "Y_WIDTH": "00000000000000000000000000001000"
+                  }
+                }
+            ]
+          },
+          {
+            "type": "$eq",
+            "ports": [
+                {
+                  "name": "A",
+                  "direction": "io",
+                  "range": [0, 0]
+                },
+                {
+                  "name": "B",
+                  "direction": "io",
+                  "range": [0, 0]
+                },
+                {
+                  "name": "Y",
+                  "direction": "",
+                  "range": [0, 0]
+                }
+            ],
+            "cells": [
+                {
+                  "name": "$eq$no_double_commit_across_mode_switch.sv:100$48",
+                  "attributes": {
+                    "src": "no_double_commit_across_mode_switch.sv:100.45-100.75"
+                  },
+                  "parameters": {
+                    "A_SIGNED": "00000000000000000000000000000000",
+                    "A_WIDTH": "00000000000000000000000000000001",
+                    "B_SIGNED": "00000000000000000000000000000000",
+                    "B_WIDTH": "00000000000000000000000000000001",
+                    "Y_WIDTH": "00000000000000000000000000000001"
+                  }
+                }
+            ]
+          },
+          {
+            "type": "$or",
+            "ports": [
+                {
+                  "name": "A",
+                  "direction": "io",
+                  "range": [8, 0]
+                },
+                {
+                  "name": "B",
+                  "direction": "io",
+                  "range": [8, 0]
+                },
+                {
+                  "name": "Y",
+                  "direction": "",
+                  "range": [8, 0]
+                }
+            ],
+            "cells": [
+                {
+                  "name": "$or$no_double_commit_across_mode_switch.sv:97$45",
+                  "attributes": {
+                    "src": "no_double_commit_across_mode_switch.sv:97.7-97.41"
+                  },
+                  "parameters": {
+                    "A_SIGNED": "00000000000000000000000000000000",
+                    "A_WIDTH": "00000000000000000000000000001000",
+                    "B_SIGNED": "00000000000000000000000000000000",
+                    "B_WIDTH": "00000000000000000000000000001000",
+                    "Y_WIDTH": "00000000000000000000000000001000"
+                  }
+                }
+            ]
+          },
+          {
+            "type": "$logic_and",
+            "ports": [
+                {
+                  "name": "A",
+                  "direction": "io",
+                  "range": [0, 0]
+                },
+                {
+                  "name": "B",
+                  "direction": "io",
+                  "range": [0, 0]
+                },
+                {
+                  "name": "Y",
+                  "direction": "",
+                  "range": [0, 0]
+                }
+            ],
+            "cells": [
+                {
+                  "name": "$logic_and$no_double_commit_across_mode_switch.sv:100$47",
+                  "attributes": {
+                    "src": "no_double_commit_across_mode_switch.sv:100.9-100.41"
+                  },
+                  "parameters": {
+                    "A_SIGNED": "00000000000000000000000000000000",
+                    "A_WIDTH": "00000000000000000000000000000001",
+                    "B_SIGNED": "00000000000000000000000000000000",
+                    "B_WIDTH": "00000000000000000000000000000001",
+                    "Y_WIDTH": "00000000000000000000000000000001"
+                  }
+                },
+                {
+                  "name": "$logic_and$no_double_commit_across_mode_switch.sv:100$49",
+                  "attributes": {
+                    "src": "no_double_commit_across_mode_switch.sv:100.9-100.75"
+                  },
+                  "parameters": {
+                    "A_SIGNED": "00000000000000000000000000000000",
+                    "A_WIDTH": "00000000000000000000000000000001",
+                    "B_SIGNED": "00000000000000000000000000000000",
+                    "B_WIDTH": "00000000000000000000000000000001",
+                    "Y_WIDTH": "00000000000000000000000000000001"
+                  }
+                },
+                {
+                  "name": "$logic_and$no_double_commit_across_mode_switch.sv:105$51",
+                  "attributes": {
+                    "src": "no_double_commit_across_mode_switch.sv:105.9-105.42"
+                  },
+                  "parameters": {
+                    "A_SIGNED": "00000000000000000000000000000000",
+                    "A_WIDTH": "00000000000000000000000000000001",
+                    "B_SIGNED": "00000000000000000000000000000000",
+                    "B_WIDTH": "00000000000000000000000000000001",
+                    "Y_WIDTH": "00000000000000000000000000000001"
+                  }
+                },
+                {
+                  "name": "$logic_and$no_double_commit_across_mode_switch.sv:38$10",
+                  "attributes": {
+                    "src": "no_double_commit_across_mode_switch.sv:38.27-38.89"
+                  },
+                  "parameters": {
+                    "A_SIGNED": "00000000000000000000000000000000",
+                    "A_WIDTH": "00000000000000000000000000000001",
+                    "B_SIGNED": "00000000000000000000000000000000",
+                    "B_WIDTH": "00000000000000000000000000000001",
+                    "Y_WIDTH": "00000000000000000000000000000001"
+                  }
+                },
+                {
+                  "name": "$logic_and$no_double_commit_across_mode_switch.sv:38$4",
+                  "attributes": {
+                    "src": "no_double_commit_across_mode_switch.sv:38.27-38.49"
+                  },
+                  "parameters": {
+                    "A_SIGNED": "00000000000000000000000000000000",
+                    "A_WIDTH": "00000000000000000000000000000001",
+                    "B_SIGNED": "00000000000000000000000000000000",
+                    "B_WIDTH": "00000000000000000000000000000001",
+                    "Y_WIDTH": "00000000000000000000000000000001"
+                  }
+                },
+                {
+                  "name": "$logic_and$no_double_commit_across_mode_switch.sv:38$6",
+                  "attributes": {
+                    "src": "no_double_commit_across_mode_switch.sv:38.27-38.62"
+                  },
+                  "parameters": {
+                    "A_SIGNED": "00000000000000000000000000000000",
+                    "A_WIDTH": "00000000000000000000000000000001",
+                    "B_SIGNED": "00000000000000000000000000000000",
+                    "B_WIDTH": "00000000000000000000000000000001",
+                    "Y_WIDTH": "00000000000000000000000000000001"
+                  }
+                },
+                {
+                  "name": "$logic_and$no_double_commit_across_mode_switch.sv:38$8",
+                  "attributes": {
+                    "src": "no_double_commit_across_mode_switch.sv:38.27-38.76"
+                  },
+                  "parameters": {
+                    "A_SIGNED": "00000000000000000000000000000000",
+                    "A_WIDTH": "00000000000000000000000000000001",
+                    "B_SIGNED": "00000000000000000000000000000000",
+                    "B_WIDTH": "00000000000000000000000000000001",
+                    "Y_WIDTH": "00000000000000000000000000000001"
+                  }
+                },
+                {
+                  "name": "$logic_and$no_double_commit_across_mode_switch.sv:39$12",
+                  "attributes": {
+                    "src": "no_double_commit_across_mode_switch.sv:39.27-39.56"
+                  },
+                  "parameters": {
+                    "A_SIGNED": "00000000000000000000000000000000",
+                    "A_WIDTH": "00000000000000000000000000000001",
+                    "B_SIGNED": "00000000000000000000000000000000",
+                    "B_WIDTH": "00000000000000000000000000000001",
+                    "Y_WIDTH": "00000000000000000000000000000001"
+                  }
+                },
+                {
+                  "name": "$logic_and$no_double_commit_across_mode_switch.sv:39$14",
+                  "attributes": {
+                    "src": "no_double_commit_across_mode_switch.sv:39.27-39.66"
+                  },
+                  "parameters": {
+                    "A_SIGNED": "00000000000000000000000000000000",
+                    "A_WIDTH": "00000000000000000000000000000001",
+                    "B_SIGNED": "00000000000000000000000000000000",
+                    "B_WIDTH": "00000000000000000000000000000001",
+                    "Y_WIDTH": "00000000000000000000000000000001"
+                  }
+                },
+                {
+                  "name": "$logic_and$no_double_commit_across_mode_switch.sv:39$16",
+                  "attributes": {
+                    "src": "no_double_commit_across_mode_switch.sv:39.27-39.76"
+                  },
+                  "parameters": {
+                    "A_SIGNED": "00000000000000000000000000000000",
+                    "A_WIDTH": "00000000000000000000000000000001",
+                    "B_SIGNED": "00000000000000000000000000000000",
+                    "B_WIDTH": "00000000000000000000000000000001",
+                    "Y_WIDTH": "00000000000000000000000000000001"
+                  }
+                },
+                {
+                  "name": "$logic_and$no_double_commit_across_mode_switch.sv:40$18",
+                  "attributes": {
+                    "src": "no_double_commit_across_mode_switch.sv:40.25-40.43"
+                  },
+                  "parameters": {
+                    "A_SIGNED": "00000000000000000000000000000000",
+                    "A_WIDTH": "00000000000000000000000000000001",
+                    "B_SIGNED": "00000000000000000000000000000000",
+                    "B_WIDTH": "00000000000000000000000000000001",
+                    "Y_WIDTH": "00000000000000000000000000000001"
+                  }
+                },
+                {
+                  "name": "$logic_and$no_double_commit_across_mode_switch.sv:40$20",
+                  "attributes": {
+                    "src": "no_double_commit_across_mode_switch.sv:40.25-40.53"
+                  },
+                  "parameters": {
+                    "A_SIGNED": "00000000000000000000000000000000",
+                    "A_WIDTH": "00000000000000000000000000000001",
+                    "B_SIGNED": "00000000000000000000000000000000",
+                    "B_WIDTH": "00000000000000000000000000000001",
+                    "Y_WIDTH": "00000000000000000000000000000001"
+                  }
+                },
+                {
+                  "name": "$logic_and$no_double_commit_across_mode_switch.sv:91$31",
+                  "attributes": {
+                    "src": "no_double_commit_across_mode_switch.sv:91.14-91.28"
+                  },
+                  "parameters": {
+                    "A_SIGNED": "00000000000000000000000000000000",
+                    "A_WIDTH": "00000000000000000000000000000001",
+                    "B_SIGNED": "00000000000000000000000000000000",
+                    "B_WIDTH": "00000000000000000000000000000001",
+                    "Y_WIDTH": "00000000000000000000000000000001"
+                  }
+                }
+            ]
+          },
+          {
+            "type": "$logic_not",
+            "ports": [
+                {
+                  "name": "A",
+                  "direction": "io",
+                  "range": [0, 0]
+                },
+                {
+                  "name": "Y",
+                  "direction": "",
+                  "range": [0, 0]
+                }
+            ],
+            "cells": [
+                {
+                  "name": "$logic_not$no_double_commit_across_mode_switch.sv:100$46",
+                  "attributes": {
+                    "src": "no_double_commit_across_mode_switch.sv:100.25-100.41"
+                  },
+                  "parameters": {
+                    "A_SIGNED": "00000000000000000000000000000000",
+                    "A_WIDTH": "00000000000000000000000000000001",
+                    "Y_WIDTH": "00000000000000000000000000000001"
+                  }
+                },
+                {
+                  "name": "$logic_not$no_double_commit_across_mode_switch.sv:101$50",
+                  "attributes": {
+                    "src": "no_double_commit_across_mode_switch.sv:101.25-101.38"
+                  },
+                  "parameters": {
+                    "A_SIGNED": "00000000000000000000000000000000",
+                    "A_WIDTH": "00000000000000000000000000000001",
+                    "Y_WIDTH": "00000000000000000000000000000001"
+                  }
+                },
+                {
+                  "name": "$logic_not$no_double_commit_across_mode_switch.sv:139$57",
+                  "attributes": {
+                    "src": "no_double_commit_across_mode_switch.sv:139.14-139.41"
+                  },
+                  "parameters": {
+                    "A_SIGNED": "00000000000000000000000000000000",
+                    "A_WIDTH": "00000000000000000000000000000001",
+                    "Y_WIDTH": "00000000000000000000000000000001"
+                  }
+                },
+                {
+                  "name": "$logic_not$no_double_commit_across_mode_switch.sv:141$60",
+                  "attributes": {
+                    "src": "no_double_commit_across_mode_switch.sv:141.16-141.52"
+                  },
+                  "parameters": {
+                    "A_SIGNED": "00000000000000000000000000000000",
+                    "A_WIDTH": "00000000000000000000000000000001",
+                    "Y_WIDTH": "00000000000000000000000000000001"
+                  }
+                },
+                {
+                  "name": "$logic_not$no_double_commit_across_mode_switch.sv:146$62",
+                  "attributes": {
+                    "src": "no_double_commit_across_mode_switch.sv:146.14-146.29"
+                  },
+                  "parameters": {
+                    "A_SIGNED": "00000000000000000000000000000000",
+                    "A_WIDTH": "00000000000000000000000000000001",
+                    "Y_WIDTH": "00000000000000000000000000000001"
+                  }
+                },
+                {
+                  "name": "$logic_not$no_double_commit_across_mode_switch.sv:38$2",
+                  "attributes": {
+                    "src": "no_double_commit_across_mode_switch.sv:38.27-38.36"
+                  },
+                  "parameters": {
+                    "A_SIGNED": "00000000000000000000000000000000",
+                    "A_WIDTH": "00000000000000000000000000000001",
+                    "Y_WIDTH": "00000000000000000000000000000001"
+                  }
+                },
+                {
+                  "name": "$logic_not$no_double_commit_across_mode_switch.sv:38$3",
+                  "attributes": {
+                    "src": "no_double_commit_across_mode_switch.sv:38.40-38.49"
+                  },
+                  "parameters": {
+                    "A_SIGNED": "00000000000000000000000000000000",
+                    "A_WIDTH": "00000000000000000000000000000001",
+                    "Y_WIDTH": "00000000000000000000000000000001"
+                  }
+                },
+                {
+                  "name": "$logic_not$no_double_commit_across_mode_switch.sv:38$5",
+                  "attributes": {
+                    "src": "no_double_commit_across_mode_switch.sv:38.53-38.62"
+                  },
+                  "parameters": {
+                    "A_SIGNED": "00000000000000000000000000000000",
+                    "A_WIDTH": "00000000000000000000000000000001",
+                    "Y_WIDTH": "00000000000000000000000000000001"
+                  }
+                },
+                {
+                  "name": "$logic_not$no_double_commit_across_mode_switch.sv:38$7",
+                  "attributes": {
+                    "src": "no_double_commit_across_mode_switch.sv:38.66-38.76"
+                  },
+                  "parameters": {
+                    "A_SIGNED": "00000000000000000000000000000000",
+                    "A_WIDTH": "00000000000000000000000000000001",
+                    "Y_WIDTH": "00000000000000000000000000000001"
+                  }
+                },
+                {
+                  "name": "$logic_not$no_double_commit_across_mode_switch.sv:38$9",
+                  "attributes": {
+                    "src": "no_double_commit_across_mode_switch.sv:38.80-38.89"
+                  },
+                  "parameters": {
+                    "A_SIGNED": "00000000000000000000000000000000",
+                    "A_WIDTH": "00000000000000000000000000000001",
+                    "Y_WIDTH": "00000000000000000000000000000001"
+                  }
+                },
+                {
+                  "name": "$logic_not$no_double_commit_across_mode_switch.sv:40$17",
+                  "attributes": {
+                    "src": "no_double_commit_across_mode_switch.sv:40.37-40.43"
+                  },
+                  "parameters": {
+                    "A_SIGNED": "00000000000000000000000000000000",
+                    "A_WIDTH": "00000000000000000000000000000001",
+                    "Y_WIDTH": "00000000000000000000000000000001"
+                  }
+                },
+                {
+                  "name": "$logic_not$no_double_commit_across_mode_switch.sv:91$32",
+                  "attributes": {
+                    "src": "no_double_commit_across_mode_switch.sv:91.12-91.29"
+                  },
+                  "parameters": {
+                    "A_SIGNED": "00000000000000000000000000000000",
+                    "A_WIDTH": "00000000000000000000000000000001",
+                    "Y_WIDTH": "00000000000000000000000000000001"
+                  }
+                },
+                {
+                  "name": "$logic_not$no_double_commit_across_mode_switch.sv:92$34",
+                  "attributes": {
+                    "src": "no_double_commit_across_mode_switch.sv:92.12-92.18"
+                  },
+                  "parameters": {
+                    "A_SIGNED": "00000000000000000000000000000000",
+                    "A_WIDTH": "00000000000000000000000000000001",
+                    "Y_WIDTH": "00000000000000000000000000000001"
+                  }
+                }
+            ]
+          },
+          {
+            "type": "$lt",
+            "ports": [
+                {
+                  "name": "A",
+                  "direction": "io",
+                  "range": [4, 0]
+                },
+                {
+                  "name": "B",
+                  "direction": "io",
+                  "range": [4, 0]
+                },
+                {
+                  "name": "Y",
+                  "direction": "",
+                  "range": [0, 0]
+                }
+            ],
+            "cells": [
+                {
+                  "name": "$lt$no_double_commit_across_mode_switch.sv:93$36",
+                  "attributes": {
+                    "src": "no_double_commit_across_mode_switch.sv:93.12-93.37"
+                  },
+                  "parameters": {
+                    "A_SIGNED": "00000000000000000000000000000000",
+                    "A_WIDTH": "00000000000000000000000000000100",
+                    "B_SIGNED": "00000000000000000000000000000000",
+                    "B_WIDTH": "00000000000000000000000000000100",
+                    "Y_WIDTH": "00000000000000000000000000000001"
+                  }
+                }
+            ]
+          },
+          {
+            "type": "$check",
+            "ports": [
+                {
+                  "name": "A",
+                  "direction": "io",
+                  "range": [0, 0]
+                },
+                {
+                  "name": "ARGS",
+                  "direction": "io",
+                  "range": [0, 0]
+                },
+                {
+                  "name": "EN",
+                  "direction": "io",
+                  "range": [0, 0]
+                },
+                {
+                  "name": "TRG",
+                  "direction": "io",
+                  "range": [0, 0]
+                }
+            ],
+            "cells": [
+                {
+                  "name": "_witness_.check_assert_no_double_commit_across_mode_switch_sv_139_55",
+                  "attributes": {
+                    "hdlname": "_witness_ check_assert_no_double_commit_across_mode_switch_sv_139_55",
+                    "keep": "00000000000000000000000000000001",
+                    "src": "no_double_commit_across_mode_switch.sv:139.7-139.42"
+                  },
+                  "parameters": {
+                    "ARGS_WIDTH": "00000000000000000000000000000000",
+                    "FLAVOR": "assert",
+                    "FORMAT": true,
+                    "PRIORITY": "11111111111111111111111111111111",
+                    "TRG_ENABLE": "00000000000000000000000000000001",
+                    "TRG_POLARITY": "1",
+                    "TRG_WIDTH": "00000000000000000000000000000001"
+                  }
+                },
+                {
+                  "name": "_witness_.check_assert_no_double_commit_across_mode_switch_sv_141_58",
+                  "attributes": {
+                    "hdlname": "_witness_ check_assert_no_double_commit_across_mode_switch_sv_141_58",
+                    "keep": "00000000000000000000000000000001",
+                    "src": "no_double_commit_across_mode_switch.sv:141.9-141.53"
+                  },
+                  "parameters": {
+                    "ARGS_WIDTH": "00000000000000000000000000000000",
+                    "FLAVOR": "assert",
+                    "FORMAT": true,
+                    "PRIORITY": "11111111111111111111111111111110",
+                    "TRG_ENABLE": "00000000000000000000000000000001",
+                    "TRG_POLARITY": "1",
+                    "TRG_WIDTH": "00000000000000000000000000000001"
+                  }
+                },
+                {
+                  "name": "_witness_.check_assert_no_double_commit_across_mode_switch_sv_146_61",
+                  "attributes": {
+                    "hdlname": "_witness_ check_assert_no_double_commit_across_mode_switch_sv_146_61",
+                    "keep": "00000000000000000000000000000001",
+                    "src": "no_double_commit_across_mode_switch.sv:146.7-146.30"
+                  },
+                  "parameters": {
+                    "ARGS_WIDTH": "00000000000000000000000000000000",
+                    "FLAVOR": "assert",
+                    "FORMAT": true,
+                    "PRIORITY": "11111111111111111111111111111101",
+                    "TRG_ENABLE": "00000000000000000000000000000001",
+                    "TRG_POLARITY": "1",
+                    "TRG_WIDTH": "00000000000000000000000000000001"
+                  }
+                },
+                {
+                  "name": "_witness_.check_assume_no_double_commit_across_mode_switch_sv_91_30",
+                  "attributes": {
+                    "hdlname": "_witness_ check_assume_no_double_commit_across_mode_switch_sv_91_30",
+                    "keep": "00000000000000000000000000000001",
+                    "src": "no_double_commit_across_mode_switch.sv:91.5-91.30"
+                  },
+                  "parameters": {
+                    "ARGS_WIDTH": "00000000000000000000000000000000",
+                    "FLAVOR": "assume",
+                    "FORMAT": true,
+                    "PRIORITY": "11111111111111111111111111111111",
+                    "TRG_ENABLE": "00000000000000000000000000000001",
+                    "TRG_POLARITY": "1",
+                    "TRG_WIDTH": "00000000000000000000000000000001"
+                  }
+                },
+                {
+                  "name": "_witness_.check_assume_no_double_commit_across_mode_switch_sv_92_33",
+                  "attributes": {
+                    "hdlname": "_witness_ check_assume_no_double_commit_across_mode_switch_sv_92_33",
+                    "keep": "00000000000000000000000000000001",
+                    "src": "no_double_commit_across_mode_switch.sv:92.5-92.19"
+                  },
+                  "parameters": {
+                    "ARGS_WIDTH": "00000000000000000000000000000000",
+                    "FLAVOR": "assume",
+                    "FORMAT": true,
+                    "PRIORITY": "11111111111111111111111111111110",
+                    "TRG_ENABLE": "00000000000000000000000000000001",
+                    "TRG_POLARITY": "1",
+                    "TRG_WIDTH": "00000000000000000000000000000001"
+                  }
+                },
+                {
+                  "name": "_witness_.check_assume_no_double_commit_across_mode_switch_sv_93_35",
+                  "attributes": {
+                    "hdlname": "_witness_ check_assume_no_double_commit_across_mode_switch_sv_93_35",
+                    "keep": "00000000000000000000000000000001",
+                    "src": "no_double_commit_across_mode_switch.sv:93.5-93.38"
+                  },
+                  "parameters": {
+                    "ARGS_WIDTH": "00000000000000000000000000000000",
+                    "FLAVOR": "assume",
+                    "FORMAT": true,
+                    "PRIORITY": "11111111111111111111111111111101",
+                    "TRG_ENABLE": "00000000000000000000000000000001",
+                    "TRG_POLARITY": "1",
+                    "TRG_WIDTH": "00000000000000000000000000000001"
+                  }
+                },
+                {
+                  "name": "_witness_.check_cover_no_double_commit_across_mode_switch_sv_150_63",
+                  "attributes": {
+                    "hdlname": "_witness_ check_cover_no_double_commit_across_mode_switch_sv_150_63",
+                    "keep": "00000000000000000000000000000001",
+                    "src": "no_double_commit_across_mode_switch.sv:150.7-150.26"
+                  },
+                  "parameters": {
+                    "ARGS_WIDTH": "00000000000000000000000000000000",
+                    "FLAVOR": "cover",
+                    "FORMAT": true,
+                    "PRIORITY": "11111111111111111111111111111100",
+                    "TRG_ENABLE": "00000000000000000000000000000001",
+                    "TRG_POLARITY": "1",
+                    "TRG_WIDTH": "00000000000000000000000000000001"
+                  }
+                }
+            ]
+          },
+          {
+            "type": "$dff",
+            "ports": [
+                {
+                  "name": "CLK",
+                  "direction": "io",
+                  "range": [0, 0]
+                },
+                {
+                  "name": "D",
+                  "direction": "io",
+                  "range": [0, 0]
+                },
+                {
+                  "name": "Q",
+                  "direction": "",
+                  "range": [0, 0]
+                }
+            ],
+            "cells": [
+                {
+                  "name": "$procdff$150",
+                  "attributes": {
+                    "always_ff": "00000000000000000000000000000001",
+                    "src": "no_double_commit_across_mode_switch.sv:89.3-134.6"
+                  },
+                  "parameters": {
+                    "CLK_POLARITY": "1",
+                    "WIDTH": "00000000000000000000000000000001"
+                  }
+                },
+                {
+                  "name": "$procdff$151",
+                  "attributes": {
+                    "always_ff": "00000000000000000000000000000001",
+                    "src": "no_double_commit_across_mode_switch.sv:89.3-134.6"
+                  },
+                  "parameters": {
+                    "CLK_POLARITY": "1",
+                    "WIDTH": "00000000000000000000000000000001"
+                  }
+                },
+                {
+                  "name": "$procdff$152",
+                  "attributes": {
+                    "always_ff": "00000000000000000000000000000001",
+                    "src": "no_double_commit_across_mode_switch.sv:89.3-134.6"
+                  },
+                  "parameters": {
+                    "CLK_POLARITY": "1",
+                    "WIDTH": "00000000000000000000000000000001"
+                  }
+                },
+                {
+                  "name": "$procdff$153",
+                  "attributes": {
+                    "always_ff": "00000000000000000000000000000001",
+                    "src": "no_double_commit_across_mode_switch.sv:89.3-134.6"
+                  },
+                  "parameters": {
+                    "CLK_POLARITY": "1",
+                    "WIDTH": "00000000000000000000000000000001"
+                  }
+                },
+                {
+                  "name": "$procdff$154",
+                  "attributes": {
+                    "always_ff": "00000000000000000000000000000001",
+                    "src": "no_double_commit_across_mode_switch.sv:89.3-134.6"
+                  },
+                  "parameters": {
+                    "CLK_POLARITY": "1",
+                    "WIDTH": "00000000000000000000000000000001"
+                  }
+                },
+                {
+                  "name": "$procdff$155",
+                  "attributes": {
+                    "always_ff": "00000000000000000000000000000001",
+                    "src": "no_double_commit_across_mode_switch.sv:89.3-134.6"
+                  },
+                  "parameters": {
+                    "CLK_POLARITY": "1",
+                    "WIDTH": "00000000000000000000000000000001"
+                  }
+                },
+                {
+                  "name": "$procdff$156",
+                  "attributes": {
+                    "always_ff": "00000000000000000000000000000001",
+                    "src": "no_double_commit_across_mode_switch.sv:89.3-134.6"
+                  },
+                  "parameters": {
+                    "CLK_POLARITY": "1",
+                    "WIDTH": "00000000000000000000000000000001"
+                  }
+                },
+                {
+                  "name": "$procdff$157",
+                  "attributes": {
+                    "always_ff": "00000000000000000000000000000001",
+                    "src": "no_double_commit_across_mode_switch.sv:89.3-134.6"
+                  },
+                  "parameters": {
+                    "CLK_POLARITY": "1",
+                    "WIDTH": "00000000000000000000000000000001"
+                  }
+                },
+                {
+                  "name": "$procdff$158",
+                  "attributes": {
+                    "always_ff": "00000000000000000000000000000001",
+                    "src": "no_double_commit_across_mode_switch.sv:89.3-134.6"
+                  },
+                  "parameters": {
+                    "CLK_POLARITY": "1",
+                    "WIDTH": "00000000000000000000000000000001"
+                  }
+                },
+                {
+                  "name": "$procdff$159",
+                  "attributes": {
+                    "always_ff": "00000000000000000000000000000001",
+                    "src": "no_double_commit_across_mode_switch.sv:89.3-134.6"
+                  },
+                  "parameters": {
+                    "CLK_POLARITY": "1",
+                    "WIDTH": "00000000000000000000000000000011"
+                  }
+                },
+                {
+                  "name": "$procdff$160",
+                  "attributes": {
+                    "always_ff": "00000000000000000000000000000001",
+                    "src": "no_double_commit_across_mode_switch.sv:89.3-134.6"
+                  },
+                  "parameters": {
+                    "CLK_POLARITY": "1",
+                    "WIDTH": "00000000000000000000000000000011"
+                  }
+                },
+                {
+                  "name": "$procdff$161",
+                  "attributes": {
+                    "always_ff": "00000000000000000000000000000001",
+                    "src": "no_double_commit_across_mode_switch.sv:89.3-134.6"
+                  },
+                  "parameters": {
+                    "CLK_POLARITY": "1",
+                    "WIDTH": "00000000000000000000000000000011"
+                  }
+                },
+                {
+                  "name": "$procdff$162",
+                  "attributes": {
+                    "always_ff": "00000000000000000000000000000001",
+                    "src": "no_double_commit_across_mode_switch.sv:89.3-134.6"
+                  },
+                  "parameters": {
+                    "CLK_POLARITY": "1",
+                    "WIDTH": "00000000000000000000000000000011"
+                  }
+                },
+                {
+                  "name": "$procdff$163",
+                  "attributes": {
+                    "always_ff": "00000000000000000000000000000001",
+                    "src": "no_double_commit_across_mode_switch.sv:89.3-134.6"
+                  },
+                  "parameters": {
+                    "CLK_POLARITY": "1",
+                    "WIDTH": "00000000000000000000000000000011"
+                  }
+                },
+                {
+                  "name": "$procdff$164",
+                  "attributes": {
+                    "always_ff": "00000000000000000000000000000001",
+                    "src": "no_double_commit_across_mode_switch.sv:89.3-134.6"
+                  },
+                  "parameters": {
+                    "CLK_POLARITY": "1",
+                    "WIDTH": "00000000000000000000000000000100"
+                  }
+                },
+                {
+                  "name": "$procdff$165",
+                  "attributes": {
+                    "always_ff": "00000000000000000000000000000001",
+                    "src": "no_double_commit_across_mode_switch.sv:89.3-134.6"
+                  },
+                  "parameters": {
+                    "CLK_POLARITY": "1",
+                    "WIDTH": "00000000000000000000000000001000"
+                  }
+                },
+                {
+                  "name": "$procdff$166",
+                  "attributes": {
+                    "always_ff": "00000000000000000000000000000001",
+                    "src": "no_double_commit_across_mode_switch.sv:89.3-134.6"
+                  },
+                  "parameters": {
+                    "CLK_POLARITY": "1",
+                    "WIDTH": "00000000000000000000000000001000"
+                  }
+                }
+            ]
+          },
+          {
+            "type": "$not",
+            "ports": [
+                {
+                  "name": "A",
+                  "direction": "io",
+                  "range": [8, 0]
+                },
+                {
+                  "name": "Y",
+                  "direction": "",
+                  "range": [8, 0]
+                }
+            ],
+            "cells": [
+                {
+                  "name": "$not$no_double_commit_across_mode_switch.sv:97$41",
+                  "attributes": {
+                    "src": "no_double_commit_across_mode_switch.sv:97.7-97.41"
+                  },
+                  "parameters": {
+                    "A_SIGNED": "00000000000000000000000000000000",
+                    "A_WIDTH": "00000000000000000000000000001000",
+                    "Y_WIDTH": "00000000000000000000000000001000"
+                  }
+                }
+            ]
+          },
+          {
+            "type": "$anyseq",
+            "ports": [
+                {
+                  "name": "Y",
+                  "direction": "",
+                  "range": [0, 0]
+                }
+            ],
+            "cells": [
+                {
+                  "name": "$anyseq$21",
+                  "attributes": {
+                    "reg": "any_fetch_req",
+                    "src": "no_double_commit_across_mode_switch.sv:44.22-44.35"
+                  },
+                  "parameters": {
+                    "WIDTH": "00000000000000000000000000000001"
+                  }
+                },
+                {
+                  "name": "$anyseq$22",
+                  "attributes": {
+                    "reg": "any_stall",
+                    "src": "no_double_commit_across_mode_switch.sv:45.22-45.31"
+                  },
+                  "parameters": {
+                    "WIDTH": "00000000000000000000000000000001"
+                  }
+                },
+                {
+                  "name": "$anyseq$23",
+                  "attributes": {
+                    "reg": "any_flush",
+                    "src": "no_double_commit_across_mode_switch.sv:46.22-46.31"
+                  },
+                  "parameters": {
+                    "WIDTH": "00000000000000000000000000000001"
+                  }
+                },
+                {
+                  "name": "$anyseq$24",
+                  "attributes": {
+                    "reg": "any_mode_request",
+                    "src": "no_double_commit_across_mode_switch.sv:47.22-47.38"
+                  },
+                  "parameters": {
+                    "WIDTH": "00000000000000000000000000000001"
+                  }
+                }
+            ]
+          },
+          {
+            "type": "$mux",
+            "ports": [
+                {
+                  "name": "A",
+                  "direction": "io",
+                  "range": [3, 0]
+                },
+                {
+                  "name": "B",
+                  "direction": "io",
+                  "range": [3, 0]
+                },
+                {
+                  "name": "S",
+                  "direction": "io",
+                  "range": [0, 0]
+                },
+                {
+                  "name": "Y",
+                  "direction": "",
+                  "range": [3, 0]
+                }
+            ],
+            "cells": [
+                {
+                  "name": "$procmux$100",
+                  "attributes": {
+                    "src": "no_double_commit_across_mode_switch.sv:118.18-118.24|no_double_commit_across_mode_switch.sv:118.14-133.8"
+                  },
+                  "parameters": {
+                    "WIDTH": "00000000000000000000000000000011"
+                  }
+                },
+                {
+                  "name": "$procmux$103",
+                  "attributes": {
+                    "full_case": "00000000000000000000000000000001",
+                    "src": "no_double_commit_across_mode_switch.sv:112.9-112.14|no_double_commit_across_mode_switch.sv:112.5-133.8"
+                  },
+                  "parameters": {
+                    "WIDTH": "00000000000000000000000000000011"
+                  }
+                },
+                {
+                  "name": "$procmux$105",
+                  "attributes": {
+                    "src": "no_double_commit_across_mode_switch.sv:118.18-118.24|no_double_commit_across_mode_switch.sv:118.14-133.8"
+                  },
+                  "parameters": {
+                    "WIDTH": "00000000000000000000000000000011"
+                  }
+                },
+                {
+                  "name": "$procmux$108",
+                  "attributes": {
+                    "full_case": "00000000000000000000000000000001",
+                    "src": "no_double_commit_across_mode_switch.sv:112.9-112.14|no_double_commit_across_mode_switch.sv:112.5-133.8"
+                  },
+                  "parameters": {
+                    "WIDTH": "00000000000000000000000000000011"
+                  }
+                },
+                {
+                  "name": "$procmux$110",
+                  "attributes": {
+                    "src": "no_double_commit_across_mode_switch.sv:118.18-118.24|no_double_commit_across_mode_switch.sv:118.14-133.8"
+                  },
+                  "parameters": {
+                    "WIDTH": "00000000000000000000000000000011"
+                  }
+                },
+                {
+                  "name": "$procmux$113",
+                  "attributes": {
+                    "full_case": "00000000000000000000000000000001",
+                    "src": "no_double_commit_across_mode_switch.sv:112.9-112.14|no_double_commit_across_mode_switch.sv:112.5-133.8"
+                  },
+                  "parameters": {
+                    "WIDTH": "00000000000000000000000000000011"
+                  }
+                },
+                {
+                  "name": "$procmux$115",
+                  "attributes": {
+                    "src": "no_double_commit_across_mode_switch.sv:118.18-118.24|no_double_commit_across_mode_switch.sv:118.14-133.8"
+                  },
+                  "parameters": {
+                    "WIDTH": "00000000000000000000000000000001"
+                  }
+                },
+                {
+                  "name": "$procmux$118",
+                  "attributes": {
+                    "full_case": "00000000000000000000000000000001",
+                    "src": "no_double_commit_across_mode_switch.sv:112.9-112.14|no_double_commit_across_mode_switch.sv:112.5-133.8"
+                  },
+                  "parameters": {
+                    "WIDTH": "00000000000000000000000000000001"
+                  }
+                },
+                {
+                  "name": "$procmux$120",
+                  "attributes": {
+                    "src": "no_double_commit_across_mode_switch.sv:118.18-118.24|no_double_commit_across_mode_switch.sv:118.14-133.8"
+                  },
+                  "parameters": {
+                    "WIDTH": "00000000000000000000000000000001"
+                  }
+                },
+                {
+                  "name": "$procmux$123",
+                  "attributes": {
+                    "full_case": "00000000000000000000000000000001",
+                    "src": "no_double_commit_across_mode_switch.sv:112.9-112.14|no_double_commit_across_mode_switch.sv:112.5-133.8"
+                  },
+                  "parameters": {
+                    "WIDTH": "00000000000000000000000000000001"
+                  }
+                },
+                {
+                  "name": "$procmux$125",
+                  "attributes": {
+                    "src": "no_double_commit_across_mode_switch.sv:118.18-118.24|no_double_commit_across_mode_switch.sv:118.14-133.8"
+                  },
+                  "parameters": {
+                    "WIDTH": "00000000000000000000000000000001"
+                  }
+                },
+                {
+                  "name": "$procmux$128",
+                  "attributes": {
+                    "full_case": "00000000000000000000000000000001",
+                    "src": "no_double_commit_across_mode_switch.sv:112.9-112.14|no_double_commit_across_mode_switch.sv:112.5-133.8"
+                  },
+                  "parameters": {
+                    "WIDTH": "00000000000000000000000000000001"
+                  }
+                },
+                {
+                  "name": "$procmux$130",
+                  "attributes": {
+                    "src": "no_double_commit_across_mode_switch.sv:118.18-118.24|no_double_commit_across_mode_switch.sv:118.14-133.8"
+                  },
+                  "parameters": {
+                    "WIDTH": "00000000000000000000000000000001"
+                  }
+                },
+                {
+                  "name": "$procmux$133",
+                  "attributes": {
+                    "full_case": "00000000000000000000000000000001",
+                    "src": "no_double_commit_across_mode_switch.sv:112.9-112.14|no_double_commit_across_mode_switch.sv:112.5-133.8"
+                  },
+                  "parameters": {
+                    "WIDTH": "00000000000000000000000000000001"
+                  }
+                },
+                {
+                  "name": "$procmux$135",
+                  "attributes": {
+                    "src": "no_double_commit_across_mode_switch.sv:118.18-118.24|no_double_commit_across_mode_switch.sv:118.14-133.8"
+                  },
+                  "parameters": {
+                    "WIDTH": "00000000000000000000000000000001"
+                  }
+                },
+                {
+                  "name": "$procmux$138",
+                  "attributes": {
+                    "full_case": "00000000000000000000000000000001",
+                    "src": "no_double_commit_across_mode_switch.sv:112.9-112.14|no_double_commit_across_mode_switch.sv:112.5-133.8"
+                  },
+                  "parameters": {
+                    "WIDTH": "00000000000000000000000000000001"
+                  }
+                },
+                {
+                  "name": "$procmux$140",
+                  "attributes": {
+                    "src": "no_double_commit_across_mode_switch.sv:105.9-105.42|no_double_commit_across_mode_switch.sv:105.5-110.8"
+                  },
+                  "parameters": {
+                    "WIDTH": "00000000000000000000000000000001"
+                  }
+                },
+                {
+                  "name": "$procmux$142",
+                  "attributes": {
+                    "src": "no_double_commit_across_mode_switch.sv:100.9-100.75|no_double_commit_across_mode_switch.sv:100.5-103.8"
+                  },
+                  "parameters": {
+                    "WIDTH": "00000000000000000000000000000001"
+                  }
+                },
+                {
+                  "name": "$procmux$144",
+                  "attributes": {
+                    "src": "no_double_commit_across_mode_switch.sv:105.9-105.42|no_double_commit_across_mode_switch.sv:105.5-110.8"
+                  },
+                  "parameters": {
+                    "WIDTH": "00000000000000000000000000000001"
+                  }
+                },
+                {
+                  "name": "$procmux$146",
+                  "attributes": {
+                    "src": "no_double_commit_across_mode_switch.sv:100.9-100.75|no_double_commit_across_mode_switch.sv:100.5-103.8"
+                  },
+                  "parameters": {
+                    "WIDTH": "00000000000000000000000000000001"
+                  }
+                },
+                {
+                  "name": "$procmux$148",
+                  "attributes": {
+                    "src": "no_double_commit_across_mode_switch.sv:105.9-105.42|no_double_commit_across_mode_switch.sv:105.5-110.8"
+                  },
+                  "parameters": {
+                    "WIDTH": "00000000000000000000000000000001"
+                  }
+                },
+                {
+                  "name": "$procmux$67",
+                  "attributes": {
+                    "src": "no_double_commit_across_mode_switch.sv:145.9-145.24|no_double_commit_across_mode_switch.sv:145.5-147.8"
+                  },
+                  "parameters": {
+                    "WIDTH": "00000000000000000000000000000001"
+                  }
+                },
+                {
+                  "name": "$procmux$69",
+                  "attributes": {
+                    "src": "no_double_commit_across_mode_switch.sv:140.11-140.27|no_double_commit_across_mode_switch.sv:140.7-142.10"
+                  },
+                  "parameters": {
+                    "WIDTH": "00000000000000000000000000000001"
+                  }
+                },
+                {
+                  "name": "$procmux$71",
+                  "attributes": {
+                    "src": "no_double_commit_across_mode_switch.sv:138.9-138.21|no_double_commit_across_mode_switch.sv:138.5-143.8"
+                  },
+                  "parameters": {
+                    "WIDTH": "00000000000000000000000000000001"
+                  }
+                },
+                {
+                  "name": "$procmux$73",
+                  "attributes": {
+                    "src": "no_double_commit_across_mode_switch.sv:138.9-138.21|no_double_commit_across_mode_switch.sv:138.5-143.8"
+                  },
+                  "parameters": {
+                    "WIDTH": "00000000000000000000000000000001"
+                  }
+                },
+                {
+                  "name": "$procmux$76",
+                  "attributes": {
+                    "full_case": "00000000000000000000000000000001",
+                    "src": "no_double_commit_across_mode_switch.sv:96.9-96.21|no_double_commit_across_mode_switch.sv:96.5-98.8"
+                  },
+                  "parameters": {
+                    "WIDTH": "00000000000000000000000000001000"
+                  }
+                },
+                {
+                  "name": "$procmux$81",
+                  "attributes": {
+                    "src": "no_double_commit_across_mode_switch.sv:105.9-105.42|no_double_commit_across_mode_switch.sv:105.5-110.8"
+                  },
+                  "parameters": {
+                    "WIDTH": "00000000000000000000000000001000"
+                  }
+                },
+                {
+                  "name": "$procmux$83",
+                  "attributes": {
+                    "src": "no_double_commit_across_mode_switch.sv:130.11-130.25|no_double_commit_across_mode_switch.sv:130.7-132.10"
+                  },
+                  "parameters": {
+                    "WIDTH": "00000000000000000000000000000100"
+                  }
+                },
+                {
+                  "name": "$procmux$85",
+                  "attributes": {
+                    "src": "no_double_commit_across_mode_switch.sv:118.18-118.24|no_double_commit_across_mode_switch.sv:118.14-133.8"
+                  },
+                  "parameters": {
+                    "WIDTH": "00000000000000000000000000000100"
+                  }
+                },
+                {
+                  "name": "$procmux$88",
+                  "attributes": {
+                    "full_case": "00000000000000000000000000000001",
+                    "src": "no_double_commit_across_mode_switch.sv:112.9-112.14|no_double_commit_across_mode_switch.sv:112.5-133.8"
+                  },
+                  "parameters": {
+                    "WIDTH": "00000000000000000000000000000100"
+                  }
+                },
+                {
+                  "name": "$procmux$90",
+                  "attributes": {
+                    "src": "no_double_commit_across_mode_switch.sv:118.18-118.24|no_double_commit_across_mode_switch.sv:118.14-133.8"
+                  },
+                  "parameters": {
+                    "WIDTH": "00000000000000000000000000000011"
+                  }
+                },
+                {
+                  "name": "$procmux$93",
+                  "attributes": {
+                    "full_case": "00000000000000000000000000000001",
+                    "src": "no_double_commit_across_mode_switch.sv:112.9-112.14|no_double_commit_across_mode_switch.sv:112.5-133.8"
+                  },
+                  "parameters": {
+                    "WIDTH": "00000000000000000000000000000011"
+                  }
+                },
+                {
+                  "name": "$procmux$95",
+                  "attributes": {
+                    "src": "no_double_commit_across_mode_switch.sv:118.18-118.24|no_double_commit_across_mode_switch.sv:118.14-133.8"
+                  },
+                  "parameters": {
+                    "WIDTH": "00000000000000000000000000000011"
+                  }
+                },
+                {
+                  "name": "$procmux$98",
+                  "attributes": {
+                    "full_case": "00000000000000000000000000000001",
+                    "src": "no_double_commit_across_mode_switch.sv:112.9-112.14|no_double_commit_across_mode_switch.sv:112.5-133.8"
+                  },
+                  "parameters": {
+                    "WIDTH": "00000000000000000000000000000011"
+                  }
+                }
+            ]
+          },
+          {
+            "type": "$shift",
+            "ports": [
+                {
+                  "name": "A",
+                  "direction": "io",
+                  "range": [0, 0]
+                },
+                {
+                  "name": "B",
+                  "direction": "io",
+                  "range": [4, 0]
+                },
+                {
+                  "name": "Y",
+                  "direction": "",
+                  "range": [8, 0]
+                }
+            ],
+            "cells": [
+                {
+                  "name": "$shift$no_double_commit_across_mode_switch.sv:97$44",
+                  "attributes": {
+                    "src": "no_double_commit_across_mode_switch.sv:97.7-97.41"
+                  },
+                  "parameters": {
+                    "A_SIGNED": "00000000000000000000000000000000",
+                    "A_WIDTH": "00000000000000000000000000000001",
+                    "B_SIGNED": "00000000000000000000000000000001",
+                    "B_WIDTH": "00000000000000000000000000000100",
+                    "Y_WIDTH": "00000000000000000000000000001000"
+                  }
+                }
+            ]
+          }
+        ],
+        "attributes": {
+            "keep": "00000000000000000000000000000001",
+            "dynports": "00000000000000000000000000000001",
+            "top": "00000000000000000000000000000001",
+            "src": "no_double_commit_across_mode_switch.sv:7.1-154.10"
+        }
+      }
+  ]
+}

@@ -1,0 +1,8 @@
+# running in formal\results\no_double_commit_across_mode_switch/src/
+read_verilog -formal -sv no_double_commit_across_mode_switch.sv
+prep -top no_double_commit_across_mode_switch_harness
+
+hierarchy -smtcheck
+rename -witness
+write_jny -no-connections ../model/design.json
+write_rtlil ../model/design.il

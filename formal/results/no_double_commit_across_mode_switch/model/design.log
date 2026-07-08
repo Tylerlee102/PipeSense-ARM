@@ -1,0 +1,324 @@
+
+ /----------------------------------------------------------------------------\
+ |  yosys -- Yosys Open SYnthesis Suite                                       |
+ |  Copyright (C) 2012 - 2026  Claire Xenia Wolf <claire@yosyshq.com>         |
+ |  Distributed under an ISC-like license, type "license" to see terms        |
+ \----------------------------------------------------------------------------/
+ Yosys 0.66+154 (git sha1 23aadd92a, Release, GNU /usr/bin/x86_64-w64-mingw32-g++ 13.2.1)
+
+-- Executing script file `../model/design.ys' --
+
+1. Executing Verilog-2005 frontend: no_double_commit_across_mode_switch.sv
+Parsing formal SystemVerilog input from `no_double_commit_across_mode_switch.sv' to AST representation.
+Generating RTLIL representation for module `\no_double_commit_across_mode_switch_harness'.
+Successfully finished Verilog frontend.
+
+2. Executing PREP pass.
+
+2.1. Executing HIERARCHY pass (managing design hierarchy).
+
+2.1.1. Analyzing design hierarchy..
+Top module:  \no_double_commit_across_mode_switch_harness
+
+2.1.2. Analyzing design hierarchy..
+Top module:  \no_double_commit_across_mode_switch_harness
+Removed 0 unused modules.
+Module no_double_commit_across_mode_switch_harness directly or indirectly contains formal properties -> setting "keep" attribute.
+
+2.2. Executing PROC pass (convert processes to netlists).
+
+2.2.1. Executing PROC_CLEAN pass (remove empty switches from decision trees).
+Cleaned up 0 empty switches.
+
+2.2.2. Executing PROC_RMDEAD pass (remove dead branches from decision trees).
+Marked 2 switch rules as full_case in process $proc$no_double_commit_across_mode_switch.sv:89$27 in module no_double_commit_across_mode_switch_harness.
+Removed a total of 0 dead cases.
+
+2.2.3. Executing PROC_PRUNE pass (remove redundant assignments in processes).
+Removed 3 redundant assignments.
+Promoted 27 assignments to connections.
+
+2.2.4. Executing PROC_INIT pass (extract init attributes).
+Found init rule in `\no_double_commit_across_mode_switch_harness.$proc$no_double_commit_across_mode_switch.sv:64$64'.
+  Set init value: \current_mode = 1'0
+  Set init value: \requested_mode = 1'0
+  Set init value: \reconfig_active = 1'0
+  Set init value: \mode_switch_seen = 1'0
+  Set init value: \if_valid = 1'0
+  Set init value: \id_valid = 1'0
+  Set init value: \ex_valid = 1'0
+  Set init value: \mem_valid = 1'0
+  Set init value: \wb_valid = 1'0
+  Set init value: \if_tag = 3'000
+  Set init value: \id_tag = 3'000
+  Set init value: \ex_tag = 3'000
+  Set init value: \mem_tag = 3'000
+  Set init value: \wb_tag = 3'000
+  Set init value: \fetched_count = 4'0000
+  Set init value: \committed_tags = 8'00000000
+  Set init value: \committed_before_switch = 8'00000000
+
+2.2.5. Executing PROC_ARST pass (detect async resets in processes).
+
+2.2.6. Executing PROC_ROM pass (convert switches to ROMs).
+Converted 0 switches.
+<suppressed ~10 debug messages>
+
+2.2.7. Executing PROC_MUX pass (convert decision trees to multiplexers).
+Creating decoders for process `\no_double_commit_across_mode_switch_harness.$proc$no_double_commit_across_mode_switch.sv:64$64'.
+Creating decoders for process `\no_double_commit_across_mode_switch_harness.$proc$no_double_commit_across_mode_switch.sv:137$54'.
+     1/4: $cover$no_double_commit_across_mode_switch.sv:150$63_EN
+     2/4: $assert$no_double_commit_across_mode_switch.sv:146$61_EN
+     3/4: $assert$no_double_commit_across_mode_switch.sv:141$58_EN
+     4/4: $assert$no_double_commit_across_mode_switch.sv:139$55_EN
+Creating decoders for process `\no_double_commit_across_mode_switch_harness.$proc$no_double_commit_across_mode_switch.sv:89$27'.
+     1/18: $1$lookahead\committed_tags$26[7:0]$38
+     2/18: $1$bitselwrite$pos$no_double_commit_across_mode_switch.sv:97$1[2:0]$37
+     3/18: $0\committed_before_switch[7:0]
+     4/18: $0\fetched_count[3:0]
+     5/18: $0\wb_tag[2:0]
+     6/18: $0\mem_tag[2:0]
+     7/18: $0\ex_tag[2:0]
+     8/18: $0\id_tag[2:0]
+     9/18: $0\if_tag[2:0]
+    10/18: $0\wb_valid[0:0]
+    11/18: $0\mem_valid[0:0]
+    12/18: $0\ex_valid[0:0]
+    13/18: $0\id_valid[0:0]
+    14/18: $0\if_valid[0:0]
+    15/18: $0\mode_switch_seen[0:0]
+    16/18: $0\reconfig_active[0:0]
+    17/18: $0\requested_mode[0:0]
+    18/18: $0\current_mode[0:0]
+Creating decoders for process `\no_double_commit_across_mode_switch_harness.$proc$no_double_commit_across_mode_switch.sv:49$25'.
+
+2.2.8. Executing PROC_DLATCH pass (convert process syncs to latches).
+No latch inferred for signal `\no_double_commit_across_mode_switch_harness.\fetch_req' from process `\no_double_commit_across_mode_switch_harness.$proc$no_double_commit_across_mode_switch.sv:49$25'.
+No latch inferred for signal `\no_double_commit_across_mode_switch_harness.\stall' from process `\no_double_commit_across_mode_switch_harness.$proc$no_double_commit_across_mode_switch.sv:49$25'.
+No latch inferred for signal `\no_double_commit_across_mode_switch_harness.\flush' from process `\no_double_commit_across_mode_switch_harness.$proc$no_double_commit_across_mode_switch.sv:49$25'.
+No latch inferred for signal `\no_double_commit_across_mode_switch_harness.\mode_request' from process `\no_double_commit_across_mode_switch_harness.$proc$no_double_commit_across_mode_switch.sv:49$25'.
+
+2.2.9. Executing PROC_DFF pass (convert process syncs to FFs).
+Creating register for signal `\no_double_commit_across_mode_switch_harness.\current_mode' using process `\no_double_commit_across_mode_switch_harness.$proc$no_double_commit_across_mode_switch.sv:89$27'.
+  created $dff cell `$procdff$150' with positive edge clock.
+Creating register for signal `\no_double_commit_across_mode_switch_harness.\requested_mode' using process `\no_double_commit_across_mode_switch_harness.$proc$no_double_commit_across_mode_switch.sv:89$27'.
+  created $dff cell `$procdff$151' with positive edge clock.
+Creating register for signal `\no_double_commit_across_mode_switch_harness.\reconfig_active' using process `\no_double_commit_across_mode_switch_harness.$proc$no_double_commit_across_mode_switch.sv:89$27'.
+  created $dff cell `$procdff$152' with positive edge clock.
+Creating register for signal `\no_double_commit_across_mode_switch_harness.\mode_switch_seen' using process `\no_double_commit_across_mode_switch_harness.$proc$no_double_commit_across_mode_switch.sv:89$27'.
+  created $dff cell `$procdff$153' with positive edge clock.
+Creating register for signal `\no_double_commit_across_mode_switch_harness.\if_valid' using process `\no_double_commit_across_mode_switch_harness.$proc$no_double_commit_across_mode_switch.sv:89$27'.
+  created $dff cell `$procdff$154' with positive edge clock.
+Creating register for signal `\no_double_commit_across_mode_switch_harness.\id_valid' using process `\no_double_commit_across_mode_switch_harness.$proc$no_double_commit_across_mode_switch.sv:89$27'.
+  created $dff cell `$procdff$155' with positive edge clock.
+Creating register for signal `\no_double_commit_across_mode_switch_harness.\ex_valid' using process `\no_double_commit_across_mode_switch_harness.$proc$no_double_commit_across_mode_switch.sv:89$27'.
+  created $dff cell `$procdff$156' with positive edge clock.
+Creating register for signal `\no_double_commit_across_mode_switch_harness.\mem_valid' using process `\no_double_commit_across_mode_switch_harness.$proc$no_double_commit_across_mode_switch.sv:89$27'.
+  created $dff cell `$procdff$157' with positive edge clock.
+Creating register for signal `\no_double_commit_across_mode_switch_harness.\wb_valid' using process `\no_double_commit_across_mode_switch_harness.$proc$no_double_commit_across_mode_switch.sv:89$27'.
+  created $dff cell `$procdff$158' with positive edge clock.
+Creating register for signal `\no_double_commit_across_mode_switch_harness.\if_tag' using process `\no_double_commit_across_mode_switch_harness.$proc$no_double_commit_across_mode_switch.sv:89$27'.
+  created $dff cell `$procdff$159' with positive edge clock.
+Creating register for signal `\no_double_commit_across_mode_switch_harness.\id_tag' using process `\no_double_commit_across_mode_switch_harness.$proc$no_double_commit_across_mode_switch.sv:89$27'.
+  created $dff cell `$procdff$160' with positive edge clock.
+Creating register for signal `\no_double_commit_across_mode_switch_harness.\ex_tag' using process `\no_double_commit_across_mode_switch_harness.$proc$no_double_commit_across_mode_switch.sv:89$27'.
+  created $dff cell `$procdff$161' with positive edge clock.
+Creating register for signal `\no_double_commit_across_mode_switch_harness.\mem_tag' using process `\no_double_commit_across_mode_switch_harness.$proc$no_double_commit_across_mode_switch.sv:89$27'.
+  created $dff cell `$procdff$162' with positive edge clock.
+Creating register for signal `\no_double_commit_across_mode_switch_harness.\wb_tag' using process `\no_double_commit_across_mode_switch_harness.$proc$no_double_commit_across_mode_switch.sv:89$27'.
+  created $dff cell `$procdff$163' with positive edge clock.
+Creating register for signal `\no_double_commit_across_mode_switch_harness.\fetched_count' using process `\no_double_commit_across_mode_switch_harness.$proc$no_double_commit_across_mode_switch.sv:89$27'.
+  created $dff cell `$procdff$164' with positive edge clock.
+Creating register for signal `\no_double_commit_across_mode_switch_harness.\committed_tags' using process `\no_double_commit_across_mode_switch_harness.$proc$no_double_commit_across_mode_switch.sv:89$27'.
+  created $dff cell `$procdff$165' with positive edge clock.
+Creating register for signal `\no_double_commit_across_mode_switch_harness.\committed_before_switch' using process `\no_double_commit_across_mode_switch_harness.$proc$no_double_commit_across_mode_switch.sv:89$27'.
+  created $dff cell `$procdff$166' with positive edge clock.
+Creating register for signal `\no_double_commit_across_mode_switch_harness.$bitselwrite$pos$no_double_commit_across_mode_switch.sv:97$1' using process `\no_double_commit_across_mode_switch_harness.$proc$no_double_commit_across_mode_switch.sv:89$27'.
+  created $dff cell `$procdff$167' with positive edge clock.
+Creating register for signal `\no_double_commit_across_mode_switch_harness.$lookahead\committed_tags$26' using process `\no_double_commit_across_mode_switch_harness.$proc$no_double_commit_across_mode_switch.sv:89$27'.
+  created $dff cell `$procdff$168' with positive edge clock.
+
+2.2.10. Executing PROC_MEMWR pass (convert process memory writes to cells).
+
+2.2.11. Executing PROC_CLEAN pass (remove empty switches from decision trees).
+Removing empty process `no_double_commit_across_mode_switch_harness.$proc$no_double_commit_across_mode_switch.sv:64$64'.
+Found and cleaned up 4 empty switches in `\no_double_commit_across_mode_switch_harness.$proc$no_double_commit_across_mode_switch.sv:137$54'.
+Removing empty process `no_double_commit_across_mode_switch_harness.$proc$no_double_commit_across_mode_switch.sv:137$54'.
+Found and cleaned up 6 empty switches in `\no_double_commit_across_mode_switch_harness.$proc$no_double_commit_across_mode_switch.sv:89$27'.
+Removing empty process `no_double_commit_across_mode_switch_harness.$proc$no_double_commit_across_mode_switch.sv:89$27'.
+Removing empty process `no_double_commit_across_mode_switch_harness.$proc$no_double_commit_across_mode_switch.sv:49$25'.
+Cleaned up 10 empty switches.
+
+2.2.12. Executing OPT_EXPR pass (perform const folding).
+Optimizing module no_double_commit_across_mode_switch_harness.
+<suppressed ~11 debug messages>
+
+2.3. Executing FUTURE pass.
+
+2.4. Executing OPT_EXPR pass (perform const folding).
+Optimizing module no_double_commit_across_mode_switch_harness.
+
+2.5. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \no_double_commit_across_mode_switch_harness..
+Removed 4 unused cells and 96 unused wires.
+<suppressed ~5 debug messages>
+
+2.6. Executing CHECK pass (checking for obvious problems).
+Checking module no_double_commit_across_mode_switch_harness...
+Warning: Wire no_double_commit_across_mode_switch_harness.\clk is used but has no driver.
+Found and reported 1 problems.
+
+2.7. Executing OPT pass (performing simple optimizations).
+
+2.7.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module no_double_commit_across_mode_switch_harness.
+
+2.7.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\no_double_commit_across_mode_switch_harness'.
+Computing hashes of 105 cells of `\no_double_commit_across_mode_switch_harness'.
+Finding duplicate cells in `\no_double_commit_across_mode_switch_harness'.
+Computing hashes of 100 cells of `\no_double_commit_across_mode_switch_harness'.
+Finding duplicate cells in `\no_double_commit_across_mode_switch_harness'.
+Computing hashes of 99 cells of `\no_double_commit_across_mode_switch_harness'.
+Finding duplicate cells in `\no_double_commit_across_mode_switch_harness'.
+<suppressed ~18 debug messages>
+Removed a total of 6 cells.
+
+2.7.3. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \no_double_commit_across_mode_switch_harness..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~56 debug messages>
+
+2.7.4. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \no_double_commit_across_mode_switch_harness.
+Performed a total of 0 changes.
+
+2.7.5. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\no_double_commit_across_mode_switch_harness'.
+Computing hashes of 99 cells of `\no_double_commit_across_mode_switch_harness'.
+Finding duplicate cells in `\no_double_commit_across_mode_switch_harness'.
+Computing hashes of 98 cells of `\no_double_commit_across_mode_switch_harness'.
+Finding duplicate cells in `\no_double_commit_across_mode_switch_harness'.
+<suppressed ~3 debug messages>
+Removed a total of 1 cells.
+
+2.7.6. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \no_double_commit_across_mode_switch_harness..
+Removed 0 unused cells and 7 unused wires.
+<suppressed ~1 debug messages>
+
+2.7.7. Executing OPT_EXPR pass (perform const folding).
+Optimizing module no_double_commit_across_mode_switch_harness.
+
+2.7.8. Rerunning OPT passes. (Maybe there is more to do..)
+
+2.7.9. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \no_double_commit_across_mode_switch_harness..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~55 debug messages>
+
+2.7.10. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \no_double_commit_across_mode_switch_harness.
+Performed a total of 0 changes.
+
+2.7.11. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\no_double_commit_across_mode_switch_harness'.
+Computing hashes of 98 cells of `\no_double_commit_across_mode_switch_harness'.
+Finding duplicate cells in `\no_double_commit_across_mode_switch_harness'.
+Removed a total of 0 cells.
+
+2.7.12. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \no_double_commit_across_mode_switch_harness..
+
+2.7.13. Executing OPT_EXPR pass (perform const folding).
+Optimizing module no_double_commit_across_mode_switch_harness.
+
+2.7.14. Finished fast OPT passes. (There is nothing left to do.)
+
+2.8. Executing WREDUCE pass (reducing word size of cells).
+Removed top 28 bits (of 32) from port B of cell no_double_commit_across_mode_switch_harness.$lt$no_double_commit_across_mode_switch.sv:93$36 ($lt).
+Converting cell no_double_commit_across_mode_switch_harness.$neg$no_double_commit_across_mode_switch.sv:97$43 ($neg) from signed to unsigned.
+Removed top 1 bits (of 4) from port A of cell no_double_commit_across_mode_switch_harness.$neg$no_double_commit_across_mode_switch.sv:97$43 ($neg).
+Removed top 3 bits (of 4) from port B of cell no_double_commit_across_mode_switch_harness.$add$no_double_commit_across_mode_switch.sv:131$53 ($add).
+
+2.9. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \no_double_commit_across_mode_switch_harness..
+
+2.10. Executing MEMORY_COLLECT pass (generating $mem cells).
+
+2.11. Executing OPT pass (performing simple optimizations).
+
+2.11.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module no_double_commit_across_mode_switch_harness.
+
+2.11.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\no_double_commit_across_mode_switch_harness'.
+Computing hashes of 98 cells of `\no_double_commit_across_mode_switch_harness'.
+Finding duplicate cells in `\no_double_commit_across_mode_switch_harness'.
+Removed a total of 0 cells.
+
+2.11.3. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \no_double_commit_across_mode_switch_harness..
+
+2.11.4. Finished fast OPT passes.
+
+2.12. Executing SORT pass.
+
+2.13. Printing statistics.
+
+=== no_double_commit_across_mode_switch_harness ===
+
+        +----------Local Count, excluding submodules.
+        | 
+       97 wires
+      203 wire bits
+       30 public wires
+       59 public wire bits
+       98 cells
+        1   $add
+        1   $and
+        4   $anyseq
+        7   $check
+       17   $dff
+        1   $eq
+       13   $logic_and
+       13   $logic_not
+        1   $lt
+       34   $mux
+        1   $neg
+        1   $not
+        1   $or
+        1   $shift
+        2   $shiftx
+
+2.14. Executing CHECK pass (checking for obvious problems).
+Checking module no_double_commit_across_mode_switch_harness...
+Warning: Wire no_double_commit_across_mode_switch_harness.\clk is used but has no driver.
+Found and reported 1 problems.
+
+3. Executing HIERARCHY pass (managing design hierarchy).
+Attribute `top' found on module `no_double_commit_across_mode_switch_harness'. Setting top module to no_double_commit_across_mode_switch_harness.
+
+3.1. Analyzing design hierarchy..
+Top module:  \no_double_commit_across_mode_switch_harness
+
+3.2. Analyzing design hierarchy..
+Top module:  \no_double_commit_across_mode_switch_harness
+Removed 0 unused modules.
+Module no_double_commit_across_mode_switch_harness directly or indirectly contains formal properties -> setting "keep" attribute.
+
+4. Executing jny backend.
+
+5. Executing RTLIL backend.
+Output filename: ../model/design.il
+
+Warnings: 1 unique messages, 2 total
+End of script. Logfile hash: 49fa14cdbe
+Yosys 0.66+154 (git sha1 23aadd92a, Release, GNU /usr/bin/x86_64-w64-mingw32-g++ 13.2.1)
+Time spent: 3% 6x opt_expr (0 sec), 3% 5x opt_clean (0 sec), ...

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+<testsuite timestamp="2026-06-25T11:19:46" hostname="Tyler" package="no_double_commit_across_mode_switch" id="0" name="default" tests="4" errors="0" failures="0" time="0" skipped="1">
+<properties>
+<property name="os" value="Windows"/>
+<property name="expect" value="PASS"/>
+<property name="status" value="PASS"/>
+</properties>
+<testcase classname="default" name="build execution" time="0">
+</testcase>
+<testcase classname="default" name="Property ASSERT in no_double_commit_across_mode_switch_harness at no_double_commit_across_mode_switch.sv:139.7-139.42" time="0" type="ASSERT" location="no_double_commit_across_mode_switch.sv:139.7-139.42" id="_witness_.check_assert_no_double_commit_across_mode_switch_sv_139_55">
+</testcase>
+<testcase classname="default" name="Property ASSERT in no_double_commit_across_mode_switch_harness at no_double_commit_across_mode_switch.sv:141.9-141.53" time="0" type="ASSERT" location="no_double_commit_across_mode_switch.sv:141.9-141.53" id="_witness_.check_assert_no_double_commit_across_mode_switch_sv_141_58">
+</testcase>
+<testcase classname="default" name="Property ASSERT in no_double_commit_across_mode_switch_harness at no_double_commit_across_mode_switch.sv:146.7-146.30" time="0" type="ASSERT" location="no_double_commit_across_mode_switch.sv:146.7-146.30" id="_witness_.check_assert_no_double_commit_across_mode_switch_sv_146_61">
+</testcase>
+<testcase classname="default" name="Property COVER in no_double_commit_across_mode_switch_harness at no_double_commit_across_mode_switch.sv:150.7-150.26" time="0" type="COVER" location="no_double_commit_across_mode_switch.sv:150.7-150.26" id="_witness_.check_cover_no_double_commit_across_mode_switch_sv_150_63">
+<skipped />
+</testcase>
+<system-out>SBY 11:19:45 [formal\results\no_double_commit_across_mode_switch] Removing directory 'C:\Users\tyboy\OneDrive\Documents\mit_2026\formal\results\no_double_commit_across_mode_switch'.
+SBY 11:19:45 [formal\results\no_double_commit_across_mode_switch] Copy 'C:\Users\tyboy\OneDrive\Documents\mit_2026\formal\no_double_commit_across_mode_switch.sv' to 'C:\Users\tyboy\OneDrive\Documents\mit_2026\formal\results\no_double_commit_across_mode_switch\src\no_double_commit_across_mode_switch.sv'.
+SBY 11:19:45 [formal\results\no_double_commit_across_mode_switch] engine_0: smtbmc yices
+SBY 11:19:45 [formal\results\no_double_commit_across_mode_switch] base: starting process &quot;cd formal\results\no_double_commit_across_mode_switch/src&amp; yosys -ql ../model/design.log ../model/design.ys&quot;
+SBY 11:19:45 [formal\results\no_double_commit_across_mode_switch] base: Warning: Wire no_double_commit_across_mode_switch_harness.\clk is used but has no driver.
+SBY 11:19:45 [formal\results\no_double_commit_across_mode_switch] base: finished (returncode=0)
+SBY 11:19:45 [formal\results\no_double_commit_across_mode_switch] prep: starting process &quot;cd formal\results\no_double_commit_across_mode_switch/model&amp; yosys -ql design_prep.log design_prep.ys&quot;
+SBY 11:19:45 [formal\results\no_double_commit_across_mode_switch] prep: finished (returncode=0)
+SBY 11:19:45 [formal\results\no_double_commit_across_mode_switch] smt2: starting process &quot;cd formal\results\no_double_commit_across_mode_switch/model&amp; yosys -ql design_smt2.log design_smt2.ys&quot;
+SBY 11:19:45 [formal\results\no_double_commit_across_mode_switch] smt2: finished (returncode=0)
+SBY 11:19:45 [formal\results\no_double_commit_across_mode_switch] engine_0: starting process &quot;cd formal\results\no_double_commit_across_mode_switch&amp; yosys-smtbmc -s yices --presat --unroll --noprogress -t 16  --append 0 --dump-vcd engine_0/trace.vcd --dump-yw engine_0/trace.yw --dump-vlogtb engine_0/trace_tb.v --dump-smtc engine_0/trace.smtc model/design_smt2.smt2&quot;
+SBY 11:19:45 [formal\results\no_double_commit_across_mode_switch] engine_0: ##   0:00:00  Solver: yices
+SBY 11:19:45 [formal\results\no_double_commit_across_mode_switch] engine_0: ##   0:00:00  Checking assumptions in step 0..
+SBY 11:19:45 [formal\results\no_double_commit_across_mode_switch] engine_0: ##   0:00:00  Checking assertions in step 0..
+SBY 11:19:45 [formal\results\no_double_commit_across_mode_switch] engine_0: ##   0:00:00  Checking assumptions in step 1..
+SBY 11:19:45 [formal\results\no_double_commit_across_mode_switch] engine_0: ##   0:00:00  Checking assertions in step 1..
+SBY 11:19:45 [formal\results\no_double_commit_across_mode_switch] engine_0: ##   0:00:00  Checking assumptions in step 2..
+SBY 11:19:45 [formal\results\no_double_commit_across_mode_switch] engine_0: ##   0:00:00  Checking assertions in step 2..
+SBY 11:19:45 [formal\results\no_double_commit_across_mode_switch] engine_0: ##   0:00:00  Checking assumptions in step 3..
+SBY 11:19:45 [formal\results\no_double_commit_across_mode_switch] engine_0: ##   0:00:00  Checking assertions in step 3..
+SBY 11:19:45 [formal\results\no_double_commit_across_mode_switch] engine_0: ##   0:00:00  Checking assumptions in step 4..
+SBY 11:19:45 [formal\results\no_double_commit_across_mode_switch] engine_0: ##   0:00:00  Checking assertions in step 4..
+SBY 11:19:45 [formal\results\no_double_commit_across_mode_switch] engine_0: ##   0:00:00  Checking assumptions in step 5..
+SBY 11:19:45 [formal\results\no_double_commit_across_mode_switch] engine_0: ##   0:00:00  Checking assertions in step 5..
+SBY 11:19:45 [formal\results\no_double_commit_across_mode_switch] engine_0: ##   0:00:00  Checking assumptions in step 6..
+SBY 11:19:45 [formal\results\no_double_commit_across_mode_switch] engine_0: ##   0:00:00  Checking assertions in step 6..
+SBY 11:19:45 [formal\results\no_double_commit_across_mode_switch] engine_0: ##   0:00:00  Checking assumptions in step 7..
+SBY 11:19:45 [formal\results\no_double_commit_across_mode_switch] engine_0: ##   0:00:00  Checking assertions in step 7..
+SBY 11:19:45 [formal\results\no_double_commit_across_mode_switch] engine_0: ##   0:00:00  Checking assumptions in step 8..
+SBY 11:19:45 [formal\results\no_double_commit_across_mode_switch] engine_0: ##   0:00:00  Checking assertions in step 8..
+SBY 11:19:45 [formal\results\no_double_commit_across_mode_switch] engine_0: ##   0:00:00  Checking assumptions in step 9..
+SBY 11:19:45 [formal\results\no_double_commit_across_mode_switch] engine_0: ##   0:00:00  Checking assertions in step 9..
+SBY 11:19:45 [formal\results\no_double_commit_across_mode_switch] engine_0: ##   0:00:00  Checking assumptions in step 10..
+SBY 11:19:45 [formal\results\no_double_commit_across_mode_switch] engine_0: ##   0:00:00  Checking assertions in step 10..
+SBY 11:19:45 [formal\results\no_double_commit_across_mode_switch] engine_0: ##   0:00:00  Checking assumptions in step 11..
+SBY 11:19:45 [formal\results\no_double_commit_across_mode_switch] engine_0: ##   0:00:00  Checking assertions in step 11..
+SBY 11:19:45 [formal\results\no_double_commit_across_mode_switch] engine_0: ##   0:00:00  Checking assumptions in step 12..
+SBY 11:19:45 [formal\results\no_double_commit_across_mode_switch] engine_0: ##   0:00:00  Checking assertions in step 12..
+SBY 11:19:45 [formal\results\no_double_commit_across_mode_switch] engine_0: ##   0:00:00  Checking assumptions in step 13..
+SBY 11:19:45 [formal\results\no_double_commit_across_mode_switch] engine_0: ##   0:00:00  Checking assertions in step 13..
+SBY 11:19:45 [formal\results\no_double_commit_across_mode_switch] engine_0: ##   0:00:00  Checking assumptions in step 14..
+SBY 11:19:45 [formal\results\no_double_commit_across_mode_switch] engine_0: ##   0:00:00  Checking assertions in step 14..
+SBY 11:19:45 [formal\results\no_double_commit_across_mode_switch] engine_0: ##   0:00:00  Checking assumptions in step 15..
+SBY 11:19:45 [formal\results\no_double_commit_across_mode_switch] engine_0: ##   0:00:00  Checking assertions in step 15..
+SBY 11:19:46 [formal\results\no_double_commit_across_mode_switch] engine_0: ##   0:00:00  Status: passed
+SBY 11:19:46 [formal\results\no_double_commit_across_mode_switch] engine_0: finished (returncode=0)
+SBY 11:19:46 [formal\results\no_double_commit_across_mode_switch] engine_0: Status returned by engine: pass
+SBY 11:19:46 [formal\results\no_double_commit_across_mode_switch] summary: Elapsed clock time [H:MM:SS (secs)]: 0:00:01 (1)
+SBY 11:19:46 [formal\results\no_double_commit_across_mode_switch] summary: Elapsed process time unvailable on Windows
+SBY 11:19:46 [formal\results\no_double_commit_across_mode_switch] summary: engine_0 (smtbmc yices) returned pass
+SBY 11:19:46 [formal\results\no_double_commit_across_mode_switch] summary: engine_0 did not produce any traces
+SBY 11:19:46 [formal\results\no_double_commit_across_mode_switch] DONE (PASS, rc=0)
+</system-out>
+<system-err>
+</system-err>
+</testsuite>
+</testsuites>

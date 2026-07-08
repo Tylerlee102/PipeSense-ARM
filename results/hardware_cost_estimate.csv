@@ -1,0 +1,5 @@
+component,estimated_ff_bits,estimated_comparators,estimated_adders,notes
+pipeline_observer,228,5,7,Seven 32-bit counters plus phase/window bits; excludes routing and threshold constants.
+adaptive_controller,31,4,2,"Residency counter, stable counter, desired/requested modes, and request state."
+reconfig_unit,104,2,3,"Mode registers, active counter, total reconfiguration count, and penalty counter."
+safety_monitor_sim,193,4,1,Simulation/artifact monitor for instruction tags and safety faults; not part of a minimal synthesized design.

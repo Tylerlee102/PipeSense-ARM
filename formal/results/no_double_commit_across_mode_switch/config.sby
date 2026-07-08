@@ -1,0 +1,13 @@
+[options]
+mode bmc
+depth 16
+
+[engines]
+smtbmc yices
+
+[script]
+read_verilog -formal -sv no_double_commit_across_mode_switch.sv
+prep -top no_double_commit_across_mode_switch_harness
+
+[files]
+formal/no_double_commit_across_mode_switch.sv
