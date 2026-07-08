@@ -1,6 +1,6 @@
 PYTHON ?= python
 
-.PHONY: all sim analyze validate plot sweep ablations safety cost synth audit reference compare parity paper-check paper-preview paper-verify check clean
+.PHONY: all sim analyze validate plot sweep ablations safety cost synth audit reference compare parity check clean
 
 all: sim plot
 
@@ -39,15 +39,6 @@ compare:
 
 parity:
 	$(PYTHON) scripts/check_benchmark_parity.py
-
-paper-check:
-	$(PYTHON) scripts/check_paper.py
-
-paper-preview:
-	$(PYTHON) scripts/build_paper_preview.py
-
-paper-verify: paper-preview
-	$(PYTHON) scripts/verify_paper_preview.py
 
 audit:
 	$(PYTHON) scripts/audit_requirements.py

@@ -1,6 +1,6 @@
 # Artifact Checklist
 
-Use this checklist before sharing the repository as a paper artifact.
+Use this checklist before sharing the repository as a data and RTL artifact.
 
 ## Local checks without HDL tools
 
@@ -9,9 +9,6 @@ Run:
 ```bash
 python scripts/check_artifact.py
 python scripts/estimate_hardware_cost.py
-python scripts/check_paper.py
-python scripts/build_paper_preview.py
-python scripts/verify_paper_preview.py
 ```
 
 Expected:
@@ -21,10 +18,9 @@ Expected:
 - Python scripts compile
 - analyzer fixture produces valid CSVs
 - README contains the research-contract caveats
-- paper draft has no unresolved placeholders and matches generated CSV tables when results are present
-- generated PDF preview is exactly 5 pages and each page renders with text
 - `results/hardware_cost_estimate.csv` is generated
 - required safety, sweep, related-work, and synthesis scaffold files exist
+- no manuscript LaTeX source or preview PDF is required for the public data repo
 
 ## HDL simulation checks
 
@@ -59,7 +55,7 @@ Expected:
 
 - `results/synth/area_summary.csv` exists
 - observer/controller/reconfiguration overhead is reported as a percentage of baseline core cells
-- paper text labels the result as a generic-cell area proxy
+- public docs label the result as a generic-cell area proxy
 
 ## Optional formal checks
 

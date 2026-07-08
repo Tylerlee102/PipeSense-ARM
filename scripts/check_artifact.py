@@ -42,14 +42,6 @@ REQUIRED_FILES = [
     "scripts/lint_sv.py",
     "scripts/validate_results.py",
     "scripts/check_artifact.py",
-    "scripts/check_paper.py",
-    "scripts/build_paper_preview.py",
-    "scripts/render_evaluation_figure.py",
-    "scripts/verify_paper_preview.py",
-    "paper/pipesense_urtc_8page.tex",
-    "paper/figures/evaluation_evidence_flow.tex",
-    "paper/references.bib",
-    "paper/README.md",
     "docs/artifact_checklist.md",
     "docs/artifact_status.md",
     "docs/formal_safety_plan.md",
@@ -64,7 +56,6 @@ REQUIRED_FILES = [
     "docs/safety_proof_sketch.md",
     "docs/limitations_and_honesty.md",
     "docs/decisions.md",
-    "docs/figures.md",
     "formal/reconfig_safety_properties.sv",
     "formal/reconfig_unit_formal_harness.sv",
     "formal/reconfig_unit.sby",
@@ -96,10 +87,6 @@ PYTHON_FILES = [
     "scripts/lint_sv.py",
     "scripts/validate_results.py",
     "scripts/check_artifact.py",
-    "scripts/check_paper.py",
-    "scripts/build_paper_preview.py",
-    "scripts/render_evaluation_figure.py",
-    "scripts/verify_paper_preview.py",
     "verif/random_seq_gen.py",
     "verif/fuzz_runner.py",
 ]
@@ -370,40 +357,6 @@ def check_docs_contract() -> None:
         fail("README is missing required research-contract terms: " + ", ".join(missing))
 
 
-def check_paper_draft() -> None:
-    proc = subprocess.run(
-        [str(PYTHON), str(ROOT / "scripts" / "check_paper.py")],
-        cwd=ROOT,
-        text=True,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.STDOUT,
-        check=False,
-    )
-    if proc.returncode != 0:
-        fail("Paper draft check failed in check_paper.py:\n" + proc.stdout)
-
-    preview_inputs = [
-        ROOT / "results" / "adaptive_improvement.csv",
-        ROOT / "results" / "oracle_gap.csv",
-        ROOT / "results" / "hardware_cost_estimate.csv",
-    ]
-    if not all(path.exists() for path in preview_inputs):
-        print("WARN skipped paper preview build; generated result CSVs are not present yet")
-        return
-
-    for script_name in ("build_paper_preview.py", "verify_paper_preview.py"):
-        proc = subprocess.run(
-            [str(PYTHON), str(ROOT / "scripts" / script_name)],
-            cwd=ROOT,
-            text=True,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.STDOUT,
-            check=False,
-        )
-        if proc.returncode != 0:
-            fail(f"Paper draft check failed in {script_name}:\n" + proc.stdout)
-
-
 def main() -> int:
     checks = [
         ("required files", check_required_files),
@@ -417,7 +370,6 @@ def main() -> int:
         ("analysis fixture", run_analyzer_fixture),
         ("ISA reference model", run_reference_model_fixture),
         ("documentation contract", check_docs_contract),
-        ("paper draft", check_paper_draft),
     ]
 
     for name, check in checks:

@@ -184,27 +184,11 @@ python scripts/lint_sv.py
 python scripts/audit_requirements.py
 python scripts/check_benchmark_parity.py
 python scripts/isa_reference.py
-python scripts/check_paper.py
 ```
 
-## Paper draft
+## Data on GitHub
 
-The `paper/` directory contains an IEEE-style five-page URTC-targeted workshop manuscript source:
-
-- `paper/pipesense_urtc_8page.tex`
-- `paper/references.bib`
-- `paper/README.md`
-
-Run `python scripts/check_paper.py` to verify that the paper has no unresolved placeholders, cites bibliography keys that exist, preserves claim-discipline language, and matches the generated result CSVs where local results are available. Current venue instructions should still be checked before submission.
-
-To generate and verify a five-page PDF preview without LaTeX:
-
-```bash
-python scripts/build_paper_preview.py
-python scripts/verify_paper_preview.py
-```
-
-The preview is written to `output/pdf/pipesense_urtc_5page_preview.pdf` and rendered page images are written under `output/pdf/rendered/`.
+This repository intentionally does not track the manuscript LaTeX source or preview PDF. The GitHub-visible artifact is the RTL, scripts, documentation, and generated result data. The main result entry point is `results/SUMMARY.md`, with generated CSVs under `results/` for adaptive improvement, oracle gap, sweeps, fuzz safety, ablations, and Yosys area proxy.
 
 ## Expected outputs
 
@@ -242,7 +226,7 @@ PipeSense-ARM demonstrates a hardware-native adaptive control loop for a small e
 
 The current novelty claim should stay scoped: this is a hardware-control
 research scaffold that combines known ideas in a small, inspectable pipeline.
-A stronger paper still needs full compiler-generated embedded benchmark ports,
+A stronger publication still needs full compiler-generated embedded benchmark ports,
 deeper full-core formal proof, and calibrated timing/power evidence before
 claiming a broadly new processor technique.
 
@@ -265,12 +249,11 @@ claiming a broadly new processor technique.
 rtl/     SystemVerilog core, observer, controller, reconfiguration, and support modules
 tb/      Testbench and benchmark programs
 scripts/ Simulation, CSV analysis, and plotting helpers
-docs/    Research framing and paper-planning documents
+docs/    Research framing, methodology, and reproducibility notes
 formal/  Optional formal/assertion scaffolding for reconfiguration safety
 verif/   Safety assertion monitors, coverage counters, and fuzz regression tools
 synth/   Yosys generic synthesis scaffold and cell-mapping note
 tests/   Parser fixture used by the artifact checker
-paper/   IEEE-style five-page workshop manuscript source and bibliography
 ```
 
 ## Research Readiness Checklist
@@ -285,4 +268,4 @@ paper/   IEEE-style five-page workshop manuscript source and bibliography
 - [x] Run the window, threshold, and residency sweep with `scripts/run_sweep.py`.
 - [x] Run the constrained-random safety regression with `verif/fuzz_runner.py`.
 - [x] Run the Yosys area proxy with `scripts/synth_area_report.py`.
-- [x] Keep the related-work citations current as the verification and workload story evolves.
+- [x] Keep the evidence, limitations, and related-work framing current as the verification and workload story evolves.

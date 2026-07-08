@@ -8,7 +8,7 @@ Weakness: The individual ingredients are familiar: performance counters, phase d
 
 Patch direction: Scope the claim to the integrated artifact: a tiny hardware-resident observer, a hysteretic controller, and a safe drain-based reconfiguration path inside a small educational pipeline. The README and paper outline now warn against overclaiming.
 
-Cycle 5 status: Added a related-work boundary table to `docs/related_work.md` and `paper/pipesense_urtc_8page.tex`, using only bibliography entries already present in `paper/references.bib`. The inserted one-sentence claim is: PipeSense-ARM's claim is not a new branch, memory, power, or verification mechanism, but the integration of a tiny in-core phase observer, hysteretic mode controller, drain-before-switch safety protocol, and reproducible oracle/ablation evaluation in a compact ARM-like RTL pipeline.
+Cycle 5 status: Added a related-work boundary table to `docs/related_work.md` and scoped the claim to the artifact evidence. The one-sentence claim remains: PipeSense-ARM's claim is not a new branch, memory, power, or verification mechanism, but the integration of a tiny in-core phase observer, hysteretic mode controller, drain-before-switch safety protocol, and reproducible oracle/ablation evaluation in a compact ARM-like RTL pipeline.
 
 What remains: Add more recent embedded-runtime and adaptive-microarchitecture citations only if the paper makes stronger claims than the current artifact supports.
 
@@ -60,6 +60,6 @@ Weakness: Early-stage architecture papers often blend a proposed mechanism with 
 
 Patch direction: The docs now emphasize what is measured, what is synthetic, and what remains future work. Results templates include caveats and oracle comparisons.
 
-Cycle 7 status: Completed a URTC-readiness pass after the controller-v2, workload, synthesis, CI, and paper updates. The paper states the claim boundary, keeps negative adaptive/oracle results, labels activity energy and Yosys area as proxies, and distinguishes simulation monitors plus bounded abstract proof from full formal verification. `scripts/check_paper.py` passes, and `scripts/verify_paper_preview.py` verifies an exactly 5-page rendered preview.
+Cycle 7 status: Completed a readiness pass after the controller-v2, workload, synthesis, CI, and result-data updates. The public repository now keeps the claim boundary in README/docs, preserves negative adaptive/oracle results in CSVs, labels activity energy and Yosys area as proxies, and distinguishes simulation monitors plus bounded abstract proof from full formal verification.
 
 What remains: For a final submission, confirm the preferred author metadata, current MIT URTC template, and any required institutional formatting before upload.

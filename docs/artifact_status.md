@@ -19,8 +19,7 @@
 - Constrained-random safety generator and fuzz runner
 - Formal-property scaffold for the reconfiguration unit and abstract instruction-token conservation
 - Documentation for methodology, critique, threats, and reproducibility
-- IEEE-style five-page workshop manuscript source and bibliography in `paper/`
-- Generated five-page PDF preview path through `scripts/build_paper_preview.py`
+- GitHub-visible result data under `results/`, including `results/SUMMARY.md`
 - Local artifact checker that does not require HDL tools
 - Ubuntu CI workflow for full simulation on a machine with package installation
 - Dockerfile for a reproducible Ubuntu/Icarus/Yosys environment
@@ -42,22 +41,19 @@
 - `scripts/estimate_hardware_cost.py` generates `results/hardware_cost_estimate.csv`.
 - `scripts/synth_area_report.py` runs with local Yosys and generates a non-placeholder `results/synth/area_summary.csv`.
 - `scripts/plot_results.py` generates base plots plus sensitivity and reconfiguration-overhead plots.
-- `scripts/check_paper.py` passes, matching the manuscript tables to generated CSVs and checking citation keys.
-- `scripts/verify_paper_preview.py` passes on an exactly 5-page generated PDF preview.
+- Generated result CSVs and logs are present for the current checked-in run.
 
 ## Not locally verified in this environment
 
 - SymbiYosys (`sby`) is not available in the current Docker path, so the formal scaffolds were not rerun in this pass.
 - Full-core formal proof runs bound directly to `arm_like_core`.
 
-## Next checkpoints for a stronger paper artifact
-
-For any future paper-number change, the next checkpoint is:
+## Next checkpoints for stronger public data
 
 1. Run `python scripts/run_sim.py`.
 2. Confirm all rows have `timed_out == 0` and `safety_faults == 0`.
 3. Run `python scripts/run_sweep.py`.
-4. Keep verification and workload citations aligned with new claims.
+4. Keep verification and workload caveats aligned with new claims.
 5. Keep `python verif/fuzz_runner.py --seeds 500` passing after RTL or assertion edits.
 6. Regenerate `results/synth/area_summary.csv` through the CI or local Yosys after RTL or proxy changes.
 
