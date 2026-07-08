@@ -3,6 +3,8 @@
 \usepackage{cite}
 \usepackage{amsmath}
 \usepackage{array}
+\usepackage{graphicx}
+\usepackage{tikz}
 \usepackage{url}
 
 \newcommand{\pipesense}{PipeSense-ARM}
@@ -110,22 +112,7 @@ The first result is a trust gate, not a speedup. The current directed HDL matrix
 
 \begin{figure}[t]
 \centering
-\fbox{\begin{minipage}{0.94\linewidth}
-\small
-\begin{verbatim}
-generated evidence
-  78 HDL rows, 27 sweep configs,
-  500 fuzz seeds, Yosys proxy
-          |
-trust gates
-  validator, ISA reference model,
-  safety checks, paper-number check
-          |
-reported claims
-  static-normal gain, oracle gap,
-  safety result, generic-cell cost
-\end{verbatim}
-\end{minipage}}
+\input{figures/evaluation_evidence_flow.tex}
 \caption{Evaluation evidence flow. Performance, safety, sensitivity, and cost claims are accepted only after generated outputs pass the artifact checks.}
 \label{fig:evidence}
 \end{figure}

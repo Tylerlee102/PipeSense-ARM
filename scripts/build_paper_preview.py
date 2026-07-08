@@ -24,6 +24,8 @@ from reportlab.platypus import (
     TableStyle,
 )
 
+from render_evaluation_figure import render_png as render_evaluation_png
+
 
 ROOT = Path(__file__).resolve().parents[1]
 PAPER = ROOT / "paper" / "pipesense_urtc_8page.tex"
@@ -307,7 +309,9 @@ def main() -> int:
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
     FIGURE_DIR.mkdir(parents=True, exist_ok=True)
     arch_png = FIGURE_DIR / "architecture.png"
+    evidence_png = FIGURE_DIR / "evaluation_evidence_flow.png"
     make_architecture_png(arch_png)
+    render_evaluation_png(evidence_png)
 
     styles = build_styles()
     story: list = []
@@ -321,6 +325,9 @@ def main() -> int:
         if title == "PipeSense-ARM Architecture":
             story.append(Image(str(arch_png), width=3.22 * inch, height=1.25 * inch))
             story.append(Paragraph("Fig. 1. PipeSense-ARM places an observer/controller/reconfiguration loop around a small five-stage pipeline.", styles["caption"]))
+        if title == "Results and Evaluation":
+            story.append(Image(str(evidence_png), width=3.22 * inch, height=1.57 * inch))
+            story.append(Paragraph("Fig. 2. Generated evidence flows through validation gates before becoming paper claims.", styles["caption"]))
         for para in paragraphs:
             story.append(Paragraph(para, styles["body"]))
         if title == "Results and Evaluation":
