@@ -1,51 +1,62 @@
 # PipeSense-ARM Results Summary
 
-## Environment
-
-- Host PATH did not provide `iverilog`, `vvp`, or `yosys`.
-- The repo Dockerfile was built as `pipesense-arm-results` and used for all generated results.
-- Container toolchain: Icarus Verilog 12.0, VVP 12.0, Yosys 0.33.
-- See `results/ENVIRONMENT_NOTES.md` for the environment record.
+Generated in this workspace on 2026-07-08 using the project Docker path.
+Host PowerShell did not have `iverilog`, `vvp`, `yosys`, or `apt-get` on PATH.
+The Dockerfile installed the required Linux tools with `apt-get`; the container
+reported Icarus Verilog 12.0 and Yosys 0.33.
 
 ## Scripts Run
 
-| Step | Command | Status | Primary outputs |
-| --- | --- | --- | --- |
-| Core simulation | `python3 scripts/run_sim.py` | Clean | `results/pipesense_results.csv`, `results/adaptive_improvement.csv`, `results/oracle_gap.csv`, `results/reference_model.csv`, `results/run_sim_stdout.txt` |
-| Validation | `python3 scripts/validate_results.py` | Clean | `results/validate_results_stdout.txt` |
-| Reference comparison | `python3 scripts/compare_reference.py` | Clean | `results/compare_reference_stdout.txt` |
-| Full sweep | `python3 scripts/run_sweep.py` | Clean, 27/27 configs return code 0 | `results/sweep_results.csv`, `results/sweep_runs.csv`, `results/sweep_adaptive_vs_fixed.csv`, `results/sweeps/` |
-| Ablation summary | `python3 scripts/run_ablations.py` | Clean | `results/ablation_summary.csv`, `results/ablations/`, `results/run_ablations_stdout.txt` |
-| Fuzz safety regression | `python3 verif/fuzz_runner.py --seeds 500` | Clean | `results/safety/fuzz_summary.csv`, `results/safety/fuzz_coverage.csv`, `results/safety/fuzz_runner_stdout.txt` |
-| Area proxy | `python3 scripts/synth_area_report.py` | Clean | `results/synth/area_summary.csv`, Yosys stat logs |
-| Paper cross-check | `python3 scripts/check_paper.py` | Clean after source fix | `results/check_paper_stdout.txt` |
-
-## Resolved Issue
-
-- Initial paper cross-check failed because `scripts/run_sweep.py` left the final sweep setting's top-level `adaptive_improvement.csv` and `oracle_gap.csv` in `results/`, causing the paper-facing adaptive table to mismatch `branch_heavy`.
-- Fixed `scripts/run_sweep.py` to restore pre-existing top-level generated tables after writing sweep artifacts.
-- Regenerated baseline results, reran the full sweep, regenerated ablations, updated the paper's Yosys area numbers to match the generated CSV, and strengthened `scripts/check_paper.py` to validate the full area table.
+| Step | Command | Status |
+| --- | --- | --- |
+| Tool container | `docker build -t pipesense-arm-readiness .` | PASS |
+| Tool versions | `iverilog -V`, `vvp -V`, `yosys -V` in container | PASS |
+| Simulation matrix | `python3 scripts/run_sim.py` | PASS: 60 cases, 0 failed |
+| Result validation | `python3 scripts/validate_results.py` | PASS |
+| Reference comparison | `python3 scripts/compare_reference.py` | PASS |
+| Parameter sweep | `python3 scripts/run_sweep.py` | PASS: 27 configs, 1620 result rows |
+| Safety fuzz | `python3 verif/fuzz_runner.py --seeds 500` | PASS: 500 seeds, 2500 rows |
+| Yosys area proxy | `python3 scripts/synth_area_report.py` | PASS |
+| Hardware estimate | `python3 scripts/estimate_hardware_cost.py` | PASS |
+| Ablations | `python3 scripts/run_ablations.py` | PASS |
+| Paper check | `python3 scripts/check_paper.py` | PASS |
 
 ## Headline Numbers
 
-- Core HDL run: 60 benchmark/mode rows, 0 failed cases, 0 timeouts, 0 safety faults.
-- Adaptive versus static normal aggregate cycles: 1,563 normal cycles vs 1,499 adaptive cycles, a 4.09% cycle reduction.
-- Adaptive versus static normal aggregate energy proxy: 8,872 normal vs 8,508 adaptive, a 4.10% reduction.
-- Adaptive cycle outcomes: improved on 4 benchmarks, unchanged on 3, worse on 3.
-- Best adaptive cycle improvement: `load_use_heavy`, 13.17%.
-- Worst adaptive cycle change: `pid_control_codegen`, -4.17%.
-- Adaptive versus best fixed oracle aggregate cycles: 1,302 oracle cycles vs 1,499 adaptive cycles, a -15.13% oracle gap.
-- Worst oracle gap: `memory_heavy`, -36.73%.
-- Fuzz safety regression: 500 seeds, 2,500 result rows, 0 safety faults, 0 assertion failures, 0 timeouts.
-- Yosys area proxy: baseline core proxy 1,830 cells; observer/controller/reconfig standalone sum 2,819 cells, 154.04% of the baseline core proxy.
+All numbers below are copied from generated CSV files under `results/` after
+the fresh run. Raw CSV and log files are intentionally not committed.
 
-## Paper Cross-Check
+- Main simulation: 10 benchmarks x 6 modes = 60 rows.
+- Simulation safety faults: 0.
+- Simulation timeouts: 0.
+- Adaptive vs static normal, total cycles: 1499 adaptive vs 1563 static.
+- Adaptive vs static normal, total cycle reduction: 4.09%.
+- Adaptive vs static normal, average per-benchmark cycle reduction: 3.43%.
+- Adaptive vs static normal, average IPC improvement: 3.99%.
+- Adaptive vs static normal, total activity-energy proxy reduction: 4.10%.
+- Adaptive vs static normal, average per-benchmark activity-energy proxy reduction: 3.50%.
+- Adaptive vs best fixed mode, average cycle gap: -14.41%.
+- Adaptive vs best fixed mode, average activity-energy proxy gap: -8.43%.
+- Safety fuzz: 500 seeds, 2500 mode-result rows, 0 safety faults, 0 assertion failures, 0 timeouts, 0 nonzero return codes.
+- Sweep: 27 configurations, 1620 result rows, 0 failed configurations, 1032 adaptive non-win comparison cells recorded.
+- Ablation, observer disabled: 1563 adaptive cycles, +4.27% cycles vs full adaptive, 0 safety faults, 0 timeouts.
+- Ablation, controller disabled: 1563 adaptive cycles, +4.27% cycles vs full adaptive, 0 safety faults, 0 timeouts.
+- Ablation, zero-cost reconfiguration idealization: 1426 adaptive cycles, -4.87% cycles vs full adaptive.
+- Yosys generic-cell area proxy: baseline core proxy 1830 cells.
+- Yosys generic-cell area proxy: observer/controller/reconfiguration standalone sum 2819 cells.
+- Yosys generic-cell area proxy overhead vs core: 154.04%.
 
-- Final `scripts/check_paper.py` result: passed.
-- Current mismatches between `paper/pipesense_urtc_8page.tex` and generated CSVs: none found.
-- Area table checking is now included in `scripts/check_paper.py`.
+## Paper Number Check
 
-## TODOs
+`scripts/check_paper.py` passed after the fresh data generation. No paper
+claimed-number mismatches were reported.
 
-- No TODOs remain that block a fully data-backed Results section in this environment.
-- Treat the Yosys numbers only as a generic-cell proxy, not calibrated FPGA or ASIC area.
+## Remaining Blockers
+
+- No blocker prevents a scoped workshop artifact submission.
+- The Yosys result is a generic-cell proxy, not FPGA utilization, timing,
+  calibrated power, or ASIC physical area.
+- The safety evidence includes simulation assertions, 500-seed fuzzing, and
+  bounded/abstract formal scaffolding; it is not a full-core proof.
+- The workload evidence is a 10-benchmark prototype suite plus a parameter
+  sweep, not a broad compiler-generated embedded benchmark suite.

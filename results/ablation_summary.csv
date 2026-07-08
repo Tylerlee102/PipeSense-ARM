@@ -1,4 +1,0 @@
-ablation,label,total_adaptive_cycles,cycle_change_vs_full_pct,total_adaptive_energy,energy_change_vs_full_pct,total_reconfigs,total_reconfig_penalty,total_safety_faults,total_timeouts
-observer_disabled,Observer disabled,1563,4.27,8872,4.28,0,0,0,0
-controller_disabled,Controller disabled,1563,4.27,8872,4.28,0,0,0,0
-zero_cost_reconfig,Zero-cost reconfiguration idealization,1426,-4.87,8508,0.00,17,0,0,0

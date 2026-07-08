@@ -1,1 +1,0 @@
-Wrote /workspace/results/synth/area_summary.csv

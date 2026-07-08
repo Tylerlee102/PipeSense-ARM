@@ -1,6 +1,0 @@
-module,report,number_of_wires,number_of_wire_bits,number_of_public_wires,number_of_public_wire_bits,number_of_memories,number_of_memory_bits,number_of_processes,number_of_cells,overhead_vs_core_pct,status
-arm_like_core,/workspace/results/synth/arm_like_core_yosys_stat.txt,503,2002,26,501,0,0,0,1830,0.00,parsed
-pipeline_observer,/workspace/results/synth/pipeline_observer_yosys_stat.txt,645,2524,12,212,0,0,0,2128,0.00,parsed
-adaptive_controller,/workspace/results/synth/adaptive_controller_yosys_stat.txt,71,157,13,31,0,0,0,116,0.00,parsed
-reconfig_unit,/workspace/results/synth/reconfig_unit_yosys_stat.txt,184,690,17,149,0,0,0,575,0.00,parsed
-observer_controller_reconfig_total,standalone module sum,,,,,,,,2819,154.04,proxy_sum
