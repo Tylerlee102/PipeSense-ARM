@@ -74,11 +74,11 @@ def check_claim_language(tex: str) -> None:
         fail("Paper is missing required claim-discipline language: " + ", ".join(missing))
 
 
-def check_extended_length(tex: str) -> None:
+def check_workshop_length(tex: str) -> None:
     text_without_commands = re.sub(r"\\[A-Za-z]+\*?(?:\[[^\]]*\])?(?:\{[^}]*\})?", " ", tex)
     words = re.findall(r"[A-Za-z0-9][A-Za-z0-9_-]*", text_without_commands)
-    if len(words) < 4000:
-        fail(f"Paper is too short for an 8-page-ready extended draft: {len(words)} words")
+    if len(words) < 3200:
+        fail(f"Paper is too short for a six-page workshop draft: {len(words)} words")
 
 
 def check_adaptive_table(tex: str) -> None:
@@ -181,7 +181,7 @@ def main() -> int:
     check_no_placeholders(tex)
     check_citations(tex, bib)
     check_claim_language(tex)
-    check_extended_length(tex)
+    check_workshop_length(tex)
     check_adaptive_table(tex)
     check_oracle_table(tex)
     check_ablation_table(tex)

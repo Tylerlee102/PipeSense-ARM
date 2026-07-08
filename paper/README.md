@@ -1,11 +1,11 @@
 # PipeSense-ARM Paper Package
 
-This directory contains an 8-page-ready IEEE-style manuscript source for the
+This directory contains a six-page IEEE-style workshop manuscript source for the
 PipeSense-ARM research prototype.
 
 ## Files
 
-- `pipesense_urtc_8page.tex`: extended 8-page manuscript draft.
+- `pipesense_urtc_8page.tex`: six-page workshop manuscript draft.
 - `references.bib`: real related-work references used by the manuscript.
 
 ## Build
@@ -21,7 +21,7 @@ pdflatex pipesense_urtc_8page.tex
 
 ## Preview Without LaTeX
 
-This repo can also generate a checked 8-page PDF preview through ReportLab:
+This repo can also generate a checked six-page PDF preview through ReportLab:
 
 ```bash
 python scripts/build_paper_preview.py
@@ -31,7 +31,7 @@ python scripts/verify_paper_preview.py
 The preview is written to:
 
 ```text
-output/pdf/pipesense_urtc_8page_preview.pdf
+output/pdf/pipesense_urtc_6page_preview.pdf
 ```
 
 This preview is for page-count and readability inspection. The canonical
@@ -39,11 +39,10 @@ submission source remains `paper/pipesense_urtc_8page.tex`.
 
 ## URTC note
 
-MIT URTC public submission guidance has listed a 5-page manuscript limit in
-recent cycles. Treat this 8-page file as an extended/master draft unless your
-specific submission instructions allow 8 pages. If a 5-page limit applies,
-compress by removing the detailed hardware-cost table, shortening related work,
-moving the oracle table into prose, and trimming limitations/future work.
+Treat this source as a six-page workshop draft unless the current venue gives a
+different page limit or template. If a stricter limit applies, compress
+discussion, future-work, and artifact prose before cutting the architecture
+description or result tables.
 
 ## Before submission
 

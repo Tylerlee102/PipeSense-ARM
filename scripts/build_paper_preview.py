@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build an 8-page PDF preview from the PipeSense paper source and results."""
+"""Build a 6-page PDF preview from the PipeSense paper source and results."""
 
 from __future__ import annotations
 
@@ -30,26 +30,18 @@ PAPER = ROOT / "paper" / "pipesense_urtc_8page.tex"
 RESULTS = ROOT / "results"
 OUTPUT_DIR = ROOT / "output" / "pdf"
 FIGURE_DIR = ROOT / "output" / "pdf" / "figures"
-OUTPUT_PDF = OUTPUT_DIR / "pipesense_urtc_8page_preview.pdf"
+OUTPUT_PDF = OUTPUT_DIR / "pipesense_urtc_6page_preview.pdf"
 
 
 SECTION_ORDER = [
     "Introduction",
-    "Background and Motivation",
-    "Related Work",
+    "Background and Related Work",
     "PipeSense-ARM Architecture",
-    "Mode Semantics",
-    "Design Alternatives",
-    "Safe Reconfiguration",
-    "Implementation",
+    "Safe Reconfiguration and Implementation",
     "Evaluation Methodology",
     "Results",
     "Parameter Sensitivity",
-    "Discussion",
-    "Threats to Validity",
-    "Limitations",
-    "Future Work",
-    "Educational and Broader Impact",
+    "Discussion and Limitations",
     "Artifact and Reproducibility",
     "Conclusion",
 ]
@@ -290,7 +282,7 @@ def draw_page(canvas, doc) -> None:
     canvas.setFont("Times-Roman", 7)
     canvas.drawCentredString(letter[0] / 2, 0.28 * inch, f"{doc.page}")
     canvas.setFont("Times-Italic", 6.5)
-    canvas.drawCentredString(letter[0] / 2, letter[1] - 0.27 * inch, "PipeSense-ARM extended URTC draft preview")
+    canvas.drawCentredString(letter[0] / 2, letter[1] - 0.27 * inch, "PipeSense-ARM six-page workshop draft preview")
     canvas.restoreState()
 
 

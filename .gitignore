@@ -2,6 +2,7 @@ build/
 output/
 results/*
 !results/SUMMARY.md
+formal/results/
 verif/generated/
 __pycache__/
 *.pyc

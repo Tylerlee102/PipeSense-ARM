@@ -20,6 +20,9 @@ reported Icarus Verilog 12.0 and Yosys 0.33.
 | Hardware estimate | `python3 scripts/estimate_hardware_cost.py` | PASS |
 | Ablations | `python3 scripts/run_ablations.py` | PASS |
 | Paper check | `python3 scripts/check_paper.py` | PASS |
+| Paper preview build | `python3 scripts/build_paper_preview.py` | PASS |
+| Paper preview verification | `python3 scripts/verify_paper_preview.py` | PASS: exactly 6 pages |
+| Artifact check | `python3 scripts/check_artifact.py` | PASS |
 
 ## Headline Numbers
 
@@ -48,12 +51,15 @@ the fresh run. Raw CSV and log files are intentionally not committed.
 
 ## Paper Number Check
 
-`scripts/check_paper.py` passed after the fresh data generation. No paper
-claimed-number mismatches were reported.
+`scripts/check_paper.py` passed after the fresh data generation and after the
+six-page paper trim. No paper claimed-number mismatches were reported.
+`scripts/verify_paper_preview.py` verified an exactly 6-page preview PDF.
 
 ## Remaining Blockers
 
-- No blocker prevents a scoped workshop artifact submission.
+- No data-generation or paper-number blocker prevents a scoped workshop artifact submission.
+- The author block still contains placeholder metadata and must be replaced before final venue upload.
+- The current venue page limit, template, and institutional formatting still need a human submission check.
 - The Yosys result is a generic-cell proxy, not FPGA utilization, timing,
   calibrated power, or ASIC physical area.
 - The safety evidence includes simulation assertions, 500-seed fuzzing, and

@@ -19,8 +19,8 @@
 - Constrained-random safety generator and fuzz runner
 - Formal-property scaffold for the reconfiguration unit and abstract instruction-token conservation
 - Documentation for methodology, critique, threats, and reproducibility
-- IEEE-style 8-page extended manuscript source and bibliography in `paper/`
-- Generated 8-page PDF preview path through `scripts/build_paper_preview.py`
+- IEEE-style six-page workshop manuscript source and bibliography in `paper/`
+- Generated six-page PDF preview path through `scripts/build_paper_preview.py`
 - Local artifact checker that does not require HDL tools
 - Ubuntu CI workflow for full simulation on a machine with package installation
 - Dockerfile for a reproducible Ubuntu/Icarus/Yosys environment
@@ -44,7 +44,7 @@
 - `scripts/synth_area_report.py` runs with local Yosys and generates a non-placeholder `results/synth/area_summary.csv`.
 - `scripts/plot_results.py` generates base plots plus sensitivity and reconfiguration-overhead plots.
 - `scripts/check_paper.py` passes, matching the manuscript tables to generated CSVs and checking citation keys.
-- `scripts/verify_paper_preview.py` passes on an exactly 8-page generated PDF preview.
+- `scripts/verify_paper_preview.py` passes on an exactly 6-page generated PDF preview.
 
 ## Not locally verified in this environment
 

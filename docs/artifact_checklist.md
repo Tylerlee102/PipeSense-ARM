@@ -22,7 +22,7 @@ Expected:
 - analyzer fixture produces valid CSVs
 - README contains the research-contract caveats
 - paper draft has no unresolved placeholders and matches generated CSV tables when results are present
-- generated PDF preview is exactly 8 pages and each page renders with text
+- generated PDF preview is exactly 6 pages and each page renders with text
 - `results/hardware_cost_estimate.csv` is generated
 - required safety, sweep, related-work, and synthesis scaffold files exist
 

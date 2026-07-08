@@ -187,22 +187,22 @@ python scripts/check_paper.py
 
 ## Paper draft
 
-The `paper/` directory contains an IEEE-style 8-page extended manuscript source:
+The `paper/` directory contains an IEEE-style six-page workshop manuscript source:
 
 - `paper/pipesense_urtc_8page.tex`
 - `paper/references.bib`
 - `paper/README.md`
 
-Run `python scripts/check_paper.py` to verify that the paper has no unresolved placeholders, cites bibliography keys that exist, preserves claim-discipline language, and matches the generated result CSVs where local results are available. Recent MIT URTC guidance has used a 5-page paper limit, so treat this as an extended/master draft unless your current submission instructions allow 8 pages.
+Run `python scripts/check_paper.py` to verify that the paper has no unresolved placeholders, cites bibliography keys that exist, preserves claim-discipline language, and matches the generated result CSVs where local results are available. Current venue instructions should still be checked before submission.
 
-To generate and verify an 8-page PDF preview without LaTeX:
+To generate and verify a six-page PDF preview without LaTeX:
 
 ```bash
 python scripts/build_paper_preview.py
 python scripts/verify_paper_preview.py
 ```
 
-The preview is written to `output/pdf/pipesense_urtc_8page_preview.pdf` and rendered page images are written under `output/pdf/rendered/`.
+The preview is written to `output/pdf/pipesense_urtc_6page_preview.pdf` and rendered page images are written under `output/pdf/rendered/`.
 
 ## Expected outputs
 
@@ -273,14 +273,14 @@ paper/   IEEE-style extended manuscript source and bibliography
 
 ## Research Readiness Checklist
 
-- Run the HDL simulation and confirm `safety_faults == 0` for every row.
-- Run `python scripts/validate_results.py` after simulation before citing results.
-- Run `python scripts/compare_reference.py` after simulation to check HDL retired counts against the ISA reference model.
-- Use the Dockerfile or CI workflow when local HDL tools are not installed.
-- Run `python scripts/check_artifact.py` before packaging or sharing the artifact.
-- Confirm no benchmark has `timed_out == 1`.
-- Compare adaptive mode to both `static_normal` and the best fixed mode in `oracle_gap.csv`.
-- Run the window, threshold, and residency sweep with `scripts/run_sweep.py`.
-- Run the constrained-random safety regression with `verif/fuzz_runner.py`.
-- Run the Yosys area proxy with `scripts/synth_area_report.py`.
-- Keep the related-work citations current as the verification and workload story evolves.
+- [x] Run the HDL simulation and confirm `safety_faults == 0` for every row.
+- [x] Run `python scripts/validate_results.py` after simulation before citing results.
+- [x] Run `python scripts/compare_reference.py` after simulation to check HDL retired counts against the ISA reference model.
+- [x] Use the Dockerfile or CI workflow when local HDL tools are not installed.
+- [x] Run `python scripts/check_artifact.py` before packaging or sharing the artifact.
+- [x] Confirm no benchmark has `timed_out == 1`.
+- [x] Compare adaptive mode to both `static_normal` and the best fixed mode in `oracle_gap.csv`.
+- [x] Run the window, threshold, and residency sweep with `scripts/run_sweep.py`.
+- [x] Run the constrained-random safety regression with `verif/fuzz_runner.py`.
+- [x] Run the Yosys area proxy with `scripts/synth_area_report.py`.
+- [x] Keep the related-work citations current as the verification and workload story evolves.

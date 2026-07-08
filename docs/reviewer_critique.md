@@ -60,6 +60,6 @@ Weakness: Early-stage architecture papers often blend a proposed mechanism with 
 
 Patch direction: The docs now emphasize what is measured, what is synthetic, and what remains future work. Results templates include caveats and oracle comparisons.
 
-Cycle 6 status: Completed a writing/readiness pass after the benchmark, ablation, related-work, and sweep updates. The paper now states the claim boundary in one sentence, keeps negative adaptive/oracle results, labels activity energy and Yosys area as proxies, and distinguishes simulation monitors plus bounded abstract proof from full formal verification. A human-facing scan found no AI/tooling provenance language in README, docs, or paper text. `scripts/check_paper.py` passes, and `scripts/verify_paper_preview.py` verifies an exactly 8-page rendered preview.
+Cycle 6 status: Completed a writing/readiness pass after the benchmark, ablation, related-work, and sweep updates. The paper now states the claim boundary in one sentence, keeps negative adaptive/oracle results, labels activity energy and Yosys area as proxies, and distinguishes simulation monitors plus bounded abstract proof from full formal verification. A human-facing scan found no AI/tooling provenance language in README, docs, or paper text. `scripts/check_paper.py` passes, and `scripts/verify_paper_preview.py` verifies an exactly 6-page rendered preview.
 
 What remains: For a final submission, replace placeholder author metadata, confirm the current MIT URTC page limit and template, and add any required institutional formatting before upload.
