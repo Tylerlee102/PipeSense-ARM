@@ -1,0 +1,31 @@
+w16_r8_thtight_seed0: return_code=0 rows=60
+w16_r8_thmedium_seed0: return_code=0 rows=60
+w16_r8_thloose_seed0: return_code=0 rows=60
+w16_r24_thtight_seed0: return_code=0 rows=60
+w16_r24_thmedium_seed0: return_code=0 rows=60
+w16_r24_thloose_seed0: return_code=0 rows=60
+w16_r48_thtight_seed0: return_code=0 rows=60
+w16_r48_thmedium_seed0: return_code=0 rows=60
+w16_r48_thloose_seed0: return_code=0 rows=60
+w32_r8_thtight_seed0: return_code=0 rows=60
+w32_r8_thmedium_seed0: return_code=0 rows=60
+w32_r8_thloose_seed0: return_code=0 rows=60
+w32_r24_thtight_seed0: return_code=0 rows=60
+w32_r24_thmedium_seed0: return_code=0 rows=60
+w32_r24_thloose_seed0: return_code=0 rows=60
+w32_r48_thtight_seed0: return_code=0 rows=60
+w32_r48_thmedium_seed0: return_code=0 rows=60
+w32_r48_thloose_seed0: return_code=0 rows=60
+w64_r8_thtight_seed0: return_code=0 rows=60
+w64_r8_thmedium_seed0: return_code=0 rows=60
+w64_r8_thloose_seed0: return_code=0 rows=60
+w64_r24_thtight_seed0: return_code=0 rows=60
+w64_r24_thmedium_seed0: return_code=0 rows=60
+w64_r24_thloose_seed0: return_code=0 rows=60
+w64_r48_thtight_seed0: return_code=0 rows=60
+w64_r48_thmedium_seed0: return_code=0 rows=60
+w64_r48_thloose_seed0: return_code=0 rows=60
+Wrote /workspace/results/sweep_runs.csv
+Wrote /workspace/results/sweep_results.csv
+Wrote /workspace/results/sweep_adaptive_vs_fixed.csv
+Adaptive non-win cells recorded: 1032

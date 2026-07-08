@@ -1,0 +1,11 @@
+bench,normal_cycles,adaptive_cycles,cycle_reduction_pct,normal_ipc,adaptive_ipc,ipc_improvement_pct,normal_energy,adaptive_energy,energy_reduction_pct,adaptive_reconfigs,adaptive_reconfig_penalty
+arithmetic_heavy,30,30,0.00,0.7333,0.7333,0.00,176,176,0.00,0,0
+branch_heavy,128,114,10.94,0.5781,0.6491,12.28,678,633,6.64,1,2
+coremark_toy,162,170,-4.94,0.6975,0.6647,-4.70,957,973,-1.67,2,8
+dhrystone_toy,133,133,0.00,0.7970,0.7970,0.00,825,825,0.00,0,0
+dsp_fir_codegen,192,203,-5.73,0.6510,0.6158,-5.41,1106,1118,-1.08,5,21
+load_use_heavy,205,178,13.17,0.6244,0.7191,15.17,1125,1039,7.64,1,4
+memory_heavy,231,210,9.09,0.4329,0.4762,10.00,1231,1066,13.40,6,28
+mixed_control,131,135,-3.05,0.5802,0.5630,-2.96,747,725,2.95,4,15
+pid_control_codegen,192,210,-9.38,0.7135,0.6524,-8.56,1144,1171,-2.36,5,22
+tiny_fir,159,160,-0.63,0.5660,0.5625,-0.62,883,846,4.19,4,17
