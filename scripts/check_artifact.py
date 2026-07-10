@@ -18,6 +18,7 @@ REQUIRED_FILES = [
     "README.md",
     "Makefile",
     "Dockerfile",
+    "paper/Dockerfile",
     ".github/workflows/ci.yml",
     "rtl/defines.svh",
     "rtl/arm_like_core.sv",
@@ -42,6 +43,10 @@ REQUIRED_FILES = [
     "scripts/lint_sv.py",
     "scripts/validate_results.py",
     "scripts/check_artifact.py",
+    "scripts/check_paper.py",
+    "scripts/build_paper_preview.py",
+    "scripts/verify_paper_preview.py",
+    "scripts/check_results_summary.py",
     "docs/artifact_checklist.md",
     "docs/artifact_status.md",
     "docs/formal_safety_plan.md",
@@ -87,6 +92,10 @@ PYTHON_FILES = [
     "scripts/lint_sv.py",
     "scripts/validate_results.py",
     "scripts/check_artifact.py",
+    "scripts/check_paper.py",
+    "scripts/build_paper_preview.py",
+    "scripts/verify_paper_preview.py",
+    "scripts/check_results_summary.py",
     "verif/random_seq_gen.py",
     "verif/fuzz_runner.py",
 ]
@@ -104,11 +113,44 @@ def check_required_files() -> None:
 
 def check_ascii() -> None:
     bad: list[str] = []
+    skipped_directories = {
+        ".external",
+        ".git",
+        ".venv",
+        "build",
+        "external",
+        "node_modules",
+        "output",
+        "results",
+        "venv",
+    }
+    text_suffixes = {
+        "",
+        ".bib",
+        ".cfg",
+        ".csv",
+        ".json",
+        ".lib",
+        ".md",
+        ".py",
+        ".sby",
+        ".sh",
+        ".sv",
+        ".svh",
+        ".tcl",
+        ".tex",
+        ".toml",
+        ".txt",
+        ".yml",
+        ".yaml",
+    }
     for path in ROOT.rglob("*"):
         if not path.is_file():
             continue
         rel = path.relative_to(ROOT)
-        if rel.parts[0] in {".git", "build", "results", "output"} or "__pycache__" in rel.parts:
+        if any(part in skipped_directories for part in rel.parts) or "__pycache__" in rel.parts:
+            continue
+        if path.suffix.lower() not in text_suffixes:
             continue
         data = path.read_bytes()
         if any(byte > 127 for byte in data):

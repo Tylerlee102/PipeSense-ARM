@@ -116,6 +116,18 @@ Optional plotting:
 python scripts/plot_results.py
 ```
 
+Optional DiaIQ text humanizer:
+
+```bash
+python scripts/diaiq_humanize.py "Text to humanize." --passes 1
+python scripts/diaiq_humanize.py --file docs/methodology.md --yes --output output/methodology_humanized.md
+make diaiq ARGS="\"Text to humanize.\" --passes 1"
+```
+
+The DiaIQ wrapper sends the provided text to the public DiaIQ Humanizer API. Do
+not use it with sensitive or private content unless you explicitly intend to
+send that content to the service.
+
 Or, on systems with `make`:
 
 ```bash
@@ -184,11 +196,36 @@ python scripts/lint_sv.py
 python scripts/audit_requirements.py
 python scripts/check_benchmark_parity.py
 python scripts/isa_reference.py
+python scripts/check_results_summary.py
 ```
 
 ## Data on GitHub
 
-This repository intentionally does not track the manuscript LaTeX source or preview PDF. The GitHub-visible artifact is the RTL, scripts, documentation, and generated result data. The main result entry point is `results/SUMMARY.md`, with generated CSVs under `results/` for adaptive improvement, oracle gap, sweeps, fuzz safety, ablations, and Yosys area proxy.
+The repository tracks the manuscript source, bibliography, final rendered PDF,
+RTL, scripts, documentation, and public result summary. The CI workflow
+validates the research artifact only; it does not build the manuscript or
+certify its claims, citations, page count, formatting, or submission readiness.
+The main result entry point is `results/SUMMARY.md`, with generated CSVs under
+`results/` for adaptive improvement, oracle gap, sweeps, fuzz safety, ablations,
+and Yosys area proxy.
+
+## Local manuscript readiness
+
+The manuscript is stored under `paper/` and remains outside CI. These commands
+check its structure, build it with local LaTeX or the dedicated Docker image,
+render every page, and verify the actual PDF page count, page size, fonts,
+references, and placeholders:
+
+```bash
+python scripts/check_paper.py
+python scripts/build_paper_preview.py
+python scripts/verify_paper_preview.py
+```
+
+Run `make paper-ready` to execute all three gates. A passing automated check is
+not a substitute for author review of the argument, originality, citations, and
+venue eligibility. Complete `paper/SUBMISSION_CHECKLIST.md` only after manually
+confirming each item against the final manuscript and current venue rules.
 
 ## Expected outputs
 

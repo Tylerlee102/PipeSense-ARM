@@ -1,3 +1,4 @@
 # The core HDL/result scripts use only the Python standard library.
-# matplotlib is optional and only needed for scripts/plot_results.py.
+# matplotlib is optional for plots; pypdf verifies the local paper preview.
 matplotlib
+pypdf

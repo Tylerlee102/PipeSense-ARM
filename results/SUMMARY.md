@@ -1,6 +1,6 @@
 # PipeSense-ARM Results Summary
 
-Generated in this workspace on 2026-07-08 using the project Docker path.
+Generated in this workspace on 2026-07-09 using the project Docker path.
 Host PowerShell did not have `iverilog`, `vvp`, `yosys`, `sby`, or `apt-get`
 on PATH. The Docker image provides Icarus Verilog 12.0 and Yosys 0.33.
 SymbiYosys was not available in the Docker path, so formal scaffolds were not
@@ -19,10 +19,8 @@ rerun in this pass.
 | Yosys area proxy | `python3 scripts/synth_area_report.py` | PASS |
 | Hardware estimate | `python3 scripts/estimate_hardware_cost.py` | PASS |
 | Ablations | `python3 scripts/run_ablations.py` | PASS |
-| Paper check | `python3 scripts/check_paper.py` | PASS: no claimed-number mismatches |
-| Paper preview build | `python3 scripts/build_paper_preview.py` | PASS |
-| Paper preview verification | `python3 scripts/verify_paper_preview.py` | PASS: exactly 5 pages |
 | Artifact check | `python3 scripts/check_artifact.py` | PASS |
+| Summary consistency | `python3 scripts/check_results_summary.py` | PASS |
 | Plot generation | `python3 scripts/plot_results.py` | PASS |
 
 ## Headline Numbers
@@ -50,20 +48,19 @@ All numbers below are copied from generated CSV files under `results/`.
 - Yosys generic-cell area proxy: baseline core proxy 1,830 cells.
 - Yosys generic-cell area proxy: observer/controller/reconfiguration standalone sum 2,885 cells, 157.65% of baseline core proxy.
 - Yosys integrated generic-cell proxy: 4,850 cells, 165.03% delta over baseline core proxy.
-- Paper preview: exactly 5 generated pages.
 
-## Paper and Citation Check
+## Manuscript Scope
 
-`scripts/check_paper.py` passed after the 13-workload data generation and
-five-page paper trim. No paper claimed-number mismatches were reported.
-All cited bibliography keys are present in `paper/references.bib`; no citation
-was flagged as unverified in the manuscript.
+The manuscript source and final rendered PDF are checked in under `paper/`, but
+they are not built or certified by the CI workflow. This summary reports only
+repository-backed simulation, validation, sweep, fuzzing, hardware-cost,
+synthesis-proxy, and plotting results. Manuscript claims, citations, page
+count, formatting, and submission readiness must be checked separately by the
+author.
 
-## Remaining Blockers
+## Scope and Limitations
 
-- No data-generation or paper-number blocker prevents a scoped workshop artifact submission.
-- Confirm the preferred author name, affiliation, and contact email before final venue upload. The current author block uses the repository Git identity rather than an institutional affiliation supplied by the user.
-- Confirm the current URTC template and any institutional formatting requirements before submission.
+- The repository does not certify manuscript page count, citations, author metadata, venue formatting, or submission readiness.
 - The Yosys result is a generic-cell proxy, not FPGA utilization, timing, calibrated power, or ASIC physical area.
 - The safety evidence includes simulation assertions, 500-seed fuzzing, and formal scaffolding; SymbiYosys was not available here, and this is not a full-core proof.
 - The workload evidence is a 13-workload toy/stress suite, not a broad compiler-generated embedded benchmark suite.

@@ -42,9 +42,17 @@ jobs:
         run: |
           python verif/fuzz_runner.py --seeds 500
 
+      - name: Run ablations
+        run: |
+          python scripts/run_ablations.py
+
       - name: Run generic synthesis proxy
         run: |
           python scripts/synth_area_report.py
+
+      - name: Check public results summary
+        run: |
+          python scripts/check_results_summary.py
 
       - name: Upload generated results
         uses: actions/upload-artifact@v4
