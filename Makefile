@@ -1,6 +1,6 @@
 PYTHON ?= python
 
-.PHONY: all sim analyze validate plot sweep ablations safety formal cost synth audit reference compare parity diaiq check summary-check paper-check paper-build paper-verify paper-ready clean
+.PHONY: all sim analyze validate plot sweep ablations safety formal cost synth audit reference compare parity check summary-check clean
 
 all: sim plot
 
@@ -43,9 +43,6 @@ compare:
 parity:
 	$(PYTHON) scripts/check_benchmark_parity.py
 
-diaiq:
-	$(PYTHON) scripts/diaiq_humanize.py $(ARGS)
-
 audit:
 	$(PYTHON) scripts/audit_requirements.py
 
@@ -54,20 +51,6 @@ check:
 
 summary-check:
 	$(PYTHON) scripts/check_results_summary.py
-
-paper-check:
-	$(PYTHON) scripts/check_paper.py
-
-paper-build:
-	$(PYTHON) scripts/build_paper_preview.py
-
-paper-verify:
-	$(PYTHON) scripts/verify_paper_preview.py
-
-paper-ready:
-	$(PYTHON) scripts/check_paper.py
-	$(PYTHON) scripts/build_paper_preview.py
-	$(PYTHON) scripts/verify_paper_preview.py
 
 clean:
 	rm -rf build results

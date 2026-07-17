@@ -59,7 +59,7 @@ The expected primary outputs are:
 - `results/sweep_runs.csv`, `results/sweep_results.csv`, `results/sweep_adaptive_vs_fixed.csv`, and `results/sweeps/<setting>/...` after parameter sweeps
 - `results/safety/fuzz_summary.csv` and `results/safety/fuzz_coverage.csv` after the safety regression
 
-Before using results in a paper, confirm:
+Before reporting the results externally, confirm:
 
 - `timed_out == 0` for every row
 - `safety_faults == 0` for every row

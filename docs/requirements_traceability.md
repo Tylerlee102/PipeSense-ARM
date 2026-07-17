@@ -101,19 +101,14 @@ runs the three bounded safety jobs.
 Evidence:
 
 - `README.md`
-- `docs/research_gap.md`
-- `docs/related_work.md`
-- `docs/paper_outline.md`
 - `docs/methodology.md`
 - `docs/safety_proof_sketch.md`
 - `docs/limitations_and_honesty.md`
 - `docs/decisions.md`
 - `docs/results_template.md`
-- `docs/nsf_grfp_angle.md`
-- `docs/reviewer_critique.md`
 - `docs/threats_to_validity.md`
 - `docs/hardware_realism.md`
 - `docs/reproducibility.md`
 - `docs/artifact_status.md`
 
-The docs keep claims scoped to an ARM-like educational embedded pipeline prototype and tie verification-related claims to real citations.
+The docs keep claims scoped to an ARM-like educational embedded pipeline prototype and tie verification-related claims to reproducible evidence.

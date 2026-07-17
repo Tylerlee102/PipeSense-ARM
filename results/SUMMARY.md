@@ -49,18 +49,15 @@ All numbers below are copied from generated CSV files under `results/`.
 - Yosys integrated generic-cell proxy: 2,380 cells, 29.49% delta over baseline core proxy.
 - Bounded formal: production reconfiguration safety passes at depth 24; abstract token conservation passes at depth 9; abstract no-double-commit passes at depth 14.
 
-## Manuscript Scope
+## Repository Scope
 
-The manuscript source and final rendered PDF are checked in under `paper/`, but
-they are not built or certified by the CI workflow. This summary reports only
-repository-backed simulation, validation, sweep, fuzzing, hardware-cost,
-synthesis-proxy, and plotting results. Manuscript claims, citations, page
-count, formatting, and submission readiness must be checked separately by the
-author.
+This repository contains the RTL, test infrastructure, verification scripts,
+supporting methodology, and generated evidence. This summary reports the
+repository-backed simulation, validation, sweep, fuzzing, bounded-formal,
+hardware-cost, synthesis-proxy, and plotting results.
 
 ## Scope and Limitations
 
-- The repository does not certify manuscript page count, citations, author metadata, venue formatting, or submission readiness.
 - The Yosys result is a generic-cell proxy, not FPGA utilization, timing, calibrated power, or ASIC physical area.
 - The safety evidence includes simulation assertions, 500-seed fuzzing, and three passing bounded formal jobs; this is not a full-core proof.
 - The workload evidence is a 13-workload toy/stress suite, not a broad compiler-generated embedded benchmark suite.

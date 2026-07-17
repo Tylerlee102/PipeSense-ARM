@@ -203,11 +203,6 @@ def main() -> int:
         errors,
     )
 
-    forbidden_stale_claims = ["Paper check", "Paper preview", "exactly 5 generated pages"]
-    for claim in forbidden_stale_claims:
-        if claim in summary:
-            errors.append(f"Stale manuscript claim remains in results summary: {claim}")
-
     for error in errors:
         print(f"FAIL {error}")
     if errors:

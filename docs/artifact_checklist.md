@@ -19,8 +19,8 @@ Expected:
 - analyzer fixture produces valid CSVs
 - README contains the research-contract caveats
 - `results/hardware_cost_estimate.csv` is generated
-- required safety, sweep, related-work, and synthesis scaffold files exist
-- no manuscript LaTeX source or preview PDF is required for the public data repo
+- required safety, sweep, methodology, and synthesis scaffold files exist
+- no publication source or rendered document is tracked in the public data repository
 
 ## HDL simulation checks
 
@@ -66,4 +66,4 @@ sby -f formal/reconfig_unit.sby
 sby -f formal/token_conservation.sby
 ```
 
-The token-conservation job proves the abstract token model, not the full RTL core. Treat failures as design or harness issues to investigate, not as paper-ready full-core formal evidence.
+The token-conservation job proves the abstract token model, not the full RTL core. Treat failures as design or harness issues to investigate, not as full-core formal evidence.
