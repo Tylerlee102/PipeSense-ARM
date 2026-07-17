@@ -55,10 +55,10 @@ jobs:
 
       - name: Verify formal toolchain
         run: |
-          sby --version
-          yosys -V
-          z3 --version
-          cvc4 --version
+          command -v sby
+          command -v yosys
+          command -v z3
+          command -v cvc4
 
       - name: Prove bounded reconfiguration safety
         run: |
