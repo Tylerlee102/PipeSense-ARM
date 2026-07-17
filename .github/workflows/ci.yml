@@ -26,7 +26,10 @@ jobs:
       - name: Install HDL simulator
         run: |
           sudo apt-get update
-          sudo apt-get install -y iverilog yosys
+          sudo apt-get install -y iverilog yosys z3 cvc4
+          git clone https://github.com/YosysHQ/sby.git /tmp/sby
+          git -C /tmp/sby checkout fea6e467d067b3ea84b6b5ac08cd48beb59f0d42
+          sudo make -C /tmp/sby install PREFIX=/usr/local
 
       - name: Run HDL simulation and validate CSVs
         run: |
@@ -49,6 +52,10 @@ jobs:
       - name: Run generic synthesis proxy
         run: |
           python scripts/synth_area_report.py
+
+      - name: Run bounded formal safety jobs
+        run: |
+          python scripts/run_formal.py
 
       - name: Check public results summary
         run: |

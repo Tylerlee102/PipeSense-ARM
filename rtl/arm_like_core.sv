@@ -1,5 +1,4 @@
 `include "defines.svh"
-import pipesense_defs::*;
 
 `ifndef PIPESENSE_OBS_WINDOW
 `define PIPESENSE_OBS_WINDOW 32
@@ -170,9 +169,6 @@ module arm_like_core #(
   logic reconfig_active;
   logic reconfig_done;
   logic reconfig_stop_fetch;
-  logic [31:0] reconfig_stall_cycles_unused;
-  logic [31:0] reconfig_count_unused;
-  logic [31:0] reconfig_penalty_unused;
 
   logic pipeline_empty;
   logic fetch_blocked_by_halt;
@@ -225,7 +221,7 @@ module arm_like_core #(
     .clk(clk),
     .read_en(dmem_read_en),
     .write_en(dmem_write_en),
-    .mitigate_wait(current_mode == pipesense_defs::MODE_MEMORY_OPT),
+    .mitigate_wait(current_mode == MODE_MEMORY_OPT),
     .addr(dmem_addr),
     .wdata(dmem_wdata),
     .rdata(dmem_rdata),
@@ -238,7 +234,7 @@ module arm_like_core #(
     .ex_valid(id_ex_valid),
     .ex_opcode(id_ex_opcode),
     .ex_rd(id_ex_rd),
-    .hazard_opt_mode(current_mode == pipesense_defs::MODE_HAZARD_OPT),
+    .hazard_opt_mode(current_mode == MODE_HAZARD_OPT),
     .load_use_hazard(hazard_raw),
     .stall_if(hazard_stall_if),
     .stall_id(hazard_stall_id),
@@ -246,7 +242,7 @@ module arm_like_core #(
   );
 
   forwarding_unit fwd (
-    .hazard_opt_mode(current_mode == pipesense_defs::MODE_HAZARD_OPT),
+    .hazard_opt_mode(current_mode == MODE_HAZARD_OPT),
     .src_a(id_ex_rn),
     .src_b(id_ex_mem_write ? id_ex_rd : id_ex_rm),
     .reg_a(id_ex_rn_val),
@@ -280,20 +276,17 @@ module arm_like_core #(
     .mem_valid(ex_mem_valid),
     .wb_valid(mem_wb_valid),
     .stall_if(stall_if_event),
-    .stall_id(stall_id_event),
-    .stall_ex(stall_ex_event),
     .flush(branch_flush_event),
     .branch_taken(branch_flush_event),
     .load_use_hazard(hazard_raw),
     .mem_wait(mem_wait_signal),
     .instruction_retired(instruction_retired),
-    .cycle_count(cycle_count),
     .phase_estimate(observer_phase),
     .window_done()
   );
 
   assign observed_phase = (DISABLE_OBSERVER != 0) ?
-                          pipesense_defs::PHASE_BALANCED : observer_phase;
+                          PHASE_BALANCED : observer_phase;
 
   adaptive_controller #(
     .MIN_MODE_RESIDENCY(MIN_MODE_RESIDENCY),
@@ -325,10 +318,7 @@ module arm_like_core #(
     .requested_mode_latched(reconfig_latched_mode),
     .reconfig_active(reconfig_active),
     .reconfig_done(reconfig_done),
-    .stop_fetch(reconfig_stop_fetch),
-    .reconfig_stall_cycles(reconfig_stall_cycles_unused),
-    .total_reconfigurations(reconfig_count_unused),
-    .total_reconfig_penalty(reconfig_penalty_unused)
+    .stop_fetch(reconfig_stop_fetch)
   );
 
   perf_counters perf (
@@ -413,11 +403,11 @@ module arm_like_core #(
 
   assign id_is_branch = if_id_valid && (id_opcode == OP_B);
   assign id_branch_condition_met = branch_condition(id_rd, visible_zero_flag);
-  assign id_early_branch_taken = (current_mode == pipesense_defs::MODE_BRANCH_OPT) &&
+  assign id_early_branch_taken = (current_mode == MODE_BRANCH_OPT) &&
                                  id_is_branch &&
                                  id_branch_condition_met;
   assign id_early_branch_target = id_imm[PC_WIDTH-1:0];
-  assign id_branch_resolved = (current_mode == pipesense_defs::MODE_BRANCH_OPT) && id_is_branch;
+  assign id_branch_resolved = (current_mode == MODE_BRANCH_OPT) && id_is_branch;
 
   assign mem_wait_active = (mem_wait_remaining != 8'd0);
   assign start_mem_wait = ex_mem_valid &&
@@ -447,7 +437,7 @@ module arm_like_core #(
   assign stall_if_event = hazard_stall_if || mem_wait_signal || reconfig_stop_fetch || fetch_blocked_by_halt;
   assign stall_id_event = hazard_stall_id || mem_wait_signal;
   assign stall_ex_event = mem_wait_signal;
-  assign load_use_stall_event = hazard_raw && (current_mode != pipesense_defs::MODE_HAZARD_OPT);
+  assign load_use_stall_event = hazard_raw && (current_mode != MODE_HAZARD_OPT);
   assign instruction_retired = mem_wb_valid &&
                                (mem_wb_opcode != OP_NOP) &&
                                (mem_wb_opcode != OP_HALT);
@@ -471,7 +461,7 @@ module arm_like_core #(
                    {3'b000, id_ex_valid} +
                    {3'b000, ex_mem_valid} +
                    {3'b000, mem_wb_valid};
-    if (current_mode == pipesense_defs::MODE_LOW_POWER) begin
+    if (current_mode == MODE_LOW_POWER) begin
       activity_units = active_slots;
     end else begin
       activity_units = active_slots + 4'd2;

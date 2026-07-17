@@ -1,7 +1,7 @@
 module,report,number_of_wires,number_of_wire_bits,number_of_public_wires,number_of_public_wire_bits,number_of_memories,number_of_memory_bits,number_of_processes,number_of_cells,overhead_vs_core_pct,status
-arm_like_core,/repo/results/synth/arm_like_core_yosys_stat.txt,503,2002,26,501,0,0,0,1830,100.00,parsed
-pipeline_observer,/repo/results/synth/pipeline_observer_yosys_stat.txt,645,2524,12,212,0,0,0,2128,116.28,parsed
-adaptive_controller,/repo/results/synth/adaptive_controller_yosys_stat.txt,109,280,15,41,0,0,0,182,9.95,parsed
-reconfig_unit,/repo/results/synth/reconfig_unit_yosys_stat.txt,184,690,17,149,0,0,0,575,31.42,parsed
-pipesense_integrated_core,/repo/results/synth/pipesense_integrated_core_yosys_stat.txt,1473,5947,95,1191,0,0,0,4850,165.03,integrated_proxy
-observer_controller_reconfig_total,standalone module sum,,,,,,,,2885,157.65,proxy_sum
+arm_like_core,results/synth/arm_like_core_yosys_stat.txt,518,2017,38,513,0,0,0,1838,100.00,baseline_core_shell
+pipeline_observer,results/synth/pipeline_observer_yosys_stat.txt,171,1151,36,91,0,0,0,319,17.36,actual_rtl
+adaptive_controller,results/synth/adaptive_controller_yosys_stat.txt,117,329,15,37,0,0,0,180,9.79,actual_rtl
+reconfig_unit,results/synth/reconfig_unit_yosys_stat.txt,40,66,13,21,0,0,0,51,2.77,actual_rtl
+pipesense_integrated_core,results/synth/pipesense_integrated_core_yosys_stat.txt,867,3681,127,788,0,0,0,2380,29.49,integrated_actual_rtl
+observer_controller_reconfig_total,standalone module sum,,,,,,,,550,29.92,actual_rtl_sum

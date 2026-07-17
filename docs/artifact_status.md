@@ -17,12 +17,12 @@
 - Simulation-time safety monitor output
 - Bindable safety assertion monitor and functional coverage counters in `verif/`
 - Constrained-random safety generator and fuzz runner
-- Formal-property scaffold for the reconfiguration unit and abstract instruction-token conservation
+- Passing bounded formal jobs for the reconfiguration unit, abstract instruction-token conservation, and no-double-commit model
 - Documentation for methodology, critique, threats, and reproducibility
 - GitHub-visible result data under `results/`, including `results/SUMMARY.md`
 - Local artifact checker that does not require HDL tools
 - Ubuntu CI workflow for full simulation on a machine with package installation
-- Dockerfile for a reproducible Ubuntu/Icarus/Yosys environment
+- Dockerfile for a reproducible Ubuntu/Icarus/Yosys/SymbiYosys environment
 
 ## Locally verified in this environment
 
@@ -40,12 +40,12 @@
 - `verif/fuzz_runner.py --seeds 500` passes with the default 96-instruction random programs: 500 seeds, 2,500 mode-result rows, zero assertion failures, zero safety faults, and zero timeouts.
 - `scripts/estimate_hardware_cost.py` generates `results/hardware_cost_estimate.csv`.
 - `scripts/synth_area_report.py` runs with local Yosys and generates a non-placeholder `results/synth/area_summary.csv`.
+- `scripts/run_formal.py` passes three bounded jobs at depths 24, 9, and 14.
 - `scripts/plot_results.py` generates base plots plus sensitivity and reconfiguration-overhead plots.
 - Generated result CSVs and logs are present for the current checked-in run.
 
 ## Not locally verified in this environment
 
-- SymbiYosys (`sby`) is not available in the current Docker path, so the formal scaffolds were not rerun in this pass.
 - Full-core formal proof runs bound directly to `arm_like_core`.
 
 ## Next checkpoints for stronger public data
@@ -59,4 +59,7 @@
 
 ## CI path
 
-`.github/workflows/ci.yml` defines the intended continuous-integration path for a normal Ubuntu runner: run no-simulator artifact checks, install Icarus Verilog, run HDL simulation, validate CSVs, and upload generated results. The safety fuzz and Yosys area paths are available as local commands and can be added to CI once runtime budget is acceptable.
+`.github/workflows/ci.yml` installs the HDL and formal tools, then runs artifact
+checks, simulation, the full sweep, 500-seed fuzzing, ablations, relative
+synthesis, bounded formal jobs, and summary consistency before uploading
+generated results.

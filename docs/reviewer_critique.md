@@ -28,7 +28,10 @@ Weakness: The memory wait model is synthetic, branch optimization is an early-re
 
 Patch direction: Added `scripts/estimate_hardware_cost.py` and `docs/hardware_realism.md` so the prototype separates analytical cost estimates from synthesis claims.
 
-Cycle 7 status: Ran `scripts/synth_area_report.py` with local Yosys after adding an integrated proxy top module. `results/synth/area_summary.csv` reports 1,830 cells for the baseline core proxy, 2,885 standalone cells for the observer, controller, and reconfiguration modules combined (157.65% of baseline), and 4,850 cells for the integrated proxy (165.03% delta over baseline).
+Cycle 8 status: Replaced the hand-written adaptive proxies with production RTL,
+bounded and saturated the observer/controller counters, and removed duplicate
+reconfiguration accounting. The common-shell Yosys run reports 1,838 baseline
+cells, 550 standalone adaptive cells, and 2,380 integrated cells (29.49% delta).
 
 What remains: Add calibrated timing/power estimates and replace the synthetic memory model with a parameterized cache or scratchpad model.
 
@@ -38,9 +41,14 @@ Weakness: The docs say the design avoids lost instructions and duplicate writeba
 
 Patch direction: The core now includes simulation-time instruction tags and safety monitors. The testbench emits `safety_faults`, and the methodology states that every reported run should have zero safety faults.
 
-Cycle 1 status: Added `formal/no_double_commit_across_mode_switch.sv` and `formal/no_double_commit_across_mode_switch.sby`. The bounded SymbiYosys run at k=16 passes under `formal/results/no_double_commit_across_mode_switch/`, proving in an abstract drain-before-switch token model that a tag committed before a visible mode switch cannot commit again after the switch.
+Cycle 8 status: The Docker formal path now includes pinned SymbiYosys, Z3, and
+CVC4. Bounded checks pass for the production reconfiguration unit at depth 24,
+abstract token conservation at depth 9, and no double commit across a mode
+switch at depth 14.
 
-What remains: Bind the no-double-commit property into a reduced `arm_like_core` formal instance and extend the proof beyond the current k=16 abstract model.
+What remains: Bind the no-double-commit property into a reduced
+`arm_like_core` formal instance and extend the proof beyond the current bounded
+abstract model.
 
 ## 5. Evaluation scale is too small
 

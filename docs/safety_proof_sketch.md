@@ -46,9 +46,10 @@ while `reconfig_active` remains asserted, the visible mode remains equal to
 the mode captured at the start of the transition.
 
 I5. Bounded reconfiguration penalty:
-`reconfig_stall_cycles` is no larger than the configured assertion bound.
-The current fuzz harness uses 32 cycles by default. This is a conservative
-simulation bound, not a technology timing result.
+the bindable safety monitor counts consecutive `reconfig_active` cycles and
+asserts that the configured bound is not exceeded. The current fuzz harness
+uses 32 cycles by default. This verification-only counter is not present in
+the production reconfiguration RTL and is not a technology timing result.
 
 ## Inductive Argument
 

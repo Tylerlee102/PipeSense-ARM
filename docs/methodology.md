@@ -128,10 +128,10 @@ zero-reconfiguration-penalty headroom row computed from the validated
 full-adaptive run.
 
 `scripts/synth_area_report.py` runs the Yosys generic synthesis scaffold. Its
-current output is a relative generic-cell area proxy: 1,830 baseline core
-proxy cells, 2,885 standalone observer/controller/reconfiguration proxy cells
-(157.65% of the baseline core proxy), and a 4,850-cell integrated proxy
-(165.03% delta over the baseline core proxy). It is not calibrated ASIC area,
+baseline and integrated runs share a 1,838-cell core shell and synthesize the
+production observer/controller/reconfiguration RTL. The modules total 550
+standalone cells (29.92% of the shell); the integrated top maps to 2,380 cells
+(29.49% delta). This is not full processor synthesis, calibrated ASIC area,
 FPGA utilization, timing, or power.
 
 ## Safety checks
@@ -143,7 +143,10 @@ The core exports `safety_faults`, which is incremented when simulation-time moni
 - fetch not gated during active reconfiguration
 - duplicated or backward-moving retired instruction tags
 
-These monitors are not a substitute for formal verification, but they make the artifact more reviewable because safety claims are connected to executable checks.
+These monitors complement three bounded SymbiYosys jobs: the production
+reconfiguration unit at depth 24, abstract token conservation at depth 9, and
+abstract no-double-commit checking at depth 14. They do not constitute a
+full-core proof.
 
 Additional safety regression:
 

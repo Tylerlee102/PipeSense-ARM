@@ -1,21 +1,21 @@
 
-18. Printing statistics.
+25. Printing statistics.
 
 === pipeline_observer ===
 
-   Number of wires:                645
-   Number of wire bits:           2524
-   Number of public wires:          12
-   Number of public wire bits:     212
+   Number of wires:                171
+   Number of wire bits:           1151
+   Number of public wires:          36
+   Number of public wire bits:      91
    Number of memories:               0
    Number of memory bits:            0
    Number of processes:              0
-   Number of cells:               2128
-     $_AND_                        924
+   Number of cells:                319
+     $_AND_                         94
      $_DFFE_PN0N_                    3
-     $_DFF_PN0_                    166
-     $_MUX_                        175
-     $_NOT_                        172
-     $_OR_                         234
-     $_XOR_                        454
+     $_DFF_PN0_                     32
+     $_MUX_                         66
+     $_NOT_                         43
+     $_OR_                          38
+     $_XOR_                         43
 

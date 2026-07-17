@@ -78,12 +78,12 @@ The corrected 3x3x3 sweep completes all 27 settings with 78 rows per setting, fo
 
 | Component | Generic cells | Overhead versus core proxy |
 | --- | ---: | ---: |
-| baseline core proxy | 1,830 | 100.00% |
-| pipeline_observer | 2,128 | 116.28% |
-| adaptive_controller | 182 | 9.95% |
-| reconfig_unit | 575 | 31.42% |
-| integrated core proxy | 4,850 | 165.03% |
-| observer/controller/reconfig sum | 2,885 | 157.65% |
+| baseline core proxy | 1,838 | 100.00% |
+| pipeline_observer | 319 | 17.36% |
+| adaptive_controller | 180 | 9.79% |
+| reconfig_unit | 51 | 2.77% |
+| integrated core proxy | 2,380 | 29.49% delta |
+| observer/controller/reconfig sum | 550 | 29.92% |
 
 ## Figures
 

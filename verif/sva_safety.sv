@@ -1,6 +1,5 @@
 `timescale 1ns/1ps
 `include "defines.svh"
-import pipesense_defs::*;
 
 // Bindable safety monitor for PipeSense-ARM simulations.
 //
@@ -33,12 +32,15 @@ module pipesense_core_sva #(
   input logic            reconfig_active,
   input logic            reconfig_done,
   input logic            reconfig_stop_fetch,
-  input logic [31:0]     reconfig_stall_cycles,
   input pipesense_mode_e current_mode,
   input pipesense_mode_e requested_mode
 );
+  localparam int RECONFIG_COUNT_W =
+    (RECONFIG_STALL_BOUND < 1) ? 1 : $clog2(RECONFIG_STALL_BOUND + 2);
+
   logic safe_boundary;
   logic [31:0] last_retired_tag;
+  logic [RECONFIG_COUNT_W-1:0] reconfig_duration;
   logic retire_seen;
   pipesense_mode_e mode_at_reconfig_start;
   pipesense_mode_e prev_current_mode;
@@ -53,6 +55,7 @@ module pipesense_core_sva #(
       mode_at_reconfig_start <= MODE_NORMAL;
       prev_current_mode      <= MODE_NORMAL;
       past_valid             <= 1'b0;
+      reconfig_duration      <= '0;
     end else begin
       if (instruction_retired && retire_seen) begin
         assert (mem_wb_tag > last_retired_tag)
@@ -91,8 +94,13 @@ module pipesense_core_sva #(
           else $error("SVA_I3_FETCH_NOT_GATED_DURING_RECONFIG");
         assert (current_mode == mode_at_reconfig_start)
           else $error("SVA_I4_MODE_TORN_DURING_RECONFIG");
-        assert (reconfig_stall_cycles <= RECONFIG_STALL_BOUND)
+        assert (reconfig_duration < RECONFIG_STALL_BOUND)
           else $error("SVA_I5_RECONFIG_STALL_BOUND_EXCEEDED");
+        if (reconfig_duration <= RECONFIG_STALL_BOUND) begin
+          reconfig_duration <= reconfig_duration + 1'b1;
+        end
+      end else begin
+        reconfig_duration <= '0;
       end
       if (reconfig_request && !reconfig_active) begin
         mode_at_reconfig_start <= current_mode;

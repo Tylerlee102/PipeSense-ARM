@@ -15,7 +15,6 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 BUILD = ROOT / "build"
 RESULTS = ROOT / "results"
-VVP_OUT = BUILD / "pipesense_tb.vvp"
 
 SOURCES = [
     ROOT / "rtl" / "pipeline_registers.sv",
@@ -106,11 +105,17 @@ def safe_log_name(tag: str) -> str:
     return f"sim_output_{cleaned}.txt" if cleaned else "sim_output.txt"
 
 
+def safe_vvp_name(tag: str) -> str:
+    cleaned = "".join(ch if ch.isalnum() or ch in ("-", "_") else "_" for ch in tag)
+    return f"pipesense_tb_{cleaned}.vvp" if cleaned else "pipesense_tb.vvp"
+
+
 def main() -> int:
     args = parse_args()
     iverilog = args.iverilog or shutil.which("iverilog")
     vvp = args.vvp or shutil.which("vvp")
     sim_log = RESULTS / safe_log_name(args.tag)
+    vvp_out = BUILD / safe_vvp_name(args.tag)
 
     if not iverilog or not vvp or not Path(iverilog).exists() or not Path(vvp).exists():
         print("Icarus Verilog was not found.")
@@ -138,7 +143,7 @@ def main() -> int:
         "-I",
         str(ROOT / "tb"),
         "-o",
-        str(VVP_OUT),
+        str(vvp_out),
     ]
     if args.obs_window is not None:
         compile_cmd.append(f"-DPIPESENSE_OBS_WINDOW={args.obs_window}")
@@ -170,9 +175,9 @@ def main() -> int:
         return compile_proc.returncode
 
     if msys_bash:
-        sim_proc = run_msys(msys_bash, [vvp, str(VVP_OUT)], ROOT)
+        sim_proc = run_msys(msys_bash, [vvp, str(vvp_out)], ROOT)
     else:
-        sim_proc = run([vvp, str(VVP_OUT)], ROOT, env=tool_env)
+        sim_proc = run([vvp, str(vvp_out)], ROOT, env=tool_env)
     sim_log.write_text(sim_proc.stdout, encoding="utf-8")
     print(sim_proc.stdout)
 

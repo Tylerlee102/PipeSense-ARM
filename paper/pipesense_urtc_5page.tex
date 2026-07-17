@@ -36,9 +36,9 @@ adaptive policy nevertheless remains an average 8.90\% behind the hindsight
 best fixed mode, exposing policy headroom. All 78 directed runs match a
 sequential ISA reference and report zero safety faults or timeouts. A 500-seed
 constrained-random regression produces 2,500 mode-result rows with zero
-assertion failures, safety faults, or timeouts. Yosys reports a 165.03\%
-integrated generic-cell overhead proxy, showing that the initial observer is
-not yet cost-effective for a tiny core. The result is a reproducible control
+assertion failures, safety faults, or timeouts. Three bounded formal jobs also
+pass. Yosys reports a 29.49\% integrated generic-cell delta for the production
+adaptive RTL against a common core shell. The result is a reproducible control
 artifact with explicit performance, safety, and cost limits rather than an
 ARM-compatible processor or calibrated hardware implementation.
 \end{abstract}
@@ -188,8 +188,9 @@ boundary and completion acknowledgement, fetch remains gated during a drain,
 the mode remains stable while reconfiguration is active, and the stall remains
 bounded. The HDL result for each workload and mode is also compared with a
 sequential ISA model using retired count and final architectural-state hash.
-Formal harnesses exist for the isolated protocol, but no full-core formal proof
-is claimed.
+Bounded SymbiYosys jobs check the production reconfiguration unit to depth 24,
+abstract token conservation to depth 9, and abstract no-double-commit behavior
+to depth 14. No full-core formal proof is claimed.
 
 \section{Evaluation}
 
@@ -215,9 +216,10 @@ threshold profiles. The resulting 27 configurations each rerun all 78 rows,
 for 2,106 simulations. Ablations disable the observer, disable the controller,
 or analytically remove measured reconfiguration penalty. A separate generator
 runs legal constrained-random programs for 500 seeds and five execution modes.
-The Docker evaluation uses Icarus Verilog 12.0 and Yosys 0.33. Scripts validate
-row coverage, timeouts, safety fields, reference-model equality, sweep output,
-and the public result summary. Source and commands are available at
+The Docker evaluation uses Icarus Verilog 12.0, Yosys 0.33, SymbiYosys, Z3,
+and CVC4. Scripts validate row coverage, timeouts, safety fields,
+reference-model equality, sweep output, bounded formal results, and the public
+result summary. Source and commands are available at
 \url{https://github.com/Tylerlee102/PipeSense-ARM}.
 
 \section{Results}
@@ -299,29 +301,31 @@ Observer disabled & 3307 cycles & +8.21\% cycles \\
 Controller disabled & 3307 cycles & +8.21\% cycles \\
 Zero-cost switching & 3009 cycles & -1.54\% cycles \\
 Safety fuzz & 2500 rows & 0 failures/timeouts \\
-Baseline core proxy & 1830 cells & reference \\
-Integrated proxy & 4850 cells & +165.03\% cells \\
+Baseline core shell & 1838 cells & reference \\
+Adaptive RTL sum & 550 cells & 29.92\% of shell \\
+Integrated top & 2380 cells & +29.49\% cells \\
 \bottomrule
 \end{tabular}
 \end{table}
 
 The 500-seed fuzz run reports zero assertion failures, safety faults, timeouts,
 or nonzero simulator exits across 2,500 mode-result rows. This is stress
-evidence, not exhaustive verification. Yosys maps the baseline proxy to 1,830
-generic cells and the integrated proxy to 4,850, a 165.03\% delta. Standalone
-observer, controller, and reconfiguration modules total 2,885 cells; the
-observer alone accounts for 2,128. These figures are neither FPGA utilization
-nor ASIC area, but they identify observer cost as a central design weakness.
+evidence, not exhaustive verification. Yosys maps the baseline shell to 1,838
+generic cells and the integrated top to 2,380, a 29.49\% delta. Standalone
+production observer, controller, and reconfiguration modules map to 319, 180,
+and 51 cells, respectively. Both runs use the same core shell, and no
+debug-only wide outputs force control state into the count. These figures are
+neither FPGA utilization nor ASIC area, but they show that adaptation remains
+a nontrivial cost beside a very small teaching core.
 
 \section{Discussion and Limitations}
 
 The results support a scoped conclusion: direct pipeline events can drive a
 closed-loop RTL controller that improves over a static normal policy while
 preserving the modeled architectural and switching invariants. The negative
-oracle result and synthesis proxy are equally important. They show that the
-current classifier leaves substantial mode-selection headroom and that wide
-rolling counters are disproportionately expensive beside a small teaching
-core.
+oracle result and synthesis estimate are equally important. They show that the
+current classifier leaves substantial mode-selection headroom and that even
+bounded control logic is measurable beside a small teaching core.
 
 Internal validity is limited by stylized mode effects. Memory optimization
 suppresses a deterministic wait request rather than modeling a cache or
@@ -336,9 +340,9 @@ toy and generated kernels are transparent and reference-checkable, but they do
 not replace compiler-generated Embench, CoreMark, or application traces with a
 real cache hierarchy, interrupts, and exceptions. Safety evidence is also
 bounded: simulation assertions and randomized programs cover observed traces,
-while the formal files prove only abstract or isolated properties and were not
-rerun in the reported Docker environment. Full-core token conservation and
-liveness remain future proof obligations.
+while the passing bounded formal jobs check only abstract or isolated
+properties. Full-core token conservation and liveness remain future proof
+obligations.
 
 A stronger implementation should replace counter banks with shared or sampled
 counters, implement concrete branch and memory structures, tune policy on
@@ -355,7 +359,7 @@ bottlenecks, a hysteretic controller requests a matching mode, and a separate
 unit commits changes only after a safe drain. The adaptive configuration
 reduces total cycles by 7.59\% and the activity-energy proxy by 5.78\% relative
 to static normal while passing directed reference checks and randomized safety
-stress. Its 8.90\% mean gap to the hindsight best fixed mode and 165.03\%
+stress. Its 8.90\% mean gap to the hindsight best fixed mode and 29.49\%
 generic-cell overhead prevent a broader efficiency claim. The artifact is
 therefore most useful as a reproducible foundation for safer and more
 cost-effective adaptive embedded microarchitectures.

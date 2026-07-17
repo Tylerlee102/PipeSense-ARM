@@ -15,24 +15,24 @@ OUT = RESULTS / "hardware_cost_estimate.csv"
 ROWS = [
     {
         "component": "pipeline_observer",
-        "estimated_ff_bits": "228",
-        "estimated_comparators": "5",
+        "estimated_ff_bits": "35",
+        "estimated_comparators": "12",
         "estimated_adders": "7",
-        "notes": "Seven 32-bit counters plus phase/window bits; excludes routing and threshold constants.",
+        "notes": "Threshold-saturating counters at the integrated 32-cycle window, plus phase/window state; excludes routing and constants.",
     },
     {
         "component": "adaptive_controller",
-        "estimated_ff_bits": "31",
+        "estimated_ff_bits": "15",
         "estimated_comparators": "4",
         "estimated_adders": "2",
-        "notes": "Residency counter, stable counter, desired/requested modes, and request state.",
+        "notes": "Six-bit residency and two-bit stability counters, mode history/request, and request state.",
     },
     {
         "component": "reconfig_unit",
-        "estimated_ff_bits": "104",
+        "estimated_ff_bits": "8",
         "estimated_comparators": "2",
-        "estimated_adders": "3",
-        "notes": "Mode registers, active counter, total reconfiguration count, and penalty counter.",
+        "estimated_adders": "0",
+        "notes": "Current/latched mode and active/done state; performance counters own reconfiguration accounting.",
     },
     {
         "component": "safety_monitor_sim",

@@ -1,6 +1,5 @@
 `timescale 1ns/1ps
 `include "defines.svh"
-import pipesense_defs::*;
 
 // Lightweight functional coverage counters for safety-oriented regressions.
 // These counters are simulator-portable and are printed by generated fuzz

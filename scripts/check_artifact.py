@@ -209,32 +209,35 @@ def check_synthesis_proxy_contract() -> None:
     tcl = tcl_path.read_text(encoding="utf-8").replace("\\", "/")
     proxy = proxy_path.read_text(encoding="utf-8")
 
-    if "read_verilog synth/yosys_area_proxy.v" not in tcl:
-        fail("Yosys synthesis script must read synth/yosys_area_proxy.v.")
-    forbidden_terms = [
-        "read_verilog rtl/",
-        "read_verilog -sv rtl/",
-        "rtl/hazard_unit.sv",
-        "rtl/arm_like_core.sv",
-        "shell mkdir",
+    required_sources = [
+        "synth/yosys_area_proxy.v",
+        "rtl/pipeline_observer.sv",
+        "rtl/adaptive_controller.sv",
+        "rtl/reconfig_unit.sv",
     ]
-    found_forbidden = [term for term in forbidden_terms if term in tcl]
-    if found_forbidden:
+    missing_sources = [term for term in required_sources if term not in tcl]
+    if missing_sources:
         fail(
-            "Yosys synthesis script must not parse full SystemVerilog RTL; found "
-            + ", ".join(found_forbidden)
+            "Yosys synthesis script must read the production adaptive RTL; missing "
+            + ", ".join(missing_sources)
         )
+    if "rtl/arm_like_core.sv" in tcl or "shell mkdir" in tcl:
+        fail("Yosys synthesis must use the common core shell without shell side effects.")
 
     required_modules = [
         "module arm_like_core",
-        "module pipeline_observer",
-        "module adaptive_controller",
-        "module reconfig_unit",
         "module pipesense_integrated_core",
     ]
     missing_modules = [module for module in required_modules if module not in proxy]
     if missing_modules:
-        fail("Yosys proxy is missing expected modules: " + ", ".join(missing_modules))
+        fail("Yosys area shell is missing expected modules: " + ", ".join(missing_modules))
+
+    duplicated_rtl = [
+        module for module in ["pipeline_observer", "adaptive_controller", "reconfig_unit"]
+        if f"module {module}" in proxy
+    ]
+    if duplicated_rtl:
+        fail("Yosys area shell must not duplicate production RTL: " + ", ".join(duplicated_rtl))
 
 
 def check_fuzz_runner_contract() -> None:

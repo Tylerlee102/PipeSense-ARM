@@ -1,0 +1,10 @@
+.git
+.external
+build
+output
+formal/results
+verif/generated
+__pycache__
+*.pyc
+*.vvp
+*.vcd

@@ -1,5 +1,4 @@
 `include "defines.svh"
-import pipesense_defs::*;
 
 // Detects the classic load-use dependency between ID and EX.
 module hazard_unit (

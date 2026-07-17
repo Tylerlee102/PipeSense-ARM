@@ -39,12 +39,13 @@ synthesis and power flow is added.
 
 ## Lightweight Claim
 
-The lightweight claim requires evidence. The repository now includes a Yosys
-generic-cell proxy and an analytical estimator. The current proxy reports
-1,830 cells for the baseline core proxy, 2,885 standalone cells for the
-observer, controller, and reconfiguration modules combined, and 4,850 cells for
-the integrated proxy. This is stronger than a placeholder, but it is still not
-calibrated timing, power, FPGA utilization, or physical area evidence.
+The lightweight claim requires evidence. The repository now synthesizes the
+production adaptive RTL against a common Yosys core shell and includes a
+separate analytical estimator. The current run reports 1,838 cells for the
+baseline shell, 550 standalone cells for the observer, controller, and
+reconfiguration modules combined, and 2,380 cells for the integrated top, a
+29.49% delta. This is still not calibrated timing, power, FPGA utilization,
+full processor synthesis, or physical area evidence.
 
 ## Safety Claim
 

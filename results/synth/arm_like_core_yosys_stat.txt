@@ -1,22 +1,22 @@
 
-9. Printing statistics.
+12. Printing statistics.
 
 === arm_like_core ===
 
-   Number of wires:                503
-   Number of wire bits:           2002
-   Number of public wires:          26
-   Number of public wire bits:     501
+   Number of wires:                518
+   Number of wire bits:           2017
+   Number of public wires:          38
+   Number of public wire bits:     513
    Number of memories:               0
    Number of memory bits:            0
    Number of processes:              0
-   Number of cells:               1830
-     $_AND_                        495
+   Number of cells:               1838
+     $_AND_                        499
      $_DFFE_PN0N_                  140
      $_DFFE_PN0P_                  123
      $_DFFE_PN1P_                    5
      $_MUX_                        136
-     $_NOT_                         42
-     $_OR_                         263
+     $_NOT_                         43
+     $_OR_                         266
      $_XOR_                        626
 

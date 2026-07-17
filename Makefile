@@ -1,6 +1,6 @@
 PYTHON ?= python
 
-.PHONY: all sim analyze validate plot sweep ablations safety cost synth audit reference compare parity diaiq check summary-check paper-check paper-build paper-verify paper-ready clean
+.PHONY: all sim analyze validate plot sweep ablations safety formal cost synth audit reference compare parity diaiq check summary-check paper-check paper-build paper-verify paper-ready clean
 
 all: sim plot
 
@@ -24,6 +24,9 @@ ablations:
 
 safety:
 	$(PYTHON) verif/fuzz_runner.py --seeds 500
+
+formal:
+	$(PYTHON) scripts/run_formal.py
 
 cost:
 	$(PYTHON) scripts/estimate_hardware_cost.py

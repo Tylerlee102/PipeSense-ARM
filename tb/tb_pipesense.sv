@@ -1,6 +1,5 @@
 `timescale 1ns/1ps
 `include "defines.svh"
-import pipesense_defs::*;
 
 module tb_pipesense;
   logic clk;

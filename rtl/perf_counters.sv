@@ -1,5 +1,4 @@
 `include "defines.svh"
-import pipesense_defs::*;
 
 // Aggregates the events exported by the pipeline into testbench-visible metrics.
 module perf_counters (

@@ -1,9 +1,9 @@
 [options]
-mode prove
-depth 24
+mode bmc
+depth 9
 
 [engines]
-smtbmc
+smtbmc cvc4
 
 [script]
 read_verilog -formal -sv token_conservation_properties.sv

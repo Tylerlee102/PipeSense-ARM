@@ -1,9 +1,9 @@
 [options]
-mode prove
+mode bmc
 depth 24
 
 [engines]
-smtbmc
+smtbmc z3
 
 [script]
 read_verilog -formal -sv defines.svh

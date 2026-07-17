@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Run/parse a generic Yosys area proxy for PipeSense-ARM."""
+"""Synthesize real PipeSense control RTL against a common core area shell."""
 
 from __future__ import annotations
 
@@ -37,21 +37,20 @@ def validate_synth_script() -> None:
     if not TCL.exists():
         raise RuntimeError(f"Missing Yosys script: {TCL}")
     tcl = TCL.read_text(encoding="utf-8").replace("\\", "/")
-    if "read_verilog synth/yosys_area_proxy.v" not in tcl:
-        raise RuntimeError("Yosys script must read synth/yosys_area_proxy.v.")
-    forbidden_terms = [
-        "read_verilog rtl/",
-        "read_verilog -sv rtl/",
-        "rtl/hazard_unit.sv",
-        "rtl/arm_like_core.sv",
-        "shell mkdir",
+    required_terms = [
+        "synth/yosys_area_proxy.v",
+        "rtl/pipeline_observer.sv",
+        "rtl/adaptive_controller.sv",
+        "rtl/reconfig_unit.sv",
     ]
-    found_forbidden = [term for term in forbidden_terms if term in tcl]
-    if found_forbidden:
+    missing_terms = [term for term in required_terms if term not in tcl]
+    if missing_terms:
         raise RuntimeError(
-            "Yosys script must not parse full SystemVerilog RTL; found "
-            + ", ".join(found_forbidden)
+            "Yosys script must synthesize the production adaptive RTL; missing "
+            + ", ".join(missing_terms)
         )
+    if "rtl/arm_like_core.sv" in tcl or "shell mkdir" in tcl:
+        raise RuntimeError("Yosys script must use the common core shell without shell side effects.")
 
 
 def parse_args() -> argparse.Namespace:
@@ -101,7 +100,7 @@ def write_tool_missing_note(yosys: str) -> None:
     note = RESULTS / "yosys_tool_unavailable.md"
     note.write_text(
         "# Yosys Synthesis Not Run\n\n"
-        "Yosys was not found, so the generic synthesis pass could not run in "
+        "Yosys was not found, so the relative synthesis pass could not run in "
         "this environment.\n\n"
         f"- yosys: `{yosys or 'not found'}`\n\n"
         "Install Yosys, then rerun `python scripts/synth_area_report.py`.\n",
@@ -114,8 +113,8 @@ def write_yosys_failure_summary(stdout: str) -> None:
     RESULTS.mkdir(parents=True, exist_ok=True)
     failure_note = RESULTS / "yosys_failed.md"
     failure_note.write_text(
-        "# Yosys Synthesis Proxy Failed\n\n"
-        "Yosys was available, but the generic synthesis proxy did not complete. "
+        "# Yosys Relative Synthesis Failed\n\n"
+        "Yosys was available, but the common-shell synthesis did not complete. "
         "The workflow records this as an explicit artifact limitation instead "
         "of silently omitting synthesis evidence.\n\n"
         "See `yosys_stdout.txt` for the full log.\n\n"
@@ -142,7 +141,7 @@ def write_yosys_failure_summary(stdout: str) -> None:
     rows = [
         {
             "module": "yosys_area_proxy",
-            "report": str(RESULTS / "yosys_stdout.txt"),
+            "report": (RESULTS / "yosys_stdout.txt").relative_to(ROOT).as_posix(),
             "number_of_wires": "0",
             "number_of_wire_bits": "0",
             "number_of_public_wires": "0",
@@ -189,7 +188,7 @@ def main() -> int:
         rows.append(
             {
                 "module": module,
-                "report": str(report),
+                "report": report.relative_to(ROOT).as_posix(),
                 "number_of_wires": str(parsed[module].get("number_of_wires", 0)),
                 "number_of_wire_bits": str(parsed[module].get("number_of_wire_bits", 0)),
                 "number_of_public_wires": str(parsed[module].get("number_of_public_wires", 0)),
@@ -206,13 +205,16 @@ def main() -> int:
     for row in rows:
         if row["module"] == "arm_like_core":
             row["overhead_vs_core_pct"] = "100.00"
+            row["status"] = "baseline_core_shell" if row["status"] == "parsed" else row["status"]
             continue
         cells = float(row["number_of_cells"])
         if row["module"] == "pipesense_integrated_core":
             row["overhead_vs_core_pct"] = f"{(((cells - baseline_cells) / baseline_cells) * 100.0) if baseline_cells else 0.0:.2f}"
-            row["status"] = "integrated_proxy" if row["status"] == "parsed" else row["status"]
+            row["status"] = "integrated_actual_rtl" if row["status"] == "parsed" else row["status"]
         else:
             row["overhead_vs_core_pct"] = f"{((cells / baseline_cells) * 100.0) if baseline_cells else 0.0:.2f}"
+            if row["status"] == "parsed":
+                row["status"] = "actual_rtl"
 
     addition_cells = sum(parsed[module].get("number_of_cells", 0) for module in [
         "pipeline_observer",
@@ -232,7 +234,7 @@ def main() -> int:
             "number_of_processes": "",
             "number_of_cells": str(addition_cells),
             "overhead_vs_core_pct": f"{((addition_cells / baseline_cells) * 100.0) if baseline_cells else 0.0:.2f}",
-            "status": "proxy_sum",
+            "status": "actual_rtl_sum",
         }
     )
 

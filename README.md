@@ -141,6 +141,7 @@ python scripts/run_sweep.py
 python scripts/run_ablations.py
 python scripts/estimate_hardware_cost.py
 python scripts/synth_area_report.py
+python scripts/run_formal.py
 ```
 
 The sweep script accepts the same `--iverilog` and `--vvp` options. It sweeps
@@ -167,19 +168,28 @@ and coverage summaries under `results/safety/`. The current 500-seed local
 run produced 2,500 mode-result rows with zero assertion failures, zero safety
 faults, and zero timeouts.
 
-Generic synthesis/area proxy:
+Relative synthesis/area estimate:
 
 ```bash
 python scripts/synth_area_report.py
 ```
 
-This requires Yosys. The current local run reports 1,830 cells for the
-baseline core proxy, 2,885 standalone cells for the observer, controller,
-and reconfiguration modules combined, or 157.65% of the baseline core proxy.
-The integrated proxy reports 4,850 cells, a 165.03% delta over the baseline
-core proxy.
-The output is a relative generic-cell area proxy, not calibrated ASIC area,
-FPGA utilization, timing, or power.
+This requires Yosys. The baseline and integrated runs use the same 1,838-cell
+core shell, while the integrated top instantiates the production observer,
+controller, and reconfiguration RTL. Those modules total 550 standalone cells,
+and the 2,380-cell integrated result is a 29.49% delta over the shell. The
+output is a relative generic-cell estimate, not calibrated ASIC area, FPGA
+utilization, timing, power, or full processor synthesis.
+
+Bounded formal safety checks:
+
+```bash
+python scripts/run_formal.py
+```
+
+The Docker image includes pinned SymbiYosys plus Z3/CVC4. The current jobs pass
+the production reconfiguration unit at depth 24, abstract token conservation
+at depth 9, and abstract no-double-commit checking at depth 14.
 
 Container path, on a machine with Docker:
 
@@ -243,7 +253,7 @@ Simulation and analysis create:
 - `results/sweeps/<setting>/pipesense_results.csv`: per-setting sweep tables.
 - `results/safety/fuzz_summary.csv`: constrained-random safety regression results by seed and mode.
 - `results/safety/fuzz_coverage.csv`: phase, transition, and interaction coverage counters by seed.
-- `results/synth/area_summary.csv`: Yosys generic-cell area proxy summary.
+- `results/synth/area_summary.csv`: common-shell Yosys generic-cell summary using the production adaptive RTL.
 - `results/hardware_cost_estimate.csv`: analytical first-order observer/controller/reconfiguration cost estimate.
 - `results/reference_model.csv`: sequential ISA golden-model outcomes for every benchmark.
 - `results/benchmark_disassembly.txt`: disassembly of the benchmark programs used by the reference model.

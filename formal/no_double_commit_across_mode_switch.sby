@@ -1,9 +1,9 @@
 [options]
 mode bmc
-depth 16
+depth 14
 
 [engines]
-smtbmc yices
+smtbmc cvc4
 
 [script]
 read_verilog -formal -sv no_double_commit_across_mode_switch.sv

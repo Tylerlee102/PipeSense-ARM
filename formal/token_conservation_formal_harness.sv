@@ -51,8 +51,10 @@ module token_conservation_formal_harness;
   end
 `endif
 
+`ifndef FORMAL
   initial clk = 1'b0;
   always #1 clk = ~clk;
+`endif
 
   always @* begin
     live_count_before_flush = {{(COUNT_WIDTH-1){1'b0}}, if_valid} +

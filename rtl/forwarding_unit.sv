@@ -1,5 +1,4 @@
 `include "defines.svh"
-import pipesense_defs::*;
 
 // Two-source forwarding network for EX-stage operands.
 module forwarding_unit (

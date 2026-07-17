@@ -68,16 +68,17 @@ Before using results in a paper, confirm:
 
 ## Level 3: formal/synthesis evidence
 
-The `formal/` directory contains a SymbiYosys harness for the reconfiguration unit and an abstract instruction-token conservation job:
+The Docker image includes pinned SymbiYosys, Z3, and CVC4. Run all bounded jobs
+with:
 
 ```bash
-sby -f formal/reconfig_unit.sby
-sby -f formal/token_conservation.sby
+python scripts/run_formal.py
 ```
 
-This is not yet a complete proof of the whole processor. Treat the
-reconfiguration job as a unit-level safety scaffold and the token-conservation
-job as a proof over an abstract five-stage token model.
+The production reconfiguration unit is checked to depth 24, abstract token
+conservation to depth 9, and abstract no-double-commit behavior across a mode
+switch to depth 14. These are bounded checks, not a complete proof of the
+processor.
 
 For generic synthesis evidence, install Yosys and run:
 
@@ -94,8 +95,8 @@ Report:
 
 - tool and version
 - generic-cell mapping note
-- baseline core cell count proxy
-- PipeSense observer/controller/reconfiguration cell count proxy
+- common core-shell cell count
+- production PipeSense observer/controller/reconfiguration cell count
 - overhead as a percentage of the baseline core
 
 Do not report this as calibrated FPGA/ASIC area, timing, or power.

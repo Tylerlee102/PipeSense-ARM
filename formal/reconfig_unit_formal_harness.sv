@@ -1,5 +1,4 @@
 `include "defines.svh"
-import pipesense_defs::*;
 
 module reconfig_unit_formal_harness;
   logic clk;
@@ -14,9 +13,6 @@ module reconfig_unit_formal_harness;
   logic reconfig_active;
   logic reconfig_done;
   logic stop_fetch;
-  logic [31:0] reconfig_stall_cycles;
-  logic [31:0] total_reconfigurations;
-  logic [31:0] total_reconfig_penalty;
 
 `ifdef FORMAL
   (* anyseq *) logic any_reconfig_request;
@@ -33,8 +29,10 @@ module reconfig_unit_formal_harness;
   end
 `endif
 
+`ifndef FORMAL
   initial clk = 1'b0;
   always #1 clk = ~clk;
+`endif
 
   reconfig_unit dut (
     .clk(clk),
@@ -48,10 +46,7 @@ module reconfig_unit_formal_harness;
     .requested_mode_latched(requested_mode_latched),
     .reconfig_active(reconfig_active),
     .reconfig_done(reconfig_done),
-    .stop_fetch(stop_fetch),
-    .reconfig_stall_cycles(reconfig_stall_cycles),
-    .total_reconfigurations(total_reconfigurations),
-    .total_reconfig_penalty(total_reconfig_penalty)
+    .stop_fetch(stop_fetch)
   );
 
   reconfig_safety_properties props (
@@ -81,11 +76,11 @@ module reconfig_unit_formal_harness;
            (requested_mode == MODE_HAZARD_OPT) ||
            (requested_mode == MODE_LOW_POWER));
 
-    if (reconfig_done) begin
-      assert(pipeline_empty && !mem_wait);
+    if (rst_n && reconfig_done) begin
+      assert($past(pipeline_empty && !mem_wait));
     end
 
-    if (reconfig_active) begin
+    if (rst_n && reconfig_active) begin
       assert(stop_fetch);
     end
   end

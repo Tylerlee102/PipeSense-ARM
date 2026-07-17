@@ -91,7 +91,10 @@ The testbench runs 13 benchmarks across six configurations and emits parseable `
 
 The ISA reference model executes the benchmark programs sequentially to provide architectural golden outputs before HDL timing is considered.
 
-The fuzz regression generates constrained-random legal programs and records safety/coverage summaries. The synthesis script runs a Yosys generic-cell proxy when Yosys is available.
+The fuzz regression generates constrained-random legal programs and records
+safety/coverage summaries. The synthesis script measures the production
+adaptive RTL against a common Yosys core shell, and `scripts/run_formal.py`
+runs the three bounded safety jobs.
 
 ## Documentation
 

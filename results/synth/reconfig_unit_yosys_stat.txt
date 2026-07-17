@@ -1,22 +1,22 @@
 
-36. Printing statistics.
+50. Printing statistics.
 
 === reconfig_unit ===
 
-   Number of wires:                184
-   Number of wire bits:            690
-   Number of public wires:          17
-   Number of public wire bits:     149
+   Number of wires:                 40
+   Number of wire bits:             66
+   Number of public wires:          13
+   Number of public wire bits:      21
    Number of memories:               0
    Number of memory bits:            0
    Number of processes:              0
-   Number of cells:                575
-     $_ALDFFE_PNP_                   6
-     $_AND_                        214
-     $_DFFE_PN0P_                   96
-     $_DFF_PN0_                      2
-     $_MUX_                         68
-     $_NOT_                          6
-     $_OR_                          55
-     $_XOR_                        128
+   Number of cells:                 51
+     $_AND_                          5
+     $_DFFE_PP_                      6
+     $_MUX_                         20
+     $_NOT_                          5
+     $_OR_                          10
+     $_SDFF_PN0_                     1
+     $_SDFF_PP0_                     1
+     $_XOR_                          3
 

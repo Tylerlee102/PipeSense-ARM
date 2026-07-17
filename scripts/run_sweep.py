@@ -91,6 +91,12 @@ def run_config(
     profile = THRESHOLD_PROFILES[profile_name]
     tag = f"w{window}_r{residency}_th{profile_name}_seed{seed}"
     tag_dir = SWEEP_ROOT / tag
+    if tag_dir.exists():
+        shutil.rmtree(tag_dir)
+    for table in GENERATED_TABLES:
+        table_path = RESULTS / table
+        if table_path.exists():
+            table_path.unlink()
     cmd = [
         sys.executable,
         str(ROOT / "scripts" / "run_sim.py"),
@@ -122,10 +128,11 @@ def run_config(
     sim_log = RESULTS / f"sim_output_{tag}.txt"
     if sim_log.exists():
         shutil.copy2(sim_log, tag_dir / sim_log.name)
-    for table in GENERATED_TABLES:
-        table_path = RESULTS / table
-        if table_path.exists():
-            shutil.copy2(table_path, tag_dir / table)
+    if proc.returncode == 0:
+        for table in GENERATED_TABLES:
+            table_path = RESULTS / table
+            if table_path.exists():
+                shutil.copy2(table_path, tag_dir / table)
     return proc.returncode, tag_dir, tag
 
 
@@ -301,7 +308,7 @@ def main() -> int:
                 "idle_threshold": str(profile["idle_threshold"]),
                 "seed": str(seed),
                 "return_code": str(return_code),
-                "result_csv": str(tag_dir / "pipesense_results.csv"),
+                "result_csv": (tag_dir / "pipesense_results.csv").relative_to(ROOT).as_posix(),
             }
         )
         rows = read_result_rows(tag_dir / "pipesense_results.csv")

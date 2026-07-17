@@ -1,5 +1,4 @@
 `include "defines.svh"
-import pipesense_defs::*;
 
 // Optional assertion module for formal or assertion-enabled simulation flows.
 // The assertions are written in a conservative immediate-assert style so common
@@ -39,7 +38,7 @@ module reconfig_safety_properties (
   always @(posedge clk) begin
     if (rst_n && past_valid) begin
       if (reconfig_done) begin
-        assert(pipeline_empty && !mem_wait);
+        assert($past(pipeline_empty && !mem_wait));
       end
 
       if (reconfig_active) begin

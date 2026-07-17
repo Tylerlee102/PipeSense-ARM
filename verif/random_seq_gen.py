@@ -124,7 +124,6 @@ def generate_harness(seed: int, instruction_count: int, out_path: Path, reconfig
 
     text = f"""`timescale 1ns/1ps
 `include "defines.svh"
-import pipesense_defs::*;
 
 module tb_random_seed_{seed};
   logic clk;
@@ -191,7 +190,6 @@ module tb_random_seed_{seed};
     .reconfig_active(dut.reconfig_active),
     .reconfig_done(dut.reconfig_done),
     .reconfig_stop_fetch(dut.reconfig_stop_fetch),
-    .reconfig_stall_cycles(dut.reconfig_stall_cycles_unused),
     .current_mode(current_mode),
     .requested_mode(dut.requested_mode)
   );

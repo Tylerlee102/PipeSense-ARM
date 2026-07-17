@@ -1,5 +1,4 @@
 `include "defines.svh"
-import pipesense_defs::*;
 
 // Converts observer phases into mode requests with mode-specific hysteresis.
 module adaptive_controller #(
@@ -26,12 +25,35 @@ module adaptive_controller #(
   output logic             reconfig_request,
   output pipesense_mode_e  requested_mode
 );
+  function automatic int max_int(input int lhs, input int rhs);
+    max_int = (lhs > rhs) ? lhs : rhs;
+  endfunction
+
+  localparam int MAX_RESIDENCY = max_int(
+    MIN_MODE_RESIDENCY,
+    max_int(BRANCH_MIN_RESIDENCY,
+      max_int(MEMORY_MIN_RESIDENCY,
+        max_int(HAZARD_MIN_RESIDENCY,
+          max_int(LOW_POWER_MIN_RESIDENCY, NORMAL_MIN_RESIDENCY))))
+  );
+  localparam int MAX_STABILITY = max_int(
+    PHASE_STABLE_COUNT,
+    max_int(BRANCH_STABLE_COUNT,
+      max_int(MEMORY_STABLE_COUNT,
+        max_int(HAZARD_STABLE_COUNT,
+          max_int(LOW_POWER_STABLE_COUNT, NORMAL_STABLE_COUNT))))
+  );
+  localparam int RESIDENCY_W = (MAX_RESIDENCY < 1) ? 1 : $clog2(MAX_RESIDENCY + 1);
+  localparam int STABILITY_W = (MAX_STABILITY < 1) ? 1 : $clog2(MAX_STABILITY + 1);
+  localparam logic [RESIDENCY_W-1:0] MAX_RESIDENCY_VALUE = MAX_RESIDENCY;
+  localparam logic [STABILITY_W-1:0] MAX_STABILITY_VALUE = MAX_STABILITY;
+
   pipesense_mode_e desired_mode;
   pipesense_mode_e last_desired_mode;
-  logic [15:0] residency_counter;
-  logic [7:0]  stable_counter;
-  logic [15:0] required_residency;
-  logic [7:0]  required_stability;
+  logic [RESIDENCY_W-1:0] residency_counter;
+  logic [STABILITY_W-1:0] stable_counter;
+  logic [RESIDENCY_W-1:0] required_residency;
+  logic [STABILITY_W-1:0] required_stability;
 
   always_comb begin
     case (phase_estimate)
@@ -89,12 +111,12 @@ module adaptive_controller #(
       if (reconfig_ack) begin
         residency_counter <= '0;
         reconfig_request  <= 1'b0;
-      end else if (residency_counter != 16'hffff) begin
+      end else if (residency_counter != MAX_RESIDENCY_VALUE) begin
         residency_counter <= residency_counter + 1'b1;
       end
 
       if (desired_mode == last_desired_mode) begin
-        if (stable_counter != 8'hff) begin
+        if (stable_counter != MAX_STABILITY_VALUE) begin
           stable_counter <= stable_counter + 1'b1;
         end
       end else begin
