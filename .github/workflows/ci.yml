@@ -53,9 +53,24 @@ jobs:
         run: |
           python scripts/synth_area_report.py
 
-      - name: Run bounded formal safety jobs
+      - name: Verify formal toolchain
         run: |
-          python scripts/run_formal.py
+          sby --version
+          yosys -V
+          z3 --version
+          cvc4 --version
+
+      - name: Prove bounded reconfiguration safety
+        run: |
+          sby -f -d formal/results/reconfig_unit formal/reconfig_unit.sby
+
+      - name: Prove bounded token conservation
+        run: |
+          sby -f -d formal/results/token_conservation formal/token_conservation.sby
+
+      - name: Prove bounded no-double-commit safety
+        run: |
+          sby -f -d formal/results/no_double_commit_across_mode_switch formal/no_double_commit_across_mode_switch.sby
 
       - name: Check public results summary
         run: |
