@@ -26,10 +26,7 @@ jobs:
       - name: Install HDL simulator
         run: |
           sudo apt-get update
-          sudo apt-get install -y iverilog yosys z3 cvc4
-          git clone https://github.com/YosysHQ/sby.git /tmp/sby
-          git -C /tmp/sby checkout fea6e467d067b3ea84b6b5ac08cd48beb59f0d42
-          sudo make -C /tmp/sby install PREFIX=/usr/local
+          sudo apt-get install -y iverilog yosys
 
       - name: Run HDL simulation and validate CSVs
         run: |
@@ -53,24 +50,21 @@ jobs:
         run: |
           python scripts/synth_area_report.py
 
-      - name: Verify formal toolchain
+      - name: Build pinned formal toolchain image
         run: |
-          command -v sby
-          command -v yosys
-          command -v z3
-          command -v cvc4
+          docker build --tag pipesense-arm .
 
       - name: Prove bounded reconfiguration safety
         run: |
-          sby -f -d formal/results/reconfig_unit formal/reconfig_unit.sby
+          docker run --rm pipesense-arm sby -f -d formal/results/reconfig_unit formal/reconfig_unit.sby
 
       - name: Prove bounded token conservation
         run: |
-          sby -f -d formal/results/token_conservation formal/token_conservation.sby
+          docker run --rm pipesense-arm sby -f -d formal/results/token_conservation formal/token_conservation.sby
 
       - name: Prove bounded no-double-commit safety
         run: |
-          sby -f -d formal/results/no_double_commit_across_mode_switch formal/no_double_commit_across_mode_switch.sby
+          docker run --rm pipesense-arm sby -f -d formal/results/no_double_commit_across_mode_switch formal/no_double_commit_across_mode_switch.sby
 
       - name: Check public results summary
         run: |
