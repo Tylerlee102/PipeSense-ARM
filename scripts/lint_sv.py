@@ -25,6 +25,8 @@ REQUIRED_MODULES = {
     "forwarding_unit",
     "pipeline_observer",
     "adaptive_controller",
+    "async03_speculation_controller",
+    "pipesense_fpga_top",
     "reconfig_unit",
     "perf_counters",
     "simple_memory",
@@ -117,6 +119,7 @@ def check_core_contract() -> None:
     for term in [
         "pipeline_observer",
         "adaptive_controller",
+        "async03_speculation_controller",
         "reconfig_unit",
         "perf_counters",
         "safety_faults",
@@ -129,6 +132,7 @@ def check_core_contract() -> None:
         "OBS_LOAD_USE_THRESHOLD",
         "OBS_FRONTEND_STALL_THRESHOLD",
         "OBS_IDLE_RETIRE_THRESHOLD",
+        "program_write_en",
     ]:
         if term not in core:
             fail(f"arm_like_core.sv missing expected term {term}")

@@ -10,6 +10,7 @@ module simple_memory #(
   input  logic                  clk,
   input  logic                  read_en,
   input  logic                  write_en,
+  input  logic                  wait_access,
   input  logic                  mitigate_wait,
   input  logic [ADDR_WIDTH-1:0] addr,
   input  logic [DATA_WIDTH-1:0] wdata,
@@ -27,7 +28,7 @@ module simple_memory #(
       assign wait_request = 1'b0;
     end else begin : periodic_wait_model
       always_comb begin
-        wait_request = (read_en || write_en) &&
+        wait_request = wait_access &&
                        !mitigate_wait &&
                        ((addr % WAIT_PERIOD) == (WAIT_PERIOD - 1));
       end

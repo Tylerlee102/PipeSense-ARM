@@ -23,6 +23,8 @@ REQUIRED_FILES = [
     "rtl/arm_like_core.sv",
     "rtl/pipeline_observer.sv",
     "rtl/adaptive_controller.sv",
+    "rtl/async03_speculation_controller.sv",
+    "rtl/pipesense_fpga_top.sv",
     "rtl/reconfig_unit.sv",
     "rtl/perf_counters.sv",
     "tb/tb_pipesense.sv",
@@ -37,6 +39,11 @@ REQUIRED_FILES = [
     "scripts/run_ablations.py",
     "scripts/sweep_params.py",
     "scripts/synth_area_report.py",
+    "scripts/run_post_synth.py",
+    "scripts/run_adaptive_baseline.py",
+    "scripts/audit_standard_benchmarks.py",
+    "scripts/generate_publication_evidence.py",
+    "scripts/validate_publication_evidence.py",
     "scripts/estimate_hardware_cost.py",
     "scripts/audit_requirements.py",
     "scripts/lint_sv.py",
@@ -55,6 +62,10 @@ REQUIRED_FILES = [
     "docs/safety_proof_sketch.md",
     "docs/limitations_and_honesty.md",
     "docs/decisions.md",
+    "docs/adaptive_baseline.md",
+    "docs/post_synthesis.md",
+    "docs/publication_evidence.md",
+    "benchmarks/standard/README.md",
     "formal/reconfig_safety_properties.sv",
     "formal/reconfig_unit_formal_harness.sv",
     "formal/reconfig_unit.sby",
@@ -68,6 +79,7 @@ REQUIRED_FILES = [
     "synth/yosys_synth.tcl",
     "synth/yosys_area_proxy.v",
     "synth/generic_cells.lib_or_note.md",
+    "synth/production_ecp5.ys",
 ]
 
 PYTHON_FILES = [
@@ -81,6 +93,11 @@ PYTHON_FILES = [
     "scripts/run_ablations.py",
     "scripts/sweep_params.py",
     "scripts/synth_area_report.py",
+    "scripts/run_post_synth.py",
+    "scripts/run_adaptive_baseline.py",
+    "scripts/audit_standard_benchmarks.py",
+    "scripts/generate_publication_evidence.py",
+    "scripts/validate_publication_evidence.py",
     "scripts/estimate_hardware_cost.py",
     "scripts/audit_requirements.py",
     "scripts/lint_sv.py",
@@ -227,6 +244,27 @@ def check_synthesis_proxy_contract() -> None:
     ]
     if duplicated_rtl:
         fail("Yosys area shell must not duplicate production RTL: " + ", ".join(duplicated_rtl))
+
+
+def check_production_synthesis_contract() -> None:
+    script = (ROOT / "synth" / "production_ecp5.ys").read_text(encoding="utf-8")
+    required = [
+        "rtl/arm_like_core.sv",
+        "rtl/simple_memory.sv",
+        "rtl/pipeline_observer.sv",
+        "rtl/adaptive_controller.sv",
+        "rtl/reconfig_unit.sv",
+        "rtl/perf_counters.sv",
+        "rtl/pipesense_fpga_top.sv",
+        "synth_ecp5 -top pipesense_fpga_top",
+    ]
+    missing = [term for term in required if term not in script]
+    if missing:
+        fail("Complete-design ECP5 script is missing: " + ", ".join(missing))
+    top = (ROOT / "rtl" / "pipesense_fpga_top.sv").read_text(encoding="utf-8")
+    loader = ["program_write_en", "program_select_dmem", "program_addr", "program_wdata"]
+    if any(term not in top for term in loader):
+        fail("FPGA top is missing the synthesizable memory loader interface.")
 
 
 def check_fuzz_runner_contract() -> None:
@@ -400,6 +438,7 @@ def main() -> int:
         ("requirements audit", check_requirements_audit),
         ("benchmark parity", check_benchmark_parity),
         ("synthesis proxy contract", check_synthesis_proxy_contract),
+        ("production synthesis contract", check_production_synthesis_contract),
         ("fuzz runner contract", check_fuzz_runner_contract),
         ("analysis fixture", run_analyzer_fixture),
         ("ISA reference model", run_reference_model_fixture),

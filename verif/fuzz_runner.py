@@ -10,6 +10,7 @@ import re
 import shutil
 import subprocess
 import sys
+import tempfile
 from pathlib import Path
 
 from random_seq_gen import generate_harness
@@ -19,7 +20,12 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
 from run_sim import find_msys_bash, run_msys  # noqa: E402
 
-BUILD = ROOT / "build" / "fuzz"
+BUILD = Path(
+    os.environ.get(
+        "PIPESENSE_FUZZ_BUILD_DIR",
+        str(Path(tempfile.gettempdir()) / "pipesense_arm_fuzz"),
+    )
+)
 RESULTS = ROOT / "results" / "safety"
 GENERATED = ROOT / "verif" / "generated"
 
@@ -29,6 +35,7 @@ RTL_SOURCES = [
     ROOT / "rtl" / "forwarding_unit.sv",
     ROOT / "rtl" / "pipeline_observer.sv",
     ROOT / "rtl" / "adaptive_controller.sv",
+    ROOT / "rtl" / "async03_speculation_controller.sv",
     ROOT / "rtl" / "reconfig_unit.sv",
     ROOT / "rtl" / "perf_counters.sv",
     ROOT / "rtl" / "simple_memory.sv",
@@ -66,6 +73,18 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--iverilog", default=os.environ.get("IVERILOG", ""), help="Path to iverilog.")
     parser.add_argument("--vvp", default=os.environ.get("VVP", ""), help="Path to vvp.")
     parser.add_argument("--keep-going", action="store_true", help="Continue after a failing seed.")
+    parser.add_argument(
+        "--controller-policy",
+        choices=("pipesense", "async03"),
+        default="pipesense",
+        help="Controller policy under test.",
+    )
+    parser.add_argument(
+        "--output-dir",
+        type=Path,
+        default=RESULTS,
+        help="Directory for logs and summary CSV files.",
+    )
     return parser.parse_args()
 
 
@@ -76,9 +95,14 @@ def compile_and_run(
     vvp: str,
     obs_window: int | None,
     min_residency: int | None,
+    controller_policy: str,
 ) -> tuple[int, str]:
-    BUILD.mkdir(parents=True, exist_ok=True)
-    vvp_out = BUILD / f"tb_random_seed_{seed}.vvp"
+    # Compiler products are disposable and can be large. Keep policy-specific
+    # copies in local temporary storage so synchronized workspaces only receive
+    # the raw text logs and CSV evidence.
+    policy_build = BUILD / controller_policy
+    policy_build.mkdir(parents=True, exist_ok=True)
+    vvp_out = policy_build / f"tb_random_seed_{seed}.vvp"
     msys_bash = find_msys_bash(iverilog)
     compile_cmd = [
         iverilog,
@@ -95,6 +119,8 @@ def compile_and_run(
         compile_cmd.extend(["-P", f"tb_random_seed_{seed}.dut.OBS_WINDOW={obs_window}"])
     if min_residency is not None:
         compile_cmd.extend(["-P", f"tb_random_seed_{seed}.dut.MIN_MODE_RESIDENCY={min_residency}"])
+    if controller_policy == "async03":
+        compile_cmd.append("-DPIPESENSE_ASYNC03_BASELINE")
     compile_cmd.extend(str(path) for path in RTL_SOURCES)
     compile_cmd.append(str(harness))
 
@@ -155,9 +181,9 @@ def parse_output(seed: int, text: str, return_code: int) -> tuple[list[dict[str,
     return result_rows, coverage
 
 
-def write_tool_missing_note(iverilog: str, vvp: str) -> None:
-    RESULTS.mkdir(parents=True, exist_ok=True)
-    note = RESULTS / "fuzz_tool_unavailable.md"
+def write_tool_missing_note(iverilog: str, vvp: str, output_dir: Path) -> None:
+    output_dir.mkdir(parents=True, exist_ok=True)
+    note = output_dir / "fuzz_tool_unavailable.md"
     note.write_text(
         "# Fuzz Regression Not Run\n\n"
         "Icarus Verilog was not found, so the constrained-random safety "
@@ -176,10 +202,10 @@ def main() -> int:
     iverilog = args.iverilog or shutil.which("iverilog") or ""
     vvp = args.vvp or shutil.which("vvp") or ""
     if not iverilog or not vvp:
-        write_tool_missing_note(iverilog, vvp)
+        write_tool_missing_note(iverilog, vvp, args.output_dir)
         return 2
 
-    RESULTS.mkdir(parents=True, exist_ok=True)
+    args.output_dir.mkdir(parents=True, exist_ok=True)
     GENERATED.mkdir(parents=True, exist_ok=True)
     all_results: list[dict[str, str]] = []
     coverage_rows: list[dict[str, str]] = []
@@ -195,8 +221,9 @@ def main() -> int:
             vvp,
             args.obs_window,
             args.min_residency,
+            args.controller_policy,
         )
-        log_path = RESULTS / f"fuzz_seed_{seed}.log"
+        log_path = args.output_dir / f"fuzz_seed_{seed}.log"
         log_path.write_text(output, encoding="utf-8")
         rows, coverage = parse_output(seed, output, return_code)
         for row in rows:
@@ -239,11 +266,11 @@ def main() -> int:
         "log",
     ]
 
-    with (RESULTS / "fuzz_summary.csv").open("w", newline="", encoding="utf-8") as f:
+    with (args.output_dir / "fuzz_summary.csv").open("w", newline="", encoding="utf-8") as f:
         writer = csv.DictWriter(f, fieldnames=result_fields, extrasaction="ignore")
         writer.writeheader()
         writer.writerows(all_results)
-    with (RESULTS / "fuzz_coverage.csv").open("w", newline="", encoding="utf-8") as f:
+    with (args.output_dir / "fuzz_coverage.csv").open("w", newline="", encoding="utf-8") as f:
         writer = csv.DictWriter(f, fieldnames=coverage_fields, extrasaction="ignore")
         writer.writeheader()
         writer.writerows(coverage_rows)
@@ -255,8 +282,8 @@ def main() -> int:
         or row["timed_out"] != "0"
         or row["assertion_failures"] != "0"
     ]
-    print(f"Wrote {RESULTS / 'fuzz_summary.csv'}")
-    print(f"Wrote {RESULTS / 'fuzz_coverage.csv'}")
+    print(f"Wrote {args.output_dir / 'fuzz_summary.csv'}")
+    print(f"Wrote {args.output_dir / 'fuzz_coverage.csv'}")
     return 1 if failed else 0
 
 

@@ -77,16 +77,16 @@ RESULT bench=random_mem_latency_stress mode=fixed_hazard cycles=191 retired=136 
 RESULT bench=random_mem_latency_stress mode=fixed_low_power cycles=215 retired=136 ipc_x1000=632 stalls=67 flushes=22 mem_wait=26 load_use=30 reconfigs=0 reconfig_penalty=0 energy=797 safety_faults=0 phase=balanced final_mode=low_power timed_out=0 arch_hash=0x97478a03
 RESULT bench=random_mem_latency_stress mode=adaptive_pipesense cycles=215 retired=136 ipc_x1000=632 stalls=67 flushes=22 mem_wait=26 load_use=30 reconfigs=0 reconfig_penalty=0 energy=1227 safety_faults=0 phase=balanced final_mode=normal timed_out=0 arch_hash=0x97478a03
 SUMMARY total_cases=78 failed_cases=0
-/repo/tb/tb_pipesense.sv:266: $finish called at 192565000 (1ps)
+/workspace/tb/tb_pipesense.sv:269: $finish called at 192565000 (1ps)
 
-Wrote /repo/results/pipesense_results.csv
-Wrote /repo/results/adaptive_improvement.csv
-Wrote /repo/results/oracle_gap.csv
+Wrote /workspace/results/pipesense_results.csv
+Wrote /workspace/results/adaptive_improvement.csv
+Wrote /workspace/results/oracle_gap.csv
 
 Result CSV validation passed.
 
-Wrote /repo/results/reference_model.csv
-Wrote /repo/results/benchmark_disassembly.txt
+Wrote /workspace/results/reference_model.csv
+Wrote /workspace/results/benchmark_disassembly.txt
 
 Reference comparison passed.
 

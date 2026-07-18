@@ -1,0 +1,39 @@
+PASS schema and required values: results\sweep_runs.csv (27 rows)
+PASS schema and required values: results\sweep_results.csv (2106 rows)
+PASS sweep contains exactly 27 unique configurations
+PASS failed sweep configurations: none
+PASS no duplicate sweep result rows
+PASS all sweep configurations contain 13 workloads x 6 modes
+PASS IPC/CPI units reconcile with retired instructions and cycles
+PASS schema and required values: results\publication\sweep_configuration_summary.csv (27 rows)
+PASS all 27 sweep summaries reconcile with raw adaptive rows
+PASS schema and required values: results\publication\ablation_evidence.csv (4 rows)
+PASS ablation includes full, observer-off, controller-off, and zero-cost rows
+PASS zero-cost reconfiguration is visibly labeled analytical
+PASS schema and required values: results\ablation_summary.csv (3 rows)
+PASS ablation publication rows reconcile with raw ablation summary
+PASS schema and required values: results\adaptive_baseline\directed_comparison.csv (13 rows)
+PASS adaptive baseline comparison contains the same 13 unique workloads
+PASS schema and required values: results\pipesense_results.csv (78 rows)
+PASS schema and required values: results\adaptive_baseline\directed_raw.csv (78 rows)
+PASS adaptive baseline directed comparison reconciles with both raw policies
+PASS schema and required values: results\adaptive_baseline\fuzz_comparison.csv (500 rows)
+PASS adaptive baseline uses identical seeds 1..500 with zero faults/timeouts
+PASS schema and required values: results\safety\fuzz_summary.csv (2500 rows)
+PASS schema and required values: results\adaptive_baseline\safety\fuzz_summary.csv (2500 rows)
+PASS adaptive baseline per-seed comparison reconciles with both raw policies
+PASS adaptive baseline manifest discloses approximation scope and identical seed range
+PASS schema and required values: results\post_synth\summary.csv (1 rows)
+PASS complete-design post-synthesis passed; power is explicitly unavailable
+PASS schema and required values: results\standard_benchmarks\capability_audit.csv (4 rows)
+PASS standard benchmark audit contains no fabricated execution result
+PASS schema and required values: results\publication\source_manifest.csv (4 rows)
+PASS plot/table source hashes match committed source CSV bytes
+PASS rendered figure exists: sweep_evidence.png (257017 bytes)
+PASS rendered figure exists: sweep_evidence.pdf (23746 bytes)
+PASS rendered figure exists: ablation_evidence.png (90882 bytes)
+PASS rendered figure exists: ablation_evidence.pdf (18342 bytes)
+PASS generated LaTeX table exists: generated_sweep_table.tex
+PASS generated LaTeX table exists: generated_ablation_table.tex
+SUMMARY pass_checks=37 failures=0
+FAILED_CONFIGURATIONS none

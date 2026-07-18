@@ -1,10 +1,26 @@
 
  /----------------------------------------------------------------------------\
+ |                                                                            |
  |  yosys -- Yosys Open SYnthesis Suite                                       |
- |  Copyright (C) 2012 - 2026  Claire Xenia Wolf <claire@yosyshq.com>         |
- |  Distributed under an ISC-like license, type "license" to see terms        |
+ |                                                                            |
+ |  Copyright (C) 2012 - 2020  Claire Xenia Wolf <claire@yosyshq.com>         |
+ |                                                                            |
+ |  Permission to use, copy, modify, and/or distribute this software for any  |
+ |  purpose with or without fee is hereby granted, provided that the above    |
+ |  copyright notice and this permission notice appear in all copies.         |
+ |                                                                            |
+ |  THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES  |
+ |  WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF          |
+ |  MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR   |
+ |  ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES    |
+ |  WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN     |
+ |  ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF   |
+ |  OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.            |
+ |                                                                            |
  \----------------------------------------------------------------------------/
- Yosys 0.66+154 (git sha1 23aadd92a, Release, GNU /usr/bin/x86_64-w64-mingw32-g++ 13.2.1)
+
+ Yosys 0.33 (git sha1 2584903a060)
+
 
 -- Executing script file `design_smt2.ys' --
 
@@ -12,7 +28,6 @@
 Input filename: design_prep.il
 
 2. Executing HIERARCHY pass (managing design hierarchy).
-Attribute `top' found on module `no_double_commit_across_mode_switch_harness'. Setting top module to no_double_commit_across_mode_switch_harness.
 
 2.1. Analyzing design hierarchy..
 Top module:  \no_double_commit_across_mode_switch_harness
@@ -30,29 +45,31 @@ Module no_double_commit_across_mode_switch_harness directly or indirectly contai
 
 === no_double_commit_across_mode_switch_harness ===
 
-        +----------Local Count, excluding submodules.
-        | 
-      104 wires
-      210 wire bits
-       30 public wires
-       59 public wire bits
-      106 cells
-        1   $add
-        1   $and
-        5   $anyseq
-        3   $assert
-        4   $assume
-        1   $eq
-       23   $ff
-       13   $logic_and
-       13   $logic_not
-        1   $lt
-       34   $mux
-        1   $neg
-        2   $not
-        1   $or
-        1   $shift
-        2   $shiftx
+   Number of wires:                112
+   Number of wire bits:            246
+   Number of public wires:          37
+   Number of public wire bits:      66
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:                114
+     $add                            1
+     $and                            1
+     $anyinit                        3
+     $anyseq                         9
+     $assert                         3
+     $assume                         4
+     $eq                             1
+     $ff                            20
+     $logic_and                     13
+     $logic_not                     13
+     $lt                             1
+     $mux                           38
+     $neg                            1
+     $not                            2
+     $or                             1
+     $shift                          1
+     $shiftx                         2
 
 6. Executing SMT2 backend.
 
@@ -61,6 +78,6 @@ Module no_double_commit_across_mode_switch_harness directly or indirectly contai
 6.2. Executing DEMUXMAP pass.
 Creating SMT-LIBv2 representation of module no_double_commit_across_mode_switch_harness.
 
-End of script. Logfile hash: 5e426926c2
-Yosys 0.66+154 (git sha1 23aadd92a, Release, GNU /usr/bin/x86_64-w64-mingw32-g++ 13.2.1)
-Time spent: 10% 2x write_smt2 (0 sec), 10% 2x read_rtlil (0 sec), ...
+End of script. Logfile hash: c1940c5a34, CPU: user 0.01s system 0.01s, MEM: 14.87 MB peak
+Yosys 0.33 (git sha1 2584903a060)
+Time spent: 46% 2x write_smt2 (0 sec), 35% 2x read_rtlil (0 sec), ...

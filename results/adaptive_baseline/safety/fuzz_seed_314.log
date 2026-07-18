@@ -1,0 +1,7 @@
+FUZZ_RESULT seed=314 mode=static_normal cycles=134 retired=74 stalls=35 flushes=22 mem_wait=20 load_use=11 reconfigs=0 reconfig_penalty=0 energy=747 safety_faults=0 timed_out=0
+FUZZ_RESULT seed=314 mode=fixed_branch cycles=123 retired=74 stalls=35 flushes=11 mem_wait=20 load_use=11 reconfigs=0 reconfig_penalty=0 energy=703 safety_faults=0 timed_out=0
+FUZZ_RESULT seed=314 mode=fixed_memory cycles=114 retired=74 stalls=15 flushes=22 mem_wait=0 load_use=9 reconfigs=0 reconfig_penalty=0 energy=655 safety_faults=0 timed_out=0
+FUZZ_RESULT seed=314 mode=fixed_hazard cycles=125 retired=74 stalls=26 flushes=22 mem_wait=20 load_use=0 reconfigs=0 reconfig_penalty=0 energy=728 safety_faults=0 timed_out=0
+FUZZ_RESULT seed=314 mode=adaptive_pipesense cycles=200 retired=74 stalls=112 flushes=22 mem_wait=20 load_use=9 reconfigs=18 reconfig_penalty=63 energy=735 safety_faults=0 timed_out=0
+FUZZ_COVERAGE seed=314 phases_seen=0x00000031 transitions_seen=0x00100010 hazard_during_reconfig=2 back_to_back_reconfig_requests=81 reconfig_then_branch=0 reconfig_then_load_use=0
+/workspace/verif/generated/tb_random_seed_314.sv:293: $finish called at 7175000 (1ps)

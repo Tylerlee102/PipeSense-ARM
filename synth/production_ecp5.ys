@@ -1,0 +1,17 @@
+# Complete production-core synthesis for the Lattice ECP5 target.
+read_verilog -sv -DSYNTHESIS -Irtl \
+  rtl/pipeline_registers.sv \
+  rtl/forwarding_unit.sv \
+  rtl/hazard_unit.sv \
+  rtl/simple_memory.sv \
+  rtl/pipeline_observer.sv \
+  rtl/adaptive_controller.sv \
+  rtl/async03_speculation_controller.sv \
+  rtl/reconfig_unit.sv \
+  rtl/perf_counters.sv \
+  rtl/arm_like_core.sv \
+  rtl/pipesense_fpga_top.sv
+hierarchy -check -top pipesense_fpga_top
+synth_ecp5 -top pipesense_fpga_top -json output/post_synth/pipesense_fpga_top_ecp5.json
+stat
+check

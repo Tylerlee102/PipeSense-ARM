@@ -1,0 +1,866 @@
+
+
+Info: Logic utilisation before packing:
+Info:     Total LUT4s:      7366/83640     8%
+Info:         logic LUTs:   5298/83640     6%
+Info:         carry LUTs:    532/83640     0%
+Info:           RAM LUTs:   1024/10455     9%
+Info:          RAMW LUTs:    512/20910     2%
+
+Info:      Total DFFs:      1396/83640     1%
+
+Info: Packing IOs..
+Info: Packing constants..
+Info: Packing carries...
+Info: Packing LUTs...
+Info: Packing LUT5-7s...
+Info: Packing FFs...
+Info:     425 FFs paired with LUTs.
+Info: Generating derived timing constraints...
+Info: Promoting globals...
+Info:     promoting clock net clk$TRELLIS_IO_IN to global network
+Info: Checksum: 0x5786a761
+
+Info: Annotating ports with timing budgets for target frequency 25.00 MHz
+Info: Checksum: 0xaa113e1c
+
+Info: Device utilisation:
+Info: 	          TRELLIS_IO:    91/  365    24%
+Info: 	                DCCA:     1/   56     1%
+Info: 	              DP16KD:     0/  208     0%
+Info: 	          MULT18X18D:     0/  156     0%
+Info: 	              ALU54B:     0/   78     0%
+Info: 	             EHXPLLL:     0/    4     0%
+Info: 	             EXTREFB:     0/    2     0%
+Info: 	                DCUA:     0/    2     0%
+Info: 	           PCSCLKDIV:     0/    2     0%
+Info: 	             IOLOGIC:     0/  224     0%
+Info: 	            SIOLOGIC:     0/  141     0%
+Info: 	                 GSR:     0/    1     0%
+Info: 	               JTAGG:     0/    1     0%
+Info: 	                OSCG:     0/    1     0%
+Info: 	               SEDGA:     0/    1     0%
+Info: 	                 DTR:     0/    1     0%
+Info: 	             USRMCLK:     0/    1     0%
+Info: 	             CLKDIVF:     0/    4     0%
+Info: 	           ECLKSYNCB:     0/   10     0%
+Info: 	             DLLDELD:     0/    8     0%
+Info: 	              DDRDLL:     0/    4     0%
+Info: 	             DQSBUFM:     0/   14     0%
+Info: 	     TRELLIS_ECLKBUF:     0/    8     0%
+Info: 	        ECLKBRIDGECS:     0/    2     0%
+Info: 	                DCSC:     0/    2     0%
+Info: 	          TRELLIS_FF:  1396/83640     1%
+Info: 	        TRELLIS_COMB:  7480/83640     8%
+Info: 	        TRELLIS_RAMW:   256/10455     2%
+
+Info: Placed 0 cells based on constraints.
+Info: Creating initial analytic placement for 5571 cells, random placement wirelen = 594149.
+Info:     at initial placer iter 0, wirelen = 10609
+Info:     at initial placer iter 1, wirelen = 8318
+Info:     at initial placer iter 2, wirelen = 8241
+Info:     at initial placer iter 3, wirelen = 8294
+Info: Running main analytical placer, max placement attempts per cell = 10635272.
+Info:     at iteration #1, type ALL: wirelen solved = 8341, spread = 48966, legal = 63743; time = 0.87s
+Info:     at iteration #2, type ALL: wirelen solved = 13252, spread = 38848, legal = 52364; time = 1.26s
+Info:     at iteration #3, type ALL: wirelen solved = 17524, spread = 35760, legal = 54429; time = 1.21s
+Info:     at iteration #4, type ALL: wirelen solved = 19663, spread = 35038, legal = 59625; time = 0.63s
+Info:     at iteration #5, type ALL: wirelen solved = 20999, spread = 34577, legal = 57622; time = 0.61s
+Info:     at iteration #6, type ALL: wirelen solved = 21910, spread = 33636, legal = 56504; time = 0.64s
+Info:     at iteration #7, type ALL: wirelen solved = 22695, spread = 33468, legal = 54897; time = 0.76s
+Info: HeAP Placer Time: 9.28s
+Info:   of which solving equations: 4.61s
+Info:   of which spreading cells: 0.43s
+Info:   of which strict legalisation: 2.43s
+
+Info: Running simulated annealing placer for refinement.
+Info:   at iteration #1: temp = 0.000000, timing cost = 4133, wirelen = 52364
+Info:   at iteration #5: temp = 0.000000, timing cost = 4246, wirelen = 39182
+Info:   at iteration #10: temp = 0.000000, timing cost = 3903, wirelen = 37013
+Info:   at iteration #15: temp = 0.000000, timing cost = 4030, wirelen = 36160
+Info:   at iteration #20: temp = 0.000000, timing cost = 3562, wirelen = 35358
+Info:   at iteration #25: temp = 0.000000, timing cost = 3506, wirelen = 35110
+Info:   at iteration #30: temp = 0.000000, timing cost = 3496, wirelen = 35005
+Info:   at iteration #33: temp = 0.000000, timing cost = 3485, wirelen = 34979 
+Info: SA placement time 66.65s
+
+Info: Max frequency for clock '$glbnet$clk$TRELLIS_IO_IN': 24.47 MHz (FAIL at 25.00 MHz)
+
+Info: Max delay <async>                           -> <async>                          : 35.52 ns
+Info: Max delay <async>                           -> posedge $glbnet$clk$TRELLIS_IO_IN: 54.22 ns
+Info: Max delay posedge $glbnet$clk$TRELLIS_IO_IN -> <async>                          : 25.61 ns
+
+Info: Slack histogram:
+Info:  legend: * represents 61 endpoint(s)
+Info:          + represents [1,61) endpoint(s)
+Info: [-14218, -11545) |*+
+Info: [-11545,  -8872) |*+
+Info: [ -8872,  -6199) |***+
+Info: [ -6199,  -3526) |+
+Info: [ -3526,   -853) |+
+Info: [  -853,   1820) |*+
+Info: [  1820,   4493) |**+
+Info: [  4493,   7166) |***+
+Info: [  7166,   9839) |+
+Info: [  9839,  12512) |****+
+Info: [ 12512,  15185) |*******+
+Info: [ 15185,  17858) |******+
+Info: [ 17858,  20531) |***************************+
+Info: [ 20531,  23204) |************************************+
+Info: [ 23204,  25877) |********************************+
+Info: [ 25877,  28550) |*********+
+Info: [ 28550,  31223) |***********************+
+Info: [ 31223,  33896) |**********************+
+Info: [ 33896,  36569) |************************************************************ 
+Info: [ 36569,  39242) |*************************+
+Info: Checksum: 0xf2caf0eb
+Info: Routing globals...
+Info:     routing clock net $glbnet$clk$TRELLIS_IO_IN using global 0
+
+Info: Routing..
+Info: Setting up routing queue.
+Info: Routing 29833 arcs.
+Info:            |   (re-)routed arcs  |   delta    | remaining|       time spent     |
+Info:    IterCnt |  w/ripup   wo/ripup |  w/r  wo/r |      arcs| batch(sec) total(sec)|
+Info:       1000 |      189        810 |  189   810 |     29281|       1.51       1.51|
+Info:       2000 |      480       1519 |  291   709 |     28939|       0.35       1.86|
+Info:       3000 |      593       2406 |  113   887 |     28673|       0.27       2.13|
+Info:       4000 |      833       3166 |  240   760 |     28298|       0.27       2.41|
+Info:       5000 |     1029       3970 |  196   804 |     27768|       0.34       2.75|
+Info:       6000 |     1308       4691 |  279   721 |     27295|       0.31       3.06|
+Info:       7000 |     1584       5415 |  276   724 |     26793|       0.42       3.48|
+Info:       8000 |     1901       6098 |  317   683 |     26407|       0.33       3.81|
+Info:       9000 |     2086       6913 |  185   815 |     26007|       0.38       4.19|
+Info:      10000 |     2297       7702 |  211   789 |     25600|       0.20       4.40|
+Info:      11000 |     2585       8414 |  288   712 |     25084|       0.22       4.62|
+Info:      12000 |     2771       9228 |  186   814 |     24911|       0.30       4.92|
+Info:      13000 |     2932      10067 |  161   839 |     24314|       0.25       5.17|
+Info:      14000 |     3179      10820 |  247   753 |     23696|       0.29       5.46|
+Info:      15000 |     3409      11590 |  230   770 |     23167|       0.26       5.72|
+Info:      16000 |     3583      12416 |  174   826 |     22834|       0.25       5.97|
+Info:      17000 |     3860      13139 |  277   723 |     22273|       0.37       6.34|
+Info:      18000 |     4147      13852 |  287   713 |     21728|       0.36       6.70|
+Info:      19000 |     4488      14511 |  341   659 |     21242|       0.38       7.09|
+Info:      20000 |     4705      15294 |  217   783 |     20956|       0.27       7.36|
+Info:      21000 |     5062      15937 |  357   643 |     20435|       0.36       7.72|
+Info:      22000 |     5560      16439 |  498   502 |     20054|       0.36       8.09|
+Info:      23000 |     5842      17157 |  282   718 |     19529|       0.50       8.58|
+Info:      24000 |     6037      17917 |  195   760 |     18985|       0.43       9.02|
+Info:      25000 |     6179      18657 |  142   740 |     18199|       0.41       9.43|
+Info:      26000 |     6417      19316 |  238   659 |     17559|       0.41       9.84|
+Info:      27000 |     6800      19906 |  383   590 |     17176|       0.37      10.21|
+Info:      28000 |     7172      20518 |  372   612 |     16690|       0.33      10.54|
+Info:      29000 |     7385      21285 |  213   767 |     16146|       0.50      11.04|
+Info:      30000 |     7559      22057 |  174   772 |     15411|       0.57      11.61|
+Info:      31000 |     7753      22850 |  194   793 |     14856|       0.51      12.12|
+Info:      32000 |     7980      23590 |  227   740 |     14292|       0.49      12.61|
+Info:      33000 |     8172      24360 |  192   770 |     13726|       0.45      13.06|
+Info:      34000 |     8435      25077 |  263   717 |     13124|       0.40      13.46|
+Info:      35000 |     8678      25815 |  243   738 |     12401|       0.36      13.82|
+Info:      36000 |     8898      26589 |  220   774 |     11679|       0.43      14.25|
+Info:      37000 |     9206      27271 |  308   682 |     11089|       0.47      14.72|
+Info:      38000 |     9544      27927 |  338   656 |     10663|       0.77      15.49|
+Info:      39000 |     9856      28606 |  312   679 |     10038|       0.77      16.26|
+Info:      40000 |    10159      29252 |  303   646 |      9464|       0.77      17.03|
+Info:      41000 |    10394      30010 |  235   758 |      8793|       0.54      17.57|
+Info:      42000 |    10522      30878 |  128   868 |      7960|       0.25      17.82|
+Info:      43000 |    10711      31687 |  189   809 |      7257|       0.35      18.17|
+Info:      44000 |    10845      32546 |  134   859 |      6429|       0.26      18.43|
+Info:      45000 |    10940      33439 |   95   893 |      5558|       0.46      18.89|
+Info:      46000 |    11196      34149 |  256   710 |      5201|       0.61      19.50|
+Info:      47000 |    11370      34939 |  174   790 |      4494|       0.62      20.11|
+Info:      48000 |    11544      35723 |  174   784 |      4052|       0.56      20.67|
+Info:      49000 |    11807      36441 |  263   718 |      3608|       0.65      21.32|
+Info:      50000 |    12007      37202 |  200   761 |      2941|       0.66      21.98|
+Info:      51000 |    12151      38027 |  144   825 |      2217|       0.56      22.54|
+Info:      52000 |    12345      38792 |  194   765 |      1728|       0.62      23.16|
+Info:      53000 |    12539      39575 |  194   783 |      1097|       0.80      23.96|
+Info:      54000 |    12780      40310 |  241   735 |       854|       1.13      25.09|
+Info:      55000 |    12997      41061 |  217   751 |       241|       0.88      25.98|
+Info:      55942 |    13315      41677 |  318   616 |         0|       0.62      26.60|
+Info: Routing complete.
+Info: Router1 time 26.60s
+Info: Checksum: 0x583066ba
+
+Info: Critical path report for clock '$glbnet$clk$TRELLIS_IO_IN' (posedge -> posedge):
+Info: curr total
+Info:  0.5  0.5  Source core.ex_mem_alu_result_TRELLIS_FF_Q_28.Q
+Info:  0.5  1.0    Net core.dmem_addr[3] budget 0.000000 ns (74,31) -> (74,32)
+Info:                Sink core.dmem.addr_LUT4_Z.C
+Info:                Defined in:
+Info:                  rtl/pipesense_fpga_top.sv:32.17-54.4
+Info:                  rtl/arm_like_core.sv:113.16-113.33
+Info:  0.2  1.2  Source core.dmem.addr_LUT4_Z.F
+Info:  1.7  3.0    Net core.dmem_port_addr[3] budget 0.000000 ns (74,32) -> (74,37)
+Info:                Sink core.dmem.mem.0.17$DPRAM_COMB2.A
+Info:                Defined in:
+Info:                  rtl/pipesense_fpga_top.sv:32.17-54.4
+Info:                  rtl/arm_like_core.sv:135.24-135.38
+Info:  0.2  3.2  Source core.dmem.mem.0.17$DPRAM_COMB2.F
+Info:  1.1  4.3    Net core.dmem.mem.0.1_DO_1[1] budget 0.000000 ns (74,37) -> (71,37)
+Info:                Sink core.dmem.mem.0.97_DO_1_LUT4_B_Z_L6MUX21_Z_1_D1_L6MUX21_Z_D1_PFUMX_Z_BLUT_LUT4_Z.D
+Info:                Defined in:
+Info:                  /usr/bin/../share/yosys/ecp5/cells_map.v:108.23-108.24
+Info:  0.4  4.7  Source core.dmem.mem.0.97_DO_1_LUT4_B_Z_L6MUX21_Z_1_D1_L6MUX21_Z_D1_PFUMX_Z_BLUT_LUT4_Z.OFX
+Info:  0.0  4.7    Net core.dmem.mem.0.97_DO_1_LUT4_B_Z_L6MUX21_Z_1_D1_L6MUX21_Z_D1 budget 0.000000 ns (71,37) -> (71,37)
+Info:                Sink core.dmem.mem.0.97_DO_1_LUT4_B_Z_L6MUX21_Z_1_D1_L6MUX21_Z_D1_PFUMX_Z_ALUT_LUT4_Z.FXB
+Info:                Defined in:
+Info:                  /usr/bin/../share/yosys/ecp5/cells_map.v:157.62-157.64
+Info:  0.2  5.0  Source core.dmem.mem.0.97_DO_1_LUT4_B_Z_L6MUX21_Z_1_D1_L6MUX21_Z_D1_PFUMX_Z_ALUT_LUT4_Z.OFX
+Info:  0.0  5.0    Net core.dmem.mem.0.97_DO_1_LUT4_B_Z_L6MUX21_Z_1_D1 budget 0.000000 ns (71,37) -> (71,37)
+Info:                Sink core.dmem.mem.0.97_DO_1_LUT4_B_Z_L6MUX21_Z_1_D1_L6MUX21_Z_D0_PFUMX_Z_ALUT_LUT4_Z.FXB
+Info:                Defined in:
+Info:                  /usr/bin/../share/yosys/ecp5/cells_map.v:157.70-157.72
+Info:  0.2  5.2  Source core.dmem.mem.0.97_DO_1_LUT4_B_Z_L6MUX21_Z_1_D1_L6MUX21_Z_D0_PFUMX_Z_ALUT_LUT4_Z.OFX
+Info:  0.9  6.2    Net core.dmem.mem.0.97_DO_1_LUT4_B_Z[3] budget 0.000000 ns (71,37) -> (68,38)
+Info:                Sink core.dmem.mem.0.65_DO_1_LUT4_B_Z_LUT4_A_Z_PFUMX_Z_BLUT_LUT4_Z.D
+Info:                Defined in:
+Info:                  /usr/bin/../share/yosys/ecp5/cells_map.v:108.23-108.24
+Info:  0.4  6.6  Source core.dmem.mem.0.65_DO_1_LUT4_B_Z_LUT4_A_Z_PFUMX_Z_BLUT_LUT4_Z.OFX
+Info:  2.0  8.6    Net core.ex_operand_a_PFUMX_Z_24_BLUT_LUT4_Z_D[0] budget 0.000000 ns (68,38) -> (63,27)
+Info:                Sink core.ex_operand_b_L6MUX21_Z_24_D1_L6MUX21_Z_D1_PFUMX_Z_BLUT_LUT4_Z.B
+Info:                Defined in:
+Info:                  /usr/bin/../share/yosys/ecp5/cells_map.v:108.23-108.24
+Info:  0.4  9.0  Source core.ex_operand_b_L6MUX21_Z_24_D1_L6MUX21_Z_D1_PFUMX_Z_BLUT_LUT4_Z.OFX
+Info:  0.0  9.0    Net core.ex_operand_b_L6MUX21_Z_24_D1_L6MUX21_Z_D1 budget 0.000000 ns (63,27) -> (63,27)
+Info:                Sink core.ex_operand_b_L6MUX21_Z_24_D1_L6MUX21_Z_D1_PFUMX_Z_ALUT_LUT4_Z.FXB
+Info:                Defined in:
+Info:                  /usr/bin/../share/yosys/ecp5/cells_map.v:157.62-157.64
+Info:  0.2  9.2  Source core.ex_operand_b_L6MUX21_Z_24_D1_L6MUX21_Z_D1_PFUMX_Z_ALUT_LUT4_Z.OFX
+Info:  0.0  9.2    Net core.ex_operand_b_L6MUX21_Z_24_D1 budget 0.000000 ns (63,27) -> (63,27)
+Info:                Sink core.ex_operand_b_L6MUX21_Z_24_D1_L6MUX21_Z_D0_PFUMX_Z_ALUT_LUT4_Z.FXB
+Info:                Defined in:
+Info:                  /usr/bin/../share/yosys/ecp5/cells_map.v:157.70-157.72
+Info:  0.2  9.5  Source core.ex_operand_b_L6MUX21_Z_24_D1_L6MUX21_Z_D0_PFUMX_Z_ALUT_LUT4_Z.OFX
+Info:  1.5 11.0    Net core.ex_alu_result_L6MUX21_Z_24_SD[3] budget 0.000000 ns (63,27) -> (70,25)
+Info:                Sink core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B_CCU2C_S0_1$CCU2_COMB0.B
+Info:                Defined in:
+Info:                  rtl/pipesense_fpga_top.sv:32.17-54.4
+Info:                  rtl/arm_like_core.sv:144.16-144.28
+Info:  0.4 11.4  Source core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B_CCU2C_S0_1$CCU2_COMB0.FCO
+Info:  0.0 11.4    Net core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B_CCU2C_S0_1$CCU2_FCI_INT budget 0.000000 ns (70,25) -> (70,25)
+Info:                Sink core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B_CCU2C_S0_1$CCU2_COMB1.FCI
+Info:  0.0 11.4  Source core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B_CCU2C_S0_1$CCU2_COMB1.FCO
+Info:  0.0 11.4    Net core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B_CCU2C_S0_3_COUT[7] budget 0.000000 ns (70,25) -> (70,25)
+Info:                Sink core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B_CCU2C_S0$CCU2_COMB0.FCI
+Info:                Defined in:
+Info:                  rtl/pipesense_fpga_top.sv:32.17-54.4
+Info:                  rtl/arm_like_core.sv:412.31-412.58
+Info:                  /usr/bin/../share/yosys/ecp5/arith_map.v:63.22-63.23
+Info:  0.1 11.5  Source core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B_CCU2C_S0$CCU2_COMB0.FCO
+Info:  0.0 11.5    Net core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B_CCU2C_S0$CCU2_FCI_INT budget 0.000000 ns (70,25) -> (70,25)
+Info:                Sink core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B_CCU2C_S0$CCU2_COMB1.FCI
+Info:  0.0 11.5  Source core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B_CCU2C_S0$CCU2_COMB1.FCO
+Info:  0.0 11.5    Net core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B_CCU2C_S0_3_COUT[9] budget 0.000000 ns (70,25) -> (70,25)
+Info:                Sink core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B_CCU2C_S0_14$CCU2_COMB0.FCI
+Info:                Defined in:
+Info:                  rtl/pipesense_fpga_top.sv:32.17-54.4
+Info:                  rtl/arm_like_core.sv:412.31-412.58
+Info:                  /usr/bin/../share/yosys/ecp5/arith_map.v:63.22-63.23
+Info:  0.1 11.6  Source core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B_CCU2C_S0_14$CCU2_COMB0.FCO
+Info:  0.0 11.6    Net core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B_CCU2C_S0_14$CCU2_FCI_INT budget 0.000000 ns (70,25) -> (70,25)
+Info:                Sink core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B_CCU2C_S0_14$CCU2_COMB1.FCI
+Info:  0.0 11.6  Source core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B_CCU2C_S0_14$CCU2_COMB1.FCO
+Info:  0.0 11.6    Net core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B_CCU2C_S0_3_COUT[11] budget 0.000000 ns (70,25) -> (70,25)
+Info:                Sink core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B_CCU2C_S0_13$CCU2_COMB0.FCI
+Info:                Defined in:
+Info:                  rtl/pipesense_fpga_top.sv:32.17-54.4
+Info:                  rtl/arm_like_core.sv:412.31-412.58
+Info:                  /usr/bin/../share/yosys/ecp5/arith_map.v:63.22-63.23
+Info:  0.1 11.7  Source core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B_CCU2C_S0_13$CCU2_COMB0.FCO
+Info:  0.0 11.7    Net core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B_CCU2C_S0_13$CCU2_FCI_INT budget 0.000000 ns (70,25) -> (70,25)
+Info:                Sink core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B_CCU2C_S0_13$CCU2_COMB1.FCI
+Info:  0.0 11.7  Source core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B_CCU2C_S0_13$CCU2_COMB1.FCO
+Info:  0.0 11.7    Net core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B_CCU2C_S0_3_COUT[13] budget 0.000000 ns (70,25) -> (71,25)
+Info:                Sink core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B_CCU2C_S0_12$CCU2_COMB0.FCI
+Info:                Defined in:
+Info:                  rtl/pipesense_fpga_top.sv:32.17-54.4
+Info:                  rtl/arm_like_core.sv:412.31-412.58
+Info:                  /usr/bin/../share/yosys/ecp5/arith_map.v:63.22-63.23
+Info:  0.1 11.7  Source core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B_CCU2C_S0_12$CCU2_COMB0.FCO
+Info:  0.0 11.7    Net core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B_CCU2C_S0_12$CCU2_FCI_INT budget 0.000000 ns (71,25) -> (71,25)
+Info:                Sink core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B_CCU2C_S0_12$CCU2_COMB1.FCI
+Info:  0.0 11.7  Source core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B_CCU2C_S0_12$CCU2_COMB1.FCO
+Info:  0.0 11.7    Net core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B_CCU2C_S0_3_COUT[15] budget 0.000000 ns (71,25) -> (71,25)
+Info:                Sink core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B_CCU2C_S0_11$CCU2_COMB0.FCI
+Info:                Defined in:
+Info:                  rtl/pipesense_fpga_top.sv:32.17-54.4
+Info:                  rtl/arm_like_core.sv:412.31-412.58
+Info:                  /usr/bin/../share/yosys/ecp5/arith_map.v:63.22-63.23
+Info:  0.1 11.8  Source core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B_CCU2C_S0_11$CCU2_COMB0.FCO
+Info:  0.0 11.8    Net core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B_CCU2C_S0_11$CCU2_FCI_INT budget 0.000000 ns (71,25) -> (71,25)
+Info:                Sink core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B_CCU2C_S0_11$CCU2_COMB1.FCI
+Info:  0.0 11.8  Source core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B_CCU2C_S0_11$CCU2_COMB1.FCO
+Info:  0.0 11.8    Net core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B_CCU2C_S0_3_COUT[17] budget 0.000000 ns (71,25) -> (71,25)
+Info:                Sink core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B_CCU2C_S0_10$CCU2_COMB0.FCI
+Info:                Defined in:
+Info:                  rtl/pipesense_fpga_top.sv:32.17-54.4
+Info:                  rtl/arm_like_core.sv:412.31-412.58
+Info:                  /usr/bin/../share/yosys/ecp5/arith_map.v:63.22-63.23
+Info:  0.1 11.9  Source core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B_CCU2C_S0_10$CCU2_COMB0.FCO
+Info:  0.0 11.9    Net core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B_CCU2C_S0_10$CCU2_FCI_INT budget 0.000000 ns (71,25) -> (71,25)
+Info:                Sink core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B_CCU2C_S0_10$CCU2_COMB1.FCI
+Info:  0.0 11.9  Source core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B_CCU2C_S0_10$CCU2_COMB1.FCO
+Info:  0.0 11.9    Net core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B_CCU2C_S0_3_COUT[19] budget 0.000000 ns (71,25) -> (71,25)
+Info:                Sink core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B_CCU2C_S0_9$CCU2_COMB0.FCI
+Info:                Defined in:
+Info:                  rtl/pipesense_fpga_top.sv:32.17-54.4
+Info:                  rtl/arm_like_core.sv:412.31-412.58
+Info:                  /usr/bin/../share/yosys/ecp5/arith_map.v:63.22-63.23
+Info:  0.1 11.9  Source core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B_CCU2C_S0_9$CCU2_COMB0.FCO
+Info:  0.0 11.9    Net core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B_CCU2C_S0_9$CCU2_FCI_INT budget 0.000000 ns (71,25) -> (71,25)
+Info:                Sink core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B_CCU2C_S0_9$CCU2_COMB1.FCI
+Info:  0.0 11.9  Source core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B_CCU2C_S0_9$CCU2_COMB1.FCO
+Info:  0.0 11.9    Net core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B_CCU2C_S0_3_COUT[21] budget 0.000000 ns (71,25) -> (72,25)
+Info:                Sink core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B_CCU2C_S0_8$CCU2_COMB0.FCI
+Info:                Defined in:
+Info:                  rtl/pipesense_fpga_top.sv:32.17-54.4
+Info:                  rtl/arm_like_core.sv:412.31-412.58
+Info:                  /usr/bin/../share/yosys/ecp5/arith_map.v:63.22-63.23
+Info:  0.1 12.0  Source core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B_CCU2C_S0_8$CCU2_COMB0.FCO
+Info:  0.0 12.0    Net core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B_CCU2C_S0_8$CCU2_FCI_INT budget 0.000000 ns (72,25) -> (72,25)
+Info:                Sink core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B_CCU2C_S0_8$CCU2_COMB1.FCI
+Info:  0.0 12.0  Source core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B_CCU2C_S0_8$CCU2_COMB1.FCO
+Info:  0.0 12.0    Net core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B_CCU2C_S0_3_COUT[23] budget 0.000000 ns (72,25) -> (72,25)
+Info:                Sink core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B_CCU2C_S0_7$CCU2_COMB0.FCI
+Info:                Defined in:
+Info:                  rtl/pipesense_fpga_top.sv:32.17-54.4
+Info:                  rtl/arm_like_core.sv:412.31-412.58
+Info:                  /usr/bin/../share/yosys/ecp5/arith_map.v:63.22-63.23
+Info:  0.1 12.1  Source core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B_CCU2C_S0_7$CCU2_COMB0.FCO
+Info:  0.0 12.1    Net core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B_CCU2C_S0_7$CCU2_FCI_INT budget 0.000000 ns (72,25) -> (72,25)
+Info:                Sink core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B_CCU2C_S0_7$CCU2_COMB1.FCI
+Info:  0.0 12.1  Source core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B_CCU2C_S0_7$CCU2_COMB1.FCO
+Info:  0.0 12.1    Net core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B_CCU2C_S0_3_COUT[25] budget 0.000000 ns (72,25) -> (72,25)
+Info:                Sink core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B_CCU2C_S0_6$CCU2_COMB0.FCI
+Info:                Defined in:
+Info:                  rtl/pipesense_fpga_top.sv:32.17-54.4
+Info:                  rtl/arm_like_core.sv:412.31-412.58
+Info:                  /usr/bin/../share/yosys/ecp5/arith_map.v:63.22-63.23
+Info:  0.1 12.1  Source core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B_CCU2C_S0_6$CCU2_COMB0.FCO
+Info:  0.0 12.1    Net core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B_CCU2C_S0_6$CCU2_FCI_INT budget 0.000000 ns (72,25) -> (72,25)
+Info:                Sink core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B_CCU2C_S0_6$CCU2_COMB1.FCI
+Info:  0.0 12.1  Source core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B_CCU2C_S0_6$CCU2_COMB1.FCO
+Info:  0.0 12.1    Net core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B_CCU2C_S0_3_COUT[27] budget 0.000000 ns (72,25) -> (72,25)
+Info:                Sink core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B_CCU2C_S0_5$CCU2_COMB0.FCI
+Info:                Defined in:
+Info:                  rtl/pipesense_fpga_top.sv:32.17-54.4
+Info:                  rtl/arm_like_core.sv:412.31-412.58
+Info:                  /usr/bin/../share/yosys/ecp5/arith_map.v:63.22-63.23
+Info:  0.1 12.2  Source core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B_CCU2C_S0_5$CCU2_COMB0.FCO
+Info:  0.0 12.2    Net core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B_CCU2C_S0_5$CCU2_FCI_INT budget 0.000000 ns (72,25) -> (72,25)
+Info:                Sink core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B_CCU2C_S0_5$CCU2_COMB1.FCI
+Info:  0.0 12.2  Source core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B_CCU2C_S0_5$CCU2_COMB1.FCO
+Info:  0.0 12.2    Net core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B_CCU2C_S0_3_COUT[29] budget 0.000000 ns (72,25) -> (73,25)
+Info:                Sink core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B_CCU2C_S0_3$CCU2_COMB0.FCI
+Info:                Defined in:
+Info:                  rtl/pipesense_fpga_top.sv:32.17-54.4
+Info:                  rtl/arm_like_core.sv:412.31-412.58
+Info:                  /usr/bin/../share/yosys/ecp5/arith_map.v:63.22-63.23
+Info:  0.1 12.3  Source core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B_CCU2C_S0_3$CCU2_COMB0.FCO
+Info:  0.0 12.3    Net core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B_CCU2C_S0_3$CCU2_FCI_INT budget 0.000000 ns (73,25) -> (73,25)
+Info:                Sink core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B_CCU2C_S0_3$CCU2_COMB1.FCI
+Info:  0.4 12.7  Source core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B_CCU2C_S0_3$CCU2_COMB1.F
+Info:  0.6 13.3    Net core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B[31] budget 0.000000 ns (73,25) -> (73,25)
+Info:                Sink core.ex_alu_result_L6MUX21_Z_20_SD_LUT4_Z.B
+Info:                Defined in:
+Info:                  rtl/pipesense_fpga_top.sv:32.17-54.4
+Info:                  rtl/arm_like_core.sv:412.31-412.58
+Info:                  /usr/bin/../share/yosys/ecp5/arith_map.v:34.26-34.27
+Info:  0.2 13.5  Source core.ex_alu_result_L6MUX21_Z_20_SD_LUT4_Z.F
+Info:  1.1 14.7    Net core.ex_alu_result_L6MUX21_Z_20_SD[5] budget 0.000000 ns (73,25) -> (80,24)
+Info:                Sink core.ex_alu_result_L6MUX21_Z_20_D1_PFUMX_Z_ALUT_LUT4_Z.M
+Info:                Defined in:
+Info:                  /usr/bin/../share/yosys/ecp5/cells_map.v:108.23-108.24
+Info:  0.3 14.9  Source core.ex_alu_result_L6MUX21_Z_20_D1_PFUMX_Z_ALUT_LUT4_Z.OFX
+Info:  0.9 15.8    Net core.ex_alu_result[31] budget 0.000000 ns (80,24) -> (79,23)
+Info:                Sink core.ex_cmp_zero_L6MUX21_Z_SD_L6MUX21_Z_2_D0_PFUMX_Z_BLUT_LUT4_Z.A
+Info:                Defined in:
+Info:                  rtl/pipesense_fpga_top.sv:32.17-54.4
+Info:                  rtl/arm_like_core.sv:146.16-146.29
+Info:  0.4 16.2  Source core.ex_cmp_zero_L6MUX21_Z_SD_L6MUX21_Z_2_D0_PFUMX_Z_BLUT_LUT4_Z.OFX
+Info:  0.0 16.2    Net core.ex_cmp_zero_L6MUX21_Z_SD_L6MUX21_Z_2_D0 budget 0.000000 ns (79,23) -> (79,23)
+Info:                Sink core.ex_cmp_zero_L6MUX21_Z_SD_L6MUX21_Z_2_D1_PFUMX_Z_ALUT_LUT4_Z.FXA
+Info:                Defined in:
+Info:                  /usr/bin/../share/yosys/ecp5/cells_map.v:141.34-141.36
+Info:  0.2 16.5  Source core.ex_cmp_zero_L6MUX21_Z_SD_L6MUX21_Z_2_D1_PFUMX_Z_ALUT_LUT4_Z.OFX
+Info:  1.0 17.5    Net core.ex_cmp_zero_L6MUX21_Z_SD[3] budget 0.000000 ns (79,23) -> (75,21)
+Info:                Sink core.ex_cmp_zero_L6MUX21_Z_D1_L6MUX21_Z_D1_PFUMX_Z_ALUT_LUT4_Z.D
+Info:                Defined in:
+Info:                  /usr/bin/../share/yosys/ecp5/cells_map.v:108.23-108.24
+Info:  0.2 17.7  Source core.ex_cmp_zero_L6MUX21_Z_D1_L6MUX21_Z_D1_PFUMX_Z_ALUT_LUT4_Z.F
+Info:  0.0 17.7    Net core.ex_cmp_zero_L6MUX21_Z_D1_L6MUX21_Z_D1_PFUMX_Z_ALUT budget 0.000000 ns (75,21) -> (75,21)
+Info:                Sink core.ex_cmp_zero_L6MUX21_Z_D1_L6MUX21_Z_D1_PFUMX_Z_BLUT_LUT4_Z.F1
+Info:                Defined in:
+Info:                  /usr/bin/../share/yosys/ecp5/cells_map.v:157.46-157.48
+Info:  0.2 17.9  Source core.ex_cmp_zero_L6MUX21_Z_D1_L6MUX21_Z_D1_PFUMX_Z_BLUT_LUT4_Z.OFX
+Info:  0.0 17.9    Net core.ex_cmp_zero_L6MUX21_Z_D1_L6MUX21_Z_D1 budget 0.000000 ns (75,21) -> (75,21)
+Info:                Sink core.ex_cmp_zero_L6MUX21_Z_D1_L6MUX21_Z_D1_PFUMX_Z_ALUT_LUT4_Z.FXB
+Info:                Defined in:
+Info:                  /usr/bin/../share/yosys/ecp5/cells_map.v:157.62-157.64
+Info:  0.2 18.1  Source core.ex_cmp_zero_L6MUX21_Z_D1_L6MUX21_Z_D1_PFUMX_Z_ALUT_LUT4_Z.OFX
+Info:  0.0 18.1    Net core.ex_cmp_zero_L6MUX21_Z_D1 budget 0.000000 ns (75,21) -> (75,21)
+Info:                Sink core.ex_cmp_zero_L6MUX21_Z_D1_L6MUX21_Z_D0_PFUMX_Z_ALUT_LUT4_Z.FXB
+Info:                Defined in:
+Info:                  /usr/bin/../share/yosys/ecp5/cells_map.v:157.70-157.72
+Info:  0.2 18.4  Source core.ex_cmp_zero_L6MUX21_Z_D1_L6MUX21_Z_D0_PFUMX_Z_ALUT_LUT4_Z.OFX
+Info:  1.1 19.5    Net core.ex_cmp_zero budget 0.000000 ns (75,21) -> (69,14)
+Info:                Sink core.ex_cmp_zero_LUT4_B.B
+Info:                Defined in:
+Info:                  /usr/bin/../share/yosys/ecp5/cells_map.v:108.23-108.24
+Info:  0.4 19.9  Source core.ex_cmp_zero_LUT4_B.OFX
+Info:  0.0 19.9    Net core.ex_cmp_zero_LUT4_B_Z_PFUMX_BLUT_Z budget 0.000000 ns (69,14) -> (69,14)
+Info:                Sink core.ex_cmp_zero_LUT4_B_Z_PFUMX_BLUT_ALUT_LUT4_Z.FXB
+Info:                Defined in:
+Info:                  /usr/bin/../share/yosys/ecp5/cells_map.v:157.62-157.64
+Info:  0.2 20.1  Source core.ex_cmp_zero_LUT4_B_Z_PFUMX_BLUT_ALUT_LUT4_Z.OFX
+Info:  0.0 20.1    Net core.ex_cmp_zero_LUT4_B_Z_PFUMX_BLUT_Z_L6MUX21_D1_Z budget 0.000000 ns (69,14) -> (69,14)
+Info:                Sink core.ex_cmp_zero_LUT4_B_1.FXB
+Info:                Defined in:
+Info:                  /usr/bin/../share/yosys/ecp5/cells_map.v:157.70-157.72
+Info:  0.2 20.4  Source core.ex_cmp_zero_LUT4_B_1.OFX
+Info:  1.7 22.1    Net core.ex_cmp_zero_LUT4_B_Z_PFUMX_BLUT_Z_L6MUX21_D1_Z_L6MUX21_D1_Z[0] budget 0.000000 ns (69,14) -> (58,8)
+Info:                Sink core.observer.branch_taken_LUT4_Z.B
+Info:                Defined in:
+Info:                  /usr/bin/../share/yosys/ecp5/cells_map.v:108.23-108.24
+Info:  0.2 22.3  Source core.observer.branch_taken_LUT4_Z.F
+Info:  1.1 23.5    Net core.branch_flush_event budget 0.000000 ns (58,8) -> (57,6)
+Info:                Sink $nextpnr_CCU2C_32$CCU2_COMB0.A
+Info:                Defined in:
+Info:                  rtl/pipesense_fpga_top.sv:32.17-54.4
+Info:                  rtl/pipeline_observer.sv:75.34-75.80
+Info:                  rtl/arm_like_core.sv:288.5-304.4
+Info:                  /usr/bin/../share/yosys/ecp5/arith_map.v:63.22-63.23
+Info:  0.4 23.9  Source $nextpnr_CCU2C_32$CCU2_COMB0.FCO
+Info:  0.0 23.9    Net $nextpnr_CCU2C_32$CCU2_FCI_INT budget 0.000000 ns (57,6) -> (57,6)
+Info:                Sink $nextpnr_CCU2C_32$CCU2_COMB1.FCI
+Info:  0.0 23.9  Source $nextpnr_CCU2C_32$CCU2_COMB1.FCO
+Info:  0.0 23.9    Net $nextpnr_CCU2C_32$COUT budget 0.000000 ns (57,6) -> (57,6)
+Info:                Sink core.observer.frontend_stall_sample_CCU2C_S0_2$CCU2_COMB0.FCI
+Info:  0.1 24.0  Source core.observer.frontend_stall_sample_CCU2C_S0_2$CCU2_COMB0.FCO
+Info:  0.0 24.0    Net core.observer.frontend_stall_sample_CCU2C_S0_2$CCU2_FCI_INT budget 0.000000 ns (57,6) -> (57,6)
+Info:                Sink core.observer.frontend_stall_sample_CCU2C_S0_2$CCU2_COMB1.FCI
+Info:  0.0 24.0  Source core.observer.frontend_stall_sample_CCU2C_S0_2$CCU2_COMB1.FCO
+Info:  0.0 24.0    Net core.observer.frontend_stall_sample_CCU2C_S0_2_COUT[2] budget 0.000000 ns (57,6) -> (57,6)
+Info:                Sink core.observer.frontend_stall_sample_CCU2C_S0_1$CCU2_COMB0.FCI
+Info:                Defined in:
+Info:                  rtl/pipesense_fpga_top.sv:32.17-54.4
+Info:                  rtl/pipeline_observer.sv:75.34-75.80
+Info:                  rtl/arm_like_core.sv:288.5-304.4
+Info:                  /usr/bin/../share/yosys/ecp5/arith_map.v:65.22-65.25
+Info:  0.4 24.4  Source core.observer.frontend_stall_sample_CCU2C_S0_1$CCU2_COMB0.F
+Info:  1.1 25.6    Net core.observer.frontend_stall_sample[2] budget 0.000000 ns (57,6) -> (57,5)
+Info:                Sink core.observer.load_use_count_TRELLIS_FF_Q_DI_LUT4_Z_A_LUT4_B_Z_LUT4_Z_D_CCU2C_COUT$CCU2_COMB0.B
+Info:                Defined in:
+Info:                  rtl/pipesense_fpga_top.sv:32.17-54.4
+Info:                  rtl/pipeline_observer.sv:60.24-60.45
+Info:                  rtl/arm_like_core.sv:288.5-304.4
+Info:  0.4 26.0  Source core.observer.load_use_count_TRELLIS_FF_Q_DI_LUT4_Z_A_LUT4_B_Z_LUT4_Z_D_CCU2C_COUT$CCU2_COMB0.FCO
+Info:  0.0 26.0    Net core.observer.load_use_count_TRELLIS_FF_Q_DI_LUT4_Z_A_LUT4_B_Z_LUT4_Z_D_CCU2C_COUT$CCU2_FCI_INT budget 0.000000 ns (57,5) -> (57,5)
+Info:                Sink core.observer.load_use_count_TRELLIS_FF_Q_DI_LUT4_Z_A_LUT4_B_Z_LUT4_Z_D_CCU2C_COUT$CCU2_COMB1.FCI
+Info:  0.0 26.0  Source core.observer.load_use_count_TRELLIS_FF_Q_DI_LUT4_Z_A_LUT4_B_Z_LUT4_Z_D_CCU2C_COUT$CCU2_COMB1.FCO
+Info:  0.0 26.0    Net $nextpnr_CCU2C_25$CIN budget 0.000000 ns (57,5) -> (57,5)
+Info:                Sink $nextpnr_CCU2C_25$CCU2_COMB0.FCI
+Info:  0.4 26.4  Source $nextpnr_CCU2C_25$CCU2_COMB0.F
+Info:  1.1 27.6    Net core.observer.load_use_count_TRELLIS_FF_Q_DI_LUT4_Z_A_LUT4_B_Z_LUT4_Z_B[2] budget 24.312000 ns (57,5) -> (56,6)
+Info:                Sink core.observer.load_use_count_TRELLIS_FF_Q_DI_LUT4_Z_A_LUT4_B_Z_LUT4_Z.D
+Info:                Defined in:
+Info:                  rtl/pipesense_fpga_top.sv:32.17-54.4
+Info:                  rtl/pipeline_observer.sv:124.11-124.60
+Info:                  rtl/arm_like_core.sv:288.5-304.4
+Info:                  /usr/bin/../share/yosys/ecp5/arith_map.v:63.22-63.23
+Info:  0.2 27.8  Source core.observer.load_use_count_TRELLIS_FF_Q_DI_LUT4_Z_A_LUT4_B_Z_LUT4_Z.F
+Info:  1.1 28.9    Net core.observer.load_use_count_TRELLIS_FF_Q_DI_LUT4_Z_A_LUT4_B_Z[0] budget 2.452000 ns (56,6) -> (58,7)
+Info:                Sink core.observer.frontend_stall_count_TRELLIS_FF_Q_2_DI_LUT4_Z.B
+Info:                Defined in:
+Info:                  /usr/bin/../share/yosys/ecp5/cells_map.v:108.23-108.24
+Info:  0.2 29.2  Source core.observer.frontend_stall_count_TRELLIS_FF_Q_2_DI_LUT4_Z.F
+Info:  0.1 29.3    Net core.observer.frontend_stall_count_TRELLIS_FF_Q_2_DI budget 2.452000 ns (58,7) -> (58,7)
+Info:                Sink core.observer.frontend_stall_count_TRELLIS_FF_Q_2.DI
+Info:                Defined in:
+Info:                  rtl/pipesense_fpga_top.sv:32.17-54.4
+Info:                  rtl/pipeline_observer.sv:103.3-151.6
+Info:                  rtl/arm_like_core.sv:288.5-304.4
+Info:  0.0 29.3  Setup core.observer.frontend_stall_count_TRELLIS_FF_Q_2.DI
+Info: 10.3 ns logic, 19.0 ns routing
+
+Info: Critical path report for cross-domain path '<async>' -> '<async>':
+Info: curr total
+Info:  0.0  0.0  Source debug_select[2]$tr_io.O
+Info:  5.7  5.7    Net debug_select[2]$TRELLIS_IO_IN budget 7.808000 ns (0,14) -> (84,13)
+Info:                Sink debug_select_LUT4_A_6.A
+Info:                Defined in:
+Info:                  rtl/pipesense_fpga_top.sv:15.28-15.40
+Info:  0.2  5.9  Source debug_select_LUT4_A_6.F
+Info:  1.7  7.7    Net debug_data_LUT4_Z_10_A_PFUMX_Z_C0[2] budget 7.807000 ns (84,13) -> (85,8)
+Info:                Sink debug_data_LUT4_Z_28_A_PFUMX_Z_ALUT_LUT4_Z.C
+Info:                Defined in:
+Info:                  /usr/bin/../share/yosys/ecp5/cells_map.v:108.23-108.24
+Info:  0.2  7.9  Source debug_data_LUT4_Z_28_A_PFUMX_Z_ALUT_LUT4_Z.F
+Info:  0.0  7.9    Net debug_data_LUT4_Z_28_A_PFUMX_Z_ALUT budget 7.807000 ns (85,8) -> (85,8)
+Info:                Sink debug_data_LUT4_Z_28_A_PFUMX_Z_BLUT_LUT4_Z.F1
+Info:                Defined in:
+Info:                  /usr/bin/../share/yosys/ecp5/cells_map.v:133.22-133.24
+Info:  0.2  8.1  Source debug_data_LUT4_Z_28_A_PFUMX_Z_BLUT_LUT4_Z.OFX
+Info:  0.9  9.0    Net debug_data_LUT4_Z_28_A[0] budget 7.807000 ns (85,8) -> (85,11)
+Info:                Sink debug_data_LUT4_Z_28.A
+Info:                Defined in:
+Info:                  /usr/bin/../share/yosys/ecp5/cells_map.v:108.23-108.24
+Info:  0.2  9.2  Source debug_data_LUT4_Z_28.F
+Info:  8.9 18.1    Net debug_data[3]$TRELLIS_IO_OUT budget 7.807000 ns (85,11) -> (15,95)
+Info:                Sink debug_data[3]$tr_io.I
+Info:                Defined in:
+Info:                  rtl/pipesense_fpga_top.sv:16.28-16.38
+Info: 0.9 ns logic, 17.2 ns routing
+
+Info: Critical path report for cross-domain path '<async>' -> 'posedge $glbnet$clk$TRELLIS_IO_IN':
+Info: curr total
+Info:  0.0  0.0  Source program_addr[3]$tr_io.O
+Info:  7.4  7.4    Net program_addr[3]$TRELLIS_IO_IN budget 0.000000 ns (15,95) -> (74,32)
+Info:                Sink core.dmem.addr_LUT4_Z.B
+Info:                Defined in:
+Info:                  rtl/pipesense_fpga_top.sv:13.28-13.40
+Info:  0.2  7.6  Source core.dmem.addr_LUT4_Z.F
+Info:  1.7  9.4    Net core.dmem_port_addr[3] budget 0.000000 ns (74,32) -> (74,37)
+Info:                Sink core.dmem.mem.0.17$DPRAM_COMB2.A
+Info:                Defined in:
+Info:                  rtl/pipesense_fpga_top.sv:32.17-54.4
+Info:                  rtl/arm_like_core.sv:135.24-135.38
+Info:  0.2  9.6  Source core.dmem.mem.0.17$DPRAM_COMB2.F
+Info:  1.1 10.7    Net core.dmem.mem.0.1_DO_1[1] budget 0.000000 ns (74,37) -> (71,37)
+Info:                Sink core.dmem.mem.0.97_DO_1_LUT4_B_Z_L6MUX21_Z_1_D1_L6MUX21_Z_D1_PFUMX_Z_BLUT_LUT4_Z.D
+Info:                Defined in:
+Info:                  /usr/bin/../share/yosys/ecp5/cells_map.v:108.23-108.24
+Info:  0.4 11.1  Source core.dmem.mem.0.97_DO_1_LUT4_B_Z_L6MUX21_Z_1_D1_L6MUX21_Z_D1_PFUMX_Z_BLUT_LUT4_Z.OFX
+Info:  0.0 11.1    Net core.dmem.mem.0.97_DO_1_LUT4_B_Z_L6MUX21_Z_1_D1_L6MUX21_Z_D1 budget 0.000000 ns (71,37) -> (71,37)
+Info:                Sink core.dmem.mem.0.97_DO_1_LUT4_B_Z_L6MUX21_Z_1_D1_L6MUX21_Z_D1_PFUMX_Z_ALUT_LUT4_Z.FXB
+Info:                Defined in:
+Info:                  /usr/bin/../share/yosys/ecp5/cells_map.v:157.62-157.64
+Info:  0.2 11.3  Source core.dmem.mem.0.97_DO_1_LUT4_B_Z_L6MUX21_Z_1_D1_L6MUX21_Z_D1_PFUMX_Z_ALUT_LUT4_Z.OFX
+Info:  0.0 11.3    Net core.dmem.mem.0.97_DO_1_LUT4_B_Z_L6MUX21_Z_1_D1 budget 0.000000 ns (71,37) -> (71,37)
+Info:                Sink core.dmem.mem.0.97_DO_1_LUT4_B_Z_L6MUX21_Z_1_D1_L6MUX21_Z_D0_PFUMX_Z_ALUT_LUT4_Z.FXB
+Info:                Defined in:
+Info:                  /usr/bin/../share/yosys/ecp5/cells_map.v:157.70-157.72
+Info:  0.2 11.6  Source core.dmem.mem.0.97_DO_1_LUT4_B_Z_L6MUX21_Z_1_D1_L6MUX21_Z_D0_PFUMX_Z_ALUT_LUT4_Z.OFX
+Info:  0.9 12.5    Net core.dmem.mem.0.97_DO_1_LUT4_B_Z[3] budget 0.000000 ns (71,37) -> (68,38)
+Info:                Sink core.dmem.mem.0.65_DO_1_LUT4_B_Z_LUT4_A_Z_PFUMX_Z_BLUT_LUT4_Z.D
+Info:                Defined in:
+Info:                  /usr/bin/../share/yosys/ecp5/cells_map.v:108.23-108.24
+Info:  0.4 12.9  Source core.dmem.mem.0.65_DO_1_LUT4_B_Z_LUT4_A_Z_PFUMX_Z_BLUT_LUT4_Z.OFX
+Info:  2.0 15.0    Net core.ex_operand_a_PFUMX_Z_24_BLUT_LUT4_Z_D[0] budget 0.000000 ns (68,38) -> (63,27)
+Info:                Sink core.ex_operand_b_L6MUX21_Z_24_D1_L6MUX21_Z_D1_PFUMX_Z_BLUT_LUT4_Z.B
+Info:                Defined in:
+Info:                  /usr/bin/../share/yosys/ecp5/cells_map.v:108.23-108.24
+Info:  0.4 15.4  Source core.ex_operand_b_L6MUX21_Z_24_D1_L6MUX21_Z_D1_PFUMX_Z_BLUT_LUT4_Z.OFX
+Info:  0.0 15.4    Net core.ex_operand_b_L6MUX21_Z_24_D1_L6MUX21_Z_D1 budget 0.000000 ns (63,27) -> (63,27)
+Info:                Sink core.ex_operand_b_L6MUX21_Z_24_D1_L6MUX21_Z_D1_PFUMX_Z_ALUT_LUT4_Z.FXB
+Info:                Defined in:
+Info:                  /usr/bin/../share/yosys/ecp5/cells_map.v:157.62-157.64
+Info:  0.2 15.6  Source core.ex_operand_b_L6MUX21_Z_24_D1_L6MUX21_Z_D1_PFUMX_Z_ALUT_LUT4_Z.OFX
+Info:  0.0 15.6    Net core.ex_operand_b_L6MUX21_Z_24_D1 budget 0.000000 ns (63,27) -> (63,27)
+Info:                Sink core.ex_operand_b_L6MUX21_Z_24_D1_L6MUX21_Z_D0_PFUMX_Z_ALUT_LUT4_Z.FXB
+Info:                Defined in:
+Info:                  /usr/bin/../share/yosys/ecp5/cells_map.v:157.70-157.72
+Info:  0.2 15.8  Source core.ex_operand_b_L6MUX21_Z_24_D1_L6MUX21_Z_D0_PFUMX_Z_ALUT_LUT4_Z.OFX
+Info:  1.5 17.4    Net core.ex_alu_result_L6MUX21_Z_24_SD[3] budget 0.000000 ns (63,27) -> (70,25)
+Info:                Sink core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B_CCU2C_S0_1$CCU2_COMB0.B
+Info:                Defined in:
+Info:                  rtl/pipesense_fpga_top.sv:32.17-54.4
+Info:                  rtl/arm_like_core.sv:144.16-144.28
+Info:  0.4 17.8  Source core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B_CCU2C_S0_1$CCU2_COMB0.FCO
+Info:  0.0 17.8    Net core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B_CCU2C_S0_1$CCU2_FCI_INT budget 0.000000 ns (70,25) -> (70,25)
+Info:                Sink core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B_CCU2C_S0_1$CCU2_COMB1.FCI
+Info:  0.0 17.8  Source core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B_CCU2C_S0_1$CCU2_COMB1.FCO
+Info:  0.0 17.8    Net core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B_CCU2C_S0_3_COUT[7] budget 0.000000 ns (70,25) -> (70,25)
+Info:                Sink core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B_CCU2C_S0$CCU2_COMB0.FCI
+Info:                Defined in:
+Info:                  rtl/pipesense_fpga_top.sv:32.17-54.4
+Info:                  rtl/arm_like_core.sv:412.31-412.58
+Info:                  /usr/bin/../share/yosys/ecp5/arith_map.v:63.22-63.23
+Info:  0.1 17.9  Source core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B_CCU2C_S0$CCU2_COMB0.FCO
+Info:  0.0 17.9    Net core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B_CCU2C_S0$CCU2_FCI_INT budget 0.000000 ns (70,25) -> (70,25)
+Info:                Sink core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B_CCU2C_S0$CCU2_COMB1.FCI
+Info:  0.0 17.9  Source core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B_CCU2C_S0$CCU2_COMB1.FCO
+Info:  0.0 17.9    Net core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B_CCU2C_S0_3_COUT[9] budget 0.000000 ns (70,25) -> (70,25)
+Info:                Sink core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B_CCU2C_S0_14$CCU2_COMB0.FCI
+Info:                Defined in:
+Info:                  rtl/pipesense_fpga_top.sv:32.17-54.4
+Info:                  rtl/arm_like_core.sv:412.31-412.58
+Info:                  /usr/bin/../share/yosys/ecp5/arith_map.v:63.22-63.23
+Info:  0.1 17.9  Source core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B_CCU2C_S0_14$CCU2_COMB0.FCO
+Info:  0.0 17.9    Net core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B_CCU2C_S0_14$CCU2_FCI_INT budget 0.000000 ns (70,25) -> (70,25)
+Info:                Sink core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B_CCU2C_S0_14$CCU2_COMB1.FCI
+Info:  0.0 17.9  Source core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B_CCU2C_S0_14$CCU2_COMB1.FCO
+Info:  0.0 17.9    Net core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B_CCU2C_S0_3_COUT[11] budget 0.000000 ns (70,25) -> (70,25)
+Info:                Sink core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B_CCU2C_S0_13$CCU2_COMB0.FCI
+Info:                Defined in:
+Info:                  rtl/pipesense_fpga_top.sv:32.17-54.4
+Info:                  rtl/arm_like_core.sv:412.31-412.58
+Info:                  /usr/bin/../share/yosys/ecp5/arith_map.v:63.22-63.23
+Info:  0.1 18.0  Source core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B_CCU2C_S0_13$CCU2_COMB0.FCO
+Info:  0.0 18.0    Net core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B_CCU2C_S0_13$CCU2_FCI_INT budget 0.000000 ns (70,25) -> (70,25)
+Info:                Sink core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B_CCU2C_S0_13$CCU2_COMB1.FCI
+Info:  0.0 18.0  Source core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B_CCU2C_S0_13$CCU2_COMB1.FCO
+Info:  0.0 18.0    Net core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B_CCU2C_S0_3_COUT[13] budget 0.000000 ns (70,25) -> (71,25)
+Info:                Sink core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B_CCU2C_S0_12$CCU2_COMB0.FCI
+Info:                Defined in:
+Info:                  rtl/pipesense_fpga_top.sv:32.17-54.4
+Info:                  rtl/arm_like_core.sv:412.31-412.58
+Info:                  /usr/bin/../share/yosys/ecp5/arith_map.v:63.22-63.23
+Info:  0.1 18.1  Source core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B_CCU2C_S0_12$CCU2_COMB0.FCO
+Info:  0.0 18.1    Net core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B_CCU2C_S0_12$CCU2_FCI_INT budget 0.000000 ns (71,25) -> (71,25)
+Info:                Sink core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B_CCU2C_S0_12$CCU2_COMB1.FCI
+Info:  0.0 18.1  Source core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B_CCU2C_S0_12$CCU2_COMB1.FCO
+Info:  0.0 18.1    Net core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B_CCU2C_S0_3_COUT[15] budget 0.000000 ns (71,25) -> (71,25)
+Info:                Sink core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B_CCU2C_S0_11$CCU2_COMB0.FCI
+Info:                Defined in:
+Info:                  rtl/pipesense_fpga_top.sv:32.17-54.4
+Info:                  rtl/arm_like_core.sv:412.31-412.58
+Info:                  /usr/bin/../share/yosys/ecp5/arith_map.v:63.22-63.23
+Info:  0.1 18.2  Source core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B_CCU2C_S0_11$CCU2_COMB0.FCO
+Info:  0.0 18.2    Net core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B_CCU2C_S0_11$CCU2_FCI_INT budget 0.000000 ns (71,25) -> (71,25)
+Info:                Sink core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B_CCU2C_S0_11$CCU2_COMB1.FCI
+Info:  0.0 18.2  Source core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B_CCU2C_S0_11$CCU2_COMB1.FCO
+Info:  0.0 18.2    Net core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B_CCU2C_S0_3_COUT[17] budget 0.000000 ns (71,25) -> (71,25)
+Info:                Sink core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B_CCU2C_S0_10$CCU2_COMB0.FCI
+Info:                Defined in:
+Info:                  rtl/pipesense_fpga_top.sv:32.17-54.4
+Info:                  rtl/arm_like_core.sv:412.31-412.58
+Info:                  /usr/bin/../share/yosys/ecp5/arith_map.v:63.22-63.23
+Info:  0.1 18.2  Source core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B_CCU2C_S0_10$CCU2_COMB0.FCO
+Info:  0.0 18.2    Net core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B_CCU2C_S0_10$CCU2_FCI_INT budget 0.000000 ns (71,25) -> (71,25)
+Info:                Sink core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B_CCU2C_S0_10$CCU2_COMB1.FCI
+Info:  0.0 18.2  Source core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B_CCU2C_S0_10$CCU2_COMB1.FCO
+Info:  0.0 18.2    Net core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B_CCU2C_S0_3_COUT[19] budget 0.000000 ns (71,25) -> (71,25)
+Info:                Sink core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B_CCU2C_S0_9$CCU2_COMB0.FCI
+Info:                Defined in:
+Info:                  rtl/pipesense_fpga_top.sv:32.17-54.4
+Info:                  rtl/arm_like_core.sv:412.31-412.58
+Info:                  /usr/bin/../share/yosys/ecp5/arith_map.v:63.22-63.23
+Info:  0.1 18.3  Source core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B_CCU2C_S0_9$CCU2_COMB0.FCO
+Info:  0.0 18.3    Net core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B_CCU2C_S0_9$CCU2_FCI_INT budget 0.000000 ns (71,25) -> (71,25)
+Info:                Sink core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B_CCU2C_S0_9$CCU2_COMB1.FCI
+Info:  0.0 18.3  Source core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B_CCU2C_S0_9$CCU2_COMB1.FCO
+Info:  0.0 18.3    Net core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B_CCU2C_S0_3_COUT[21] budget 0.000000 ns (71,25) -> (72,25)
+Info:                Sink core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B_CCU2C_S0_8$CCU2_COMB0.FCI
+Info:                Defined in:
+Info:                  rtl/pipesense_fpga_top.sv:32.17-54.4
+Info:                  rtl/arm_like_core.sv:412.31-412.58
+Info:                  /usr/bin/../share/yosys/ecp5/arith_map.v:63.22-63.23
+Info:  0.1 18.4  Source core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B_CCU2C_S0_8$CCU2_COMB0.FCO
+Info:  0.0 18.4    Net core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B_CCU2C_S0_8$CCU2_FCI_INT budget 0.000000 ns (72,25) -> (72,25)
+Info:                Sink core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B_CCU2C_S0_8$CCU2_COMB1.FCI
+Info:  0.0 18.4  Source core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B_CCU2C_S0_8$CCU2_COMB1.FCO
+Info:  0.0 18.4    Net core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B_CCU2C_S0_3_COUT[23] budget 0.000000 ns (72,25) -> (72,25)
+Info:                Sink core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B_CCU2C_S0_7$CCU2_COMB0.FCI
+Info:                Defined in:
+Info:                  rtl/pipesense_fpga_top.sv:32.17-54.4
+Info:                  rtl/arm_like_core.sv:412.31-412.58
+Info:                  /usr/bin/../share/yosys/ecp5/arith_map.v:63.22-63.23
+Info:  0.1 18.4  Source core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B_CCU2C_S0_7$CCU2_COMB0.FCO
+Info:  0.0 18.4    Net core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B_CCU2C_S0_7$CCU2_FCI_INT budget 0.000000 ns (72,25) -> (72,25)
+Info:                Sink core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B_CCU2C_S0_7$CCU2_COMB1.FCI
+Info:  0.0 18.4  Source core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B_CCU2C_S0_7$CCU2_COMB1.FCO
+Info:  0.0 18.4    Net core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B_CCU2C_S0_3_COUT[25] budget 0.000000 ns (72,25) -> (72,25)
+Info:                Sink core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B_CCU2C_S0_6$CCU2_COMB0.FCI
+Info:                Defined in:
+Info:                  rtl/pipesense_fpga_top.sv:32.17-54.4
+Info:                  rtl/arm_like_core.sv:412.31-412.58
+Info:                  /usr/bin/../share/yosys/ecp5/arith_map.v:63.22-63.23
+Info:  0.1 18.5  Source core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B_CCU2C_S0_6$CCU2_COMB0.FCO
+Info:  0.0 18.5    Net core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B_CCU2C_S0_6$CCU2_FCI_INT budget 0.000000 ns (72,25) -> (72,25)
+Info:                Sink core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B_CCU2C_S0_6$CCU2_COMB1.FCI
+Info:  0.0 18.5  Source core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B_CCU2C_S0_6$CCU2_COMB1.FCO
+Info:  0.0 18.5    Net core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B_CCU2C_S0_3_COUT[27] budget 0.000000 ns (72,25) -> (72,25)
+Info:                Sink core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B_CCU2C_S0_5$CCU2_COMB0.FCI
+Info:                Defined in:
+Info:                  rtl/pipesense_fpga_top.sv:32.17-54.4
+Info:                  rtl/arm_like_core.sv:412.31-412.58
+Info:                  /usr/bin/../share/yosys/ecp5/arith_map.v:63.22-63.23
+Info:  0.1 18.6  Source core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B_CCU2C_S0_5$CCU2_COMB0.FCO
+Info:  0.0 18.6    Net core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B_CCU2C_S0_5$CCU2_FCI_INT budget 0.000000 ns (72,25) -> (72,25)
+Info:                Sink core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B_CCU2C_S0_5$CCU2_COMB1.FCI
+Info:  0.0 18.6  Source core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B_CCU2C_S0_5$CCU2_COMB1.FCO
+Info:  0.0 18.6    Net core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B_CCU2C_S0_3_COUT[29] budget 0.000000 ns (72,25) -> (73,25)
+Info:                Sink core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B_CCU2C_S0_3$CCU2_COMB0.FCI
+Info:                Defined in:
+Info:                  rtl/pipesense_fpga_top.sv:32.17-54.4
+Info:                  rtl/arm_like_core.sv:412.31-412.58
+Info:                  /usr/bin/../share/yosys/ecp5/arith_map.v:63.22-63.23
+Info:  0.1 18.7  Source core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B_CCU2C_S0_3$CCU2_COMB0.FCO
+Info:  0.0 18.7    Net core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B_CCU2C_S0_3$CCU2_FCI_INT budget 0.000000 ns (73,25) -> (73,25)
+Info:                Sink core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B_CCU2C_S0_3$CCU2_COMB1.FCI
+Info:  0.4 19.1  Source core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B_CCU2C_S0_3$CCU2_COMB1.F
+Info:  0.6 19.7    Net core.ex_alu_result_L6MUX21_Z_SD_LUT4_Z_B[31] budget 0.000000 ns (73,25) -> (73,25)
+Info:                Sink core.ex_alu_result_L6MUX21_Z_20_SD_LUT4_Z.B
+Info:                Defined in:
+Info:                  rtl/pipesense_fpga_top.sv:32.17-54.4
+Info:                  rtl/arm_like_core.sv:412.31-412.58
+Info:                  /usr/bin/../share/yosys/ecp5/arith_map.v:34.26-34.27
+Info:  0.2 19.9  Source core.ex_alu_result_L6MUX21_Z_20_SD_LUT4_Z.F
+Info:  1.1 21.0    Net core.ex_alu_result_L6MUX21_Z_20_SD[5] budget 0.000000 ns (73,25) -> (80,24)
+Info:                Sink core.ex_alu_result_L6MUX21_Z_20_D1_PFUMX_Z_ALUT_LUT4_Z.M
+Info:                Defined in:
+Info:                  /usr/bin/../share/yosys/ecp5/cells_map.v:108.23-108.24
+Info:  0.3 21.3  Source core.ex_alu_result_L6MUX21_Z_20_D1_PFUMX_Z_ALUT_LUT4_Z.OFX
+Info:  0.9 22.2    Net core.ex_alu_result[31] budget 0.000000 ns (80,24) -> (79,23)
+Info:                Sink core.ex_cmp_zero_L6MUX21_Z_SD_L6MUX21_Z_2_D0_PFUMX_Z_BLUT_LUT4_Z.A
+Info:                Defined in:
+Info:                  rtl/pipesense_fpga_top.sv:32.17-54.4
+Info:                  rtl/arm_like_core.sv:146.16-146.29
+Info:  0.4 22.6  Source core.ex_cmp_zero_L6MUX21_Z_SD_L6MUX21_Z_2_D0_PFUMX_Z_BLUT_LUT4_Z.OFX
+Info:  0.0 22.6    Net core.ex_cmp_zero_L6MUX21_Z_SD_L6MUX21_Z_2_D0 budget 0.000000 ns (79,23) -> (79,23)
+Info:                Sink core.ex_cmp_zero_L6MUX21_Z_SD_L6MUX21_Z_2_D1_PFUMX_Z_ALUT_LUT4_Z.FXA
+Info:                Defined in:
+Info:                  /usr/bin/../share/yosys/ecp5/cells_map.v:141.34-141.36
+Info:  0.2 22.8  Source core.ex_cmp_zero_L6MUX21_Z_SD_L6MUX21_Z_2_D1_PFUMX_Z_ALUT_LUT4_Z.OFX
+Info:  1.0 23.8    Net core.ex_cmp_zero_L6MUX21_Z_SD[3] budget 0.000000 ns (79,23) -> (75,21)
+Info:                Sink core.ex_cmp_zero_L6MUX21_Z_D1_L6MUX21_Z_D1_PFUMX_Z_ALUT_LUT4_Z.D
+Info:                Defined in:
+Info:                  /usr/bin/../share/yosys/ecp5/cells_map.v:108.23-108.24
+Info:  0.2 24.1  Source core.ex_cmp_zero_L6MUX21_Z_D1_L6MUX21_Z_D1_PFUMX_Z_ALUT_LUT4_Z.F
+Info:  0.0 24.1    Net core.ex_cmp_zero_L6MUX21_Z_D1_L6MUX21_Z_D1_PFUMX_Z_ALUT budget 0.000000 ns (75,21) -> (75,21)
+Info:                Sink core.ex_cmp_zero_L6MUX21_Z_D1_L6MUX21_Z_D1_PFUMX_Z_BLUT_LUT4_Z.F1
+Info:                Defined in:
+Info:                  /usr/bin/../share/yosys/ecp5/cells_map.v:157.46-157.48
+Info:  0.2 24.2  Source core.ex_cmp_zero_L6MUX21_Z_D1_L6MUX21_Z_D1_PFUMX_Z_BLUT_LUT4_Z.OFX
+Info:  0.0 24.2    Net core.ex_cmp_zero_L6MUX21_Z_D1_L6MUX21_Z_D1 budget 0.000000 ns (75,21) -> (75,21)
+Info:                Sink core.ex_cmp_zero_L6MUX21_Z_D1_L6MUX21_Z_D1_PFUMX_Z_ALUT_LUT4_Z.FXB
+Info:                Defined in:
+Info:                  /usr/bin/../share/yosys/ecp5/cells_map.v:157.62-157.64
+Info:  0.2 24.5  Source core.ex_cmp_zero_L6MUX21_Z_D1_L6MUX21_Z_D1_PFUMX_Z_ALUT_LUT4_Z.OFX
+Info:  0.0 24.5    Net core.ex_cmp_zero_L6MUX21_Z_D1 budget 0.000000 ns (75,21) -> (75,21)
+Info:                Sink core.ex_cmp_zero_L6MUX21_Z_D1_L6MUX21_Z_D0_PFUMX_Z_ALUT_LUT4_Z.FXB
+Info:                Defined in:
+Info:                  /usr/bin/../share/yosys/ecp5/cells_map.v:157.70-157.72
+Info:  0.2 24.7  Source core.ex_cmp_zero_L6MUX21_Z_D1_L6MUX21_Z_D0_PFUMX_Z_ALUT_LUT4_Z.OFX
+Info:  1.1 25.9    Net core.ex_cmp_zero budget 0.000000 ns (75,21) -> (69,14)
+Info:                Sink core.ex_cmp_zero_LUT4_B.B
+Info:                Defined in:
+Info:                  /usr/bin/../share/yosys/ecp5/cells_map.v:108.23-108.24
+Info:  0.4 26.3  Source core.ex_cmp_zero_LUT4_B.OFX
+Info:  0.0 26.3    Net core.ex_cmp_zero_LUT4_B_Z_PFUMX_BLUT_Z budget 0.000000 ns (69,14) -> (69,14)
+Info:                Sink core.ex_cmp_zero_LUT4_B_Z_PFUMX_BLUT_ALUT_LUT4_Z.FXB
+Info:                Defined in:
+Info:                  /usr/bin/../share/yosys/ecp5/cells_map.v:157.62-157.64
+Info:  0.2 26.5  Source core.ex_cmp_zero_LUT4_B_Z_PFUMX_BLUT_ALUT_LUT4_Z.OFX
+Info:  0.0 26.5    Net core.ex_cmp_zero_LUT4_B_Z_PFUMX_BLUT_Z_L6MUX21_D1_Z budget 0.000000 ns (69,14) -> (69,14)
+Info:                Sink core.ex_cmp_zero_LUT4_B_1.FXB
+Info:                Defined in:
+Info:                  /usr/bin/../share/yosys/ecp5/cells_map.v:157.70-157.72
+Info:  0.2 26.8  Source core.ex_cmp_zero_LUT4_B_1.OFX
+Info:  1.7 28.5    Net core.ex_cmp_zero_LUT4_B_Z_PFUMX_BLUT_Z_L6MUX21_D1_Z_L6MUX21_D1_Z[0] budget 0.000000 ns (69,14) -> (58,8)
+Info:                Sink core.observer.branch_taken_LUT4_Z.B
+Info:                Defined in:
+Info:                  /usr/bin/../share/yosys/ecp5/cells_map.v:108.23-108.24
+Info:  0.2 28.7  Source core.observer.branch_taken_LUT4_Z.F
+Info:  1.1 29.8    Net core.branch_flush_event budget 0.000000 ns (58,8) -> (57,6)
+Info:                Sink $nextpnr_CCU2C_32$CCU2_COMB0.A
+Info:                Defined in:
+Info:                  rtl/pipesense_fpga_top.sv:32.17-54.4
+Info:                  rtl/pipeline_observer.sv:75.34-75.80
+Info:                  rtl/arm_like_core.sv:288.5-304.4
+Info:                  /usr/bin/../share/yosys/ecp5/arith_map.v:63.22-63.23
+Info:  0.4 30.3  Source $nextpnr_CCU2C_32$CCU2_COMB0.FCO
+Info:  0.0 30.3    Net $nextpnr_CCU2C_32$CCU2_FCI_INT budget 0.000000 ns (57,6) -> (57,6)
+Info:                Sink $nextpnr_CCU2C_32$CCU2_COMB1.FCI
+Info:  0.0 30.3  Source $nextpnr_CCU2C_32$CCU2_COMB1.FCO
+Info:  0.0 30.3    Net $nextpnr_CCU2C_32$COUT budget 0.000000 ns (57,6) -> (57,6)
+Info:                Sink core.observer.frontend_stall_sample_CCU2C_S0_2$CCU2_COMB0.FCI
+Info:  0.1 30.4  Source core.observer.frontend_stall_sample_CCU2C_S0_2$CCU2_COMB0.FCO
+Info:  0.0 30.4    Net core.observer.frontend_stall_sample_CCU2C_S0_2$CCU2_FCI_INT budget 0.000000 ns (57,6) -> (57,6)
+Info:                Sink core.observer.frontend_stall_sample_CCU2C_S0_2$CCU2_COMB1.FCI
+Info:  0.0 30.4  Source core.observer.frontend_stall_sample_CCU2C_S0_2$CCU2_COMB1.FCO
+Info:  0.0 30.4    Net core.observer.frontend_stall_sample_CCU2C_S0_2_COUT[2] budget 0.000000 ns (57,6) -> (57,6)
+Info:                Sink core.observer.frontend_stall_sample_CCU2C_S0_1$CCU2_COMB0.FCI
+Info:                Defined in:
+Info:                  rtl/pipesense_fpga_top.sv:32.17-54.4
+Info:                  rtl/pipeline_observer.sv:75.34-75.80
+Info:                  rtl/arm_like_core.sv:288.5-304.4
+Info:                  /usr/bin/../share/yosys/ecp5/arith_map.v:65.22-65.25
+Info:  0.4 30.8  Source core.observer.frontend_stall_sample_CCU2C_S0_1$CCU2_COMB0.F
+Info:  1.1 31.9    Net core.observer.frontend_stall_sample[2] budget 0.000000 ns (57,6) -> (57,5)
+Info:                Sink core.observer.load_use_count_TRELLIS_FF_Q_DI_LUT4_Z_A_LUT4_B_Z_LUT4_Z_D_CCU2C_COUT$CCU2_COMB0.B
+Info:                Defined in:
+Info:                  rtl/pipesense_fpga_top.sv:32.17-54.4
+Info:                  rtl/pipeline_observer.sv:60.24-60.45
+Info:                  rtl/arm_like_core.sv:288.5-304.4
+Info:  0.4 32.4  Source core.observer.load_use_count_TRELLIS_FF_Q_DI_LUT4_Z_A_LUT4_B_Z_LUT4_Z_D_CCU2C_COUT$CCU2_COMB0.FCO
+Info:  0.0 32.4    Net core.observer.load_use_count_TRELLIS_FF_Q_DI_LUT4_Z_A_LUT4_B_Z_LUT4_Z_D_CCU2C_COUT$CCU2_FCI_INT budget 0.000000 ns (57,5) -> (57,5)
+Info:                Sink core.observer.load_use_count_TRELLIS_FF_Q_DI_LUT4_Z_A_LUT4_B_Z_LUT4_Z_D_CCU2C_COUT$CCU2_COMB1.FCI
+Info:  0.0 32.4  Source core.observer.load_use_count_TRELLIS_FF_Q_DI_LUT4_Z_A_LUT4_B_Z_LUT4_Z_D_CCU2C_COUT$CCU2_COMB1.FCO
+Info:  0.0 32.4    Net $nextpnr_CCU2C_25$CIN budget 0.000000 ns (57,5) -> (57,5)
+Info:                Sink $nextpnr_CCU2C_25$CCU2_COMB0.FCI
+Info:  0.4 32.8  Source $nextpnr_CCU2C_25$CCU2_COMB0.F
+Info:  1.1 33.9    Net core.observer.load_use_count_TRELLIS_FF_Q_DI_LUT4_Z_A_LUT4_B_Z_LUT4_Z_B[2] budget 24.312000 ns (57,5) -> (56,6)
+Info:                Sink core.observer.load_use_count_TRELLIS_FF_Q_DI_LUT4_Z_A_LUT4_B_Z_LUT4_Z.D
+Info:                Defined in:
+Info:                  rtl/pipesense_fpga_top.sv:32.17-54.4
+Info:                  rtl/pipeline_observer.sv:124.11-124.60
+Info:                  rtl/arm_like_core.sv:288.5-304.4
+Info:                  /usr/bin/../share/yosys/ecp5/arith_map.v:63.22-63.23
+Info:  0.2 34.2  Source core.observer.load_use_count_TRELLIS_FF_Q_DI_LUT4_Z_A_LUT4_B_Z_LUT4_Z.F
+Info:  1.1 35.3    Net core.observer.load_use_count_TRELLIS_FF_Q_DI_LUT4_Z_A_LUT4_B_Z[0] budget 2.452000 ns (56,6) -> (58,7)
+Info:                Sink core.observer.frontend_stall_count_TRELLIS_FF_Q_2_DI_LUT4_Z.B
+Info:                Defined in:
+Info:                  /usr/bin/../share/yosys/ecp5/cells_map.v:108.23-108.24
+Info:  0.2 35.5  Source core.observer.frontend_stall_count_TRELLIS_FF_Q_2_DI_LUT4_Z.F
+Info:  0.1 35.7    Net core.observer.frontend_stall_count_TRELLIS_FF_Q_2_DI budget 2.452000 ns (58,7) -> (58,7)
+Info:                Sink core.observer.frontend_stall_count_TRELLIS_FF_Q_2.DI
+Info:                Defined in:
+Info:                  rtl/pipesense_fpga_top.sv:32.17-54.4
+Info:                  rtl/pipeline_observer.sv:103.3-151.6
+Info:                  rtl/arm_like_core.sv:288.5-304.4
+Info:  0.0 35.7  Setup core.observer.frontend_stall_count_TRELLIS_FF_Q_2.DI
+Info: 9.8 ns logic, 25.9 ns routing
+
+Info: Critical path report for cross-domain path 'posedge $glbnet$clk$TRELLIS_IO_IN' -> '<async>':
+Info: curr total
+Info:  0.5  0.5  Source core.perf.reconfigurations_TRELLIS_FF_Q_28.Q
+Info:  2.3  2.8    Net reconfigurations[3] budget 14.531000 ns (88,2) -> (86,11)
+Info:                Sink debug_data_LUT4_Z_28_A_LUT4_Z.B
+Info:                Defined in:
+Info:                  rtl/pipesense_fpga_top.sv:27.16-27.32
+Info:  0.2  3.0  Source debug_data_LUT4_Z_28_A_LUT4_Z.F
+Info:  0.9  3.9    Net debug_data_LUT4_Z_28_A[3] budget 10.409000 ns (86,11) -> (85,11)
+Info:                Sink debug_data_LUT4_Z_28.D
+Info:                Defined in:
+Info:                  /usr/bin/../share/yosys/ecp5/cells_map.v:108.23-108.24
+Info:  0.2  4.2  Source debug_data_LUT4_Z_28.F
+Info:  8.9 13.0    Net debug_data[3]$TRELLIS_IO_OUT budget 7.807000 ns (85,11) -> (15,95)
+Info:                Sink debug_data[3]$tr_io.I
+Info:                Defined in:
+Info:                  rtl/pipesense_fpga_top.sv:16.28-16.38
+Info: 1.0 ns logic, 12.1 ns routing
+
+Info: Max frequency for clock '$glbnet$clk$TRELLIS_IO_IN': 34.12 MHz (PASS at 25.00 MHz)
+
+Info: Max delay <async>                           -> <async>                          : 18.11 ns
+Info: Max delay <async>                           -> posedge $glbnet$clk$TRELLIS_IO_IN: 35.67 ns
+Info: Max delay posedge $glbnet$clk$TRELLIS_IO_IN -> <async>                          : 13.05 ns
+
+Info: Slack histogram:
+Info:  legend: * represents 74 endpoint(s)
+Info:          + represents [1,74) endpoint(s)
+Info: [  4330,   6063) |+
+Info: [  6063,   7796) |+
+Info: [  7796,   9529) |*+
+Info: [  9529,  11262) |**+
+Info: [ 11262,  12995) |*+
+Info: [ 12995,  14728) |+
+Info: [ 14728,  16461) |*+
+Info: [ 16461,  18194) |***+
+Info: [ 18194,  19927) |+
+Info: [ 19927,  21660) |+
+Info: [ 21660,  23393) |**+
+Info: [ 23393,  25126) |********+
+Info: [ 25126,  26859) |*+
+Info: [ 26859,  28592) |************+
+Info: [ 28592,  30325) |*************************************+
+Info: [ 30325,  32058) |*******************************+
+Info: [ 32058,  33791) |*************+
+Info: [ 33791,  35524) |********************+
+Info: [ 35524,  37257) |************************************************************ 
+Info: [ 37257,  38990) |*********************+
+
+Info: Program finished normally.

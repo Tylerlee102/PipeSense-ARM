@@ -1,0 +1,5 @@
+ablation,label,evidence_type,total_cycles,cycle_change_vs_full_pct,total_energy_proxy_units,energy_change_vs_full_pct,total_transitions,total_reconfig_penalty_cycles,total_safety_faults,total_timeouts
+full_adaptive,Full adaptive PipeSense,measured_simulation,3056,0.00,18055,0.00,12,47,0,0
+observer_disabled,Observer disabled,measured_simulation,3307,8.21,19162,6.13,0,0,0,0
+controller_disabled,Controller disabled,measured_simulation,3307,8.21,19162,6.13,0,0,0,0
+zero_cost_reconfig,Zero-cost reconfiguration idealization,analytical_idealization,3009,-1.54,18055,0.00,12,0,0,0

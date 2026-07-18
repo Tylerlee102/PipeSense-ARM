@@ -22,6 +22,7 @@ SOURCES = [
     ROOT / "rtl" / "forwarding_unit.sv",
     ROOT / "rtl" / "pipeline_observer.sv",
     ROOT / "rtl" / "adaptive_controller.sv",
+    ROOT / "rtl" / "async03_speculation_controller.sv",
     ROOT / "rtl" / "reconfig_unit.sv",
     ROOT / "rtl" / "perf_counters.sv",
     ROOT / "rtl" / "simple_memory.sv",
@@ -94,6 +95,12 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--idle-threshold", type=int, default=None, help="Override idle/low-retire classification threshold.")
     parser.add_argument("--disable-observer", action="store_true", help="Force observer output to PHASE_BALANCED.")
     parser.add_argument("--disable-controller", action="store_true", help="Suppress adaptive controller reconfiguration requests.")
+    parser.add_argument(
+        "--controller-policy",
+        choices=("pipesense", "async03"),
+        default="pipesense",
+        help="Select the PipeSense controller or the documented ASYNC'03 approximation.",
+    )
     parser.add_argument("--tag", default="", help="Optional suffix for the simulator log name.")
     parser.add_argument("--iverilog", default=os.environ.get("IVERILOG", ""), help="Path to iverilog executable.")
     parser.add_argument("--vvp", default=os.environ.get("VVP", ""), help="Path to vvp executable.")
@@ -165,6 +172,8 @@ def main() -> int:
         compile_cmd.append("-DPIPESENSE_DISABLE_OBSERVER")
     if args.disable_controller:
         compile_cmd.append("-DPIPESENSE_DISABLE_CONTROLLER")
+    if args.controller_policy == "async03":
+        compile_cmd.append("-DPIPESENSE_ASYNC03_BASELINE")
     compile_cmd.extend(str(source) for source in SOURCES)
     if msys_bash:
         compile_proc = run_msys(msys_bash, compile_cmd, ROOT)

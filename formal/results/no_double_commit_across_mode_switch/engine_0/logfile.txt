@@ -1,4 +1,4 @@
-##   0:00:00  Solver: yices
+##   0:00:00  Solver: cvc4
 ##   0:00:00  Checking assumptions in step 0..
 ##   0:00:00  Checking assertions in step 0..
 ##   0:00:00  Checking assumptions in step 1..
@@ -21,14 +21,11 @@
 ##   0:00:00  Checking assertions in step 9..
 ##   0:00:00  Checking assumptions in step 10..
 ##   0:00:00  Checking assertions in step 10..
-##   0:00:00  Checking assumptions in step 11..
-##   0:00:00  Checking assertions in step 11..
-##   0:00:00  Checking assumptions in step 12..
-##   0:00:00  Checking assertions in step 12..
-##   0:00:00  Checking assumptions in step 13..
-##   0:00:00  Checking assertions in step 13..
-##   0:00:00  Checking assumptions in step 14..
-##   0:00:00  Checking assertions in step 14..
-##   0:00:00  Checking assumptions in step 15..
-##   0:00:00  Checking assertions in step 15..
-##   0:00:00  Status: passed
+##   0:00:02  Checking assumptions in step 11..
+##   0:00:02  Checking assertions in step 11..
+##   0:00:11  Checking assumptions in step 12..
+##   0:00:11  Checking assertions in step 12..
+##   0:00:41  Checking assumptions in step 13..
+##   0:00:41  Checking assertions in step 13..
+##   0:01:41  waiting for solver (1 minute)
+##   0:02:06  Status: passed

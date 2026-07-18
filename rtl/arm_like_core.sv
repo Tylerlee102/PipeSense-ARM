@@ -9,6 +9,11 @@
 `ifndef PIPESENSE_MIN_MODE_RESIDENCY
 `define PIPESENSE_MIN_MODE_RESIDENCY 8
 `endif
+`ifdef PIPESENSE_ASYNC03_BASELINE
+`define PIPESENSE_CONTROLLER_POLICY_VALUE 1
+`else
+`define PIPESENSE_CONTROLLER_POLICY_VALUE 0
+`endif
 `ifndef PIPESENSE_OBS_BRANCH_THRESHOLD
 `define PIPESENSE_OBS_BRANCH_THRESHOLD 8
 `endif
@@ -48,12 +53,17 @@ module arm_like_core #(
   parameter int OBS_FRONTEND_STALL_THRESHOLD = `PIPESENSE_OBS_FRONTEND_STALL_THRESHOLD,
   parameter int OBS_IDLE_RETIRE_THRESHOLD = `PIPESENSE_OBS_IDLE_RETIRE_THRESHOLD,
   parameter int DISABLE_OBSERVER = `PIPESENSE_DISABLE_OBSERVER_VALUE,
-  parameter int DISABLE_CONTROLLER = `PIPESENSE_DISABLE_CONTROLLER_VALUE
+  parameter int DISABLE_CONTROLLER = `PIPESENSE_DISABLE_CONTROLLER_VALUE,
+  parameter int CONTROLLER_POLICY = `PIPESENSE_CONTROLLER_POLICY_VALUE
 ) (
   input  logic             clk,
   input  logic             rst_n,
   input  logic             adaptive_enable,
   input  pipesense_mode_e  fixed_mode,
+  input  logic             program_write_en,
+  input  logic             program_select_dmem,
+  input  logic [PC_WIDTH-1:0] program_addr,
+  input  logic [31:0]      program_wdata,
   output pipesense_mode_e  current_mode,
   output pipesense_phase_e observed_phase,
   output logic             halted,
@@ -120,6 +130,9 @@ module arm_like_core #(
 
   logic [31:0] imem_rdata;
   logic [31:0] dmem_rdata;
+  logic program_write_active;
+  logic [PC_WIDTH-1:0] imem_addr;
+  logic [PC_WIDTH-1:0] dmem_port_addr;
   logic dmem_wait_request;
   logic dmem_read_en;
   logic dmem_write_en;
@@ -165,6 +178,8 @@ module arm_like_core #(
   pipesense_mode_e requested_mode;
   logic controller_reconfig_request;
   pipesense_mode_e controller_requested_mode;
+  logic async03_reconfig_request;
+  pipesense_mode_e async03_requested_mode;
   pipesense_mode_e reconfig_latched_mode;
   logic reconfig_active;
   logic reconfig_done;
@@ -192,6 +207,7 @@ module arm_like_core #(
   logic retire_seen;
   pipesense_phase_e observer_phase;
   pipesense_mode_e prev_current_mode;
+  logic safety_history_valid;
   logic safety_bad_mode_change;
   logic safety_bad_reconfig_done;
   logic safety_bad_fetch_gate;
@@ -205,10 +221,11 @@ module arm_like_core #(
   ) imem (
     .clk(clk),
     .read_en(1'b1),
-    .write_en(1'b0),
+    .write_en(program_write_active && !program_select_dmem),
+    .wait_access(1'b0),
     .mitigate_wait(1'b1),
-    .addr(pc),
-    .wdata(32'b0),
+    .addr(imem_addr),
+    .wdata(program_wdata),
     .rdata(imem_rdata),
     .wait_request()
   );
@@ -220,10 +237,11 @@ module arm_like_core #(
   ) dmem (
     .clk(clk),
     .read_en(dmem_read_en),
-    .write_en(dmem_write_en),
+    .write_en(dmem_write_en || (program_write_active && program_select_dmem)),
+    .wait_access(ex_mem_valid && (ex_mem_mem_read || ex_mem_mem_write)),
     .mitigate_wait(current_mode == MODE_MEMORY_OPT),
-    .addr(dmem_addr),
-    .wdata(dmem_wdata),
+    .addr(dmem_port_addr),
+    .wdata((program_write_active && program_select_dmem) ? program_wdata : dmem_wdata),
     .rdata(dmem_rdata),
     .wait_request(dmem_wait_request)
   );
@@ -303,8 +321,26 @@ module arm_like_core #(
     .requested_mode(controller_requested_mode)
   );
 
-  assign reconfig_request = (DISABLE_CONTROLLER != 0) ? 1'b0 : controller_reconfig_request;
-  assign requested_mode = (DISABLE_CONTROLLER != 0) ? current_mode : controller_requested_mode;
+  async03_speculation_controller async03_controller (
+    .clk(clk),
+    .rst_n(rst_n),
+    .adaptive_enable(adaptive_enable),
+    .condition_setting_detected(if_id_valid && (id_opcode == OP_CMP) &&
+                                !hazard_stall_id && !mem_wait_signal),
+    .branch_detected(id_is_branch && !hazard_stall_id && !mem_wait_signal),
+    .current_mode(current_mode),
+    .reconfig_ack(reconfig_done),
+    .reconfig_active(reconfig_active),
+    .reconfig_request(async03_reconfig_request),
+    .requested_mode(async03_requested_mode)
+  );
+
+  assign reconfig_request = (DISABLE_CONTROLLER != 0) ? 1'b0 :
+                            ((CONTROLLER_POLICY == 1) ? async03_reconfig_request :
+                                                       controller_reconfig_request);
+  assign requested_mode = (DISABLE_CONTROLLER != 0) ? current_mode :
+                          ((CONTROLLER_POLICY == 1) ? async03_requested_mode :
+                                                     controller_requested_mode);
 
   reconfig_unit reconfig (
     .clk(clk),
@@ -357,6 +393,9 @@ module arm_like_core #(
 
   assign dmem_addr     = ex_mem_alu_result[PC_WIDTH-1:0];
   assign dmem_wdata    = ex_mem_store_data;
+  assign program_write_active = program_write_en && !rst_n;
+  assign imem_addr = (program_write_active && !program_select_dmem) ? program_addr : pc;
+  assign dmem_port_addr = (program_write_active && program_select_dmem) ? program_addr : dmem_addr;
   assign dmem_read_en  = ex_mem_valid && (ex_mem_mem_read || ex_mem_mem_write);
   assign dmem_write_en = ex_mem_valid && ex_mem_mem_write && !mem_wait_signal;
 
@@ -441,7 +480,8 @@ module arm_like_core #(
   assign instruction_retired = mem_wb_valid &&
                                (mem_wb_opcode != OP_NOP) &&
                                (mem_wb_opcode != OP_HALT);
-  assign safety_bad_mode_change = (current_mode != prev_current_mode) &&
+  assign safety_bad_mode_change = safety_history_valid &&
+                                  (current_mode != prev_current_mode) &&
                                   !(pipeline_empty && !mem_wait_signal);
   assign safety_bad_reconfig_done = reconfig_done &&
                                     !(pipeline_empty && !mem_wait_signal);
@@ -556,7 +596,8 @@ module arm_like_core #(
       mem_wb_tag                 <= 32'd0;
       last_retired_tag           <= 32'd0;
       retire_seen                <= 1'b0;
-      prev_current_mode          <= fixed_mode;
+      prev_current_mode          <= MODE_NORMAL;
+      safety_history_valid       <= 1'b0;
       safety_faults              <= 32'd0;
 
       for (i = 0; i < REG_COUNT; i++) begin
@@ -565,6 +606,7 @@ module arm_like_core #(
     end else begin
       regfile[0] <= 32'b0;
       prev_current_mode <= current_mode;
+      safety_history_valid <= 1'b1;
       safety_faults <= safety_faults + safety_fault_increment;
 
       if (mem_wb_valid && mem_wb_reg_write && (mem_wb_rd != 4'd0)) begin

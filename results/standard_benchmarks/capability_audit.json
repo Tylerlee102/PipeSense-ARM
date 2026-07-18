@@ -1,0 +1,84 @@
+{
+  "hardware_facts": {
+    "implemented_operations": [
+      "OP_NOP",
+      "OP_ADD",
+      "OP_SUB",
+      "OP_AND",
+      "OP_ORR",
+      "OP_EOR",
+      "OP_LDR",
+      "OP_STR",
+      "OP_B",
+      "OP_CMP",
+      "OP_HALT"
+    ],
+    "operation_count": 11,
+    "pc_width_bits": 8,
+    "imem_words": 256,
+    "dmem_words": 256,
+    "word_bits": 32,
+    "c_compiler": "unavailable",
+    "compiler_version": "unavailable",
+    "compiler_flags": "unavailable",
+    "assembler": "unavailable",
+    "linker": "unavailable",
+    "abi_runtime": "unavailable",
+    "memory_initialization": "Synthesis: reset-time program_write_en interface in pipesense_fpga_top; simulation: SystemVerilog hierarchical load tasks",
+    "loader_interface_present": true
+  },
+  "benchmarks": [
+    {
+      "benchmark": "CoreMark",
+      "version": "1.0",
+      "source": "https://github.com/eembc/coremark",
+      "input_configuration": "official validation configuration; >=2000 timed iterations requested",
+      "status": "blocked_not_run",
+      "actual_standard_source_executed": "no",
+      "compiler_version": "unavailable",
+      "compiler_flags": "unavailable",
+      "iterations": "not run",
+      "raw_result": "unavailable",
+      "reason": "No compatible C toolchain, ABI/runtime, or sufficient ISA support"
+    },
+    {
+      "benchmark": "Dhrystone",
+      "version": "2.1",
+      "source": "https://www.netlib.org/benchmark/dhry-c",
+      "input_configuration": "full version 2.1 source; timed iteration count not selected",
+      "status": "blocked_not_run",
+      "actual_standard_source_executed": "no",
+      "compiler_version": "unavailable",
+      "compiler_flags": "unavailable",
+      "iterations": "not run",
+      "raw_result": "unavailable",
+      "reason": "No compatible C toolchain, ABI/runtime, or sufficient ISA support"
+    },
+    {
+      "benchmark": "Embench",
+      "version": "not integrated",
+      "source": "https://github.com/embench/embench-iot",
+      "input_configuration": "not run",
+      "status": "blocked_not_run",
+      "actual_standard_source_executed": "no",
+      "compiler_version": "unavailable",
+      "compiler_flags": "unavailable",
+      "iterations": "not run",
+      "raw_result": "unavailable",
+      "reason": "No compatible C toolchain, ABI/runtime, or sufficient ISA support"
+    },
+    {
+      "benchmark": "MiBench",
+      "version": "not integrated",
+      "source": "https://vhosts.eecs.umich.edu/mibench/",
+      "input_configuration": "not run",
+      "status": "blocked_not_run",
+      "actual_standard_source_executed": "no",
+      "compiler_version": "unavailable",
+      "compiler_flags": "unavailable",
+      "iterations": "not run",
+      "raw_result": "unavailable",
+      "reason": "No compatible C toolchain, ABI/runtime, or sufficient ISA support"
+    }
+  ]
+}

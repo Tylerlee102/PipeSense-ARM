@@ -1,0 +1,14 @@
+bench,static_normal_cycles,fixed_branch_cycles,fixed_memory_cycles,fixed_hazard_cycles,fixed_low_power_cycles,oracle_mode,oracle_cycles,pipesense_cycles,async03_approx_cycles,pipesense_energy_proxy,async03_approx_energy_proxy,pipesense_transitions,async03_approx_transitions,pipesense_faults,async03_approx_faults,pipesense_timeouts,async03_approx_timeouts
+arithmetic_heavy,30,30,30,29,30,fixed_hazard,29,30,30,176,176,0,0,0,0,0,0
+branch_heavy,128,105,128,127,128,fixed_branch,105,114,312,633,722,1,47,0,0,0,0
+coremark_toy,162,151,154,150,162,fixed_hazard,150,162,255,957,932,0,24,0,0,0,0
+dhrystone_toy,133,124,131,133,133,fixed_branch,124,133,205,825,841,0,19,0,0,0,0
+dsp_fir_codegen,192,185,170,168,192,fixed_hazard,168,194,241,1102,1073,2,15,0,0,0,0
+load_use_heavy,205,188,205,169,205,fixed_hazard,169,178,341,1039,1123,1,35,0,0,0,0
+long_fir_stress,876,829,778,780,876,fixed_memory,778,792,1205,4709,4917,1,95,0,0,0,0
+memory_heavy,231,218,147,217,231,fixed_memory,147,162,322,901,1060,1,27,0,0,0,0
+mixed_control,131,120,105,131,131,fixed_memory,105,127,219,730,767,1,23,0,0,0,0
+pid_control_codegen,192,181,178,180,192,fixed_memory,178,188,280,1127,1130,1,23,0,0,0,0
+pid_phase_stress,653,614,611,613,653,fixed_memory,611,620,965,3861,3927,1,79,0,0,0,0
+random_mem_latency_stress,215,204,189,191,215,fixed_memory,189,204,292,1165,1190,1,23,0,0,0,0
+tiny_fir,159,152,127,143,159,fixed_memory,127,152,208,830,874,2,15,0,0,0,0

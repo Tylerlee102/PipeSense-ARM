@@ -1,0 +1,45 @@
+{
+  "generated_utc": "2026-07-18T07:33:22.738606+00:00",
+  "published_source": {
+    "authors": "A. Efthymiou and J. D. Garside",
+    "title": "Adaptive Pipeline Structures for Speculation Control",
+    "venue": "ASYNC 2003",
+    "doi": "10.1109/ASYNC.2003.1199165"
+  },
+  "implementation_scope": "architectural control-policy approximation; not an AMULET3 reproduction",
+  "directed_workloads": [
+    "arithmetic_heavy",
+    "branch_heavy",
+    "coremark_toy",
+    "dhrystone_toy",
+    "dsp_fir_codegen",
+    "load_use_heavy",
+    "long_fir_stress",
+    "memory_heavy",
+    "mixed_control",
+    "pid_control_codegen",
+    "pid_phase_stress",
+    "random_mem_latency_stress",
+    "tiny_fir"
+  ],
+  "directed_command": [
+    "python3",
+    "scripts/run_adaptive_baseline.py",
+    "--seeds",
+    "500"
+  ],
+  "pipesense_policy": "adaptive PipeSense observer/controller with safe drain-before-switch",
+  "comparison_policy": "CMP requests low-power; next branch requests normal; same safe drain and mode costs",
+  "random_seed_range": "1..500",
+  "shared_constraints": [
+    "same RTL core, memories, workload programs, and mode timing model",
+    "same directed workloads and random instruction streams",
+    "same random seeds and simulation timeout",
+    "same activity-energy proxy and transition counters"
+  ],
+  "warnings": [
+    "The comparison is an architectural approximation, not a reproduction of asynchronous collapsible latches.",
+    "All workload results are RTL simulation.",
+    "Energy is an activity proxy in arbitrary units, not measured power or physical energy."
+  ]
+}

@@ -1,4 +1,4 @@
-# running in formal\results\no_double_commit_across_mode_switch\model/
+# running in /workspace/formal/results/no_double_commit_across_mode_switch/model/
 read_rtlil design.il
 scc -select; simplemap; select -clear
 memory_nordff

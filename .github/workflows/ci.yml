@@ -46,6 +46,14 @@ jobs:
         run: |
           python scripts/run_ablations.py
 
+      - name: Audit standard benchmark capability
+        run: |
+          python scripts/audit_standard_benchmarks.py
+
+      - name: Run published-policy adaptive baseline
+        run: |
+          python scripts/run_adaptive_baseline.py --seeds 500
+
       - name: Run generic synthesis proxy
         run: |
           python scripts/synth_area_report.py
@@ -53,6 +61,15 @@ jobs:
       - name: Build pinned formal toolchain image
         run: |
           docker build --tag pipesense-arm .
+
+      - name: Run complete-design ECP5 place and route
+        run: |
+          docker run --rm -v "$PWD:/workspace" -w /workspace pipesense-arm python3 scripts/run_post_synth.py
+
+      - name: Generate and validate publication evidence
+        run: |
+          python scripts/generate_publication_evidence.py
+          python scripts/validate_publication_evidence.py
 
       - name: Prove bounded reconfiguration safety
         run: |

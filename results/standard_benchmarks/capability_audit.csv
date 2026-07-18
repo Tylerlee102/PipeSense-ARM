@@ -1,0 +1,5 @@
+benchmark,version,source,input_configuration,status,actual_standard_source_executed,compiler_version,compiler_flags,iterations,raw_result,reason
+CoreMark,1.0,https://github.com/eembc/coremark,official validation configuration; >=2000 timed iterations requested,blocked_not_run,no,unavailable,unavailable,not run,unavailable,"No compatible C toolchain, ABI/runtime, or sufficient ISA support"
+Dhrystone,2.1,https://www.netlib.org/benchmark/dhry-c,full version 2.1 source; timed iteration count not selected,blocked_not_run,no,unavailable,unavailable,not run,unavailable,"No compatible C toolchain, ABI/runtime, or sufficient ISA support"
+Embench,not integrated,https://github.com/embench/embench-iot,not run,blocked_not_run,no,unavailable,unavailable,not run,unavailable,"No compatible C toolchain, ABI/runtime, or sufficient ISA support"
+MiBench,not integrated,https://vhosts.eecs.umich.edu/mibench/,not run,blocked_not_run,no,unavailable,unavailable,not run,unavailable,"No compatible C toolchain, ABI/runtime, or sufficient ISA support"

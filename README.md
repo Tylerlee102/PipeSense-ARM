@@ -222,6 +222,10 @@ Simulation and analysis create:
 - `results/safety/fuzz_summary.csv`: constrained-random safety regression results by seed and mode.
 - `results/safety/fuzz_coverage.csv`: phase, transition, and interaction coverage counters by seed.
 - `results/synth/area_summary.csv`: common-shell Yosys generic-cell summary using the production adaptive RTL.
+- `results/post_synth/`: raw and parsed complete-design LFE5U-85F Yosys/nextpnr timing and utilization evidence; power is unavailable.
+- `results/adaptive_baseline/`: directed and 500-seed ASYNC'03 policy-approximation results and paired comparisons.
+- `results/standard_benchmarks/`: machine-readable record that full standard benchmarks are blocked and were not run.
+- `results/publication/`: complete sweep/ablation CSVs, source hashes, validation log, and PNG/PDF figures.
 - `results/hardware_cost_estimate.csv`: analytical first-order observer/controller/reconfiguration cost estimate.
 - `results/reference_model.csv`: sequential ISA golden-model outcomes for every benchmark.
 - `results/benchmark_disassembly.txt`: disassembly of the benchmark programs used by the reference model.
@@ -242,7 +246,7 @@ PipeSense-ARM demonstrates a hardware-native adaptive control loop for a small e
 The current novelty claim should stay scoped: this is a hardware-control
 research scaffold that combines known ideas in a small, inspectable pipeline.
 A stronger publication still needs full compiler-generated embedded benchmark ports,
-deeper full-core formal proof, and calibrated timing/power evidence before
+deeper full-core formal proof, and calibrated power evidence before
 claiming a broadly new processor technique.
 
 ## Simplifications
@@ -255,7 +259,7 @@ claiming a broadly new processor technique.
 - The energy number is an activity proxy, not a physical power estimate.
 - The observer uses threshold logic; no machine learning is implemented.
 - The benchmark suite is mostly synthetic and phase-biased, with Dhrystone/CoreMark-style toy ports, generated-style DSP/control kernels, and three longer stress workloads.
-- The Yosys flow is a generic-cell area proxy, not a calibrated physical implementation.
+- The common-shell Yosys flow is a generic-cell area proxy. A separate complete ECP5 place-and-route reports target-specific timing and utilization, but no power.
 - Safety monitoring uses simulation-time tags and assertions; a minimal synthesized design would remove the tags or prove equivalent properties formally.
 
 ## Files
@@ -267,7 +271,7 @@ scripts/ Simulation, CSV analysis, and plotting helpers
 docs/    Research framing, methodology, and reproducibility notes
 formal/  Optional formal/assertion scaffolding for reconfiguration safety
 verif/   Safety assertion monitors, coverage counters, and fuzz regression tools
-synth/   Yosys generic synthesis scaffold and cell-mapping note
+synth/   Generic proxy and complete-design ECP5 synthesis recipes
 tests/   Parser fixture used by the artifact checker
 ```
 
@@ -283,4 +287,6 @@ tests/   Parser fixture used by the artifact checker
 - [x] Run the window, threshold, and residency sweep with `scripts/run_sweep.py`.
 - [x] Run the constrained-random safety regression with `verif/fuzz_runner.py`.
 - [x] Run the Yosys area proxy with `scripts/synth_area_report.py`.
+- [x] Run complete-design ECP5 place-and-route with `scripts/run_post_synth.py`.
+- [x] Generate and validate publication figures with `scripts/generate_publication_evidence.py` and `scripts/validate_publication_evidence.py`.
 - [x] Keep the evidence, limitations, and related-work framing current as the verification and workload story evolves.

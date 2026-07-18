@@ -46,6 +46,11 @@ def main() -> int:
     sweep_compare = load_csv("sweep_adaptive_vs_fixed.csv")
     ablations = load_csv("ablation_summary.csv")
     area = load_csv("synth/area_summary.csv")
+    standard = load_csv("standard_benchmarks/capability_audit.csv")
+    baseline_directed = load_csv("adaptive_baseline/directed_comparison.csv")
+    baseline_fuzz = load_csv("adaptive_baseline/fuzz_comparison.csv")
+    post_synth = load_csv("post_synth/summary.csv")
+    publication_sweep = load_csv("publication/sweep_configuration_summary.csv")
 
     benches = {row["bench"] for row in raw}
     modes = {row["mode"] for row in raw}
@@ -203,6 +208,82 @@ def main() -> int:
         errors,
     )
 
+    standard_executed = sum(row["actual_standard_source_executed"] == "yes" for row in standard)
+    standard_blocked = sum(row["status"] == "blocked_not_run" for row in standard)
+    require(
+        summary,
+        f"- Standard benchmarks: {standard_executed} actual suites executed; {standard_blocked} entries blocked and explicitly marked not run.",
+        errors,
+    )
+
+    def total(rows: list[dict[str, str]], field: str) -> int:
+        return sum(int(row[field]) for row in rows)
+
+    require(
+        summary,
+        "- ASYNC'03 approximation, directed: "
+        f"{total(baseline_directed, 'pipesense_cycles'):,} PipeSense cycles vs "
+        f"{total(baseline_directed, 'async03_approx_cycles'):,} approximation cycles; "
+        f"{total(baseline_directed, 'pipesense_energy_proxy'):,} vs "
+        f"{total(baseline_directed, 'async03_approx_energy_proxy'):,} activity-energy proxy units; "
+        f"{total(baseline_directed, 'pipesense_transitions'):,} vs "
+        f"{total(baseline_directed, 'async03_approx_transitions'):,} transitions.",
+        errors,
+    )
+    baseline_faults = total(baseline_fuzz, "pipesense_faults") + total(baseline_fuzz, "async03_approx_faults")
+    baseline_timeouts = total(baseline_fuzz, "pipesense_timeouts") + total(baseline_fuzz, "async03_approx_timeouts")
+    require(
+        summary,
+        f"- ASYNC'03 approximation, {len(baseline_fuzz)} identical seeds: "
+        f"{total(baseline_fuzz, 'pipesense_cycles'):,} PipeSense cycles vs "
+        f"{total(baseline_fuzz, 'async03_approx_cycles'):,} approximation cycles; "
+        f"{total(baseline_fuzz, 'pipesense_energy_proxy'):,} vs "
+        f"{total(baseline_fuzz, 'async03_approx_energy_proxy'):,} activity-energy proxy units; "
+        f"{total(baseline_fuzz, 'pipesense_transitions'):,} vs "
+        f"{total(baseline_fuzz, 'async03_approx_transitions'):,} transitions; "
+        f"{baseline_faults} faults and {baseline_timeouts} timeouts for both.",
+        errors,
+    )
+
+    pnr = post_synth[0]
+    require(
+        summary,
+        "- Complete-design ECP5 place-and-route: "
+        f"{pnr['target_part']}-{pnr['speed_grade']} {pnr['package']}, "
+        f"{float(pnr['clock_constraint_mhz']):.3f} MHz constraint, "
+        f"{float(pnr['achieved_frequency_mhz']):.3f} MHz achieved, "
+        f"{float(pnr['worst_slack_ns']):+.3f} ns worst setup slack.",
+        errors,
+    )
+    require(
+        summary,
+        "- Complete-design ECP5 utilization: "
+        f"{int(pnr['trellis_comb_used']):,}/{int(pnr['trellis_comb_available']):,} TRELLIS_COMB, "
+        f"{int(pnr['dffs_used']):,}/{int(pnr['dffs_available']):,} TRELLIS_FF, "
+        f"{int(pnr['distributed_ram_write_ports_used']):,}/{int(pnr['distributed_ram_write_ports_available']):,} TRELLIS_RAMW, "
+        f"{int(pnr['block_ram_used']):,}/{int(pnr['block_ram_available']):,} DP16KD, and "
+        f"{int(pnr['io_used']):,}/{int(pnr['io_available']):,} I/O.",
+        errors,
+    )
+    require(
+        summary,
+        f"- Complete-design ECP5 power: {pnr['power']}; no characterized device power model or switching-activity trace was used.",
+        errors,
+    )
+
+    publication_failed = sum(int(row["run_return_code"]) != 0 for row in publication_sweep)
+    publication_unique = len({row["sweep_tag"] for row in publication_sweep})
+    require(
+        summary,
+        f"- Publication sweep evidence: exactly {publication_unique} unique configurations, "
+        f"{publication_failed} failed configurations, and 0 summary-to-raw mismatches.",
+        errors,
+    )
+
+    forbidden_stale_claims = ["Paper check", "Paper preview", "exactly 5 generated pages"]
+    for claim in forbidden_stale_claims:
+        if claim in summary:
+            errors.append(f"Stale manuscript claim remains in results summary: {claim}")
     for error in errors:
         print(f"FAIL {error}")
     if errors:

@@ -11,6 +11,7 @@ RUN apt-get update && \
       python3-pip \
       iverilog \
       yosys \
+      nextpnr-ecp5 \
       z3 \
       cvc4 && \
     rm -rf /var/lib/apt/lists/*
