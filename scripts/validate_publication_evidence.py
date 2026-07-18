@@ -4,10 +4,11 @@
 from __future__ import annotations
 
 import csv
-import hashlib
 import json
 from collections import Counter, defaultdict
 from pathlib import Path
+
+from evidence_hash import canonical_sha256
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -286,11 +287,11 @@ def validate_manifest_and_figures() -> None:
     manifest = load(OUT / "source_manifest.csv", {"path", "sha256", "role"})
     for row in manifest:
         path = ROOT / row["path"]
-        digest = hashlib.sha256(path.read_bytes()).hexdigest() if path.exists() else "missing"
+        digest = canonical_sha256(path) if path.exists() else "missing"
         if digest != row["sha256"]:
             fail(f"source hash mismatch: {row['path']}")
     if manifest and not any("source hash mismatch" in error for error in ERRORS):
-        note("plot/table source hashes match committed source CSV bytes")
+        note("plot/table source hashes match canonical committed CSV content")
     for name in ("sweep_evidence.png", "sweep_evidence.pdf", "ablation_evidence.png", "ablation_evidence.pdf"):
         path = OUT / name
         if not path.exists() or path.stat().st_size < 1000:
@@ -323,8 +324,8 @@ def main() -> int:
     validate_manifest_and_figures()
     lines = MESSAGES + ERRORS + [
         f"SUMMARY pass_checks={len(MESSAGES)} failures={len(ERRORS)}",
-        "FAILED_CONFIGURATIONS none" if not any("failed sweep configurations:" in error for error in ERRORS)
-        else "FAILED_CONFIGURATIONS present",
+        "CONFIGURATION_FAILURES none" if not any("failed sweep configurations:" in error for error in ERRORS)
+        else "CONFIGURATION_FAILURES present",
     ]
     text = "\n".join(lines) + "\n"
     (OUT / "validation.txt").write_text(text, encoding="utf-8")

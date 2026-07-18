@@ -4,7 +4,6 @@
 from __future__ import annotations
 
 import csv
-import hashlib
 from collections import defaultdict
 from pathlib import Path
 
@@ -12,6 +11,8 @@ import matplotlib
 
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt  # noqa: E402
+
+from evidence_hash import canonical_sha256
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -332,7 +333,7 @@ def write_manifest() -> None:
         rows.append(
             {
                 "path": path.relative_to(ROOT).as_posix(),
-                "sha256": hashlib.sha256(path.read_bytes()).hexdigest(),
+                "sha256": canonical_sha256(path),
                 "role": "committed_source_csv",
             }
         )

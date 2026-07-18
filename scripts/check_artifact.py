@@ -44,6 +44,7 @@ REQUIRED_FILES = [
     "scripts/audit_standard_benchmarks.py",
     "scripts/generate_publication_evidence.py",
     "scripts/validate_publication_evidence.py",
+    "scripts/evidence_hash.py",
     "scripts/estimate_hardware_cost.py",
     "scripts/audit_requirements.py",
     "scripts/lint_sv.py",
@@ -80,6 +81,7 @@ REQUIRED_FILES = [
     "synth/yosys_area_proxy.v",
     "synth/generic_cells.lib_or_note.md",
     "synth/production_ecp5.ys",
+    "tests/test_csv_hash.py",
 ]
 
 PYTHON_FILES = [
@@ -98,6 +100,7 @@ PYTHON_FILES = [
     "scripts/audit_standard_benchmarks.py",
     "scripts/generate_publication_evidence.py",
     "scripts/validate_publication_evidence.py",
+    "scripts/evidence_hash.py",
     "scripts/estimate_hardware_cost.py",
     "scripts/audit_requirements.py",
     "scripts/lint_sv.py",
@@ -106,6 +109,7 @@ PYTHON_FILES = [
     "scripts/check_results_summary.py",
     "verif/random_seq_gen.py",
     "verif/fuzz_runner.py",
+    "tests/test_csv_hash.py",
 ]
 
 
@@ -168,6 +172,19 @@ def check_ascii() -> None:
 def check_python_compile() -> None:
     for rel in PYTHON_FILES:
         py_compile.compile(str(ROOT / rel), doraise=True)
+
+
+def check_csv_hash_line_endings() -> None:
+    proc = subprocess.run(
+        [str(PYTHON), "-m", "unittest", "discover", "-s", "tests", "-p", "test_*.py"],
+        cwd=ROOT,
+        text=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.STDOUT,
+        check=False,
+    )
+    if proc.returncode != 0:
+        fail("Canonical CSV hash regression failed:\n" + proc.stdout)
 
 
 def check_sv_contracts() -> None:
@@ -434,6 +451,7 @@ def main() -> int:
         ("required files", check_required_files),
         ("ASCII", check_ascii),
         ("Python syntax", check_python_compile),
+        ("canonical CSV hashing", check_csv_hash_line_endings),
         ("SystemVerilog contracts", check_sv_contracts),
         ("requirements audit", check_requirements_audit),
         ("benchmark parity", check_benchmark_parity),

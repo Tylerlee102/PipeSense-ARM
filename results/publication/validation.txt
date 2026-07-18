@@ -28,7 +28,7 @@ PASS complete-design post-synthesis passed; power is explicitly unavailable
 PASS schema and required values: results\standard_benchmarks\capability_audit.csv (4 rows)
 PASS standard benchmark audit contains no fabricated execution result
 PASS schema and required values: results\publication\source_manifest.csv (5 rows)
-PASS plot/table source hashes match committed source CSV bytes
+PASS plot/table source hashes match canonical committed CSV content
 PASS rendered figure exists: sweep_evidence.png (257017 bytes)
 PASS rendered figure exists: sweep_evidence.pdf (23746 bytes)
 PASS rendered figure exists: ablation_evidence.png (90882 bytes)
@@ -38,4 +38,4 @@ PASS generated LaTeX table exists: generated_ablation_table.tex
 PASS generated LaTeX table exists: generated_sweep_table.tex
 PASS all manuscript data tables are included from generated LaTeX
 SUMMARY pass_checks=39 failures=0
-FAILED_CONFIGURATIONS none
+CONFIGURATION_FAILURES none

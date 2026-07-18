@@ -66,6 +66,10 @@ jobs:
         run: |
           docker run --rm -v "$PWD:/workspace" -w /workspace pipesense-arm python3 scripts/run_post_synth.py
 
+      - name: Run publication evidence unit tests
+        run: |
+          python3 -m unittest discover -s tests -p "test_*.py"
+
       - name: Generate and validate publication evidence
         run: |
           python scripts/generate_publication_evidence.py
