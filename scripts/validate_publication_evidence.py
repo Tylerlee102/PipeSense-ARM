@@ -297,12 +297,23 @@ def validate_manifest_and_figures() -> None:
             fail(f"missing or empty rendered figure: {name}")
         else:
             note(f"rendered figure exists: {name} ({path.stat().st_size} bytes)")
-    for name in ("generated_sweep_table.tex", "generated_ablation_table.tex"):
+    generated_tables = (
+        "generated_performance_table.tex",
+        "generated_ablation_table.tex",
+        "generated_sweep_table.tex",
+    )
+    for name in generated_tables:
         path = ROOT / "paper" / name
         if not path.exists() or path.stat().st_size < 100:
             fail(f"missing generated LaTeX table: {name}")
         else:
             note(f"generated LaTeX table exists: {name}")
+    paper = (ROOT / "paper" / "pipesense_urtc_5page.tex").read_text(encoding="utf-8")
+    missing_inputs = [name for name in generated_tables if f"\\input{{{Path(name).stem}}}" not in paper]
+    if missing_inputs:
+        fail(f"manuscript does not input generated data table(s): {missing_inputs}")
+    else:
+        note("all manuscript data tables are included from generated LaTeX")
 
 
 def main() -> int:

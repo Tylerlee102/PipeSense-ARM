@@ -20,11 +20,12 @@ The publication generator reads only these committed source CSVs:
 - `results/sweep_results.csv`
 - `results/ablation_summary.csv`
 - `results/ablations/full_adaptive/pipesense_results.csv`
+- `results/pipesense_results.csv`
 
 Their SHA-256 values are recorded in
 `results/publication/source_manifest.csv`. The generator writes the complete
 27-configuration sweep CSV, a complete four-row ablation CSV, PNG/PDF figures,
-and the LaTeX tables used by the manuscript. The validator checks schemas,
+and all three data-backed LaTeX tables used by the manuscript. The validator checks schemas,
 required values, duplicate keys, configuration counts, failed runs, IPC/CPI
 units, raw-to-summary reconciliation, source hashes, baseline seed parity,
 post-synthesis status, and rendered outputs.

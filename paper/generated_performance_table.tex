@@ -1,0 +1,27 @@
+\begin{table}[t]
+\centering
+\caption{Adaptive cycle results. Oracle gap is relative to the best fixed mode; the final oracle entry is the mean of per-workload gaps.}
+\label{tab:performance}
+\footnotesize
+\begin{tabular}{lrrrr}
+\toprule
+Workload & Normal & Adapt. & Red. (\%) & Oracle (\%) \\
+\midrule
+Arithmetic & 30 & 30 & 0.00 & -3.45 \\
+Branch & 128 & 114 & 10.94 & -8.57 \\
+CoreMark-toy & 162 & 162 & 0.00 & -8.00 \\
+Dhrystone-toy & 133 & 133 & 0.00 & -7.26 \\
+DSP-FIR & 192 & 194 & -1.04 & -15.48 \\
+Load-use & 205 & 178 & 13.17 & -5.33 \\
+Long-FIR & 876 & 792 & 9.59 & -1.80 \\
+Memory & 231 & 162 & 29.87 & -10.20 \\
+Mixed-control & 131 & 127 & 3.05 & -20.95 \\
+PID-codegen & 192 & 188 & 2.08 & -5.62 \\
+PID-phase & 653 & 620 & 5.05 & -1.47 \\
+Random-memory & 215 & 204 & 5.12 & -7.94 \\
+Tiny-FIR & 159 & 152 & 4.40 & -19.69 \\
+\midrule
+Total / mean & 3307 & 3056 & 7.59 & -8.90 \\
+\bottomrule
+\end{tabular}
+\end{table}

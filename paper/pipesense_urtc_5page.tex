@@ -235,34 +235,7 @@ activity-energy proxy falls from 19,162 to 18,055, or 5.78\%. Nine workloads
 improve, three tie, and generated DSP-FIR regresses by 1.04\% because two mode
 changes cost eight cycles in a short run.
 
-\begin{table}[t]
-\centering
-\caption{Adaptive cycle results. Oracle gap is relative to the best fixed mode;
-the final oracle entry is the mean of per-workload gaps.}
-\label{tab:performance}
-\footnotesize
-\begin{tabular}{lrrrr}
-\toprule
-Workload & Normal & Adapt. & Red. (\%) & Oracle (\%) \\
-\midrule
-Arithmetic       & 30  & 30  & 0.00  & -3.45 \\
-Branch           & 128 & 114 & 10.94 & -8.57 \\
-CoreMark-toy     & 162 & 162 & 0.00  & -8.00 \\
-Dhrystone-toy    & 133 & 133 & 0.00  & -7.26 \\
-DSP-FIR          & 192 & 194 & -1.04 & -15.48 \\
-Load-use         & 205 & 178 & 13.17 & -5.33 \\
-Long-FIR         & 876 & 792 & 9.59  & -1.80 \\
-Memory           & 231 & 162 & 29.87 & -10.20 \\
-Mixed-control    & 131 & 127 & 3.05  & -20.95 \\
-PID-codegen      & 192 & 188 & 2.08  & -5.62 \\
-PID-phase        & 653 & 620 & 5.05  & -1.47 \\
-Random-memory    & 215 & 204 & 5.12  & -7.94 \\
-Tiny-FIR         & 159 & 152 & 4.40  & -19.69 \\
-\midrule
-Total / mean     & 3307 & 3056 & 7.59 & -8.90 \\
-\bottomrule
-\end{tabular}
-\end{table}
+\input{generated_performance_table}
 
 The oracle result limits the performance claim. Adaptive execution is behind
 the best fixed choice on every workload, with a mean reported gap of 8.90\%.
@@ -281,32 +254,14 @@ reduction increases from 1.91\% at a 16-cycle window to 3.72\% at 32 cycles and
 medium, and loose thresholds average 3.98\%, 3.22\%, and 2.72\%, respectively.
 These results show policy sensitivity rather than a universally robust default.
 
-Table~\ref{tab:additional} summarizes the remaining evidence. Disabling either
+Table~\ref{tab:ablation-evidence} summarizes the ablation evidence. Disabling either
 the observer or controller returns adaptive execution to the 3,307-cycle
 static-normal aggregate, so the improvement is not caused by a hidden default
 mode. Removing all measured reconfiguration penalty would reduce cycles only
 from 3,056 to 3,009, a further 1.54\%; phase selection is therefore a larger
 opportunity than drain latency alone.
 
-\begin{table}[t]
-\centering
-\caption{Ablation, safety, and generic synthesis proxy evidence.}
-\label{tab:additional}
-\footnotesize
-\begin{tabular}{lrr}
-\toprule
-Evidence & Result & Relative outcome \\
-\midrule
-Observer disabled & 3307 cycles & +8.21\% cycles \\
-Controller disabled & 3307 cycles & +8.21\% cycles \\
-Zero-cost switching & 3009 cycles & -1.54\% cycles \\
-Safety fuzz & 2500 rows & 0 failures/timeouts \\
-Baseline core shell & 1838 cells & reference \\
-Adaptive RTL sum & 550 cells & 29.92\% of shell \\
-Integrated top & 2380 cells & +29.49\% cells \\
-\bottomrule
-\end{tabular}
-\end{table}
+\input{generated_ablation_table}
 
 The 500-seed fuzz run reports zero assertion failures, safety faults, timeouts,
 or nonzero simulator exits across 2,500 mode-result rows. This is stress

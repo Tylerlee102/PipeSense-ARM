@@ -206,6 +206,66 @@ def plot_ablation(rows: list[dict[str, str]]) -> None:
     plt.close(fig)
 
 
+def write_performance_table(rows: list[dict[str, str]]) -> None:
+    labels = [
+        ("arithmetic_heavy", "Arithmetic"),
+        ("branch_heavy", "Branch"),
+        ("coremark_toy", "CoreMark-toy"),
+        ("dhrystone_toy", "Dhrystone-toy"),
+        ("dsp_fir_codegen", "DSP-FIR"),
+        ("load_use_heavy", "Load-use"),
+        ("long_fir_stress", "Long-FIR"),
+        ("memory_heavy", "Memory"),
+        ("mixed_control", "Mixed-control"),
+        ("pid_control_codegen", "PID-codegen"),
+        ("pid_phase_stress", "PID-phase"),
+        ("random_mem_latency_stress", "Random-memory"),
+        ("tiny_fir", "Tiny-FIR"),
+    ]
+    by_bench: dict[str, dict[str, dict[str, str]]] = defaultdict(dict)
+    for row in rows:
+        by_bench[row["bench"]][row["mode"]] = row
+
+    table_rows: list[tuple[str, int, int, float, float]] = []
+    for bench, label in labels:
+        modes = by_bench[bench]
+        normal = int(modes["static_normal"]["cycles"])
+        adaptive = int(modes["adaptive_pipesense"]["cycles"])
+        best_fixed = min(int(row["cycles"]) for mode, row in modes.items() if mode.startswith("fixed_"))
+        reduction = 100.0 * (normal - adaptive) / normal
+        oracle_gap = 100.0 * (best_fixed - adaptive) / best_fixed
+        table_rows.append((label, normal, adaptive, reduction, oracle_gap))
+
+    total_normal = sum(row[1] for row in table_rows)
+    total_adaptive = sum(row[2] for row in table_rows)
+    total_reduction = 100.0 * (total_normal - total_adaptive) / total_normal
+    mean_oracle_gap = sum(row[4] for row in table_rows) / len(table_rows)
+    lines = [
+        r"\begin{table}[t]",
+        r"\centering",
+        r"\caption{Adaptive cycle results. Oracle gap is relative to the best fixed mode; the final oracle entry is the mean of per-workload gaps.}",
+        r"\label{tab:performance}",
+        r"\footnotesize",
+        r"\begin{tabular}{lrrrr}",
+        r"\toprule",
+        r"Workload & Normal & Adapt. & Red. (\%) & Oracle (\%) \\",
+        r"\midrule",
+    ]
+    for label, normal, adaptive, reduction, oracle_gap in table_rows:
+        lines.append(f"{label} & {normal} & {adaptive} & {reduction:.2f} & {oracle_gap:.2f}" + r" \\")
+    lines.extend(
+        [
+            r"\midrule",
+            f"Total / mean & {total_normal} & {total_adaptive} & {total_reduction:.2f} & {mean_oracle_gap:.2f}" + r" \\",
+            r"\bottomrule",
+            r"\end{tabular}",
+            r"\end{table}",
+            "",
+        ]
+    )
+    (PAPER / "generated_performance_table.tex").write_text("\n".join(lines), encoding="utf-8")
+
+
 def write_latex_tables(sweep: list[dict[str, str]], ablations: list[dict[str, str]]) -> None:
     sweep_lines = [
         r"\begin{table*}[t]",
@@ -236,12 +296,12 @@ def write_latex_tables(sweep: list[dict[str, str]], ablations: list[dict[str, st
 
     ablation_lines = [
         r"\begin{table}[t]",
-        r"\caption{Ablation evidence over all 13 directed workloads. Zero-cost reconfiguration is analytical; other rows are measured simulation.}",
+        r"\caption{Ablation evidence over all 13 directed workloads. Energy is the simulation activity proxy. Zero-cost reconfiguration is analytical; other rows are measured simulation.}",
         r"\label{tab:ablation-evidence}",
         r"\centering\scriptsize",
         r"\begin{tabular}{lrrrr}",
         r"\toprule",
-        r"Variant & Cycles & Energy & Trans. & Penalty \\",
+        r"Variant & Cycles & Energy proxy & Trans. & Penalty \\",
         r"\midrule",
     ]
     for row in ablations:
@@ -265,6 +325,7 @@ def write_manifest() -> None:
         RESULTS / "sweep_results.csv",
         RESULTS / "ablation_summary.csv",
         RESULTS / "ablations" / "full_adaptive" / "pipesense_results.csv",
+        RESULTS / "pipesense_results.csv",
     ]
     rows = []
     for path in sources:
@@ -282,8 +343,10 @@ def main() -> int:
     OUT.mkdir(parents=True, exist_ok=True)
     sweep = sweep_summary()
     ablations = ablation_summary()
+    directed = load(RESULTS / "pipesense_results.csv")
     plot_sweep(sweep)
     plot_ablation(ablations)
+    write_performance_table(directed)
     write_latex_tables(sweep, ablations)
     write_manifest()
     print(f"Wrote {len(sweep)} sweep configurations and {len(ablations)} ablation rows under {OUT}")
