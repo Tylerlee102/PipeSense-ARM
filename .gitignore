@@ -2,6 +2,9 @@ build/
 output/
 results/*
 !results/SUMMARY.md
+!results/ibex/
+!results/ibex/**
+results/ibex/work/
 formal/results/
 verif/generated/
 __pycache__/

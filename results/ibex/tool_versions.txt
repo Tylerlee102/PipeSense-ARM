@@ -1,0 +1,4 @@
+Verilator 5.020 2024-01-01 rev (Debian 5.020-1)
+2.4.3
+riscv32-unknown-elf-gcc (13.2.0-11ubuntu1+12) 13.2.0
+Spike RISC-V ISA Simulator 1.1.1-dev

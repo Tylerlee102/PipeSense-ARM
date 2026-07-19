@@ -1,0 +1,14 @@
+{
+  "status": "PASS",
+  "policies": [
+    "static-sequential",
+    "static-branch",
+    "adaptive"
+  ],
+  "coremark_iterations": 2000,
+  "embench_programs": 19,
+  "architecture_tests": 75,
+  "fuzz_seeds": 500,
+  "runs": 291,
+  "failures": 0
+}

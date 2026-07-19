@@ -1,0 +1,14 @@
+[options]
+mode bmc
+depth 8
+
+[engines]
+smtbmc cvc4
+
+[script]
+read -formal -DSYNTHESIS pipesense_ibex_control.sv ibex_reconfiguration_harness.sv
+prep -top ibex_reconfiguration_harness
+
+[files]
+integrations/ibex/rtl/pipesense_ibex_control.sv
+formal/ibex_reconfiguration_harness.sv

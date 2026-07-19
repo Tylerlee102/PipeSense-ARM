@@ -1,0 +1,41 @@
+Program header number 0 in `/workspace/build/ibex-final/examples/sw/simple_system/pipesense_multiphase/pipesense_multiphase.elf' is not of type PT_LOAD; ignoring.
+Simulation of Ibex
+==================
+
+Tracing can be toggled by sending SIGUSR1 to this process:
+$ kill -USR1 7
+TOP.ibex_simple_system.u_top.u_ibex_tracer: Instruction trace disabled.
+
+Simulation running, end by pressing CTRL-c.
+PIPESENSE_REQUEST from=0 to=1 branches=7 retired=63
+PIPESENSE_REQUEST from=1 to=0 branches=1 retired=63
+PIPESENSE_REQUEST from=0 to=1 branches=7 retired=63
+PIPESENSE_REQUEST from=1 to=0 branches=0 retired=63
+PIPESENSE_REQUEST from=0 to=1 branches=8 retired=63
+PIPESENSE_REQUEST from=1 to=0 branches=0 retired=63
+PIPESENSE_REQUEST from=0 to=1 branches=8 retired=63
+PIPESENSE_REQUEST from=1 to=0 branches=0 retired=63
+PIPESENSE_REQUEST from=0 to=1 branches=8 retired=63
+PIPESENSE_REQUEST from=1 to=0 branches=0 retired=63
+PIPESENSE_REQUEST from=0 to=1 branches=9 retired=63
+PIPESENSE_REQUEST from=1 to=0 branches=0 retired=63
+PIPESENSE_REQUEST from=0 to=1 branches=8 retired=63
+PIPESENSE_REQUEST from=1 to=0 branches=0 retired=63
+PIPESENSE_REQUEST from=0 to=1 branches=7 retired=63
+PIPESENSE_REQUEST from=1 to=0 branches=0 retired=63
+PIPESENSE_REQUEST from=0 to=1 branches=9 retired=63
+Terminating simulation by software request.
+- src/lowrisc_ibex_sim_shared_0/rtl/sim/simulator_ctrl.sv:93: Verilog $finish
+Received $finish() from Verilog, shutting down simulation.
+PIPESENSE_STATS policy=2 mode=1 transitions=17 drain_cycles=80 branches=34358 fetch_waits=840372 window_branches=0 window_retired=1
+
+Simulation statistics
+=====================
+Executed cycles:  1338710
+Wallclock time:   1.208 s
+Simulation speed: 1.1082e+06 cycles/s (1108.2 kHz)
+
+Performance Counters
+====================
+Cycles:               1337446
+Instructions Retired: 463478

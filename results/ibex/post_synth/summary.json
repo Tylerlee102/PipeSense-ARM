@@ -1,0 +1,44 @@
+{
+  "status": "PASS",
+  "tools": {
+    "sv2v": "sv2v v0.0.13",
+    "yosys": "Yosys 0.33 (git sha1 2584903a060)",
+    "nextpnr-ecp5": "\"nextpnr-ecp5\" -- Next Generation Place and Route (Version 0.6-3build5)"
+  },
+  "same_target_and_constraint": true,
+  "power": "unavailable: no characterized ECP5 power model or switching activity",
+  "adaptive_minus_baseline": {
+    "trellis_comb_delta": 550,
+    "trellis_comb_delta_percent": 6.620125180548869,
+    "trellis_ff_delta": 100,
+    "trellis_ff_delta_percent": 4.9603174603174605,
+    "frequency_delta_mhz": -5.796476364135742,
+    "frequency_delta_percent": -18.62813726044268
+  },
+  "rows": [
+    {
+      "policy": "baseline-static-sequential",
+      "policy_id": 0,
+      "target": "LFE5U-85F-6BG756C",
+      "clock_constraint_mhz": 25.0,
+      "achieved_frequency_mhz": 31.116779327392578,
+      "trellis_comb": 8308,
+      "trellis_ff": 2016,
+      "block_ram": 0,
+      "power": "unavailable",
+      "failures": 0
+    },
+    {
+      "policy": "adaptive",
+      "policy_id": 2,
+      "target": "LFE5U-85F-6BG756C",
+      "clock_constraint_mhz": 25.0,
+      "achieved_frequency_mhz": 25.320302963256836,
+      "trellis_comb": 8858,
+      "trellis_ff": 2116,
+      "block_ram": 0,
+      "power": "unavailable",
+      "failures": 0
+    }
+  ]
+}

@@ -1,0 +1,48 @@
+PASS benchmark CSV exists
+PASS benchmark summary exists
+PASS benchmark CSV schema: benchmark,policy,cycles,retired,ipc,transitions,drain_cycles,wall_seconds,failures
+PASS run count: 291
+PASS unique benchmark-policy keys
+PASS all policies present
+PASS equal run count per policy: {'static-sequential': 97, 'static-branch': 97, 'adaptive': 97}
+PASS zero run failures
+PASS positive cycle and retirement counts
+PASS IPC reconciles with raw counters
+PASS each workload has three policy runs
+PASS retirement counts agree across policies
+PASS architecture-test count: 75
+PASS Embench program count: 19
+PASS CoreMark iteration run: coremark-2000
+PASS multi-phase and fuzz workloads present
+PASS adaptive multi-phase run makes repeated transitions: 17
+PASS all self-check markers present in raw program logs
+PASS all architecture signatures exactly match Spike
+PASS Spike signature count: 75
+PASS 500 unique deterministic fuzz seeds
+PASS fuzz seed sequence is complete
+PASS summary status
+PASS summary run count reconciles
+PASS summary failure count reconciles
+PASS summary fuzz count reconciles
+PASS summary CoreMark iteration count reconciles
+PASS summary architecture count reconciles
+PASS summary Embench count reconciles
+PASS recorded source revisions match lock file
+PASS tool versions recorded
+PASS formal summary exists
+PASS raw formal log archived
+PASS formal summary status
+PASS formal scope limitation recorded
+PASS formal log reports pass
+PASS post-synthesis summary exists
+PASS post-synthesis status
+PASS matched baseline and adaptive synthesis rows
+PASS same synthesis target and clock constraint
+PASS both placed designs meet constraint
+PASS nonzero placed resource counts
+PASS power is explicitly unavailable
+PASS resource deltas reconcile with placed reports
+PASS raw synthesis and place-and-route evidence archived
+PASS no stale quick CoreMark artifacts in full evidence
+PASS no manual debug signature in evidence
+SUMMARY: 47 PASS, 0 FAIL

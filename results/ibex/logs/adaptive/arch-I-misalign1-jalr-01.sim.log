@@ -1,0 +1,24 @@
+Program header number 0 in `/workspace/build/ibex-final/build/arch-tests/arch-I-misalign1-jalr-01.elf' is not of type PT_LOAD; ignoring.
+Simulation of Ibex
+==================
+
+Tracing can be toggled by sending SIGUSR1 to this process:
+$ kill -USR1 7
+TOP.ibex_simple_system.u_top.u_ibex_tracer: Instruction trace disabled.
+
+Simulation running, end by pressing CTRL-c.
+Terminating simulation by software request.
+- src/lowrisc_ibex_sim_shared_0/rtl/sim/simulator_ctrl.sv:93: Verilog $finish
+Received $finish() from Verilog, shutting down simulation.
+PIPESENSE_STATS policy=2 mode=0 transitions=0 drain_cycles=0 branches=17 fetch_waits=233 window_branches=11 window_retired=58
+
+Simulation statistics
+=====================
+Executed cycles:  360
+Wallclock time:   0.032 s
+Simulation speed: 11250 cycles/s (11.25 kHz)
+
+Performance Counters
+====================
+Cycles:               356
+Instructions Retired: 122

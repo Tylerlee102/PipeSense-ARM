@@ -1,0 +1,29 @@
+{
+  "ibex": {
+    "url": "https://github.com/lowRISC/ibex.git",
+    "commit": "8ed87e07e3331561bce93af1568d9b376948e701"
+  },
+  "embench": {
+    "url": "https://github.com/embench/embench-iot.git",
+    "commit": "09c2ed8c3b7008c95d08b038de4a3f6dc103ed70"
+  },
+  "spike": {
+    "url": "https://github.com/riscv-software-src/riscv-isa-sim.git",
+    "commit": "907862288f7b2af1afe533a4c74a5f33cc851830"
+  },
+  "coremark": {
+    "url": "https://github.com/eembc/coremark.git",
+    "commit": "0c91314d1a4fdfc157d623ad5cb6ac5aef746db1",
+    "source": "vendored by pinned Ibex"
+  },
+  "riscv_arch_test": {
+    "url": "https://github.com/riscv-non-isa/riscv-arch-test.git",
+    "commit": "a3b7f0c2cf89652b8a0cba3146890c512ff8ba44",
+    "source": "vendored by pinned Ibex"
+  },
+  "sv2v": {
+    "url": "https://github.com/zachjs/sv2v/releases/tag/v0.0.13",
+    "version": "v0.0.13",
+    "linux_zip_sha256": "552799a1d76cd177b9b4cc63a3e77823a3d2a6eb4ec006569288abeff28e1ff8"
+  }
+}

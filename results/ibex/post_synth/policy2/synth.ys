@@ -1,0 +1,5 @@
+read_verilog /workspace/output/ibex_post_synth/policy2/ibex.v
+read_verilog /workspace/integrations/ibex/synth/ibex_fpga_top.v
+hierarchy -check -top pipesense_ibex_fpga_top
+synth_ecp5 -top pipesense_ibex_fpga_top -json /workspace/output/ibex_post_synth/policy2/ibex_top.json
+stat

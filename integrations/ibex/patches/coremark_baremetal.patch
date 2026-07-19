@@ -1,0 +1,50 @@
+diff --git a/examples/sw/benchmarks/coremark/ibex/core_portme.h b/examples/sw/benchmarks/coremark/ibex/core_portme.h
+index 2b7283d..e5202ec 100644
+--- a/examples/sw/benchmarks/coremark/ibex/core_portme.h
++++ b/examples/sw/benchmarks/coremark/ibex/core_portme.h
+@@ -12,7 +12,7 @@
+ #ifndef CORE_PORTME_H
+ #define CORE_PORTME_H
+ 
+-#include <sys/types.h>
++typedef __SIZE_TYPE__ size_t;
+ 
+ extern unsigned int _stack_start;
+ 
+@@ -21,7 +21,7 @@ extern unsigned int _stack_start;
+         Define to 1 if the platform supports floating point.
+ */
+ #ifndef HAS_FLOAT
+-#define HAS_FLOAT 1
++#define HAS_FLOAT 0
+ #endif
+ /* Configuration : HAS_TIME_H
+         Define to 1 if platform has the time.h header file,
+diff --git a/examples/sw/benchmarks/coremark/ibex/core_portme.mak b/examples/sw/benchmarks/coremark/ibex/core_portme.mak
+index cbf86ea..c912604 100644
+--- a/examples/sw/benchmarks/coremark/ibex/core_portme.mak
++++ b/examples/sw/benchmarks/coremark/ibex/core_portme.mak
+@@ -55,9 +55,9 @@ OFLAG  	= -o
+ COUT   	= -c
+ 
+-LFLAGS_END = -T $(LINKER_SCRIPT) -Xlinker -Map=$(OPATH)coremark.map -lm -lgcc
++LFLAGS_END = -T $(LINKER_SCRIPT) -Xlinker -Map=$(OPATH)coremark.map -lgcc
+ # Flag : PORT_SRCS
+ # 	Port specific source files can be added here
+ #	You may also need cvt.c if the fcvt functions are not provided as intrinsics by your compiler!
+-PORT_SRCS = $(PORT_DIR)/core_portme.c $(PORT_DIR)/ee_printf.c ./barebones/cvt.c $(CRT0) $(EXT_SRCS)
++PORT_SRCS = $(PORT_DIR)/core_portme.c $(PORT_DIR)/ee_printf.c $(CRT0) $(EXT_SRCS)
+ vpath %.c $(PORT_DIR)
+ vpath %.s $(PORT_DIR)
+diff --git a/examples/sw/benchmarks/coremark/ibex/core_portme.c b/examples/sw/benchmarks/coremark/ibex/core_portme.c
+index 8ae26a8..d55cf4d 100644
+--- a/examples/sw/benchmarks/coremark/ibex/core_portme.c
++++ b/examples/sw/benchmarks/coremark/ibex/core_portme.c
+@@ -177,7 +177,6 @@ void portable_init(core_portable *p, int *argc, char *argv[]) {
+     ee_printf("ERROR! Please define ee_u32 to a 32b unsigned type!\n");
+   }
+   p->portable_id = 1;
+-  icache_enable(1);
+ }
+ /* Function : portable_fini
+         Target specific final code

@@ -1,0 +1,27 @@
+Program header number 0 in `/workspace/build/embench-final/build/ibex/md5sum.elf' is not of type PT_LOAD; ignoring.
+Simulation of Ibex
+==================
+
+Tracing can be toggled by sending SIGUSR1 to this process:
+$ kill -USR1 7
+TOP.ibex_simple_system.u_top.u_ibex_tracer: Instruction trace disabled.
+
+Simulation running, end by pressing CTRL-c.
+PIPESENSE_REQUEST from=0 to=1 branches=21 retired=63
+PIPESENSE_REQUEST from=1 to=0 branches=1 retired=63
+PIPESENSE_REQUEST from=0 to=1 branches=12 retired=63
+Terminating simulation by software request.
+- src/lowrisc_ibex_sim_shared_0/rtl/sim/simulator_ctrl.sv:93: Verilog $finish
+Received $finish() from Verilog, shutting down simulation.
+PIPESENSE_STATS policy=2 mode=1 transitions=3 drain_cycles=10 branches=434565 fetch_waits=9367434 window_branches=3 window_retired=22
+
+Simulation statistics
+=====================
+Executed cycles:  12540254
+Wallclock time:   15.208 s
+Simulation speed: 824583 cycles/s (824.583 kHz)
+
+Performance Counters
+====================
+Cycles:               12340574
+Instructions Retired: 3122641

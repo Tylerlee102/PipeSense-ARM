@@ -1,0 +1,55 @@
+name: PipeSense Ibex Engineering
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - "Dockerfile"
+      - "integrations/ibex/**"
+      - "scripts/prepare_ibex.py"
+      - "scripts/generate_ibex_fuzz.py"
+      - "scripts/run_ibex_engineering.py"
+      - "scripts/run_ibex_post_synth.py"
+      - "scripts/run_ibex_formal.py"
+      - "scripts/validate_ibex_evidence.py"
+      - "formal/ibex_reconfiguration*"
+      - "tests/test_ibex_*"
+      - ".github/workflows/ibex-engineering.yml"
+
+jobs:
+  quick-validation:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Run deterministic generation tests
+        run: python3 -m unittest discover -s tests -p "test_*.py"
+
+      - name: Build pinned HDL and ISA-reference toolchain
+        run: docker build -t pipesense-arm-ibex-v2 .
+
+      - name: Run controller simulation
+        run: |
+          docker run --rm -v "$PWD:/workspace" -w /workspace pipesense-arm-ibex-v2 sh -lc \
+            'iverilog -g2012 -s pipesense_ibex_control_tb -o /tmp/control.vvp integrations/ibex/rtl/pipesense_ibex_control.sv integrations/ibex/verif/pipesense_ibex_control_tb.sv && vvp /tmp/control.vvp'
+
+      - name: Run bounded reconfiguration proof
+        run: |
+          docker run --rm -v "$PWD:/workspace" -w /workspace pipesense-arm-ibex-v2 \
+            python3 scripts/run_ibex_formal.py
+
+      - name: Run quick core, benchmark, and Spike validation
+        run: |
+          python3 scripts/run_ibex_engineering.py --quick
+          python3 scripts/validate_ibex_evidence.py --allow-quick
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: pipesense-ibex-quick-results
+          path: results/ibex/**

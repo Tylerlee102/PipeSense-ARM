@@ -1,0 +1,15 @@
+{
+  "status": "PASS",
+  "engine": "smtbmc cvc4",
+  "mode": "bounded model check",
+  "depth": 8,
+  "scope": [
+    "drain fetch hold",
+    "mode visibility",
+    "empty-pipeline mode commit",
+    "issued-retired token accounting under a valid-retirement assumption",
+    "no in-flight token at a committed mode switch"
+  ],
+  "whole_core_unbounded_proof": false,
+  "returncode": 0
+}

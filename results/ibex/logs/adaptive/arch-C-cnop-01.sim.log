@@ -1,0 +1,25 @@
+Program header number 0 in `/workspace/build/ibex-final/build/arch-tests/arch-C-cnop-01.elf' is not of type PT_LOAD; ignoring.
+Simulation of Ibex
+==================
+
+Tracing can be toggled by sending SIGUSR1 to this process:
+$ kill -USR1 8
+TOP.ibex_simple_system.u_top.u_ibex_tracer: Instruction trace disabled.
+
+Simulation running, end by pressing CTRL-c.
+PIPESENSE_REQUEST from=0 to=1 branches=13 retired=63
+Terminating simulation by software request.
+- src/lowrisc_ibex_sim_shared_0/rtl/sim/simulator_ctrl.sv:93: Verilog $finish
+Received $finish() from Verilog, shutting down simulation.
+PIPESENSE_STATS policy=2 mode=1 transitions=1 drain_cycles=7 branches=65 fetch_waits=982 window_branches=7 window_retired=38
+
+Simulation statistics
+=====================
+Executed cycles:  1352
+Wallclock time:   0.043 s
+Simulation speed: 31441.9 cycles/s (31.4419 kHz)
+
+Performance Counters
+====================
+Cycles:               1348
+Instructions Retired: 362

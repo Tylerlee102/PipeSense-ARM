@@ -1,0 +1,268 @@
+diff --git a/examples/simple_system/ibex_simple_system.core b/examples/simple_system/ibex_simple_system.core
+index ad773ac..240ac88 100644
+--- a/examples/simple_system/ibex_simple_system.core
++++ b/examples/simple_system/ibex_simple_system.core
+@@ -49,6 +49,12 @@ parameters:
+     paramtype: vlogdefine
+     description: "Number of cycles to delay the instruction RAM access. This is on top of the single-cycle access that the RAM requires."
+ 
++  PIPESENSE_POLICY:
++    datatype: int
++    default: 0
++    paramtype: vlogdefine
++    description: "PipeSense policy: 0 sequential, 1 branch, 2 adaptive"
++
+   ICache:
+     datatype: int
+     default: 0
+@@ -144,6 +150,7 @@ targets:
+       - RV32ZC
+       - RegFile
+       - INSTR_CYCLE_DELAY
++      - PIPESENSE_POLICY
+       - ICache
+       - ICacheScramble
+       - ICacheECC
+diff --git a/ibex_core.core b/ibex_core.core
+index ab0ee64..6107662 100644
+--- a/ibex_core.core
++++ b/ibex_core.core
+@@ -35,6 +35,7 @@ filesets:
+       - rtl/ibex_pmp.sv
+       - rtl/ibex_wb_stage.sv
+       - rtl/ibex_dummy_instr.sv
++      - rtl/pipesense_ibex_control.sv
+       - rtl/ibex_core.sv
+     file_type: systemVerilogSource
+ 
+@@ -51,6 +52,12 @@ parameters:
+     datatype: bool
+     paramtype: vlogdefine
+ 
++  PIPESENSE_POLICY:
++    datatype: int
++    paramtype: vlogdefine
++    default: 0
++    description: "PipeSense policy: 0 sequential, 1 branch, 2 adaptive"
++
+   SYNTHESIS:
+     datatype: bool
+     paramtype: vlogdefine
+@@ -176,6 +183,7 @@ targets:
+       - files_check_tool_requirements
+     toplevel: ibex_core
+     parameters:
++      - PIPESENSE_POLICY
+       - tool_vivado ? (FPGA_XILINX=true)
+   lint:
+     <<: *default_target
+diff --git a/rtl/ibex_core.sv b/rtl/ibex_core.sv
+index 93cc23d..0174fdb 100644
+--- a/rtl/ibex_core.sv
++++ b/rtl/ibex_core.sv
+@@ -322,6 +322,15 @@ module ibex_core import ibex_pkg::*; #(
+   logic        instr_req_int;          // Id stage asserts a req to instruction core interface
+   logic        instr_req_gated;
+   logic        instr_exec;
++  logic        pipesense_fetch_hold;
++  logic        pipesense_fast_branch;
++  logic        pipesense_prefetch_enable;
++  logic        pipesense_pipeline_empty;
++  logic        pipesense_drain_active;
++  logic        pipesense_current_mode;
++  logic [31:0] pipesense_transition_count;
++  logic [31:0] pipesense_drain_cycle_count;
++  logic        pipesense_mode_commit;
+ 
+   // Writeback stage
+   logic           en_wb;
+@@ -387,6 +396,40 @@ module ibex_core import ibex_pkg::*; #(
+   logic        perf_load;
+   logic        perf_store;
+ 
++`ifdef PIPESENSE_POLICY
++  localparam int unsigned PipeSensePolicy = `PIPESENSE_POLICY;
++`else
++  localparam int unsigned PipeSensePolicy = 0;
++`endif
++
++  assign pipesense_pipeline_empty = ~instr_valid_id & ~if_busy & ~lsu_busy & ready_wb;
++
++  pipesense_ibex_control #(
++    .Policy(PipeSensePolicy),
++    .ObservationWindow(64),
++    .MinimumResidency(64)
++  ) pipesense_control_i (
++    .clk_i(clk_i),
++    .rst_ni(rst_ni),
++    .retire_i(instr_done_wb),
++    .branch_i(perf_branch),
++    .fetch_wait_i(perf_iside_wait),
++    .pipeline_empty_i(pipesense_pipeline_empty),
++    .fetch_hold_o(pipesense_fetch_hold),
++    .fast_branch_o(pipesense_fast_branch),
++    .prefetch_enable_o(pipesense_prefetch_enable),
++    .drain_active_o(pipesense_drain_active),
++    .current_mode_o(pipesense_current_mode),
++    .transition_count_o(pipesense_transition_count),
++    .drain_cycle_count_o(pipesense_drain_cycle_count),
++    .mode_commit_o(pipesense_mode_commit)
++  );
++
++  logic unused_pipesense;
++  assign unused_pipesense = ^{pipesense_drain_active, pipesense_current_mode,
++                              pipesense_transition_count, pipesense_drain_cycle_count,
++                              pipesense_mode_commit};
++
+   // for RVFI
+   logic        illegal_insn_id, unused_illegal_insn_id; // ID stage sees an illegal instruction
+ 
+@@ -519,6 +562,7 @@ module ibex_core import ibex_pkg::*; #(
+ 
+     // pipeline stalls
+     .id_in_ready_i(id_in_ready),
++    .pipesense_prefetch_enable_i(pipesense_prefetch_enable),
+ 
+     .pc_mismatch_alert_o(pc_mismatch_alert),
+     .if_busy_o          (if_busy)
+@@ -539,14 +583,15 @@ module ibex_core import ibex_pkg::*; #(
+     // For secure Ibex fetch_enable_i must be a specific multi-bit pattern to enable instruction
+     // fetch
+     // SEC_CM: FETCH.CTRL.LC_GATED
+-    assign instr_req_gated = instr_req_int & (fetch_enable_i == IbexMuBiOn);
++    assign instr_req_gated = instr_req_int & (fetch_enable_i == IbexMuBiOn) &
++                             ~pipesense_fetch_hold;
+     assign instr_exec      = fetch_enable_i == IbexMuBiOn;
+   end else begin : g_instr_req_gated_non_secure
+     // For non secure Ibex only the bottom bit of fetch enable is considered
+     logic unused_fetch_enable;
+     assign unused_fetch_enable = ^fetch_enable_i[$bits(ibex_mubi_t)-1:1];
+ 
+-    assign instr_req_gated = instr_req_int & fetch_enable_i[0];
++    assign instr_req_gated = instr_req_int & fetch_enable_i[0] & ~pipesense_fetch_hold;
+     assign instr_exec      = fetch_enable_i[0];
+   end
+ 
+@@ -570,6 +615,7 @@ module ibex_core import ibex_pkg::*; #(
+     // Processor Enable
+     .ctrl_busy_o   (ctrl_busy),
+     .illegal_insn_o(illegal_insn_id),
++    .pipesense_fast_branch_i(pipesense_fast_branch),
+ 
+     // from/to IF-ID pipeline register
+     .instr_valid_i        (instr_valid_id),
+diff --git a/rtl/ibex_id_stage.sv b/rtl/ibex_id_stage.sv
+index 3e10e08..20423b6 100644
+--- a/rtl/ibex_id_stage.sv
++++ b/rtl/ibex_id_stage.sv
+@@ -32,6 +32,7 @@ module ibex_id_stage #(
+ 
+   output logic                      ctrl_busy_o,
+   output logic                      illegal_insn_o,
++  input  logic                      pipesense_fast_branch_i,
+ 
+   // Interface to IF stage
+   input  logic                      instr_valid_i,
+@@ -672,32 +673,21 @@ module ibex_id_stage #(
+   // Branch set control //
+   ////////////////////////
+ 
+-  if (BranchTargetALU && !DataIndTiming) begin : g_branch_set_direct
+-    // Branch set fed straight to controller with branch target ALU
+-    // (condition pass/fail used same cycle as generated instruction request)
+-    assign branch_set_raw      = branch_set_raw_d;
+-  end else begin : g_branch_set_flop
+-    // SEC_CM: CORE.DATA_REG_SW.SCA
+-    // Branch set flopped without branch target ALU, or in fixed time execution mode
+-    // (condition pass/fail used next cycle where branch target is calculated)
+-    logic branch_set_raw_q;
++  logic branch_set_raw_q;
++  logic pipesense_fast_branch;
+ 
+-    always_ff @(posedge clk_i or negedge rst_ni) begin
+-      if (!rst_ni) begin
+-        branch_set_raw_q <= 1'b0;
+-      end else begin
+-        branch_set_raw_q <= branch_set_raw_d;
+-      end
++  always_ff @(posedge clk_i or negedge rst_ni) begin
++    if (!rst_ni) begin
++      branch_set_raw_q <= 1'b0;
++    end else begin
++      branch_set_raw_q <= branch_set_raw_d;
+     end
+-
+-    // Branches always take two cycles in fixed time execution mode, with or without the branch
+-    // target ALU (to avoid a path from the branch decision into the branch target ALU operand
+-    // muxing).
+-    assign branch_set_raw      = (BranchTargetALU && !data_ind_timing_i) ? branch_set_raw_d :
+-                                                                           branch_set_raw_q;
+-
+   end
+ 
++  assign pipesense_fast_branch = BranchTargetALU && pipesense_fast_branch_i;
++  assign branch_set_raw = (pipesense_fast_branch && !data_ind_timing_i) ?
++                          branch_set_raw_d : branch_set_raw_q;
++
+   // Track whether the current instruction in ID/EX has done a branch or jump set.
+   assign branch_jump_set_done_d = (branch_set_raw | jump_set_raw | branch_jump_set_done_q) &
+     ~instr_valid_clear_o;
+@@ -821,9 +811,11 @@ module ibex_id_stage #(
+               // All branches take two cycles in fixed time execution mode, regardless of branch
+               // condition.
+               // SEC_CM: CORE.DATA_REG_SW.SCA
+-              id_fsm_d         = (data_ind_timing_i || (!BranchTargetALU && branch_decision_i)) ?
++              id_fsm_d         = (data_ind_timing_i ||
++                                  (!pipesense_fast_branch && branch_decision_i)) ?
+                                      MULTI_CYCLE : FIRST_CYCLE;
+-              stall_branch     = (~BranchTargetALU & branch_decision_i) | data_ind_timing_i;
++              stall_branch     = (~pipesense_fast_branch & branch_decision_i) |
++                                 data_ind_timing_i;
+               branch_set_raw_d = (branch_decision_i | data_ind_timing_i);
+ 
+               if (BranchPredictor) begin
+diff --git a/rtl/ibex_if_stage.sv b/rtl/ibex_if_stage.sv
+index a96b819..74ad819 100644
+--- a/rtl/ibex_if_stage.sv
++++ b/rtl/ibex_if_stage.sv
+@@ -120,6 +120,7 @@ module ibex_if_stage import ibex_pkg::*; #(
+ 
+   // pipeline stall
+   input  logic                        id_in_ready_i,            // ID stage is ready for new instr
++  input  logic                        pipesense_prefetch_enable_i,
+ 
+   // misc signals
+   output logic                        pc_mismatch_alert_o,
+@@ -329,6 +330,7 @@ module ibex_if_stage import ibex_pkg::*; #(
+         .rst_ni              ( rst_ni                     ),
+ 
+         .req_i               ( req_i                      ),
++        .prefetch_enable_i   ( pipesense_prefetch_enable_i),
+ 
+         .branch_i            ( prefetch_branch            ),
+         .addr_i              ( prefetch_addr              ),
+diff --git a/rtl/ibex_prefetch_buffer.sv b/rtl/ibex_prefetch_buffer.sv
+index 0c3be0a..f522ab7 100644
+--- a/rtl/ibex_prefetch_buffer.sv
++++ b/rtl/ibex_prefetch_buffer.sv
+@@ -16,6 +16,7 @@ module ibex_prefetch_buffer #(
+   input  logic        rst_ni,
+ 
+   input  logic        req_i,
++  input  logic        prefetch_enable_i,
+ 
+   input  logic        branch_i,
+   input  logic [31:0] addr_i,
+@@ -113,8 +114,10 @@ module ibex_prefetch_buffer #(
+   //////////////
+ 
+   // Make a new request any time there is space in the FIFO, and space in the request queue
+-  assign valid_new_req = req_i & (fifo_ready | branch_i) &
+-                         ~rdata_outstanding_q[NUM_REQS-1];
++  assign valid_new_req = req_i & ~rdata_outstanding_q[NUM_REQS-1] &
++                         (branch_i |
++                          (prefetch_enable_i ? fifo_ready :
++                           (ready_i & ~(|fifo_busy) & ~(|rdata_outstanding_q))));
+ 
+   assign valid_req = valid_req_q | valid_new_req;
+ 

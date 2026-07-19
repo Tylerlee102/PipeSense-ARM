@@ -1,0 +1,111 @@
+Program header number 0 in `/workspace/build/embench-final/build/ibex/xgboost.elf' is not of type PT_LOAD; ignoring.
+Simulation of Ibex
+==================
+
+Tracing can be toggled by sending SIGUSR1 to this process:
+$ kill -USR1 7
+TOP.ibex_simple_system.u_top.u_ibex_tracer: Instruction trace disabled.
+
+Simulation running, end by pressing CTRL-c.
+PIPESENSE_REQUEST from=0 to=1 branches=7 retired=63
+PIPESENSE_REQUEST from=1 to=0 branches=2 retired=63
+PIPESENSE_REQUEST from=0 to=1 branches=8 retired=63
+PIPESENSE_REQUEST from=1 to=0 branches=2 retired=63
+PIPESENSE_REQUEST from=0 to=1 branches=8 retired=63
+PIPESENSE_REQUEST from=1 to=0 branches=2 retired=63
+PIPESENSE_REQUEST from=0 to=1 branches=8 retired=63
+PIPESENSE_REQUEST from=1 to=0 branches=2 retired=63
+PIPESENSE_REQUEST from=0 to=1 branches=8 retired=63
+PIPESENSE_REQUEST from=1 to=0 branches=2 retired=63
+PIPESENSE_REQUEST from=0 to=1 branches=8 retired=63
+PIPESENSE_REQUEST from=1 to=0 branches=2 retired=63
+PIPESENSE_REQUEST from=0 to=1 branches=7 retired=63
+PIPESENSE_REQUEST from=1 to=0 branches=2 retired=63
+PIPESENSE_REQUEST from=0 to=1 branches=8 retired=63
+PIPESENSE_REQUEST from=1 to=0 branches=2 retired=63
+PIPESENSE_REQUEST from=0 to=1 branches=7 retired=63
+PIPESENSE_REQUEST from=1 to=0 branches=2 retired=63
+PIPESENSE_REQUEST from=0 to=1 branches=7 retired=63
+PIPESENSE_REQUEST from=1 to=0 branches=2 retired=63
+PIPESENSE_REQUEST from=0 to=1 branches=8 retired=63
+PIPESENSE_REQUEST from=1 to=0 branches=2 retired=63
+PIPESENSE_REQUEST from=0 to=1 branches=8 retired=63
+PIPESENSE_REQUEST from=1 to=0 branches=2 retired=63
+PIPESENSE_REQUEST from=0 to=1 branches=7 retired=63
+PIPESENSE_REQUEST from=1 to=0 branches=2 retired=63
+PIPESENSE_REQUEST from=0 to=1 branches=8 retired=63
+PIPESENSE_REQUEST from=1 to=0 branches=2 retired=63
+PIPESENSE_REQUEST from=0 to=1 branches=7 retired=63
+PIPESENSE_REQUEST from=1 to=0 branches=2 retired=63
+PIPESENSE_REQUEST from=0 to=1 branches=8 retired=63
+PIPESENSE_REQUEST from=1 to=0 branches=2 retired=63
+PIPESENSE_REQUEST from=0 to=1 branches=8 retired=63
+PIPESENSE_REQUEST from=1 to=0 branches=2 retired=63
+PIPESENSE_REQUEST from=0 to=1 branches=7 retired=63
+PIPESENSE_REQUEST from=1 to=0 branches=2 retired=63
+PIPESENSE_REQUEST from=0 to=1 branches=8 retired=63
+PIPESENSE_REQUEST from=1 to=0 branches=2 retired=63
+PIPESENSE_REQUEST from=0 to=1 branches=8 retired=63
+PIPESENSE_REQUEST from=1 to=0 branches=2 retired=63
+PIPESENSE_REQUEST from=0 to=1 branches=7 retired=63
+PIPESENSE_REQUEST from=1 to=0 branches=2 retired=63
+PIPESENSE_REQUEST from=0 to=1 branches=8 retired=63
+PIPESENSE_REQUEST from=1 to=0 branches=2 retired=63
+PIPESENSE_REQUEST from=0 to=1 branches=7 retired=63
+PIPESENSE_REQUEST from=1 to=0 branches=2 retired=63
+PIPESENSE_REQUEST from=0 to=1 branches=7 retired=63
+PIPESENSE_REQUEST from=1 to=0 branches=2 retired=63
+PIPESENSE_REQUEST from=0 to=1 branches=8 retired=63
+PIPESENSE_REQUEST from=1 to=0 branches=2 retired=63
+PIPESENSE_REQUEST from=0 to=1 branches=8 retired=63
+PIPESENSE_REQUEST from=1 to=0 branches=2 retired=63
+PIPESENSE_REQUEST from=0 to=1 branches=7 retired=63
+PIPESENSE_REQUEST from=1 to=0 branches=2 retired=63
+PIPESENSE_REQUEST from=0 to=1 branches=7 retired=63
+PIPESENSE_REQUEST from=1 to=0 branches=2 retired=63
+PIPESENSE_REQUEST from=0 to=1 branches=7 retired=63
+PIPESENSE_REQUEST from=1 to=0 branches=2 retired=63
+PIPESENSE_REQUEST from=0 to=1 branches=7 retired=63
+PIPESENSE_REQUEST from=1 to=0 branches=2 retired=63
+PIPESENSE_REQUEST from=0 to=1 branches=7 retired=63
+PIPESENSE_REQUEST from=1 to=0 branches=2 retired=63
+PIPESENSE_REQUEST from=0 to=1 branches=8 retired=63
+PIPESENSE_REQUEST from=1 to=0 branches=2 retired=63
+PIPESENSE_REQUEST from=0 to=1 branches=8 retired=63
+PIPESENSE_REQUEST from=1 to=0 branches=2 retired=63
+PIPESENSE_REQUEST from=0 to=1 branches=8 retired=63
+PIPESENSE_REQUEST from=1 to=0 branches=2 retired=63
+PIPESENSE_REQUEST from=0 to=1 branches=7 retired=63
+PIPESENSE_REQUEST from=1 to=0 branches=2 retired=63
+PIPESENSE_REQUEST from=0 to=1 branches=7 retired=63
+PIPESENSE_REQUEST from=1 to=0 branches=2 retired=63
+PIPESENSE_REQUEST from=0 to=1 branches=7 retired=63
+PIPESENSE_REQUEST from=1 to=0 branches=2 retired=63
+PIPESENSE_REQUEST from=0 to=1 branches=7 retired=63
+PIPESENSE_REQUEST from=1 to=0 branches=2 retired=63
+PIPESENSE_REQUEST from=0 to=1 branches=8 retired=63
+PIPESENSE_REQUEST from=1 to=0 branches=2 retired=63
+PIPESENSE_REQUEST from=0 to=1 branches=7 retired=63
+PIPESENSE_REQUEST from=1 to=0 branches=2 retired=63
+PIPESENSE_REQUEST from=0 to=1 branches=7 retired=63
+PIPESENSE_REQUEST from=1 to=0 branches=2 retired=63
+PIPESENSE_REQUEST from=0 to=1 branches=8 retired=63
+PIPESENSE_REQUEST from=1 to=0 branches=2 retired=63
+PIPESENSE_REQUEST from=0 to=1 branches=7 retired=63
+PIPESENSE_REQUEST from=1 to=0 branches=2 retired=63
+PIPESENSE_REQUEST from=0 to=1 branches=8 retired=63
+Terminating simulation by software request.
+- src/lowrisc_ibex_sim_shared_0/rtl/sim/simulator_ctrl.sv:93: Verilog $finish
+Received $finish() from Verilog, shutting down simulation.
+PIPESENSE_STATS policy=2 mode=1 transitions=87 drain_cycles=445 branches=842946 fetch_waits=24816250 window_branches=8 window_retired=40
+
+Simulation statistics
+=====================
+Executed cycles:  31936760
+Wallclock time:   39.71 s
+Simulation speed: 804250 cycles/s (804.25 kHz)
+
+Performance Counters
+====================
+Cycles:               15967625
+Instructions Retired: 3559532

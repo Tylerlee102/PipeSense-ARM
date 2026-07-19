@@ -1,0 +1,813 @@
+
+
+Info: Logic utilisation before packing:
+Info:     Total LUT4s:      8230/83640     9%
+Info:         logic LUTs:   7836/83640     9%
+Info:         carry LUTs:    394/83640     0%
+Info:           RAM LUTs:      0/10455     0%
+Info:          RAMW LUTs:      0/20910     0%
+
+Info:      Total DFFs:      2016/83640     2%
+
+Info: Packing IOs..
+Info: Packing constants..
+Info: Packing carries...
+Info: Packing LUTs...
+Info: Packing LUT5-7s...
+Info: Packing FFs...
+Info:     656 FFs paired with LUTs.
+Info: Generating derived timing constraints...
+Info: Promoting globals...
+Info:     promoting clock net clk_i$TRELLIS_IO_IN to global network
+Info: Checksum: 0xc5a85afd
+
+Info: Annotating ports with timing budgets for target frequency 25.00 MHz
+Info: Checksum: 0xa3b5c5cf
+
+Info: Device utilisation:
+Info: 	          TRELLIS_IO:     3/  365     0%
+Info: 	                DCCA:     1/   56     1%
+Info: 	              DP16KD:     0/  208     0%
+Info: 	          MULT18X18D:     1/  156     0%
+Info: 	              ALU54B:     0/   78     0%
+Info: 	             EHXPLLL:     0/    4     0%
+Info: 	             EXTREFB:     0/    2     0%
+Info: 	                DCUA:     0/    2     0%
+Info: 	           PCSCLKDIV:     0/    2     0%
+Info: 	             IOLOGIC:     0/  224     0%
+Info: 	            SIOLOGIC:     0/  141     0%
+Info: 	                 GSR:     0/    1     0%
+Info: 	               JTAGG:     0/    1     0%
+Info: 	                OSCG:     0/    1     0%
+Info: 	               SEDGA:     0/    1     0%
+Info: 	                 DTR:     0/    1     0%
+Info: 	             USRMCLK:     0/    1     0%
+Info: 	             CLKDIVF:     0/    4     0%
+Info: 	           ECLKSYNCB:     0/   10     0%
+Info: 	             DLLDELD:     0/    8     0%
+Info: 	              DDRDLL:     0/    4     0%
+Info: 	             DQSBUFM:     0/   14     0%
+Info: 	     TRELLIS_ECLKBUF:     0/    8     0%
+Info: 	        ECLKBRIDGECS:     0/    2     0%
+Info: 	                DCSC:     0/    2     0%
+Info: 	          TRELLIS_FF:  2016/83640     2%
+Info: 	        TRELLIS_COMB:  8308/83640     9%
+Info: 	        TRELLIS_RAMW:     0/10455     0%
+
+Info: Placed 0 cells based on constraints.
+Info: Creating initial analytic placement for 8064 cells, random placement wirelen = 772140.
+Info:     at initial placer iter 0, wirelen = 1221
+Info:     at initial placer iter 1, wirelen = 1382
+Info:     at initial placer iter 2, wirelen = 1540
+Info:     at initial placer iter 3, wirelen = 1360
+Info: Running main analytical placer, max placement attempts per cell = 13336030.
+Info:     at iteration #1, type ALL: wirelen solved = 1556, spread = 75157, legal = 116729; time = 1.77s
+Info:     at iteration #2, type ALL: wirelen solved = 5216, spread = 71272, legal = 104759; time = 1.02s
+Info:     at iteration #3, type ALL: wirelen solved = 10490, spread = 61567, legal = 79339; time = 0.93s
+Info:     at iteration #4, type ALL: wirelen solved = 15653, spread = 49862, legal = 67211; time = 0.71s
+Info:     at iteration #5, type ALL: wirelen solved = 19790, spread = 44496, legal = 67155; time = 0.75s
+Info:     at iteration #6, type ALL: wirelen solved = 21321, spread = 43837, legal = 64900; time = 0.62s
+Info:     at iteration #7, type ALL: wirelen solved = 24058, spread = 44948, legal = 64577; time = 0.64s
+Info:     at iteration #8, type ALL: wirelen solved = 26306, spread = 43779, legal = 63512; time = 0.72s
+Info:     at iteration #9, type ALL: wirelen solved = 27650, spread = 43155, legal = 63391; time = 0.75s
+Info:     at iteration #10, type ALL: wirelen solved = 28701, spread = 41033, legal = 63248; time = 0.76s
+Info:     at iteration #11, type ALL: wirelen solved = 28770, spread = 41088, legal = 62946; time = 0.78s
+Info:     at iteration #12, type ALL: wirelen solved = 29992, spread = 41771, legal = 64849; time = 0.65s
+Info:     at iteration #13, type ALL: wirelen solved = 31245, spread = 40219, legal = 63238; time = 0.78s
+Info:     at iteration #14, type ALL: wirelen solved = 30722, spread = 40152, legal = 63416; time = 0.85s
+Info:     at iteration #15, type ALL: wirelen solved = 31652, spread = 41371, legal = 65805; time = 0.73s
+Info:     at iteration #16, type ALL: wirelen solved = 32825, spread = 40812, legal = 65846; time = 0.72s
+Info: HeAP Placer Time: 17.12s
+Info:   of which solving equations: 5.81s
+Info:   of which spreading cells: 1.34s
+Info:   of which strict legalisation: 7.02s
+
+Info: Running simulated annealing placer for refinement.
+Info:   at iteration #1: temp = 0.000000, timing cost = 7672, wirelen = 62946
+Info:   at iteration #5: temp = 0.000000, timing cost = 5677, wirelen = 50575
+Info:   at iteration #10: temp = 0.000000, timing cost = 6489, wirelen = 47957
+Info:   at iteration #15: temp = 0.000000, timing cost = 6171, wirelen = 46954
+Info:   at iteration #20: temp = 0.000000, timing cost = 6137, wirelen = 46179
+Info:   at iteration #25: temp = 0.000000, timing cost = 6090, wirelen = 45954
+Info:   at iteration #30: temp = 0.000000, timing cost = 6086, wirelen = 45864
+Info:   at iteration #33: temp = 0.000000, timing cost = 6088, wirelen = 45842 
+Info: SA placement time 59.80s
+
+Info: Max frequency for clock '$glbnet$clk_i$TRELLIS_IO_IN': 21.62 MHz (FAIL at 25.00 MHz)
+
+Info: Max delay <async>                             -> posedge $glbnet$clk_i$TRELLIS_IO_IN: 13.14 ns
+Info: Max delay posedge $glbnet$clk_i$TRELLIS_IO_IN -> <async>                            : 43.94 ns
+
+Info: Slack histogram:
+Info:  legend: * represents 15 endpoint(s)
+Info:          + represents [1,15) endpoint(s)
+Info: [ -6255,  -3998) |*******+
+Info: [ -3998,  -1741) |*******+
+Info: [ -1741,    516) |***********************+
+Info: [   516,   2773) |*******+
+Info: [  2773,   5030) |***+
+Info: [  5030,   7287) |**+
+Info: [  7287,   9544) |**+
+Info: [  9544,  11801) |**+
+Info: [ 11801,  14058) |***+
+Info: [ 14058,  16315) |************ 
+Info: [ 16315,  18572) |*********************+
+Info: [ 18572,  20829) |***************+
+Info: [ 20829,  23086) |*****************************+
+Info: [ 23086,  25343) |************************************************************ 
+Info: [ 25343,  27600) |*************************************+
+Info: [ 27600,  29857) |**************************+
+Info: [ 29857,  32114) |*************************************+
+Info: [ 32114,  34371) |*****************************+
+Info: [ 34371,  36628) |*******************+
+Info: [ 36628,  38885) |***************+
+Info: Checksum: 0xb3fdfaf4
+Info: Routing globals...
+Info:     routing clock net $glbnet$clk_i$TRELLIS_IO_IN using global 0
+
+Info: Routing..
+Info: Setting up routing queue.
+Info: Routing 29186 arcs.
+Info:            |   (re-)routed arcs  |   delta    | remaining|       time spent     |
+Info:    IterCnt |  w/ripup   wo/ripup |  w/r  wo/r |      arcs| batch(sec) total(sec)|
+Info:       1000 |      576        423 |  576   423 |     28919|       1.29       1.29|
+Info:       2000 |     1228        771 |  652   348 |     28767|       0.31       1.60|
+Info:       3000 |     1914       1085 |  686   314 |     28644|       0.30       1.90|
+Info:       4000 |     2579       1420 |  665   335 |     28584|       0.25       2.15|
+Info:       5000 |     3186       1813 |  607   393 |     28505|       0.26       2.41|
+Info:       6000 |     3759       2240 |  573   427 |     28433|       0.18       2.59|
+Info:       7000 |     4329       2670 |  570   430 |     28322|       0.17       2.76|
+Info:       8000 |     4871       3128 |  542   458 |     28266|       0.18       2.93|
+Info:       9000 |     5442       3557 |  571   429 |     28204|       0.32       3.26|
+Info:      10000 |     6030       3969 |  588   412 |     28157|       0.31       3.57|
+Info:      11000 |     6625       4374 |  595   405 |     28139|       0.30       3.87|
+Info:      12000 |     7185       4814 |  560   440 |     28079|       0.16       4.03|
+Info:      13000 |     7727       5272 |  542   458 |     28011|       0.29       4.33|
+Info:      14000 |     8347       5652 |  620   380 |     27938|       0.33       4.65|
+Info:      15000 |     8917       6082 |  570   430 |     27882|       0.30       4.96|
+Info:      16000 |     9425       6574 |  508   492 |     27778|       0.27       5.23|
+Info:      17000 |     9980       7019 |  555   445 |     27770|       0.25       5.48|
+Info:      18000 |    10517       7482 |  537   463 |     27653|       0.35       5.83|
+Info:      19000 |    11135       7864 |  618   382 |     27515|       0.31       6.14|
+Info:      20000 |    11653       8346 |  518   482 |     27386|       0.23       6.36|
+Info:      21000 |    12249       8750 |  596   404 |     27257|       0.28       6.64|
+Info:      22000 |    12780       9219 |  531   469 |     27155|       0.28       6.93|
+Info:      23000 |    13314       9685 |  534   466 |     26965|       0.29       7.22|
+Info:      24000 |    13849      10150 |  535   465 |     26870|       0.29       7.51|
+Info:      25000 |    14394      10605 |  545   455 |     26791|       0.27       7.78|
+Info:      26000 |    14913      11086 |  519   481 |     26504|       0.28       8.05|
+Info:      27000 |    15407      11592 |  494   506 |     26203|       0.23       8.29|
+Info:      28000 |    15900      12099 |  493   507 |     26034|       0.35       8.63|
+Info:      29000 |    16369      12630 |  469   531 |     25772|       0.29       8.92|
+Info:      30000 |    16878      13121 |  509   491 |     25585|       0.31       9.23|
+Info:      31000 |    17423      13576 |  545   455 |     25365|       0.29       9.53|
+Info:      32000 |    17827      14172 |  404   596 |     25177|       0.26       9.79|
+Info:      33000 |    18392      14607 |  565   435 |     25090|       0.37      10.15|
+Info:      34000 |    18849      15150 |  457   543 |     24848|       0.31      10.47|
+Info:      35000 |    19390      15609 |  541   459 |     24784|       0.34      10.80|
+Info:      36000 |    19871      16128 |  481   519 |     24574|       0.33      11.14|
+Info:      37000 |    20341      16658 |  470   530 |     24339|       0.39      11.53|
+Info:      38000 |    20785      17214 |  444   556 |     24305|       0.44      11.96|
+Info:      39000 |    21336      17663 |  551   449 |     24368|       0.33      12.29|
+Info:      40000 |    21753      18246 |  417   583 |     24095|       0.35      12.64|
+Info:      41000 |    22291      18708 |  538   462 |     23939|       0.31      12.95|
+Info:      42000 |    22800      19199 |  509   491 |     23762|       0.30      13.25|
+Info:      43000 |    23241      19758 |  441   559 |     23484|       0.34      13.59|
+Info:      44000 |    23721      20278 |  480   520 |     23226|       0.47      14.06|
+Info:      45000 |    24156      20843 |  435   565 |     23130|       0.50      14.55|
+Info:      46000 |    24582      21417 |  426   574 |     22975|       0.63      15.19|
+Info:      47000 |    25016      21983 |  434   566 |     22749|       0.34      15.52|
+Info:      48000 |    25438      22561 |  422   578 |     22537|       0.39      15.91|
+Info:      49000 |    25945      23054 |  507   493 |     22440|       0.46      16.37|
+Info:      50000 |    26372      23627 |  427   573 |     22122|       0.41      16.79|
+Info:      51000 |    26833      24166 |  461   539 |     22005|       0.35      17.13|
+Info:      52000 |    27407      24592 |  574   426 |     22018|       0.52      17.65|
+Info:      53000 |    27903      25096 |  496   504 |     21963|       0.45      18.10|
+Info:      54000 |    28437      25562 |  534   466 |     21911|       0.35      18.45|
+Info:      55000 |    28917      26082 |  480   520 |     21724|       0.30      18.75|
+Info:      56000 |    29501      26498 |  584   416 |     21871|       0.38      19.13|
+Info:      57000 |    29992      27007 |  491   509 |     21669|       0.48      19.62|
+Info:      58000 |    30438      27561 |  446   554 |     21422|       0.32      19.94|
+Info:      59000 |    30927      28072 |  489   511 |     21411|       0.36      20.30|
+Info:      60000 |    31347      28652 |  420   580 |     21128|       0.37      20.67|
+Info:      61000 |    31788      29211 |  441   559 |     20823|       0.40      21.06|
+Info:      62000 |    32314      29685 |  526   474 |     20778|       0.41      21.47|
+Info:      63000 |    32755      30244 |  441   559 |     20597|       0.45      21.92|
+Info:      64000 |    33193      30806 |  438   562 |     20304|       0.37      22.29|
+Info:      65000 |    33748      31251 |  555   445 |     20507|       0.45      22.73|
+Info:      66000 |    34356      31643 |  608   392 |     20638|       0.32      23.05|
+Info:      67000 |    34794      32205 |  438   562 |     20407|       0.50      23.55|
+Info:      68000 |    35272      32727 |  478   522 |     20273|       0.44      23.99|
+Info:      69000 |    35762      33237 |  490   510 |     20145|       0.54      24.53|
+Info:      70000 |    36251      33748 |  489   511 |     19969|       0.45      24.98|
+Info:      71000 |    36823      34176 |  572   428 |     20224|       0.42      25.41|
+Info:      72000 |    37305      34694 |  482   518 |     20188|       0.35      25.76|
+Info:      73000 |    37713      35286 |  408   592 |     20093|       0.41      26.16|
+Info:      74000 |    38143      35856 |  430   570 |     19921|       0.36      26.53|
+Info:      75000 |    38675      36324 |  532   468 |     19848|       0.41      26.94|
+Info:      76000 |    39122      36877 |  447   553 |     19777|       0.42      27.35|
+Info:      77000 |    39615      37384 |  493   507 |     19590|       0.36      27.72|
+Info:      78000 |    40082      37917 |  467   533 |     19503|       0.45      28.17|
+Info:      79000 |    40605      38394 |  523   477 |     19279|       0.44      28.61|
+Info:      80000 |    41094      38905 |  489   511 |     19199|       0.40      29.01|
+Info:      81000 |    41592      39407 |  498   502 |     18844|       0.41      29.42|
+Info:      82000 |    42086      39913 |  494   506 |     18566|       0.46      29.88|
+Info:      83000 |    42524      40475 |  438   562 |     18268|       0.30      30.19|
+Info:      84000 |    43038      40961 |  514   486 |     18141|       0.34      30.53|
+Info:      85000 |    43465      41534 |  427   573 |     17840|       0.28      30.81|
+Info:      86000 |    43984      42015 |  519   481 |     17729|       0.37      31.18|
+Info:      87000 |    44510      42489 |  526   474 |     17930|       0.44      31.62|
+Info:      88000 |    45013      42986 |  503   497 |     17768|       0.46      32.08|
+Info:      89000 |    45515      43484 |  502   498 |     17675|       0.44      32.52|
+Info:      90000 |    45976      44023 |  461   539 |     17286|       0.38      32.90|
+Info:      91000 |    46544      44455 |  568   432 |     17053|       0.38      33.28|
+Info:      92000 |    47077      44922 |  533   467 |     16880|       0.47      33.75|
+Info:      93000 |    47637      45362 |  560   440 |     16734|       0.50      34.25|
+Info:      94000 |    48220      45779 |  583   417 |     16706|       0.43      34.68|
+Info:      95000 |    48656      46343 |  436   564 |     16923|       0.45      35.13|
+Info:      96000 |    49167      46832 |  511   489 |     17149|       0.63      35.76|
+Info:      97000 |    49556      47443 |  389   611 |     16892|       0.47      36.23|
+Info:      98000 |    50007      47992 |  451   549 |     16553|       0.48      36.71|
+Info:      99000 |    50492      48507 |  485   515 |     16367|       0.42      37.12|
+Info:     100000 |    51037      48962 |  545   455 |     16152|       0.60      37.73|
+Info:     101000 |    51537      49462 |  500   500 |     15907|       0.51      38.24|
+Info:     102000 |    51991      50008 |  454   546 |     15650|       0.39      38.63|
+Info:     103000 |    52345      50654 |  354   646 |     15203|       0.39      39.02|
+Info:     104000 |    52870      51129 |  525   475 |     14924|       0.42      39.44|
+Info:     105000 |    53300      51699 |  430   570 |     14591|       0.39      39.83|
+Info:     106000 |    53836      52133 |  536   434 |     14236|       0.32      40.15|
+Info:     107000 |    54541      52411 |  705   278 |     13984|       0.26      40.40|
+Info:     108000 |    55251      52688 |  710   277 |     13791|       0.28      40.68|
+Info:     109000 |    55978      52951 |  727   263 |     13615|       0.58      41.26|
+Info:     110000 |    56656      53256 |  678   305 |     13408|       0.34      41.60|
+Info:     111000 |    57250      53642 |  594   386 |     13179|       0.34      41.94|
+Info:     112000 |    57932      53931 |  682   289 |     12911|       0.41      42.35|
+Info:     113000 |    58492      54358 |  560   427 |     12897|       0.42      42.77|
+Info:     114000 |    59093      54757 |  601   399 |     12871|       0.51      43.27|
+Info:     115000 |    59688      55152 |  595   395 |     12649|       0.48      43.75|
+Info:     116000 |    60348      55480 |  660   328 |     12390|       0.47      44.22|
+Info:     117000 |    60915      55900 |  567   420 |     12107|       0.38      44.60|
+Info:     118000 |    61442      56365 |  527   465 |     11823|       0.34      44.94|
+Info:     119000 |    61910      56895 |  468   530 |     11410|       0.36      45.29|
+Info:     120000 |    62469      57328 |  559   433 |     11200|       0.42      45.71|
+Info:     121000 |    62934      57835 |  465   507 |     10882|       0.44      46.15|
+Info:     122000 |    63241      58468 |  307   633 |     10385|       0.42      46.57|
+Info:     123000 |    63593      59025 |  352   557 |      9876|       0.35      46.93|
+Info:     124000 |    63966      59611 |  373   586 |      9499|       0.51      47.43|
+Info:     125000 |    64275      60257 |  309   646 |      8869|       0.33      47.76|
+Info:     126000 |    64560      60961 |  285   704 |      8311|       0.32      48.08|
+Info:     127000 |    64905      61606 |  345   645 |      7828|       0.35      48.44|
+Info:     128000 |    65194      62234 |  289   628 |      7191|       0.30      48.74|
+Info:     129000 |    65506      62867 |  312   633 |      6584|       0.33      49.06|
+Info:     130000 |    65867      63466 |  361   599 |      6194|       0.51      49.57|
+Info:     131000 |    66177      64090 |  310   624 |      5554|       0.39      49.96|
+Info:     132000 |    66381      64816 |  204   726 |      4778|       0.48      50.44|
+Info:     133000 |    66728      65424 |  347   608 |      4303|       0.57      51.01|
+Info:     134000 |    67075      66050 |  347   626 |      3887|       0.75      51.76|
+Info:     135000 |    67333      66760 |  258   710 |      3387|       0.63      52.39|
+Info:     136000 |    67619      67446 |  286   686 |      2868|       0.62      53.01|
+Info:     137000 |    67890      68134 |  271   688 |      2357|       0.57      53.58|
+Info:     138000 |    68130      68850 |  240   716 |      1700|       0.69      54.27|
+Info:     139000 |    68587      69382 |  457   532 |      1670|       0.66      54.93|
+Info:     140000 |    68940      70011 |  353   629 |      1412|       0.52      55.46|
+Info:     141000 |    69267      70651 |  327   640 |       943|       0.58      56.03|
+Info:     142000 |    69784      71127 |  517   476 |       928|       0.84      56.87|
+Info:     143000 |    70335      71576 |  551   449 |      1068|       0.69      57.56|
+Info:     144000 |    70805      72106 |  470   530 |      1122|       0.89      58.44|
+Info:     145000 |    71338      72573 |  533   467 |      1183|       0.87      59.31|
+Info:     146000 |    71751      73156 |  413   583 |       766|       0.73      60.04|
+Info:     147000 |    72159      73723 |  408   567 |       410|       0.59      60.63|
+Info:     147913 |    72496      74269 |  337   546 |         0|       0.72      61.35|
+Info: Routing complete.
+Info: Router1 time 61.35s
+Info: Checksum: 0x096aed31
+
+Info: Critical path report for clock '$glbnet$clk_i$TRELLIS_IO_IN' (posedge -> posedge):
+Info: curr total
+Info:  0.5  0.5  Source u_ibex_top.u_ibex_core.if_stage_i.instr_rdata_alu_id_o_TRELLIS_FF_Q_9.Q
+Info:  1.2  1.7    Net u_ibex_top.rf_raddr_b[2] budget 0.419000 ns (84,15) -> (85,14)
+Info:                Sink u_ibex_top.irq_timer_i_LUT4_C_1_D_LUT4_Z_B_LUT4_Z.D
+Info:                Defined in:
+Info:                  /usr/bin/../share/yosys/ecp5/cells_map.v:108.23-108.24
+Info:  0.2  1.9  Source u_ibex_top.irq_timer_i_LUT4_C_1_D_LUT4_Z_B_LUT4_Z.F
+Info:  1.3  3.2    Net u_ibex_top.irq_timer_i_LUT4_C_1_D_LUT4_Z_B[4] budget 0.419000 ns (85,14) -> (89,8)
+Info:                Sink u_ibex_top.irq_timer_i_LUT4_C_1_D_LUT4_Z_B_LUT4_C.C
+Info:                Defined in:
+Info:                  /usr/bin/../share/yosys/ecp5/cells_map.v:108.23-108.24
+Info:  0.2  3.5  Source u_ibex_top.irq_timer_i_LUT4_C_1_D_LUT4_Z_B_LUT4_C.F
+Info:  2.4  5.8    Net u_ibex_top.u_ibex_core.id_stage_i.imd_val_d_ex_i_LUT4_Z_9_B_LUT4_Z_A_LUT4_Z_A_LUT4_Z_2_A_LUT4_Z_1_A[3] budget 0.419000 ns (89,8) -> (75,4)
+Info:                Sink u_ibex_top.u_ibex_core.cs_registers_i.mstatus_en_LUT4_Z_C_LUT4_Z_B_LUT4_B_Z_LUT4_Z_2_B_LUT4_C_B_LUT4_Z_C_LUT4_B_Z_LUT4_Z_B_LUT4_D_Z_LUT4_Z_C_LUT4_C_Z_LUT4_Z_C_LUT4_D_Z_LUT4_Z_D_LUT4_C_1_Z_LUT4_C_6_Z_LUT4_Z_1_A_LUT4_Z_1.D
+Info:                Defined in:
+Info:                  /usr/bin/../share/yosys/ecp5/cells_map.v:108.23-108.24
+Info:  0.2  6.1  Source u_ibex_top.u_ibex_core.cs_registers_i.mstatus_en_LUT4_Z_C_LUT4_Z_B_LUT4_B_Z_LUT4_Z_2_B_LUT4_C_B_LUT4_Z_C_LUT4_B_Z_LUT4_Z_B_LUT4_D_Z_LUT4_Z_C_LUT4_C_Z_LUT4_Z_C_LUT4_D_Z_LUT4_Z_D_LUT4_C_1_Z_LUT4_C_6_Z_LUT4_Z_1_A_LUT4_Z_1.F
+Info:  0.6  6.7    Net u_ibex_top.u_ibex_core.cs_registers_i.mstatus_en_LUT4_Z_C_LUT4_Z_B_LUT4_B_Z_LUT4_Z_2_B_LUT4_C_B_LUT4_Z_C_LUT4_B_Z_LUT4_Z_B_LUT4_D_Z_LUT4_Z_C_LUT4_C_Z_LUT4_Z_C_LUT4_D_Z_LUT4_Z_D_LUT4_C_1_Z_LUT4_C_6_Z_LUT4_Z_1_A[2] budget 0.419000 ns (75,4) -> (75,4)
+Info:                Sink u_ibex_top.u_ibex_core.cs_registers_i.mstatus_en_LUT4_Z_C_LUT4_Z_B_LUT4_B_Z_LUT4_Z_2_B_LUT4_C_B_LUT4_Z_C_LUT4_B_Z_LUT4_Z_B_LUT4_D_Z_LUT4_Z_C_LUT4_C_Z_LUT4_Z_C_LUT4_D_Z_LUT4_Z_D_LUT4_C_1_Z_LUT4_C_6_Z_LUT4_Z_1.C
+Info:                Defined in:
+Info:                  /usr/bin/../share/yosys/ecp5/cells_map.v:108.23-108.24
+Info:  0.2  6.9  Source u_ibex_top.u_ibex_core.cs_registers_i.mstatus_en_LUT4_Z_C_LUT4_Z_B_LUT4_B_Z_LUT4_Z_2_B_LUT4_C_B_LUT4_Z_C_LUT4_B_Z_LUT4_Z_B_LUT4_D_Z_LUT4_Z_C_LUT4_C_Z_LUT4_Z_C_LUT4_D_Z_LUT4_Z_D_LUT4_C_1_Z_LUT4_C_6_Z_LUT4_Z_1.F
+Info:  0.7  7.6    Net u_ibex_top.u_ibex_core.cs_registers_i.mstatus_en_LUT4_Z_C_LUT4_Z_B_LUT4_B_Z_LUT4_Z_2_B_LUT4_C_B_LUT4_Z_C_LUT4_B_Z_LUT4_Z_B_LUT4_D_Z_LUT4_Z_C_LUT4_C_Z_LUT4_Z_C_LUT4_D_Z_LUT4_Z_D_LUT4_C_1_Z_LUT4_C_6_Z[1] budget 0.419000 ns (75,4) -> (77,5)
+Info:                Sink u_ibex_top.u_ibex_core.cs_registers_i.mstatus_en_LUT4_Z_C_LUT4_Z_B_LUT4_B_Z_LUT4_Z_2_B_LUT4_C_B_LUT4_Z_C_LUT4_B_Z_LUT4_Z_B_LUT4_D_Z_LUT4_Z_C_LUT4_C_Z_LUT4_Z_C_LUT4_D_Z_LUT4_Z_D_LUT4_C_1_Z_LUT4_C_6_Z_LUT4_A.B
+Info:                Defined in:
+Info:                  /usr/bin/../share/yosys/ecp5/cells_map.v:108.23-108.24
+Info:  0.2  7.9  Source u_ibex_top.u_ibex_core.cs_registers_i.mstatus_en_LUT4_Z_C_LUT4_Z_B_LUT4_B_Z_LUT4_Z_2_B_LUT4_C_B_LUT4_Z_C_LUT4_B_Z_LUT4_Z_B_LUT4_D_Z_LUT4_Z_C_LUT4_C_Z_LUT4_Z_C_LUT4_D_Z_LUT4_Z_D_LUT4_C_1_Z_LUT4_C_6_Z_LUT4_A.F
+Info:  0.7  8.5    Net u_ibex_top.u_ibex_core.id_stage_i.imd_val_d_ex_i_LUT4_Z_28_B_PFUMX_Z_BLUT_LUT4_Z_B[1] budget 0.419000 ns (77,5) -> (79,5)
+Info:                Sink u_ibex_top.u_ibex_core.id_stage_i.imd_val_d_ex_i_LUT4_Z_28_B_PFUMX_Z_BLUT_LUT4_Z.C
+Info:                Defined in:
+Info:                  /usr/bin/../share/yosys/ecp5/cells_map.v:108.23-108.24
+Info:  0.4  8.9  Source u_ibex_top.u_ibex_core.id_stage_i.imd_val_d_ex_i_LUT4_Z_28_B_PFUMX_Z_BLUT_LUT4_Z.OFX
+Info:  2.2 11.1    Net u_ibex_top.u_ibex_core.id_stage_i.imd_val_d_ex_i_LUT4_Z_28_B[0] budget 0.418000 ns (79,5) -> (93,18)
+Info:                Sink u_ibex_top.u_ibex_core.ex_block_i.alu_i.adder_in_b_LUT4_Z_28_A_LUT4_Z_C_LUT4_Z_1.C
+Info:                Defined in:
+Info:                  /usr/bin/../share/yosys/ecp5/cells_map.v:108.23-108.24
+Info:  0.2 11.3  Source u_ibex_top.u_ibex_core.ex_block_i.alu_i.adder_in_b_LUT4_Z_28_A_LUT4_Z_C_LUT4_Z_1.F
+Info:  0.4 11.7    Net u_ibex_top.u_ibex_core.ex_block_i.alu_i.adder_in_b_LUT4_Z_28_A_LUT4_Z_C[2] budget 0.418000 ns (93,18) -> (93,18)
+Info:                Sink u_ibex_top.u_ibex_core.ex_block_i.alu_i.adder_in_b_LUT4_Z_28_A_LUT4_Z.C
+Info:                Defined in:
+Info:                  /usr/bin/../share/yosys/ecp5/cells_map.v:108.23-108.24
+Info:  0.2 12.0  Source u_ibex_top.u_ibex_core.ex_block_i.alu_i.adder_in_b_LUT4_Z_28_A_LUT4_Z.F
+Info:  0.9 12.8    Net u_ibex_top.u_ibex_core.ex_block_i.alu_i.adder_in_b_LUT4_Z_28_A[0] budget 0.418000 ns (93,18) -> (93,19)
+Info:                Sink u_ibex_top.u_ibex_core.ex_block_i.alu_i.adder_in_b_LUT4_Z_28.A
+Info:                Defined in:
+Info:                  /usr/bin/../share/yosys/ecp5/cells_map.v:108.23-108.24
+Info:  0.2 13.1  Source u_ibex_top.u_ibex_core.ex_block_i.alu_i.adder_in_b_LUT4_Z_28.F
+Info:  1.2 14.3    Net u_ibex_top.u_ibex_core.ex_block_i.alu_i.adder_in_b[4] budget 0.418000 ns (93,19) -> (93,23)
+Info:                Sink u_ibex_top.u_ibex_core.ex_block_i.alu_adder_result_ext_CCU2C_S0_2$CCU2_COMB0.A
+Info:                Defined in:
+Info:                  /workspace/integrations/ibex/synth/ibex_fpga_top.v:47.5-103.4
+Info:                  /workspace/output/ibex_post_synth/policy0/ibex.v:3113.4-3140.3
+Info:                  /workspace/output/ibex_post_synth/policy0/ibex.v:466.13-466.23
+Info:                  /workspace/output/ibex_post_synth/policy0/ibex.v:6004.28-6020.3
+Info:                  /workspace/output/ibex_post_synth/policy0/ibex.v:11176.4-11232.3
+Info:  0.4 14.8  Source u_ibex_top.u_ibex_core.ex_block_i.alu_adder_result_ext_CCU2C_S0_2$CCU2_COMB0.FCO
+Info:  0.0 14.8    Net u_ibex_top.u_ibex_core.ex_block_i.alu_adder_result_ext_CCU2C_S0_2$CCU2_FCI_INT budget 0.000000 ns (93,23) -> (93,23)
+Info:                Sink u_ibex_top.u_ibex_core.ex_block_i.alu_adder_result_ext_CCU2C_S0_2$CCU2_COMB1.FCI
+Info:  0.0 14.8  Source u_ibex_top.u_ibex_core.ex_block_i.alu_adder_result_ext_CCU2C_S0_2$CCU2_COMB1.FCO
+Info:  0.0 14.8    Net u_ibex_top.u_ibex_core.ex_block_i.alu_adder_result_ext_CCU2C_S0_3_COUT[4] budget 0.000000 ns (93,23) -> (94,23)
+Info:                Sink u_ibex_top.u_ibex_core.ex_block_i.alu_adder_result_ext_CCU2C_S0_1$CCU2_COMB0.FCI
+Info:                Defined in:
+Info:                  /workspace/integrations/ibex/synth/ibex_fpga_top.v:47.5-103.4
+Info:                  /workspace/output/ibex_post_synth/policy0/ibex.v:3113.4-3140.3
+Info:                  /workspace/output/ibex_post_synth/policy0/ibex.v:514.30-514.75
+Info:                  /workspace/output/ibex_post_synth/policy0/ibex.v:6004.28-6020.3
+Info:                  /workspace/output/ibex_post_synth/policy0/ibex.v:11176.4-11232.3
+Info:                  /usr/bin/../share/yosys/ecp5/arith_map.v:63.22-63.23
+Info:  0.1 14.8  Source u_ibex_top.u_ibex_core.ex_block_i.alu_adder_result_ext_CCU2C_S0_1$CCU2_COMB0.FCO
+Info:  0.0 14.8    Net u_ibex_top.u_ibex_core.ex_block_i.alu_adder_result_ext_CCU2C_S0_1$CCU2_FCI_INT budget 0.000000 ns (94,23) -> (94,23)
+Info:                Sink u_ibex_top.u_ibex_core.ex_block_i.alu_adder_result_ext_CCU2C_S0_1$CCU2_COMB1.FCI
+Info:  0.0 14.8  Source u_ibex_top.u_ibex_core.ex_block_i.alu_adder_result_ext_CCU2C_S0_1$CCU2_COMB1.FCO
+Info:  0.0 14.8    Net u_ibex_top.u_ibex_core.ex_block_i.alu_adder_result_ext_CCU2C_S0_3_COUT[6] budget 0.000000 ns (94,23) -> (94,23)
+Info:                Sink u_ibex_top.u_ibex_core.ex_block_i.alu_adder_result_ext_CCU2C_S0$CCU2_COMB0.FCI
+Info:                Defined in:
+Info:                  /workspace/integrations/ibex/synth/ibex_fpga_top.v:47.5-103.4
+Info:                  /workspace/output/ibex_post_synth/policy0/ibex.v:3113.4-3140.3
+Info:                  /workspace/output/ibex_post_synth/policy0/ibex.v:514.30-514.75
+Info:                  /workspace/output/ibex_post_synth/policy0/ibex.v:6004.28-6020.3
+Info:                  /workspace/output/ibex_post_synth/policy0/ibex.v:11176.4-11232.3
+Info:                  /usr/bin/../share/yosys/ecp5/arith_map.v:63.22-63.23
+Info:  0.1 14.9  Source u_ibex_top.u_ibex_core.ex_block_i.alu_adder_result_ext_CCU2C_S0$CCU2_COMB0.FCO
+Info:  0.0 14.9    Net u_ibex_top.u_ibex_core.ex_block_i.alu_adder_result_ext_CCU2C_S0$CCU2_FCI_INT budget 0.000000 ns (94,23) -> (94,23)
+Info:                Sink u_ibex_top.u_ibex_core.ex_block_i.alu_adder_result_ext_CCU2C_S0$CCU2_COMB1.FCI
+Info:  0.0 14.9  Source u_ibex_top.u_ibex_core.ex_block_i.alu_adder_result_ext_CCU2C_S0$CCU2_COMB1.FCO
+Info:  0.0 14.9    Net u_ibex_top.u_ibex_core.ex_block_i.alu_adder_result_ext_CCU2C_S0_3_COUT[8] budget 0.000000 ns (94,23) -> (94,23)
+Info:                Sink u_ibex_top.u_ibex_core.ex_block_i.alu_adder_result_ext_CCU2C_S0_15$CCU2_COMB0.FCI
+Info:                Defined in:
+Info:                  /workspace/integrations/ibex/synth/ibex_fpga_top.v:47.5-103.4
+Info:                  /workspace/output/ibex_post_synth/policy0/ibex.v:3113.4-3140.3
+Info:                  /workspace/output/ibex_post_synth/policy0/ibex.v:514.30-514.75
+Info:                  /workspace/output/ibex_post_synth/policy0/ibex.v:6004.28-6020.3
+Info:                  /workspace/output/ibex_post_synth/policy0/ibex.v:11176.4-11232.3
+Info:                  /usr/bin/../share/yosys/ecp5/arith_map.v:63.22-63.23
+Info:  0.1 15.0  Source u_ibex_top.u_ibex_core.ex_block_i.alu_adder_result_ext_CCU2C_S0_15$CCU2_COMB0.FCO
+Info:  0.0 15.0    Net u_ibex_top.u_ibex_core.ex_block_i.alu_adder_result_ext_CCU2C_S0_15$CCU2_FCI_INT budget 0.000000 ns (94,23) -> (94,23)
+Info:                Sink u_ibex_top.u_ibex_core.ex_block_i.alu_adder_result_ext_CCU2C_S0_15$CCU2_COMB1.FCI
+Info:  0.0 15.0  Source u_ibex_top.u_ibex_core.ex_block_i.alu_adder_result_ext_CCU2C_S0_15$CCU2_COMB1.FCO
+Info:  0.0 15.0    Net u_ibex_top.u_ibex_core.ex_block_i.alu_adder_result_ext_CCU2C_S0_3_COUT[10] budget 0.000000 ns (94,23) -> (94,23)
+Info:                Sink u_ibex_top.u_ibex_core.ex_block_i.alu_adder_result_ext_CCU2C_S0_14$CCU2_COMB0.FCI
+Info:                Defined in:
+Info:                  /workspace/integrations/ibex/synth/ibex_fpga_top.v:47.5-103.4
+Info:                  /workspace/output/ibex_post_synth/policy0/ibex.v:3113.4-3140.3
+Info:                  /workspace/output/ibex_post_synth/policy0/ibex.v:514.30-514.75
+Info:                  /workspace/output/ibex_post_synth/policy0/ibex.v:6004.28-6020.3
+Info:                  /workspace/output/ibex_post_synth/policy0/ibex.v:11176.4-11232.3
+Info:                  /usr/bin/../share/yosys/ecp5/arith_map.v:63.22-63.23
+Info:  0.1 15.0  Source u_ibex_top.u_ibex_core.ex_block_i.alu_adder_result_ext_CCU2C_S0_14$CCU2_COMB0.FCO
+Info:  0.0 15.0    Net u_ibex_top.u_ibex_core.ex_block_i.alu_adder_result_ext_CCU2C_S0_14$CCU2_FCI_INT budget 0.000000 ns (94,23) -> (94,23)
+Info:                Sink u_ibex_top.u_ibex_core.ex_block_i.alu_adder_result_ext_CCU2C_S0_14$CCU2_COMB1.FCI
+Info:  0.0 15.0  Source u_ibex_top.u_ibex_core.ex_block_i.alu_adder_result_ext_CCU2C_S0_14$CCU2_COMB1.FCO
+Info:  0.0 15.0    Net u_ibex_top.u_ibex_core.ex_block_i.alu_adder_result_ext_CCU2C_S0_3_COUT[12] budget 0.000000 ns (94,23) -> (95,23)
+Info:                Sink u_ibex_top.u_ibex_core.ex_block_i.alu_adder_result_ext_CCU2C_S0_13$CCU2_COMB0.FCI
+Info:                Defined in:
+Info:                  /workspace/integrations/ibex/synth/ibex_fpga_top.v:47.5-103.4
+Info:                  /workspace/output/ibex_post_synth/policy0/ibex.v:3113.4-3140.3
+Info:                  /workspace/output/ibex_post_synth/policy0/ibex.v:514.30-514.75
+Info:                  /workspace/output/ibex_post_synth/policy0/ibex.v:6004.28-6020.3
+Info:                  /workspace/output/ibex_post_synth/policy0/ibex.v:11176.4-11232.3
+Info:                  /usr/bin/../share/yosys/ecp5/arith_map.v:63.22-63.23
+Info:  0.1 15.1  Source u_ibex_top.u_ibex_core.ex_block_i.alu_adder_result_ext_CCU2C_S0_13$CCU2_COMB0.FCO
+Info:  0.0 15.1    Net u_ibex_top.u_ibex_core.ex_block_i.alu_adder_result_ext_CCU2C_S0_13$CCU2_FCI_INT budget 0.000000 ns (95,23) -> (95,23)
+Info:                Sink u_ibex_top.u_ibex_core.ex_block_i.alu_adder_result_ext_CCU2C_S0_13$CCU2_COMB1.FCI
+Info:  0.0 15.1  Source u_ibex_top.u_ibex_core.ex_block_i.alu_adder_result_ext_CCU2C_S0_13$CCU2_COMB1.FCO
+Info:  0.0 15.1    Net u_ibex_top.u_ibex_core.ex_block_i.alu_adder_result_ext_CCU2C_S0_3_COUT[14] budget 0.000000 ns (95,23) -> (95,23)
+Info:                Sink u_ibex_top.u_ibex_core.ex_block_i.alu_adder_result_ext_CCU2C_S0_12$CCU2_COMB0.FCI
+Info:                Defined in:
+Info:                  /workspace/integrations/ibex/synth/ibex_fpga_top.v:47.5-103.4
+Info:                  /workspace/output/ibex_post_synth/policy0/ibex.v:3113.4-3140.3
+Info:                  /workspace/output/ibex_post_synth/policy0/ibex.v:514.30-514.75
+Info:                  /workspace/output/ibex_post_synth/policy0/ibex.v:6004.28-6020.3
+Info:                  /workspace/output/ibex_post_synth/policy0/ibex.v:11176.4-11232.3
+Info:                  /usr/bin/../share/yosys/ecp5/arith_map.v:63.22-63.23
+Info:  0.1 15.2  Source u_ibex_top.u_ibex_core.ex_block_i.alu_adder_result_ext_CCU2C_S0_12$CCU2_COMB0.FCO
+Info:  0.0 15.2    Net u_ibex_top.u_ibex_core.ex_block_i.alu_adder_result_ext_CCU2C_S0_12$CCU2_FCI_INT budget 0.000000 ns (95,23) -> (95,23)
+Info:                Sink u_ibex_top.u_ibex_core.ex_block_i.alu_adder_result_ext_CCU2C_S0_12$CCU2_COMB1.FCI
+Info:  0.0 15.2  Source u_ibex_top.u_ibex_core.ex_block_i.alu_adder_result_ext_CCU2C_S0_12$CCU2_COMB1.FCO
+Info:  0.0 15.2    Net u_ibex_top.u_ibex_core.ex_block_i.alu_adder_result_ext_CCU2C_S0_3_COUT[16] budget 0.000000 ns (95,23) -> (95,23)
+Info:                Sink u_ibex_top.u_ibex_core.ex_block_i.alu_adder_result_ext_CCU2C_S0_11$CCU2_COMB0.FCI
+Info:                Defined in:
+Info:                  /workspace/integrations/ibex/synth/ibex_fpga_top.v:47.5-103.4
+Info:                  /workspace/output/ibex_post_synth/policy0/ibex.v:3113.4-3140.3
+Info:                  /workspace/output/ibex_post_synth/policy0/ibex.v:514.30-514.75
+Info:                  /workspace/output/ibex_post_synth/policy0/ibex.v:6004.28-6020.3
+Info:                  /workspace/output/ibex_post_synth/policy0/ibex.v:11176.4-11232.3
+Info:                  /usr/bin/../share/yosys/ecp5/arith_map.v:63.22-63.23
+Info:  0.1 15.2  Source u_ibex_top.u_ibex_core.ex_block_i.alu_adder_result_ext_CCU2C_S0_11$CCU2_COMB0.FCO
+Info:  0.0 15.2    Net u_ibex_top.u_ibex_core.ex_block_i.alu_adder_result_ext_CCU2C_S0_11$CCU2_FCI_INT budget 0.000000 ns (95,23) -> (95,23)
+Info:                Sink u_ibex_top.u_ibex_core.ex_block_i.alu_adder_result_ext_CCU2C_S0_11$CCU2_COMB1.FCI
+Info:  0.0 15.2  Source u_ibex_top.u_ibex_core.ex_block_i.alu_adder_result_ext_CCU2C_S0_11$CCU2_COMB1.FCO
+Info:  0.0 15.2    Net u_ibex_top.u_ibex_core.ex_block_i.alu_adder_result_ext_CCU2C_S0_3_COUT[18] budget 0.000000 ns (95,23) -> (95,23)
+Info:                Sink u_ibex_top.u_ibex_core.ex_block_i.alu_adder_result_ext_CCU2C_S0_10$CCU2_COMB0.FCI
+Info:                Defined in:
+Info:                  /workspace/integrations/ibex/synth/ibex_fpga_top.v:47.5-103.4
+Info:                  /workspace/output/ibex_post_synth/policy0/ibex.v:3113.4-3140.3
+Info:                  /workspace/output/ibex_post_synth/policy0/ibex.v:514.30-514.75
+Info:                  /workspace/output/ibex_post_synth/policy0/ibex.v:6004.28-6020.3
+Info:                  /workspace/output/ibex_post_synth/policy0/ibex.v:11176.4-11232.3
+Info:                  /usr/bin/../share/yosys/ecp5/arith_map.v:63.22-63.23
+Info:  0.1 15.3  Source u_ibex_top.u_ibex_core.ex_block_i.alu_adder_result_ext_CCU2C_S0_10$CCU2_COMB0.FCO
+Info:  0.0 15.3    Net u_ibex_top.u_ibex_core.ex_block_i.alu_adder_result_ext_CCU2C_S0_10$CCU2_FCI_INT budget 0.000000 ns (95,23) -> (95,23)
+Info:                Sink u_ibex_top.u_ibex_core.ex_block_i.alu_adder_result_ext_CCU2C_S0_10$CCU2_COMB1.FCI
+Info:  0.0 15.3  Source u_ibex_top.u_ibex_core.ex_block_i.alu_adder_result_ext_CCU2C_S0_10$CCU2_COMB1.FCO
+Info:  0.0 15.3    Net u_ibex_top.u_ibex_core.ex_block_i.alu_adder_result_ext_CCU2C_S0_3_COUT[20] budget 0.000000 ns (95,23) -> (96,23)
+Info:                Sink u_ibex_top.u_ibex_core.ex_block_i.alu_adder_result_ext_CCU2C_S0_9$CCU2_COMB0.FCI
+Info:                Defined in:
+Info:                  /workspace/integrations/ibex/synth/ibex_fpga_top.v:47.5-103.4
+Info:                  /workspace/output/ibex_post_synth/policy0/ibex.v:3113.4-3140.3
+Info:                  /workspace/output/ibex_post_synth/policy0/ibex.v:514.30-514.75
+Info:                  /workspace/output/ibex_post_synth/policy0/ibex.v:6004.28-6020.3
+Info:                  /workspace/output/ibex_post_synth/policy0/ibex.v:11176.4-11232.3
+Info:                  /usr/bin/../share/yosys/ecp5/arith_map.v:63.22-63.23
+Info:  0.1 15.4  Source u_ibex_top.u_ibex_core.ex_block_i.alu_adder_result_ext_CCU2C_S0_9$CCU2_COMB0.FCO
+Info:  0.0 15.4    Net u_ibex_top.u_ibex_core.ex_block_i.alu_adder_result_ext_CCU2C_S0_9$CCU2_FCI_INT budget 0.000000 ns (96,23) -> (96,23)
+Info:                Sink u_ibex_top.u_ibex_core.ex_block_i.alu_adder_result_ext_CCU2C_S0_9$CCU2_COMB1.FCI
+Info:  0.0 15.4  Source u_ibex_top.u_ibex_core.ex_block_i.alu_adder_result_ext_CCU2C_S0_9$CCU2_COMB1.FCO
+Info:  0.0 15.4    Net u_ibex_top.u_ibex_core.ex_block_i.alu_adder_result_ext_CCU2C_S0_3_COUT[22] budget 0.000000 ns (96,23) -> (96,23)
+Info:                Sink u_ibex_top.u_ibex_core.ex_block_i.alu_adder_result_ext_CCU2C_S0_8$CCU2_COMB0.FCI
+Info:                Defined in:
+Info:                  /workspace/integrations/ibex/synth/ibex_fpga_top.v:47.5-103.4
+Info:                  /workspace/output/ibex_post_synth/policy0/ibex.v:3113.4-3140.3
+Info:                  /workspace/output/ibex_post_synth/policy0/ibex.v:514.30-514.75
+Info:                  /workspace/output/ibex_post_synth/policy0/ibex.v:6004.28-6020.3
+Info:                  /workspace/output/ibex_post_synth/policy0/ibex.v:11176.4-11232.3
+Info:                  /usr/bin/../share/yosys/ecp5/arith_map.v:63.22-63.23
+Info:  0.1 15.5  Source u_ibex_top.u_ibex_core.ex_block_i.alu_adder_result_ext_CCU2C_S0_8$CCU2_COMB0.FCO
+Info:  0.0 15.5    Net u_ibex_top.u_ibex_core.ex_block_i.alu_adder_result_ext_CCU2C_S0_8$CCU2_FCI_INT budget 0.000000 ns (96,23) -> (96,23)
+Info:                Sink u_ibex_top.u_ibex_core.ex_block_i.alu_adder_result_ext_CCU2C_S0_8$CCU2_COMB1.FCI
+Info:  0.0 15.5  Source u_ibex_top.u_ibex_core.ex_block_i.alu_adder_result_ext_CCU2C_S0_8$CCU2_COMB1.FCO
+Info:  0.0 15.5    Net u_ibex_top.u_ibex_core.ex_block_i.alu_adder_result_ext_CCU2C_S0_3_COUT[24] budget 0.000000 ns (96,23) -> (96,23)
+Info:                Sink u_ibex_top.u_ibex_core.ex_block_i.alu_adder_result_ext_CCU2C_S0_7$CCU2_COMB0.FCI
+Info:                Defined in:
+Info:                  /workspace/integrations/ibex/synth/ibex_fpga_top.v:47.5-103.4
+Info:                  /workspace/output/ibex_post_synth/policy0/ibex.v:3113.4-3140.3
+Info:                  /workspace/output/ibex_post_synth/policy0/ibex.v:514.30-514.75
+Info:                  /workspace/output/ibex_post_synth/policy0/ibex.v:6004.28-6020.3
+Info:                  /workspace/output/ibex_post_synth/policy0/ibex.v:11176.4-11232.3
+Info:                  /usr/bin/../share/yosys/ecp5/arith_map.v:63.22-63.23
+Info:  0.1 15.5  Source u_ibex_top.u_ibex_core.ex_block_i.alu_adder_result_ext_CCU2C_S0_7$CCU2_COMB0.FCO
+Info:  0.0 15.5    Net u_ibex_top.u_ibex_core.ex_block_i.alu_adder_result_ext_CCU2C_S0_7$CCU2_FCI_INT budget 0.000000 ns (96,23) -> (96,23)
+Info:                Sink u_ibex_top.u_ibex_core.ex_block_i.alu_adder_result_ext_CCU2C_S0_7$CCU2_COMB1.FCI
+Info:  0.0 15.5  Source u_ibex_top.u_ibex_core.ex_block_i.alu_adder_result_ext_CCU2C_S0_7$CCU2_COMB1.FCO
+Info:  0.0 15.5    Net u_ibex_top.u_ibex_core.ex_block_i.alu_adder_result_ext_CCU2C_S0_3_COUT[26] budget 0.000000 ns (96,23) -> (96,23)
+Info:                Sink u_ibex_top.u_ibex_core.ex_block_i.alu_adder_result_ext_CCU2C_S0_6$CCU2_COMB0.FCI
+Info:                Defined in:
+Info:                  /workspace/integrations/ibex/synth/ibex_fpga_top.v:47.5-103.4
+Info:                  /workspace/output/ibex_post_synth/policy0/ibex.v:3113.4-3140.3
+Info:                  /workspace/output/ibex_post_synth/policy0/ibex.v:514.30-514.75
+Info:                  /workspace/output/ibex_post_synth/policy0/ibex.v:6004.28-6020.3
+Info:                  /workspace/output/ibex_post_synth/policy0/ibex.v:11176.4-11232.3
+Info:                  /usr/bin/../share/yosys/ecp5/arith_map.v:63.22-63.23
+Info:  0.1 15.6  Source u_ibex_top.u_ibex_core.ex_block_i.alu_adder_result_ext_CCU2C_S0_6$CCU2_COMB0.FCO
+Info:  0.0 15.6    Net u_ibex_top.u_ibex_core.ex_block_i.alu_adder_result_ext_CCU2C_S0_6$CCU2_FCI_INT budget 0.000000 ns (96,23) -> (96,23)
+Info:                Sink u_ibex_top.u_ibex_core.ex_block_i.alu_adder_result_ext_CCU2C_S0_6$CCU2_COMB1.FCI
+Info:  0.4 16.0  Source u_ibex_top.u_ibex_core.ex_block_i.alu_adder_result_ext_CCU2C_S0_6$CCU2_COMB1.F
+Info:  0.9 16.9    Net data_addr_o[28] budget 0.418000 ns (96,23) -> (97,23)
+Info:                Sink u_ibex_top.u_ibex_core.ex_block_i.alu_i.is_equal_LUT4_Z_A_LUT4_Z_2_A_LUT4_Z_3.A
+Info:                Defined in:
+Info:                  /workspace/integrations/ibex/synth/ibex_fpga_top.v:47.5-103.4
+Info:                  /workspace/output/ibex_post_synth/policy0/ibex.v:3147.4-3179.3
+Info:                  /workspace/output/ibex_post_synth/policy0/ibex.v:8656.14-8656.33
+Info:                  /workspace/output/ibex_post_synth/policy0/ibex.v:11176.4-11232.3
+Info:  0.2 17.1  Source u_ibex_top.u_ibex_core.ex_block_i.alu_i.is_equal_LUT4_Z_A_LUT4_Z_2_A_LUT4_Z_3.F
+Info:  0.7 17.8    Net u_ibex_top.u_ibex_core.ex_block_i.alu_i.is_equal_LUT4_Z_A_LUT4_Z_2_A[0] budget 0.418000 ns (97,23) -> (95,24)
+Info:                Sink u_ibex_top.u_ibex_core.ex_block_i.alu_i.is_equal_LUT4_Z_A_LUT4_Z_2.A
+Info:                Defined in:
+Info:                  /usr/bin/../share/yosys/ecp5/cells_map.v:108.23-108.24
+Info:  0.2 18.1  Source u_ibex_top.u_ibex_core.ex_block_i.alu_i.is_equal_LUT4_Z_A_LUT4_Z_2.F
+Info:  0.8 18.9    Net u_ibex_top.u_ibex_core.ex_block_i.alu_i.is_equal_LUT4_Z_A[1] budget 0.418000 ns (95,24) -> (95,24)
+Info:                Sink u_ibex_top.u_ibex_core.ex_block_i.alu_i.is_equal_LUT4_Z.B
+Info:                Defined in:
+Info:                  /usr/bin/../share/yosys/ecp5/cells_map.v:108.23-108.24
+Info:  0.2 19.1  Source u_ibex_top.u_ibex_core.ex_block_i.alu_i.is_equal_LUT4_Z.F
+Info:  1.4 20.5    Net u_ibex_top.u_ibex_core.ex_block_i.alu_is_equal_result budget 0.418000 ns (95,24) -> (87,16)
+Info:                Sink u_ibex_top.u_ibex_core.wb_stage_i.rf_we_id_i_LUT4_Z_B_LUT4_C_Z_L6MUX21_Z_D1_L6MUX21_Z_D1_PFUMX_Z_ALUT_LUT4_Z.M
+Info:                Defined in:
+Info:                  /usr/bin/../share/yosys/ecp5/cells_map.v:108.23-108.24
+Info:  0.3 20.8  Source u_ibex_top.u_ibex_core.wb_stage_i.rf_we_id_i_LUT4_Z_B_LUT4_C_Z_L6MUX21_Z_D1_L6MUX21_Z_D1_PFUMX_Z_ALUT_LUT4_Z.OFX
+Info:  0.0 20.8    Net u_ibex_top.u_ibex_core.wb_stage_i.rf_we_id_i_LUT4_Z_B_LUT4_C_Z_L6MUX21_Z_D1 budget 0.000000 ns (87,16) -> (87,16)
+Info:                Sink u_ibex_top.u_ibex_core.wb_stage_i.rf_we_id_i_LUT4_Z_B_LUT4_C_Z_L6MUX21_Z_D1_L6MUX21_Z_D0_PFUMX_Z_ALUT_LUT4_Z.FXB
+Info:                Defined in:
+Info:                  /usr/bin/../share/yosys/ecp5/cells_map.v:157.70-157.72
+Info:  0.2 21.0  Source u_ibex_top.u_ibex_core.wb_stage_i.rf_we_id_i_LUT4_Z_B_LUT4_C_Z_L6MUX21_Z_D1_L6MUX21_Z_D0_PFUMX_Z_ALUT_LUT4_Z.OFX
+Info:  1.2 22.2    Net u_ibex_top.u_ibex_core.id_stage_i.id_fsm_q_TRELLIS_FF_Q_DI_LUT4_Z_A[1] budget 0.697000 ns (87,16) -> (83,17)
+Info:                Sink u_ibex_top.u_ibex_core.id_stage_i.controller_i.debug_mode_q_TRELLIS_FF_Q_CE_PFUMX_Z_BLUT_LUT4_Z_C_PFUMX_C0_Z_L6MUX21_Z_1_D1_L6MUX21_Z_D0_PFUMX_Z_ALUT_LUT4_Z.D
+Info:                Defined in:
+Info:                  /usr/bin/../share/yosys/ecp5/cells_map.v:108.23-108.24
+Info:  0.2 22.4  Source u_ibex_top.u_ibex_core.id_stage_i.controller_i.debug_mode_q_TRELLIS_FF_Q_CE_PFUMX_Z_BLUT_LUT4_Z_C_PFUMX_C0_Z_L6MUX21_Z_1_D1_L6MUX21_Z_D0_PFUMX_Z_ALUT_LUT4_Z.F
+Info:  0.0 22.4    Net u_ibex_top.u_ibex_core.id_stage_i.controller_i.debug_mode_q_TRELLIS_FF_Q_CE_PFUMX_Z_BLUT_LUT4_Z_C_PFUMX_C0_Z_L6MUX21_Z_1_D1_L6MUX21_Z_D0_PFUMX_Z_ALUT budget 0.697000 ns (83,17) -> (83,17)
+Info:                Sink u_ibex_top.u_ibex_core.id_stage_i.controller_i.debug_mode_q_TRELLIS_FF_Q_CE_PFUMX_Z_BLUT_LUT4_Z_C_PFUMX_C0_Z_L6MUX21_Z_1_D1_L6MUX21_Z_D0_PFUMX_Z_BLUT_LUT4_Z.F1
+Info:                Defined in:
+Info:                  /usr/bin/../share/yosys/ecp5/cells_map.v:157.38-157.40
+Info:  0.2 22.6  Source u_ibex_top.u_ibex_core.id_stage_i.controller_i.debug_mode_q_TRELLIS_FF_Q_CE_PFUMX_Z_BLUT_LUT4_Z_C_PFUMX_C0_Z_L6MUX21_Z_1_D1_L6MUX21_Z_D0_PFUMX_Z_BLUT_LUT4_Z.OFX
+Info:  0.0 22.6    Net u_ibex_top.u_ibex_core.id_stage_i.controller_i.debug_mode_q_TRELLIS_FF_Q_CE_PFUMX_Z_BLUT_LUT4_Z_C_PFUMX_C0_Z_L6MUX21_Z_1_D1_L6MUX21_Z_D0 budget 0.000000 ns (83,17) -> (83,17)
+Info:                Sink u_ibex_top.u_ibex_core.id_stage_i.controller_i.debug_mode_q_TRELLIS_FF_Q_CE_PFUMX_Z_BLUT_LUT4_Z_C_PFUMX_C0_Z_L6MUX21_Z_1_D1_L6MUX21_Z_D1_PFUMX_Z_ALUT_LUT4_Z.FXA
+Info:                Defined in:
+Info:                  /usr/bin/../share/yosys/ecp5/cells_map.v:157.58-157.60
+Info:  0.2 22.8  Source u_ibex_top.u_ibex_core.id_stage_i.controller_i.debug_mode_q_TRELLIS_FF_Q_CE_PFUMX_Z_BLUT_LUT4_Z_C_PFUMX_C0_Z_L6MUX21_Z_1_D1_L6MUX21_Z_D1_PFUMX_Z_ALUT_LUT4_Z.OFX
+Info:  0.0 22.8    Net u_ibex_top.u_ibex_core.id_stage_i.controller_i.debug_mode_q_TRELLIS_FF_Q_CE_PFUMX_Z_BLUT_LUT4_Z_C_PFUMX_C0_Z_L6MUX21_Z_1_D1 budget 0.000000 ns (83,17) -> (83,17)
+Info:                Sink u_ibex_top.u_ibex_core.id_stage_i.controller_i.debug_mode_q_TRELLIS_FF_Q_CE_PFUMX_Z_BLUT_LUT4_Z_C_PFUMX_C0_Z_L6MUX21_Z_1_D1_L6MUX21_Z_D0_PFUMX_Z_ALUT_LUT4_Z.FXB
+Info:                Defined in:
+Info:                  /usr/bin/../share/yosys/ecp5/cells_map.v:157.70-157.72
+Info:  0.2 23.1  Source u_ibex_top.u_ibex_core.id_stage_i.controller_i.debug_mode_q_TRELLIS_FF_Q_CE_PFUMX_Z_BLUT_LUT4_Z_C_PFUMX_C0_Z_L6MUX21_Z_1_D1_L6MUX21_Z_D0_PFUMX_Z_ALUT_LUT4_Z.OFX
+Info:  1.4 24.5    Net u_ibex_top.u_ibex_core.id_stage_i.controller_i.debug_mode_q_TRELLIS_FF_Q_CE_PFUMX_Z_BLUT_LUT4_Z_C_PFUMX_C0_Z[1] budget 0.767000 ns (83,17) -> (79,29)
+Info:                Sink u_ibex_top.u_ibex_core.id_stage_i.branch_jump_set_done_q_LUT4_A_Z_L6MUX21_Z_D1_L6MUX21_Z_D1_PFUMX_Z_ALUT_LUT4_Z.B
+Info:                Defined in:
+Info:                  /usr/bin/../share/yosys/ecp5/cells_map.v:108.23-108.24
+Info:  0.2 24.7  Source u_ibex_top.u_ibex_core.id_stage_i.branch_jump_set_done_q_LUT4_A_Z_L6MUX21_Z_D1_L6MUX21_Z_D1_PFUMX_Z_ALUT_LUT4_Z.F
+Info:  0.0 24.7    Net u_ibex_top.u_ibex_core.id_stage_i.branch_jump_set_done_q_LUT4_A_Z_L6MUX21_Z_D1_L6MUX21_Z_D1_PFUMX_Z_ALUT budget 0.767000 ns (79,29) -> (79,29)
+Info:                Sink u_ibex_top.u_ibex_core.id_stage_i.branch_jump_set_done_q_LUT4_A_Z_L6MUX21_Z_D1_L6MUX21_Z_D1_PFUMX_Z_BLUT_LUT4_Z.F1
+Info:                Defined in:
+Info:                  /usr/bin/../share/yosys/ecp5/cells_map.v:157.46-157.48
+Info:  0.2 24.9  Source u_ibex_top.u_ibex_core.id_stage_i.branch_jump_set_done_q_LUT4_A_Z_L6MUX21_Z_D1_L6MUX21_Z_D1_PFUMX_Z_BLUT_LUT4_Z.OFX
+Info:  0.0 24.9    Net u_ibex_top.u_ibex_core.id_stage_i.branch_jump_set_done_q_LUT4_A_Z_L6MUX21_Z_D1_L6MUX21_Z_D1 budget 0.000000 ns (79,29) -> (79,29)
+Info:                Sink u_ibex_top.u_ibex_core.id_stage_i.branch_jump_set_done_q_LUT4_A_Z_L6MUX21_Z_D1_L6MUX21_Z_D1_PFUMX_Z_ALUT_LUT4_Z.FXB
+Info:                Defined in:
+Info:                  /usr/bin/../share/yosys/ecp5/cells_map.v:157.62-157.64
+Info:  0.2 25.1  Source u_ibex_top.u_ibex_core.id_stage_i.branch_jump_set_done_q_LUT4_A_Z_L6MUX21_Z_D1_L6MUX21_Z_D1_PFUMX_Z_ALUT_LUT4_Z.OFX
+Info:  0.0 25.1    Net u_ibex_top.u_ibex_core.id_stage_i.branch_jump_set_done_q_LUT4_A_Z_L6MUX21_Z_D1 budget 0.000000 ns (79,29) -> (79,29)
+Info:                Sink u_ibex_top.u_ibex_core.id_stage_i.branch_jump_set_done_q_LUT4_A_Z_L6MUX21_Z_D1_L6MUX21_Z_D0_PFUMX_Z_ALUT_LUT4_Z.FXB
+Info:                Defined in:
+Info:                  /usr/bin/../share/yosys/ecp5/cells_map.v:157.70-157.72
+Info:  0.2 25.4  Source u_ibex_top.u_ibex_core.id_stage_i.branch_jump_set_done_q_LUT4_A_Z_L6MUX21_Z_D1_L6MUX21_Z_D0_PFUMX_Z_ALUT_LUT4_Z.OFX
+Info:  1.4 26.8    Net u_ibex_top.u_ibex_core.id_stage_i.branch_jump_set_done_q_LUT4_A_Z[0] budget 2.629000 ns (79,29) -> (75,31)
+Info:                Sink u_ibex_top.u_ibex_core.if_stage_i.compressed_decoder_i.cm_state_q_TRELLIS_FF_Q_DI_LUT4_Z_D_LUT4_Z_C_LUT4_C_Z_LUT4_C.A
+Info:                Defined in:
+Info:                  /usr/bin/../share/yosys/ecp5/cells_map.v:108.23-108.24
+Info:  0.2 27.0  Source u_ibex_top.u_ibex_core.if_stage_i.compressed_decoder_i.cm_state_q_TRELLIS_FF_Q_DI_LUT4_Z_D_LUT4_Z_C_LUT4_C_Z_LUT4_C.F
+Info:  0.0 27.0    Net u_ibex_top.u_ibex_core.if_stage_i.compressed_decoder_i.cm_state_q_TRELLIS_FF_Q_DI_LUT4_Z_D_LUT4_Z_C_LUT4_C_Z_LUT4_C_Z budget 1.840000 ns (75,31) -> (75,31)
+Info:                Sink u_ibex_top.u_ibex_core.if_stage_i.compressed_decoder_i.cm_state_q_TRELLIS_FF_Q_DI_LUT4_Z_D_LUT4_Z_C_LUT4_C_Z_LUT4_D.F1
+Info:                Defined in:
+Info:                  /usr/bin/../share/yosys/ecp5/cells_map.v:157.46-157.48
+Info:  0.2 27.2  Source u_ibex_top.u_ibex_core.if_stage_i.compressed_decoder_i.cm_state_q_TRELLIS_FF_Q_DI_LUT4_Z_D_LUT4_Z_C_LUT4_C_Z_LUT4_D.OFX
+Info:  0.0 27.2    Net u_ibex_top.u_ibex_core.if_stage_i.compressed_decoder_i.cm_state_q_TRELLIS_FF_Q_DI_LUT4_Z_D_LUT4_Z_C_LUT4_C_Z_PFUMX_C0_Z budget 0.000000 ns (75,31) -> (75,31)
+Info:                Sink u_ibex_top.u_ibex_core.if_stage_i.compressed_decoder_i.cm_state_q_TRELLIS_FF_Q_DI_LUT4_Z_D_LUT4_Z_C_LUT4_C_Z_LUT4_C.FXB
+Info:                Defined in:
+Info:                  /usr/bin/../share/yosys/ecp5/cells_map.v:157.62-157.64
+Info:  0.2 27.4  Source u_ibex_top.u_ibex_core.if_stage_i.compressed_decoder_i.cm_state_q_TRELLIS_FF_Q_DI_LUT4_Z_D_LUT4_Z_C_LUT4_C_Z_LUT4_C.OFX
+Info:  0.0 27.4    Net u_ibex_top.u_ibex_core.if_stage_i.compressed_decoder_i.cm_state_q_TRELLIS_FF_Q_DI_LUT4_Z_D_LUT4_Z_C_LUT4_C_Z_PFUMX_C0_Z_L6MUX21_D1_Z budget 0.000000 ns (75,31) -> (75,31)
+Info:                Sink u_ibex_top.u_ibex_core.if_stage_i.compressed_decoder_i.cm_state_q_TRELLIS_FF_Q_DI_LUT4_Z_D_LUT4_Z_C_LUT4_C_Z_LUT4_D_1.FXB
+Info:                Defined in:
+Info:                  /usr/bin/../share/yosys/ecp5/cells_map.v:157.70-157.72
+Info:  0.2 27.6  Source u_ibex_top.u_ibex_core.if_stage_i.compressed_decoder_i.cm_state_q_TRELLIS_FF_Q_DI_LUT4_Z_D_LUT4_Z_C_LUT4_C_Z_LUT4_D_1.OFX
+Info:  0.7 28.3    Net u_ibex_top.u_ibex_core.if_stage_i.compressed_decoder_i.cm_state_q_TRELLIS_FF_Q_DI_LUT4_Z_D_LUT4_Z_C_LUT4_C_Z_PFUMX_C0_Z_L6MUX21_D1_Z_L6MUX21_D1_Z[2] budget 1.816000 ns (75,31) -> (75,32)
+Info:                Sink u_ibex_top.u_ibex_core.if_stage_i.compressed_decoder_i.instr_i_LUT4_Z_B_LUT4_C_Z_L6MUX21_Z_D1_L6MUX21_Z_D1_PFUMX_Z_BLUT_LUT4_Z.C
+Info:                Defined in:
+Info:                  /usr/bin/../share/yosys/ecp5/cells_map.v:108.23-108.24
+Info:  0.4 28.7  Source u_ibex_top.u_ibex_core.if_stage_i.compressed_decoder_i.instr_i_LUT4_Z_B_LUT4_C_Z_L6MUX21_Z_D1_L6MUX21_Z_D1_PFUMX_Z_BLUT_LUT4_Z.OFX
+Info:  0.0 28.7    Net u_ibex_top.u_ibex_core.if_stage_i.compressed_decoder_i.instr_i_LUT4_Z_B_LUT4_C_Z_L6MUX21_Z_D1_L6MUX21_Z_D1 budget 0.000000 ns (75,32) -> (75,32)
+Info:                Sink u_ibex_top.u_ibex_core.if_stage_i.compressed_decoder_i.instr_i_LUT4_Z_B_LUT4_C_Z_L6MUX21_Z_D1_L6MUX21_Z_D1_PFUMX_Z_ALUT_LUT4_Z.FXB
+Info:                Defined in:
+Info:                  /usr/bin/../share/yosys/ecp5/cells_map.v:157.62-157.64
+Info:  0.2 28.9  Source u_ibex_top.u_ibex_core.if_stage_i.compressed_decoder_i.instr_i_LUT4_Z_B_LUT4_C_Z_L6MUX21_Z_D1_L6MUX21_Z_D1_PFUMX_Z_ALUT_LUT4_Z.OFX
+Info:  0.0 28.9    Net u_ibex_top.u_ibex_core.if_stage_i.compressed_decoder_i.instr_i_LUT4_Z_B_LUT4_C_Z_L6MUX21_Z_D1 budget 0.000000 ns (75,32) -> (75,32)
+Info:                Sink u_ibex_top.u_ibex_core.if_stage_i.compressed_decoder_i.instr_i_LUT4_Z_B_LUT4_C_Z_L6MUX21_Z_D1_L6MUX21_Z_D0_PFUMX_Z_ALUT_LUT4_Z.FXB
+Info:                Defined in:
+Info:                  /usr/bin/../share/yosys/ecp5/cells_map.v:157.70-157.72
+Info:  0.2 29.2  Source u_ibex_top.u_ibex_core.if_stage_i.compressed_decoder_i.instr_i_LUT4_Z_B_LUT4_C_Z_L6MUX21_Z_D1_L6MUX21_Z_D0_PFUMX_Z_ALUT_LUT4_Z.OFX
+Info:  1.0 30.2    Net u_ibex_top.u_ibex_core.if_stage_i.compressed_decoder_i.instr_i_LUT4_Z_B_LUT4_C_Z[0] budget 1.921000 ns (75,32) -> (74,39)
+Info:                Sink u_ibex_top.u_ibex_core.if_stage_i.gen_prefetch_buffer.prefetch_buffer_i.fifo_i.entry_en_L6MUX21_Z_D1_PFUMX_Z_BLUT_LUT4_Z.A
+Info:                Defined in:
+Info:                  /usr/bin/../share/yosys/ecp5/cells_map.v:108.23-108.24
+Info:  0.4 30.6  Source u_ibex_top.u_ibex_core.if_stage_i.gen_prefetch_buffer.prefetch_buffer_i.fifo_i.entry_en_L6MUX21_Z_D1_PFUMX_Z_BLUT_LUT4_Z.OFX
+Info:  0.0 30.6    Net u_ibex_top.u_ibex_core.if_stage_i.gen_prefetch_buffer.prefetch_buffer_i.fifo_i.entry_en_L6MUX21_Z_D1 budget 0.000000 ns (74,39) -> (74,39)
+Info:                Sink u_ibex_top.u_ibex_core.if_stage_i.gen_prefetch_buffer.prefetch_buffer_i.fifo_i.entry_en_L6MUX21_Z_D1_PFUMX_Z_ALUT_LUT4_Z.FXB
+Info:                Defined in:
+Info:                  /usr/bin/../share/yosys/ecp5/cells_map.v:141.38-141.40
+Info:  0.2 30.9  Source u_ibex_top.u_ibex_core.if_stage_i.gen_prefetch_buffer.prefetch_buffer_i.fifo_i.entry_en_L6MUX21_Z_D1_PFUMX_Z_ALUT_LUT4_Z.OFX
+Info:  1.3 32.1    Net u_ibex_top.u_ibex_core.if_stage_i.gen_prefetch_buffer.prefetch_buffer_i.fifo_i.entry_en[0] budget 1.921000 ns (74,39) -> (71,35)
+Info:                Sink u_ibex_top.u_ibex_core.if_stage_i.gen_prefetch_buffer.prefetch_buffer_i.fifo_i.rdata_q_TRELLIS_FF_Q_91.CE
+Info:                Defined in:
+Info:                  /workspace/integrations/ibex/synth/ibex_fpga_top.v:47.5-103.4
+Info:                  /workspace/output/ibex_post_synth/policy0/ibex.v:2899.4-2963.3
+Info:                  /workspace/output/ibex_post_synth/policy0/ibex.v:10492.4-10507.3
+Info:                  /workspace/output/ibex_post_synth/policy0/ibex.v:6120.21-6120.29
+Info:                  /workspace/output/ibex_post_synth/policy0/ibex.v:8311.48-8331.5
+Info:                  /workspace/output/ibex_post_synth/policy0/ibex.v:11176.4-11232.3
+Info:  0.0 32.1  Setup u_ibex_top.u_ibex_core.if_stage_i.gen_prefetch_buffer.prefetch_buffer_i.fifo_i.rdata_q_TRELLIS_FF_Q_91.CE
+Info: 9.9 ns logic, 22.2 ns routing
+
+Info: Critical path report for cross-domain path '<async>' -> 'posedge $glbnet$clk_i$TRELLIS_IO_IN':
+Info: curr total
+Info:  0.0  0.0  Source rst_ni$tr_io.O
+Info:  6.6  6.6    Net rst_ni$TRELLIS_IO_IN budget 19.670000 ns (65,0) -> (100,36)
+Info:                Sink u_ibex_top.u_ibex_core.cs_registers_i.minstret_counter_i.counter_q_TRELLIS_FF_Q_13_LSR_LUT4_Z.D
+Info:                Defined in:
+Info:                  /workspace/integrations/ibex/synth/ibex_fpga_top.v:47.5-103.4
+Info:                  /workspace/output/ibex_post_synth/policy0/ibex.v:3184.4-3215.3
+Info:                  /workspace/output/ibex_post_synth/policy0/ibex.v:11731.13-11731.19
+Info:                  /workspace/output/ibex_post_synth/policy0/ibex.v:11176.4-11232.3
+Info:  0.2  6.8  Source u_ibex_top.u_ibex_core.cs_registers_i.minstret_counter_i.counter_q_TRELLIS_FF_Q_13_LSR_LUT4_Z.F
+Info:  0.5  7.3    Net u_ibex_top.u_ibex_core.cs_registers_i.minstret_counter_i.counter_q_TRELLIS_FF_Q_13_LSR budget 19.670000 ns (100,36) -> (100,36)
+Info:                Sink u_ibex_top.u_ibex_core.cs_registers_i.minstret_counter_i.counter_q_TRELLIS_FF_Q_13.LSR
+Info:  0.4  7.8  Setup u_ibex_top.u_ibex_core.cs_registers_i.minstret_counter_i.counter_q_TRELLIS_FF_Q_13.LSR
+Info: 0.7 ns logic, 7.1 ns routing
+
+Info: Critical path report for cross-domain path 'posedge $glbnet$clk_i$TRELLIS_IO_IN' -> '<async>':
+Info: curr total
+Info:  0.5  0.5  Source u_ibex_top.u_ibex_core.if_stage_i.instr_rdata_alu_id_o_TRELLIS_FF_Q_14.Q
+Info:  1.6  2.1    Net u_ibex_top.rf_raddr_a[2] budget 0.364000 ns (86,17) -> (87,8)
+Info:                Sink u_ibex_top.u_ibex_core.ex_block_i.bt_a_operand_i_LUT4_Z_31_C_LUT4_Z_A_LUT4_Z_A_PFUMX_Z_C0_LUT4_Z_C_LUT4_Z_C_LUT4_D_Z_LUT4_Z_D_LUT4_Z.C
+Info:                Defined in:
+Info:                  /workspace/integrations/ibex/synth/ibex_fpga_top.v:47.5-103.4
+Info:                  /workspace/output/ibex_post_synth/policy0/ibex.v:2618.20-2618.32
+Info:                  /workspace/output/ibex_post_synth/policy0/ibex.v:11176.4-11232.3
+Info:  0.2  2.3  Source u_ibex_top.u_ibex_core.ex_block_i.bt_a_operand_i_LUT4_Z_31_C_LUT4_Z_A_LUT4_Z_A_PFUMX_Z_C0_LUT4_Z_C_LUT4_Z_C_LUT4_D_Z_LUT4_Z_D_LUT4_Z.F
+Info:  1.1  3.5    Net u_ibex_top.u_ibex_core.ex_block_i.bt_a_operand_i_LUT4_Z_31_C_LUT4_Z_A_LUT4_Z_1_A_LUT4_Z_2_D_LUT4_Z_C_LUT4_Z_C_LUT4_D_C[1] budget 0.455000 ns (87,8) -> (86,9)
+Info:                Sink u_ibex_top.u_ibex_core.ex_block_i.bt_a_operand_i_LUT4_Z_31_C_LUT4_Z_A_LUT4_Z_A_PFUMX_Z_C0_LUT4_Z_C_LUT4_Z_C_LUT4_C_Z_LUT4_Z.C
+Info:                Defined in:
+Info:                  /usr/bin/../share/yosys/ecp5/cells_map.v:108.23-108.24
+Info:  0.2  3.7  Source u_ibex_top.u_ibex_core.ex_block_i.bt_a_operand_i_LUT4_Z_31_C_LUT4_Z_A_LUT4_Z_A_PFUMX_Z_C0_LUT4_Z_C_LUT4_Z_C_LUT4_C_Z_LUT4_Z.F
+Info:  2.2  5.9    Net u_ibex_top.u_ibex_core.ex_block_i.bt_a_operand_i_LUT4_Z_31_C_LUT4_Z_A_LUT4_Z_A_PFUMX_Z_C0_LUT4_Z_C_LUT4_Z_C_LUT4_C_Z[0] budget 0.465000 ns (86,9) -> (74,6)
+Info:                Sink u_ibex_top.u_ibex_core.ex_block_i.bt_a_operand_i_LUT4_Z_29_B_LUT4_Z_2_A_LUT4_Z_1_A_LUT4_Z_3_A_LUT4_Z_1.C
+Info:                Defined in:
+Info:                  /usr/bin/../share/yosys/ecp5/cells_map.v:108.23-108.24
+Info:  0.2  6.2  Source u_ibex_top.u_ibex_core.ex_block_i.bt_a_operand_i_LUT4_Z_29_B_LUT4_Z_2_A_LUT4_Z_1_A_LUT4_Z_3_A_LUT4_Z_1.F
+Info:  0.6  6.8    Net u_ibex_top.u_ibex_core.ex_block_i.bt_a_operand_i_LUT4_Z_29_B_LUT4_Z_2_A_LUT4_Z_1_A_LUT4_Z_3_A[2] budget 0.465000 ns (74,6) -> (74,6)
+Info:                Sink u_ibex_top.u_ibex_core.ex_block_i.bt_a_operand_i_LUT4_Z_29_B_LUT4_Z_2_A_LUT4_Z_1_A_LUT4_Z_3.C
+Info:                Defined in:
+Info:                  /usr/bin/../share/yosys/ecp5/cells_map.v:108.23-108.24
+Info:  0.2  7.0  Source u_ibex_top.u_ibex_core.ex_block_i.bt_a_operand_i_LUT4_Z_29_B_LUT4_Z_2_A_LUT4_Z_1_A_LUT4_Z_3.F
+Info:  1.1  8.2    Net u_ibex_top.u_ibex_core.ex_block_i.bt_a_operand_i_LUT4_Z_29_B_LUT4_Z_2_A_LUT4_Z_1_A[0] budget 0.465000 ns (74,6) -> (73,5)
+Info:                Sink u_ibex_top.u_ibex_core.ex_block_i.bt_a_operand_i_LUT4_Z_29_B_LUT4_Z_2_A_LUT4_Z_1.A
+Info:                Defined in:
+Info:                  /usr/bin/../share/yosys/ecp5/cells_map.v:108.23-108.24
+Info:  0.2  8.4  Source u_ibex_top.u_ibex_core.ex_block_i.bt_a_operand_i_LUT4_Z_29_B_LUT4_Z_2_A_LUT4_Z_1.F
+Info:  0.6  9.0    Net u_ibex_top.u_ibex_core.ex_block_i.bt_a_operand_i_LUT4_Z_29_B_LUT4_Z_2_A[0] budget 0.465000 ns (73,5) -> (73,5)
+Info:                Sink u_ibex_top.u_ibex_core.ex_block_i.bt_a_operand_i_LUT4_Z_29_B_LUT4_Z_2.A
+Info:                Defined in:
+Info:                  /usr/bin/../share/yosys/ecp5/cells_map.v:108.23-108.24
+Info:  0.2  9.2  Source u_ibex_top.u_ibex_core.ex_block_i.bt_a_operand_i_LUT4_Z_29_B_LUT4_Z_2.F
+Info:  2.5 11.8    Net u_ibex_top.u_ibex_core.ex_block_i.bt_a_operand_i_LUT4_Z_29_B[0] budget 0.940000 ns (73,5) -> (87,24)
+Info:                Sink u_ibex_top.u_ibex_core.ex_block_i.bt_a_operand_i_LUT4_Z_29.B
+Info:                Defined in:
+Info:                  /usr/bin/../share/yosys/ecp5/cells_map.v:108.23-108.24
+Info:  0.2 12.0  Source u_ibex_top.u_ibex_core.ex_block_i.bt_a_operand_i_LUT4_Z_29.F
+Info:  1.1 13.1    Net u_ibex_top.u_ibex_core.bt_a_operand[2] budget 0.940000 ns (87,24) -> (88,24)
+Info:                Sink u_ibex_top.u_ibex_core.branch_target_ex_CCU2C_S0_4$CCU2_COMB0.A
+Info:                Defined in:
+Info:                  /workspace/integrations/ibex/synth/ibex_fpga_top.v:47.5-103.4
+Info:                  /workspace/output/ibex_post_synth/policy0/ibex.v:2986.4-3107.3
+Info:                  /workspace/output/ibex_post_synth/policy0/ibex.v:7380.20-7380.34
+Info:                  /workspace/output/ibex_post_synth/policy0/ibex.v:11176.4-11232.3
+Info:  0.4 13.6  Source u_ibex_top.u_ibex_core.branch_target_ex_CCU2C_S0_4$CCU2_COMB0.FCO
+Info:  0.0 13.6    Net u_ibex_top.u_ibex_core.branch_target_ex_CCU2C_S0_4$CCU2_FCI_INT budget 0.000000 ns (88,24) -> (88,24)
+Info:                Sink u_ibex_top.u_ibex_core.branch_target_ex_CCU2C_S0_4$CCU2_COMB1.FCI
+Info:  0.4 14.0  Source u_ibex_top.u_ibex_core.branch_target_ex_CCU2C_S0_4$CCU2_COMB1.F
+Info:  1.2 15.2    Net u_ibex_top.u_ibex_core.branch_target_ex[3] budget 1.590000 ns (88,24) -> (83,25)
+Info:                Sink u_ibex_top.u_ibex_core.if_stage_i.gen_prefetch_buffer.prefetch_buffer_i.fifo_i.instr_addr_d_LUT4_Z_28_C_LUT4_Z_D_LUT4_Z_D_LUT4_Z.D
+Info:                Defined in:
+Info:                  /workspace/integrations/ibex/synth/ibex_fpga_top.v:47.5-103.4
+Info:                  /workspace/output/ibex_post_synth/policy0/ibex.v:2899.4-2963.3
+Info:                  /workspace/output/ibex_post_synth/policy0/ibex.v:8151.20-8151.38
+Info:                  /workspace/output/ibex_post_synth/policy0/ibex.v:11176.4-11232.3
+Info:  0.2 15.4  Source u_ibex_top.u_ibex_core.if_stage_i.gen_prefetch_buffer.prefetch_buffer_i.fifo_i.instr_addr_d_LUT4_Z_28_C_LUT4_Z_D_LUT4_Z_D_LUT4_Z.F
+Info:  0.2 15.6    Net u_ibex_top.u_ibex_core.if_stage_i.gen_prefetch_buffer.prefetch_buffer_i.fifo_i.instr_addr_d_LUT4_Z_28_C_LUT4_Z_D_LUT4_Z_D[2] budget 1.590000 ns (83,25) -> (83,25)
+Info:                Sink u_ibex_top.u_ibex_core.if_stage_i.gen_prefetch_buffer.prefetch_buffer_i.fifo_i.instr_addr_d_LUT4_Z_28_C_LUT4_Z_D_LUT4_Z.D
+Info:                Defined in:
+Info:                  /usr/bin/../share/yosys/ecp5/cells_map.v:108.23-108.24
+Info:  0.2 15.9  Source u_ibex_top.u_ibex_core.if_stage_i.gen_prefetch_buffer.prefetch_buffer_i.fifo_i.instr_addr_d_LUT4_Z_28_C_LUT4_Z_D_LUT4_Z.F
+Info:  1.1 16.9    Net u_ibex_top.u_ibex_core.if_stage_i.gen_prefetch_buffer.prefetch_buffer_i.fifo_i.instr_addr_d_LUT4_Z_28_C_LUT4_Z_D[3] budget 1.590000 ns (83,25) -> (84,27)
+Info:                Sink u_ibex_top.u_ibex_core.if_stage_i.gen_prefetch_buffer.prefetch_buffer_i.fifo_i.instr_addr_d_LUT4_Z_28_C_LUT4_Z.D
+Info:                Defined in:
+Info:                  /usr/bin/../share/yosys/ecp5/cells_map.v:108.23-108.24
+Info:  0.2 17.2  Source u_ibex_top.u_ibex_core.if_stage_i.gen_prefetch_buffer.prefetch_buffer_i.fifo_i.instr_addr_d_LUT4_Z_28_C_LUT4_Z.F
+Info:  1.2 18.4    Net u_ibex_top.u_ibex_core.if_stage_i.gen_prefetch_buffer.prefetch_buffer_i.fifo_i.instr_addr_d_LUT4_Z_28_C[1] budget 1.590000 ns (84,27) -> (86,30)
+Info:                Sink u_ibex_top.u_ibex_core.if_stage_i.gen_prefetch_buffer.prefetch_buffer_i.instr_addr_PFUMX_Z_28_BLUT_LUT4_Z.C
+Info:                Defined in:
+Info:                  /usr/bin/../share/yosys/ecp5/cells_map.v:108.23-108.24
+Info:  0.4 18.8  Source u_ibex_top.u_ibex_core.if_stage_i.gen_prefetch_buffer.prefetch_buffer_i.instr_addr_PFUMX_Z_28_BLUT_LUT4_Z.OFX
+Info:  0.9 19.7    Net instr_addr_o[3] budget 1.590000 ns (86,30) -> (87,29)
+Info:                Sink u_ibex_top.u_ibex_core.load_store_unit_i.handle_misaligned_q_LUT4_B_Z_LUT4_A_Z_L6MUX21_Z_SD_L6MUX21_Z_D1_PFUMX_Z_ALUT_LUT4_Z.B
+Info:                Defined in:
+Info:                  /workspace/integrations/ibex/synth/ibex_fpga_top.v:47.5-103.4
+Info:                  /workspace/output/ibex_post_synth/policy0/ibex.v:2604.21-2604.33
+Info:                  /workspace/output/ibex_post_synth/policy0/ibex.v:11176.4-11232.3
+Info:  0.2 20.0  Source u_ibex_top.u_ibex_core.load_store_unit_i.handle_misaligned_q_LUT4_B_Z_LUT4_A_Z_L6MUX21_Z_SD_L6MUX21_Z_D1_PFUMX_Z_ALUT_LUT4_Z.F
+Info:  0.0 20.0    Net u_ibex_top.u_ibex_core.load_store_unit_i.handle_misaligned_q_LUT4_B_Z_LUT4_A_Z_L6MUX21_Z_SD_L6MUX21_Z_D1_PFUMX_Z_ALUT budget 1.590000 ns (87,29) -> (87,29)
+Info:                Sink u_ibex_top.u_ibex_core.load_store_unit_i.handle_misaligned_q_LUT4_B_Z_LUT4_A_Z_L6MUX21_Z_SD_L6MUX21_Z_D1_PFUMX_Z_BLUT_LUT4_Z.F1
+Info:                Defined in:
+Info:                  /usr/bin/../share/yosys/ecp5/cells_map.v:141.30-141.32
+Info:  0.2 20.1  Source u_ibex_top.u_ibex_core.load_store_unit_i.handle_misaligned_q_LUT4_B_Z_LUT4_A_Z_L6MUX21_Z_SD_L6MUX21_Z_D1_PFUMX_Z_BLUT_LUT4_Z.OFX
+Info:  0.0 20.1    Net u_ibex_top.u_ibex_core.load_store_unit_i.handle_misaligned_q_LUT4_B_Z_LUT4_A_Z_L6MUX21_Z_SD_L6MUX21_Z_D1 budget 0.000000 ns (87,29) -> (87,29)
+Info:                Sink u_ibex_top.u_ibex_core.load_store_unit_i.handle_misaligned_q_LUT4_B_Z_LUT4_A_Z_L6MUX21_Z_SD_L6MUX21_Z_D1_PFUMX_Z_ALUT_LUT4_Z.FXB
+Info:                Defined in:
+Info:                  /usr/bin/../share/yosys/ecp5/cells_map.v:141.38-141.40
+Info:  0.2 20.4  Source u_ibex_top.u_ibex_core.load_store_unit_i.handle_misaligned_q_LUT4_B_Z_LUT4_A_Z_L6MUX21_Z_SD_L6MUX21_Z_D1_PFUMX_Z_ALUT_LUT4_Z.OFX
+Info:  3.0 23.4    Net u_ibex_top.u_ibex_core.load_store_unit_i.handle_misaligned_q_LUT4_B_Z_LUT4_A_Z_L6MUX21_Z_SD[0] budget 1.712000 ns (87,29) -> (95,37)
+Info:                Sink u_ibex_top.u_ibex_core.load_store_unit_i.handle_misaligned_q_LUT4_B_Z_LUT4_A_Z_L6MUX21_Z_D1_L6MUX21_Z_D0_PFUMX_Z_ALUT_LUT4_Z.A
+Info:                Defined in:
+Info:                  /usr/bin/../share/yosys/ecp5/cells_map.v:108.23-108.24
+Info:  0.2 23.7  Source u_ibex_top.u_ibex_core.load_store_unit_i.handle_misaligned_q_LUT4_B_Z_LUT4_A_Z_L6MUX21_Z_D1_L6MUX21_Z_D0_PFUMX_Z_ALUT_LUT4_Z.F
+Info:  0.0 23.7    Net u_ibex_top.u_ibex_core.load_store_unit_i.handle_misaligned_q_LUT4_B_Z_LUT4_A_Z_L6MUX21_Z_D1_L6MUX21_Z_D0_PFUMX_Z_ALUT budget 1.712000 ns (95,37) -> (95,37)
+Info:                Sink u_ibex_top.u_ibex_core.load_store_unit_i.handle_misaligned_q_LUT4_B_Z_LUT4_A_Z_L6MUX21_Z_D1_L6MUX21_Z_D0_PFUMX_Z_BLUT_LUT4_Z.F1
+Info:                Defined in:
+Info:                  /usr/bin/../share/yosys/ecp5/cells_map.v:157.38-157.40
+Info:  0.2 23.8  Source u_ibex_top.u_ibex_core.load_store_unit_i.handle_misaligned_q_LUT4_B_Z_LUT4_A_Z_L6MUX21_Z_D1_L6MUX21_Z_D0_PFUMX_Z_BLUT_LUT4_Z.OFX
+Info:  0.0 23.8    Net u_ibex_top.u_ibex_core.load_store_unit_i.handle_misaligned_q_LUT4_B_Z_LUT4_A_Z_L6MUX21_Z_D1_L6MUX21_Z_D0 budget 0.000000 ns (95,37) -> (95,37)
+Info:                Sink u_ibex_top.u_ibex_core.load_store_unit_i.handle_misaligned_q_LUT4_B_Z_LUT4_A_Z_L6MUX21_Z_D1_L6MUX21_Z_D1_PFUMX_Z_ALUT_LUT4_Z.FXA
+Info:                Defined in:
+Info:                  /usr/bin/../share/yosys/ecp5/cells_map.v:157.58-157.60
+Info:  0.2 24.1  Source u_ibex_top.u_ibex_core.load_store_unit_i.handle_misaligned_q_LUT4_B_Z_LUT4_A_Z_L6MUX21_Z_D1_L6MUX21_Z_D1_PFUMX_Z_ALUT_LUT4_Z.OFX
+Info:  0.0 24.1    Net u_ibex_top.u_ibex_core.load_store_unit_i.handle_misaligned_q_LUT4_B_Z_LUT4_A_Z_L6MUX21_Z_D1 budget 0.000000 ns (95,37) -> (95,37)
+Info:                Sink u_ibex_top.u_ibex_core.load_store_unit_i.handle_misaligned_q_LUT4_B_Z_LUT4_A_Z_L6MUX21_Z_D1_L6MUX21_Z_D0_PFUMX_Z_ALUT_LUT4_Z.FXB
+Info:                Defined in:
+Info:                  /usr/bin/../share/yosys/ecp5/cells_map.v:157.70-157.72
+Info:  0.2 24.3  Source u_ibex_top.u_ibex_core.load_store_unit_i.handle_misaligned_q_LUT4_B_Z_LUT4_A_Z_L6MUX21_Z_D1_L6MUX21_Z_D0_PFUMX_Z_ALUT_LUT4_Z.OFX
+Info:  2.8 27.1    Net u_ibex_top.u_ibex_core.load_store_unit_i.handle_misaligned_q_LUT4_B_Z_LUT4_A_Z[0] budget 1.834000 ns (95,37) -> (84,20)
+Info:                Sink activity_o_LUT4_Z_D_L6MUX21_Z_D1_L6MUX21_Z_D0_PFUMX_Z_ALUT_LUT4_Z.A
+Info:                Defined in:
+Info:                  /usr/bin/../share/yosys/ecp5/cells_map.v:108.23-108.24
+Info:  0.2 27.3  Source activity_o_LUT4_Z_D_L6MUX21_Z_D1_L6MUX21_Z_D0_PFUMX_Z_ALUT_LUT4_Z.F
+Info:  0.0 27.3    Net activity_o_LUT4_Z_D_L6MUX21_Z_D1_L6MUX21_Z_D0_PFUMX_Z_ALUT budget 1.619000 ns (84,20) -> (84,20)
+Info:                Sink activity_o_LUT4_Z_D_L6MUX21_Z_D1_L6MUX21_Z_D0_PFUMX_Z_BLUT_LUT4_Z.F1
+Info:                Defined in:
+Info:                  /usr/bin/../share/yosys/ecp5/cells_map.v:157.38-157.40
+Info:  0.2 27.5  Source activity_o_LUT4_Z_D_L6MUX21_Z_D1_L6MUX21_Z_D0_PFUMX_Z_BLUT_LUT4_Z.OFX
+Info:  0.0 27.5    Net activity_o_LUT4_Z_D_L6MUX21_Z_D1_L6MUX21_Z_D0 budget 0.000000 ns (84,20) -> (84,20)
+Info:                Sink activity_o_LUT4_Z_D_L6MUX21_Z_D1_L6MUX21_Z_D1_PFUMX_Z_ALUT_LUT4_Z.FXA
+Info:                Defined in:
+Info:                  /usr/bin/../share/yosys/ecp5/cells_map.v:157.58-157.60
+Info:  0.2 27.7  Source activity_o_LUT4_Z_D_L6MUX21_Z_D1_L6MUX21_Z_D1_PFUMX_Z_ALUT_LUT4_Z.OFX
+Info:  0.0 27.7    Net activity_o_LUT4_Z_D_L6MUX21_Z_D1 budget 0.000000 ns (84,20) -> (84,20)
+Info:                Sink activity_o_LUT4_Z_D_L6MUX21_Z_D1_L6MUX21_Z_D0_PFUMX_Z_ALUT_LUT4_Z.FXB
+Info:                Defined in:
+Info:                  /usr/bin/../share/yosys/ecp5/cells_map.v:157.70-157.72
+Info:  0.2 28.0  Source activity_o_LUT4_Z_D_L6MUX21_Z_D1_L6MUX21_Z_D0_PFUMX_Z_ALUT_LUT4_Z.OFX
+Info:  1.5 29.4    Net activity_o_LUT4_Z_D[2] budget 1.714000 ns (84,20) -> (84,29)
+Info:                Sink activity_o_LUT4_Z.D
+Info:                Defined in:
+Info:                  /usr/bin/../share/yosys/ecp5/cells_map.v:108.23-108.24
+Info:  0.2 29.7  Source activity_o_LUT4_Z.F
+Info:  2.9 32.6    Net activity_o$TRELLIS_IO_OUT budget 1.714000 ns (84,29) -> (126,29)
+Info:                Sink activity_o$tr_io.I
+Info:                Defined in:
+Info:                  /workspace/integrations/ibex/synth/ibex_fpga_top.v:6.15-6.25
+Info: 6.8 ns logic, 25.8 ns routing
+
+Info: Max frequency for clock '$glbnet$clk_i$TRELLIS_IO_IN': 31.12 MHz (PASS at 25.00 MHz)
+
+Info: Max delay <async>                             -> posedge $glbnet$clk_i$TRELLIS_IO_IN: 7.77 ns
+Info: Max delay posedge $glbnet$clk_i$TRELLIS_IO_IN -> <async>                            : 32.59 ns
+
+Info: Slack histogram:
+Info:  legend: * represents 19 endpoint(s)
+Info:          + represents [1,19) endpoint(s)
+Info: [  7414,   8994) |****+
+Info: [  8994,  10574) |****+
+Info: [ 10574,  12154) |*********************+
+Info: [ 12154,  13734) |********+
+Info: [ 13734,  15314) |**+
+Info: [ 15314,  16894) |*+
+Info: [ 16894,  18474) |**+
+Info: [ 18474,  20054) |*+
+Info: [ 20054,  21634) |**+
+Info: [ 21634,  23214) |*********+
+Info: [ 23214,  24794) |***********+
+Info: [ 24794,  26374) |********+
+Info: [ 26374,  27954) |****+
+Info: [ 27954,  29534) |**********************+
+Info: [ 29534,  31114) |************************************************************ 
+Info: [ 31114,  32694) |*******************+
+Info: [ 32694,  34274) |********************+
+Info: [ 34274,  35854) |******************************************+
+Info: [ 35854,  37434) |**************************+
+Info: [ 37434,  39014) |*************+
+
+Info: Program finished normally.
